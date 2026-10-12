@@ -257,14 +257,15 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
                     style={{
                       padding: '16px',
                       display: 'flex',
-                      alignItems: 'center',
+                      flexDirection: isExpanded ? 'column' : 'row',
+                      alignItems: isExpanded ? 'stretch' : 'center',
                       justifyContent: 'space-between',
-                      gap: '12px',
+                      gap: isExpanded ? '12px' : '12px',
                       border: '1px solid var(--surface-border)',
                       overflow: 'hidden',
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: isExpanded ? 'flex-start' : 'center', gap: '12px', flex: 1, minWidth: 0, width: isExpanded ? '100%' : 'auto' }}>
                       <div
                         style={{
                           width: '40px',
@@ -276,6 +277,7 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
                           justifyContent: 'center',
                           color: 'var(--color-danger, #ef4444)',
                           flexShrink: 0,
+                          marginTop: isExpanded ? '2px' : '0',
                         }}
                       >
                         <Icon icon="solar:book-bookmark-bold" width="22" height="22" />
@@ -322,7 +324,17 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: isExpanded ? 'flex-end' : 'flex-start',
+                        gap: '10px',
+                        flexShrink: 0,
+                        marginTop: isExpanded ? '6px' : '0',
+                        width: isExpanded ? '100%' : 'auto',
+                      }}
+                    >
                       <Badge variant="danger" size="md">
                         {t('STAT_MISTAKES_COUNT', { count: group.count })}
                       </Badge>
