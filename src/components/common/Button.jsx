@@ -92,14 +92,15 @@ export function Button({
       {...restProps}
     >
       {loading ? (
-        <Icon icon="line-md:loading-loop" width={iconSize} height={iconSize} />
+        <Icon icon="line-md:loading-loop" width={iconSize} height={iconSize} style={{ flexShrink: 0 }} />
       ) : (
         <>
-          {icon && <Icon icon={icon} width={iconSize} height={iconSize} />}
-          <span>{children}</span>
-          {iconRight && <Icon icon={iconRight} width={iconSize} height={iconSize} />}
+          {icon && <Icon icon={icon} width={iconSize} height={iconSize} style={{ flexShrink: 0 }} />}
+          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>{children}</span>
+          {iconRight && <Icon icon={iconRight} width={iconSize} height={iconSize} style={{ flexShrink: 0 }} />}
         </>
       )}
+
     </button>
   );
 }

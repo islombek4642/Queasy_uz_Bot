@@ -153,15 +153,26 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
         >
           {roomCode}
         </div>
-        <p style={{ fontSize: '0.88rem', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '16px' }}>
+        <p
+          style={{
+            fontSize: '0.88rem',
+            fontWeight: '700',
+            color: 'var(--text-primary)',
+            marginBottom: '16px',
+            wordBreak: 'break-word',
+            overflowWrap: 'anywhere',
+            lineHeight: '1.35',
+          }}
+        >
           {quiz.title}
         </p>
 
         {/* Share buttons */}
-        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
           <Button
             variant="primary"
             size="sm"
+            fullWidth
             icon="solar:share-bold"
             onClick={handleShareToTelegram}
           >
@@ -170,22 +181,23 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
           <Button
             variant="glass"
             size="sm"
+            fullWidth
             icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'}
             onClick={handleCopyLink}
           >
-            {copied ? 'Nusxalandi' : 'Havola'}
+            {copied ? 'Havola nusxalandi!' : 'Xona havolasini nusxalash'}
           </Button>
         </div>
       </Card>
 
       {/* Lobby / Players Waiting Area */}
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', flexWrap: 'wrap', gap: '6px' }}>
+          <h3 style={{ fontSize: '0.96rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px #10b981' }} />
             Kutish zali ({players.length} o'yinchi)
           </h3>
-          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+          <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>
             {isHost ? 'Siz boshlovchisiz' : 'Boshlanishini kuting...'}
           </span>
         </div>
@@ -198,23 +210,24 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             </p>
           </Card>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(135px, 1fr))', gap: '8px' }}>
             {players.map((p) => (
               <Card
                 key={p.id}
                 style={{
-                  padding: '12px 14px',
+                  padding: '10px 12px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
                   border: p.isCurrentUser ? '1px solid var(--accent-glow)' : '1px solid var(--surface-border)',
                   background: p.isCurrentUser ? 'rgba(99, 102, 241, 0.1)' : 'var(--surface-card)',
+                  minWidth: 0,
                 }}
               >
                 <div
                   style={{
-                    width: '32px',
-                    height: '32px',
+                    width: '30px',
+                    height: '30px',
                     borderRadius: '50%',
                     background: 'var(--accent-gradient)',
                     display: 'flex',
@@ -222,7 +235,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
                     justifyContent: 'center',
                     color: '#fff',
                     fontWeight: '800',
-                    fontSize: '0.85rem',
+                    fontSize: '0.82rem',
                     flexShrink: 0,
                   }}
                 >
@@ -231,13 +244,14 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <div
                     style={{
-                      fontSize: '0.85rem',
+                      fontSize: '0.82rem',
                       fontWeight: '700',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
                       color: p.isCurrentUser ? 'var(--accent-primary)' : 'var(--text-primary)',
                     }}
+                    title={p.userName}
                   >
                     {p.userName}
                   </div>

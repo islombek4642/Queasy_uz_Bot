@@ -127,11 +127,11 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
               Faol Guruh Turniri
             </span>
           </div>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: '800', lineHeight: '1.3' }}>
+          <h2 style={{ fontSize: '1.2rem', fontWeight: '800', lineHeight: '1.35', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
             {quiz.title}
           </h2>
           {quiz.description && (
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginTop: '4px', lineHeight: '1.4' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginTop: '4px', lineHeight: '1.4', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
               {quiz.description}
             </p>
           )}
@@ -145,7 +145,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
           </Badge>
           <Badge variant="warning" size="sm">
             <Icon icon="solar:clock-circle-bold" width="14" height="14" style={{ marginRight: '4px' }} />
-            {quiz.timeLimit}s {t('TIME_LIMIT_PER_Q')}
+            {quiz.timeLimit}s
           </Badge>
           <Badge variant="glass" size="sm">
             <Icon icon="solar:users-group-two-rounded-bold" width="14" height="14" style={{ marginRight: '4px' }} />
@@ -197,10 +197,11 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
             {userParticipation ? t('BTN_RETRY') : t('BTN_JOIN_TOURNAMENT')}
           </Button>
 
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <Button
               variant="secondary"
               fullWidth
+              size="md"
               icon="solar:share-bold"
               onClick={handleShareToTelegram}
             >
@@ -208,15 +209,17 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
             </Button>
             <Button
               variant="glass"
-              style={{ minWidth: '90px' }}
+              fullWidth
+              size="sm"
               icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'}
               onClick={handleCopyLink}
             >
-              {copied ? 'Nusxalandi' : 'Havola'}
+              {copied ? 'Havola nusxalandi!' : 'Turnir havolasini nusxalash'}
             </Button>
           </div>
         </div>
       </Card>
+
 
       {/* Leaderboard Section */}
       <div>
@@ -261,11 +264,11 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
                     background: p.isCurrentUser ? 'rgba(99, 102, 241, 0.08)' : 'var(--surface-card)',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
-                    <div style={{ width: '28px', textAlign: 'center', fontSize: p.rank <= 3 ? '1.2rem' : '0.9rem', fontWeight: '800' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
+                    <div style={{ width: '28px', textAlign: 'center', fontSize: p.rank <= 3 ? '1.2rem' : '0.9rem', fontWeight: '800', flexShrink: 0 }}>
                       {rankMedal}
                     </div>
-                    <div style={{ minWidth: 0 }}>
+                    <div style={{ minWidth: 0, flex: 1 }}>
                       <div
                         style={{
                           fontSize: '0.9rem',

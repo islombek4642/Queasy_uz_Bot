@@ -247,7 +247,7 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom }) {
                     </div>
 
                     {/* Row 2: Action Buttons (Share Tournament & Live Room) */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                       <Button
                         variant="primary"
                         size="sm"
@@ -255,7 +255,7 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom }) {
                         loading={creatingId === q.id}
                         onClick={() => handleShareTournament(q.id)}
                         icon="solar:share-bold"
-                        style={{ padding: '7px 8px', fontSize: '0.82rem' }}
+                        style={{ padding: '8px 12px', fontSize: '0.84rem' }}
                       >
                         {t('BTN_SHARE_TO_GROUP')}
                       </Button>
@@ -267,7 +267,7 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom }) {
                         loading={creatingLiveId === q.id}
                         onClick={() => handleCreateLiveRoom(q.id)}
                         icon="solar:bolt-bold"
-                        style={{ padding: '7px 8px', fontSize: '0.82rem' }}
+                        style={{ padding: '8px 12px', fontSize: '0.84rem' }}
                       >
                         {t('BTN_CREATE_LIVE_ROOM')}
                       </Button>
@@ -278,6 +278,7 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom }) {
             })}
           </div>
         )}
+
       </div>
 
       {/* 3. How to play guide card */}

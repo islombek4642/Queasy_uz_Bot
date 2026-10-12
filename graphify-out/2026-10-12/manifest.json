@@ -222,9 +222,9 @@
     "semantic_hash": ""
   },
   "tgcloud/schema.js": {
-    "mtime": 1791784597.5218523,
-    "seen": 1791785061.5206435,
-    "ast_hash": "763df0991539ce0c8a184cfa3371212f",
+    "mtime": 1791826807.072291,
+    "seen": 1791827106.4083264,
+    "ast_hash": "9d92bdf1a00a0baa539de00ee8c69bfb",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -336,9 +336,9 @@
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1791820819.0757759,
-    "seen": 1791820864.7108514,
-    "ast_hash": "aa2307dd4f383734142172b67f4391c1",
+    "mtime": 1791826998.8451655,
+    "seen": 1791827106.4080005,
+    "ast_hash": "ff60c8f91f32d8f1dadbcb2ade7bfd4a",
     "semantic_hash": ""
   },
   "src/components/common/Badge.jsx": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "src/components/quiz/ResultCard.jsx": {
-    "mtime": 1791813353.8645606,
-    "seen": 1791813476.194006,
-    "ast_hash": "e558258cca87747c1a5f4b6a4b8c0de4",
+    "mtime": 1791825480.6990864,
+    "seen": 1791825708.1328542,
+    "ast_hash": "922b1699c9a764d6d53f3383ef323c19",
     "semantic_hash": ""
   },
   "src/components/quiz/TimerRing.jsx": {
@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "src/constants/endpoints.js": {
-    "mtime": 1791813353.8645606,
-    "seen": 1791813476.19402,
-    "ast_hash": "5da17c8385b7ce1a5d5313881bed340c",
+    "mtime": 1791826876.3479834,
+    "seen": 1791827106.4080594,
+    "ast_hash": "f2780d12bde79d95744a0981e6371629",
     "semantic_hash": ""
   },
   "src/constants/routes.js": {
@@ -474,21 +474,21 @@
     "semantic_hash": ""
   },
   "src/i18n/locales/en.js": {
-    "mtime": 1791820600.2493947,
-    "seen": 1791820864.7109435,
-    "ast_hash": "316396b64b94409b3ffaac08e9c8d399",
+    "mtime": 1791826157.4188187,
+    "seen": 1791826236.8485906,
+    "ast_hash": "cf0ee882afed45bed3d935c8f52d00c9",
     "semantic_hash": ""
   },
   "src/i18n/locales/ru.js": {
-    "mtime": 1791820589.125466,
-    "seen": 1791820864.7109456,
-    "ast_hash": "c255a9309dd88bedc567011a3ad76b46",
+    "mtime": 1791825324.283066,
+    "seen": 1791825708.132894,
+    "ast_hash": "8277d7757833484e195eb0a412ad1c09",
     "semantic_hash": ""
   },
   "src/i18n/locales/uz.js": {
-    "mtime": 1791820581.6910381,
-    "seen": 1791820864.7109475,
-    "ast_hash": "855b6e7f2351cc124ff7d71514a0bf80",
+    "mtime": 1791825316.83863,
+    "seen": 1791825708.132896,
+    "ast_hash": "b23f51d4373e6a223538d3993e981b13",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -504,39 +504,39 @@
     "semantic_hash": ""
   },
   "src/services/quizService.js": {
-    "mtime": 1791813353.866561,
-    "seen": 1791813476.1940672,
-    "ast_hash": "e206522185879cd6e5295312fc257fbc",
+    "mtime": 1791826898.8832097,
+    "seen": 1791827106.4080994,
+    "ast_hash": "769a2622877eb3cbe4e612d817eb3875",
     "semantic_hash": ""
   },
   "src/views/ArenaView.jsx": {
-    "mtime": 1791820764.060532,
-    "seen": 1791820864.710962,
-    "ast_hash": "e4c96d882ec86190b4918a7676b2d59b",
+    "mtime": 1791825544.7239401,
+    "seen": 1791825708.1329103,
+    "ast_hash": "dbb43508d1a71f0e78bfad537aebd7fd",
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
-    "mtime": 1791813353.86756,
-    "seen": 1791813476.194075,
-    "ast_hash": "c58e649d487f521d034faa22fd7ff3bc",
+    "mtime": 1791827066.8203702,
+    "seen": 1791827106.4081101,
+    "ast_hash": "4dbf59a03f87e473a47f81cdba35f234",
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
-    "mtime": 1791813353.8830361,
-    "seen": 1791813476.1940777,
-    "ast_hash": "24a1643884ec8d1922f1552f3f47fc76",
+    "mtime": 1791823880.7918568,
+    "seen": 1791823946.450794,
+    "ast_hash": "33aafb3f99e5a3dcf522775369b8ff72",
     "semantic_hash": ""
   },
   "src/views/LeaderboardView.jsx": {
-    "mtime": 1791787395.7560558,
-    "seen": 1791787469.62609,
-    "ast_hash": "dbcb8ef68429ccbc6646ec6dc5f53d13",
+    "mtime": 1791823558.4644775,
+    "seen": 1791823606.8763123,
+    "ast_hash": "38891a3e8c1c706d6b92b508da4d225b",
     "semantic_hash": ""
   },
   "src/views/MyQuizzesView.jsx": {
-    "mtime": 1791813353.8850377,
-    "seen": 1791813476.1940894,
-    "ast_hash": "69a963a8cbe3faea9f306a60d06454cf",
+    "mtime": 1791822658.847041,
+    "seen": 1791822713.5775764,
+    "ast_hash": "bed944a53dc4151a952c47791ef55fe9",
     "semantic_hash": ""
   },
   "src/views/ProfileView.jsx": {
@@ -600,15 +600,15 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_group_sessions.js": {
-    "mtime": 1791788131.7297478,
-    "seen": 1791788191.7848518,
-    "ast_hash": "741d9a7d610ed711ef7f5b68571a0571",
+    "mtime": 1791822636.0755837,
+    "seen": 1791822713.5776248,
+    "ast_hash": "b01a630b2fff498c451b0e4371e69e53",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_leaderboard.js": {
-    "mtime": 1791787996.3664255,
-    "seen": 1791788191.7848594,
-    "ast_hash": "9d521ef709319d8c2713b0244fce1e7d",
+    "mtime": 1791823213.829122,
+    "seen": 1791823302.9061468,
+    "ast_hash": "41e76d6b3637b9829df1f9e237664138",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/save_custom_quiz.js": {
@@ -702,9 +702,9 @@
     "semantic_hash": ""
   },
   "src/components/quiz/KiutExplorerModal.jsx": {
-    "mtime": 1791813353.8635612,
-    "seen": 1791813476.1924598,
-    "ast_hash": "0ac3c075ee9835a7e51728a349a868a6",
+    "mtime": 1791822253.4671419,
+    "seen": 1791822333.726382,
+    "ast_hash": "15133409df1ae700ff285eb3afd3aa74",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_kiut_catalog.js": {
@@ -732,9 +732,9 @@
     "semantic_hash": ""
   },
   "src/views/KiutView.jsx": {
-    "mtime": 1791813353.884038,
-    "seen": 1791813476.1940804,
-    "ast_hash": "3e0b885613d5e3a673c391d69574dde4",
+    "mtime": 1791822237.5100017,
+    "seen": 1791822333.7264652,
+    "ast_hash": "ad5b3e13437af77290696990f1a344b8",
     "semantic_hash": ""
   },
   ".agents/skills/brainstorming/scripts/helper.js": {
@@ -1032,9 +1032,9 @@
     "semantic_hash": ""
   },
   "src/views/MistakesView.jsx": {
-    "mtime": 1791813353.884038,
-    "seen": 1791813476.1940863,
-    "ast_hash": "ef1b89dbe8e5e162c77710559c507f37",
+    "mtime": 1791822286.4831035,
+    "seen": 1791822333.7264705,
+    "ast_hash": "5634bd0a968021fa2a55a6115e142592",
     "semantic_hash": ""
   },
   "src/views/QuizCreatorView.jsx": {
@@ -2739,6 +2739,66 @@
     "mtime": 1791820637.4926302,
     "seen": 1791820864.7109597,
     "ast_hash": "5187df3cf60bc17b994835b64306455c",
+    "semantic_hash": ""
+  },
+  "src/views/TournamentView.jsx": {
+    "mtime": 1791825429.8940415,
+    "seen": 1791825708.1329322,
+    "ast_hash": "ceadd27edf9449dabe58a566b5a17caf",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/create_tournament.js": {
+    "mtime": 1791826116.1351142,
+    "seen": 1791826236.8486714,
+    "ast_hash": "346aed3cec85549bbd681e2f79700aee",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/get_tournament_details.js": {
+    "mtime": 1791825280.1083531,
+    "seen": 1791825708.1329894,
+    "ast_hash": "6d43ef2e52574ae8e3a52ae29d2e4e99",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/submit_tournament_result.js": {
+    "mtime": 1791825290.0103447,
+    "seen": 1791825708.133007,
+    "ast_hash": "7eca3a7206e949a8a5dbcf5fa006c989",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/plans/2026-10-12-webapp-group-quizzes.md": {
+    "mtime": 1791825174.993194,
+    "seen": 1791825708.133843,
+    "ast_hash": "19334a9317490f65848a091c9b4c9f8d",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-10-12-webapp-group-quizzes-design.md": {
+    "mtime": 1791825146.278535,
+    "seen": 1791825708.1338532,
+    "ast_hash": "08c297e7450dc496aedeed2945b8a148",
+    "semantic_hash": ""
+  },
+  "src/views/LiveRoomView.jsx": {
+    "mtime": 1791826925.4614697,
+    "seen": 1791827106.4081209,
+    "ast_hash": "488db19af3a561ad271e8f5eec54c5ab",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/create_live_room.js": {
+    "mtime": 1791826831.8401518,
+    "seen": 1791827106.408177,
+    "ast_hash": "e338dad645f11e7b091fd87c072fbae0",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/get_live_room_state.js": {
+    "mtime": 1791826842.5282018,
+    "seen": 1791827106.4082038,
+    "ast_hash": "7dec01d51a8251bfecf10b82f985f40b",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/start_live_room.js": {
+    "mtime": 1791826850.1304607,
+    "seen": 1791827106.408225,
+    "ast_hash": "1ec48cc187d3aefb5ef74c046fd75aea",
     "semantic_hash": ""
   }
 }
