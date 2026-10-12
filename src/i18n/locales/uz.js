@@ -22,6 +22,8 @@ export default {
   SECTION_POPULAR: 'Tezkor boshlash',
   BTN_CREATE_QUIZ: 'Yangi test yaratish',
   BTN_START_QUIZ: 'Boshlash',
+  BTN_VIEW_ALL: 'Barchasi',
+  BTN_VIEW_ALL_QUIZZES: 'Barcha testlarni ko\'rish ({count})',
   QUESTIONS_COUNT: '{count} ta savol',
   TIME_LIMIT: '{seconds} soniya',
   NO_QUIZZES_YET: 'Sizda hali testlar yo\'q. Botga fayl yuborib bir zumda yarating!',

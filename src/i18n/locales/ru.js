@@ -22,6 +22,8 @@ export default {
   SECTION_POPULAR: 'Быстрый старт',
   BTN_CREATE_QUIZ: 'Создать тест',
   BTN_START_QUIZ: 'Начать',
+  BTN_VIEW_ALL: 'Все',
+  BTN_VIEW_ALL_QUIZZES: 'Посмотреть все тесты ({count})',
   QUESTIONS_COUNT: '{count} вопр.',
   TIME_LIMIT: '{seconds} сек',
   NO_QUIZZES_YET: 'У вас пока нет тестов. Отправьте файл боту, чтобы создать тест!',

@@ -22,6 +22,8 @@ export default {
   SECTION_POPULAR: 'Quick Start',
   BTN_CREATE_QUIZ: 'Create Quiz',
   BTN_START_QUIZ: 'Start',
+  BTN_VIEW_ALL: 'View All',
+  BTN_VIEW_ALL_QUIZZES: 'View all quizzes ({count})',
   QUESTIONS_COUNT: '{count} questions',
   TIME_LIMIT: '{seconds}s',
   NO_QUIZZES_YET: 'No quizzes yet. Send a file to the bot to create one instantly!',

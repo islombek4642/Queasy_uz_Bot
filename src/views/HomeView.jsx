@@ -7,6 +7,7 @@ import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { calculateLevelProgress } from '../utils/gamification.js';
+import { NAV_MY_QUIZZES } from '../constants/routes.js';
 
 export function HomeView({
   initialData,
@@ -273,9 +274,33 @@ export function HomeView({
           <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)' }}>
             {t('SECTION_RECENT_QUIZZES')}
           </h3>
-          <span style={{ fontSize: '0.8rem', color: 'var(--accent-primary)', fontWeight: '600' }}>
-            {myQuizzes.length}
-          </span>
+          {myQuizzes.length > 3 ? (
+            <button
+              onClick={() => {
+                haptic.selection();
+                if (onNavigateToTab) onNavigateToTab(NAV_MY_QUIZZES);
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--accent-primary)',
+                fontSize: '0.84rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                padding: '4px 0',
+              }}
+            >
+              <span>{t('BTN_VIEW_ALL')} ({myQuizzes.length})</span>
+              <Icon icon="solar:arrow-right-linear" width="16" height="16" />
+            </button>
+          ) : (
+            <span style={{ fontSize: '0.8rem', color: 'var(--accent-primary)', fontWeight: '600' }}>
+              {myQuizzes.length}
+            </span>
+          )}
         </div>
 
         {myQuizzes.length === 0 ? (
@@ -287,7 +312,7 @@ export function HomeView({
           </Card>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {myQuizzes.map((quiz) => {
+            {myQuizzes.slice(0, 3).map((quiz) => {
               const isExpanded = expandedQuizId === quiz.id;
               return (
                 <Card
@@ -383,6 +408,28 @@ export function HomeView({
                 </Card>
               );
             })}
+
+            {/* View All Button if user has more than 3 quizzes */}
+            {myQuizzes.length > 3 && (
+              <Button
+                variant="secondary"
+                size="sm"
+                fullWidth
+                onClick={() => {
+                  haptic.selection();
+                  if (onNavigateToTab) onNavigateToTab(NAV_MY_QUIZZES);
+                }}
+                icon="solar:folder-with-files-bold-duotone"
+                style={{
+                  marginTop: '4px',
+                  padding: '11px 16px',
+                  fontSize: '0.86rem',
+                  fontWeight: '700',
+                }}
+              >
+                {t('BTN_VIEW_ALL_QUIZZES', { count: myQuizzes.length })}
+              </Button>
+            )}
           </div>
         )}
       </div>
