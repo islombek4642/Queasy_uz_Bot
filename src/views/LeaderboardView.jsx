@@ -107,6 +107,11 @@ export function LeaderboardView() {
         <div style={{ padding: '40px', display: 'flex', justifyContent: 'center' }}>
           <Icon icon="line-md:loading-loop" width="36" height="36" style={{ color: 'var(--accent-primary)' }} />
         </div>
+      ) : topUsers.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '48px 16px', color: 'var(--text-muted)' }}>
+          <Icon icon="solar:cup-star-bold-duotone" width="48" height="48" style={{ marginBottom: '12px' }} />
+          <p style={{ fontSize: '0.9rem' }}>Hozircha reytingda natijalar mavjud emas</p>
+        </div>
       ) : (
         <>
           {/* Podium Top 3 */}

@@ -80,19 +80,6 @@ export default async function (input, ctx) {
       });
     }
 
-    // Realistic seeded top players if db has few records
-    const seedDemo = [
-      { id: 9991, name: 'Azizbek Rahimov', username: 'azizbek_r', xp: 1250, level: 13, accuracy: 96, quizzesSolved: 34, photo_url: null },
-      { id: 9992, name: 'Dilnoza Karimova', username: 'dilnoza_k', xp: 980, level: 10, accuracy: 91, quizzesSolved: 28, photo_url: null },
-      { id: 9993, name: 'Javohir Toirov', username: 'javohir_t', xp: 840, level: 9, accuracy: 88, quizzesSolved: 22, photo_url: null },
-      { id: 9994, name: 'Shahlo Mahmudova', username: 'shahlo_m', xp: 710, level: 8, accuracy: 85, quizzesSolved: 19, photo_url: null },
-    ];
-    for (const demo of seedDemo) {
-      if (!computedUsers.some((u) => u.id === demo.id)) {
-        computedUsers.push(demo);
-      }
-    }
-
     // Sort descending by XP
     computedUsers.sort((a, b) => b.xp - a.xp);
 
