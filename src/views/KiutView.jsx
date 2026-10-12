@@ -475,56 +475,66 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
                   overflow: 'hidden',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px' }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ minWidth: 0, overflow: 'hidden' }}>
+                  <div
+                    onClick={() => {
+                      haptic.selection();
+                      setExpandedQuizId(isExpanded ? null : quiz.id);
+                    }}
+                    style={{
+                      fontWeight: '800',
+                      fontSize: '0.96rem',
+                      color: 'var(--text-primary)',
+                      lineHeight: '1.35',
+                      cursor: 'pointer',
+                      whiteSpace: isExpanded ? 'normal' : 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                    title={quiz.title}
+                  >
+                    {quiz.title}
+                  </div>
+
+                  {searchQuery && quiz.category && (
                     <div
+                      style={{
+                        fontSize: '0.8rem',
+                        color: 'var(--text-muted)',
+                        marginTop: '2px',
+                        whiteSpace: isExpanded ? 'normal' : 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        cursor: 'pointer',
+                      }}
                       onClick={() => {
                         haptic.selection();
                         setExpandedQuizId(isExpanded ? null : quiz.id);
                       }}
-                      style={{
-                        fontWeight: '800',
-                        fontSize: '0.92rem',
-                        color: 'var(--text-primary)',
-                        lineHeight: '1.35',
-                        cursor: 'pointer',
-                        whiteSpace: isExpanded ? 'normal' : 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                      }}
-                      title={quiz.title}
                     >
-                      {quiz.title}
+                      📍 {quiz.category}
                     </div>
-
-                    {searchQuery && quiz.category && (
-                      <div
-                        style={{
-                          fontSize: '0.74rem',
-                          color: 'var(--text-muted)',
-                          marginTop: '4px',
-                          whiteSpace: isExpanded ? 'normal' : 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          cursor: 'pointer',
-                        }}
-                        onClick={() => {
-                          haptic.selection();
-                          setExpandedQuizId(isExpanded ? null : quiz.id);
-                        }}
-                      >
-                        📍 {quiz.category}
-                      </div>
-                    )}
-
-                    <div style={{ display: 'flex', gap: '8px', marginTop: '6px', flexWrap: 'wrap' }}>
-                      <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
-                      <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px', marginTop: '6px' }}>
+                {/* Badges */}
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                  <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
+                </div>
+
+                {/* Action Toolbar */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingTop: '8px',
+                    borderTop: '1px solid var(--surface-border)',
+                    marginTop: '2px',
+                    gap: '8px',
+                  }}
+                >
                   <Button
                     size="sm"
                     variant={isQuizSaved(quiz) ? "outline" : "secondary"}

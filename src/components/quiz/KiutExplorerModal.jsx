@@ -311,20 +311,22 @@ export function KiutExplorerModal({ isOpen, onClose, onStartQuiz }) {
                 <Card
                   key={quiz.id}
                   style={{
-                    padding: '12px 14px',
+                    padding: '14px 16px',
                     display: 'flex',
-                    flexDirection: isExpanded ? 'column' : 'row',
-                    alignItems: isExpanded ? 'stretch' : 'center',
-                    justifyContent: 'space-between',
-                    gap: isExpanded ? '10px' : '12px',
+                    flexDirection: 'column',
+                    gap: '10px',
+                    overflow: 'hidden',
                   }}
                 >
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ minWidth: 0, overflow: 'hidden' }}>
                     <div
-                      onClick={() => setExpandedQuizId(isExpanded ? null : quiz.id)}
+                      onClick={() => {
+                        haptic.selection();
+                        setExpandedQuizId(isExpanded ? null : quiz.id);
+                      }}
                       style={{
-                        fontWeight: '700',
-                        fontSize: '0.88rem',
+                        fontWeight: '800',
+                        fontSize: '0.96rem',
                         color: 'var(--text-primary)',
                         whiteSpace: isExpanded ? 'normal' : 'nowrap',
                         overflow: 'hidden',
@@ -336,19 +338,31 @@ export function KiutExplorerModal({ isOpen, onClose, onStartQuiz }) {
                     >
                       {quiz.title}
                     </div>
-
-                    <div style={{ display: 'flex', gap: '6px', marginTop: '4px', flexWrap: 'wrap' }}>
-                      <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
-                      <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
-                    </div>
                   </div>
 
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
+                  {/* Badges */}
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                    <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
+                  </div>
+
+                  {/* Action Toolbar */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      paddingTop: '8px',
+                      borderTop: '1px solid var(--surface-border)',
+                      marginTop: '2px',
+                      gap: '8px',
+                    }}
+                  >
                     <Button
                       size="sm"
                       variant="primary"
                       icon="solar:play-bold"
-                      style={{ padding: '7px 12px', fontSize: '0.82rem', whiteSpace: 'nowrap' }}
+                      style={{ padding: '7px 14px', fontSize: '0.82rem' }}
                       onClick={() => {
                         haptic.impact('medium');
                         onClose();

@@ -146,22 +146,20 @@ export function GroupHostView() {
                   style={{
                     padding: '14px 16px',
                     display: 'flex',
-                    flexDirection: isExpanded ? 'column' : 'row',
-                    alignItems: isExpanded ? 'stretch' : 'center',
-                    justifyContent: 'space-between',
-                    gap: isExpanded ? '10px' : '12px',
+                    flexDirection: 'column',
+                    gap: '10px',
                     overflow: 'hidden',
                   }}
                 >
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ minWidth: 0, overflow: 'hidden' }}>
                     <div
                       onClick={() => {
                         haptic.selection();
                         setExpandedQuizId(isExpanded ? null : q.id);
                       }}
                       style={{
-                        fontWeight: '700',
-                        fontSize: '0.92rem',
+                        fontWeight: '800',
+                        fontSize: '0.96rem',
                         color: 'var(--text-primary)',
                         whiteSpace: isExpanded ? 'normal' : 'nowrap',
                         overflow: 'hidden',
@@ -173,17 +171,35 @@ export function GroupHostView() {
                     >
                       {q.title}
                     </div>
-                    <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-                      {q.questionCount} {t('QUESTIONS_COUNT')} • {q.timeLimit}s
-                    </div>
                   </div>
 
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
+                  {/* Badges */}
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <Badge size="sm">{q.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                    <Badge size="sm" variant="warning">{q.timeLimit}s</Badge>
+                  </div>
+
+                  {/* Action Toolbar */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      paddingTop: '8px',
+                      borderTop: '1px solid var(--surface-border)',
+                      marginTop: '2px',
+                      gap: '8px',
+                    }}
+                  >
                     <Button
                       variant="primary"
                       size="sm"
-                      onClick={() => handleLaunchInGroup(q.shareLink)}
+                      onClick={() => {
+                        haptic.impact('medium');
+                        handleLaunchInGroup(q.shareLink);
+                      }}
                       icon="solar:share-circle-bold-duotone"
+                      style={{ padding: '7px 14px', fontSize: '0.82rem' }}
                     >
                       {t('LAUNCH_IN_GROUP')}
                     </Button>

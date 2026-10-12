@@ -293,29 +293,22 @@ export function HomeView({
                 <Card
                   key={quiz.id}
                   style={{
+                    padding: '14px 16px',
                     display: 'flex',
-                    flexDirection: isExpanded ? 'column' : 'row',
-                    alignItems: isExpanded ? 'stretch' : 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 14px',
-                    gap: isExpanded ? '10px' : '12px',
+                    flexDirection: 'column',
+                    gap: '10px',
                     overflow: 'hidden',
                   }}
                 >
-                  <div
-                    style={{
-                      flex: 1,
-                      minWidth: 0,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '4px',
-                    }}
-                  >
+                  <div style={{ minWidth: 0, overflow: 'hidden' }}>
                     <div
-                      onClick={() => setExpandedQuizId(isExpanded ? null : quiz.id)}
+                      onClick={() => {
+                        haptic.selection();
+                        setExpandedQuizId(isExpanded ? null : quiz.id);
+                      }}
                       style={{
-                        fontWeight: '700',
-                        fontSize: '0.92rem',
+                        fontWeight: '800',
+                        fontSize: '0.96rem',
                         color: 'var(--text-primary)',
                         whiteSpace: isExpanded ? 'normal' : 'nowrap',
                         overflow: 'hidden',
@@ -330,10 +323,14 @@ export function HomeView({
 
                     {quiz.description && (
                       <div
-                        onClick={() => setExpandedQuizId(isExpanded ? null : quiz.id)}
+                        onClick={() => {
+                          haptic.selection();
+                          setExpandedQuizId(isExpanded ? null : quiz.id);
+                        }}
                         style={{
-                          fontSize: '0.78rem',
+                          fontSize: '0.8rem',
                           color: 'var(--text-muted)',
+                          marginTop: '2px',
                           whiteSpace: isExpanded ? 'normal' : 'nowrap',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
@@ -343,27 +340,50 @@ export function HomeView({
                         {quiz.description}
                       </div>
                     )}
-
-                    <div style={{ display: 'flex', gap: '6px', marginTop: '2px', flexWrap: 'wrap' }}>
-                      <Badge size="sm" icon="solar:question-circle-bold-duotone">
-                        {quiz.questionCount || 0}
-                      </Badge>
-                      <Badge size="sm" icon="solar:clock-circle-bold-duotone" variant="warning">
-                        {quiz.timeLimit}s
-                      </Badge>
-                    </div>
                   </div>
 
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
+                  {/* Badges */}
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                    <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
+                  </div>
+
+                  {/* Action Toolbar */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      paddingTop: '8px',
+                      borderTop: '1px solid var(--surface-border)',
+                      marginTop: '2px',
+                      gap: '8px',
+                    }}
+                  >
+                    <div
+                      onClick={() => {
+                        haptic.selection();
+                        setExpandedQuizId(isExpanded ? null : quiz.id);
+                      }}
+                      style={{ fontSize: '0.78rem', color: 'var(--text-muted)', cursor: 'pointer' }}
+                    >
+                      {isExpanded ? '▲ ' + t('SECTION_RECENT_QUIZZES') : ''}
+                    </div>
+
                     <Button
                       size="sm"
                       variant="primary"
                       icon="solar:play-bold"
                       style={{
-                        padding: '8px 14px',
+                        flexShrink: 0,
+                        padding: '7px 14px',
                         fontSize: '0.82rem',
+                        whiteSpace: 'nowrap',
                       }}
-                      onClick={() => onStartQuiz(quiz.id)}
+                      onClick={() => {
+                        haptic.impact('medium');
+                        onStartQuiz(quiz.id);
+                      }}
                     >
                       {t('BTN_START_QUIZ')}
                     </Button>
