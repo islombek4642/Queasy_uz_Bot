@@ -67,14 +67,18 @@ export async function callEndpoint(endpointName, params = {}) {
     return new Promise((resolve) => {
       let resolved = false;
 
-      // 8s watchdog timeout
+      // 12s watchdog timeout
       const timer = setTimeout(() => {
         if (!resolved) {
           resolved = true;
           console.warn(`[API Timeout] ${endpointName}`);
-          resolve(getCleanDefaults(endpointName));
+          resolve({
+            ...getCleanDefaults(endpointName),
+            success: false,
+            error: 'Server javob bermadi (taymaut)',
+          });
         }
-      }, 8000);
+      }, 12000);
 
       try {
         serverless.call(endpointName, params, (err, res) => {
@@ -84,7 +88,12 @@ export async function callEndpoint(endpointName, params = {}) {
 
           if (err) {
             console.error(`[API Error] ${endpointName}:`, err);
-            resolve(getCleanDefaults(endpointName));
+            const errMsg = err?.description || err?.message || 'Server bilan bog\'lanishda xatolik';
+            resolve({
+              ...getCleanDefaults(endpointName),
+              success: false,
+              error: errMsg,
+            });
           } else {
             resolve(res);
           }
@@ -94,7 +103,11 @@ export async function callEndpoint(endpointName, params = {}) {
           resolved = true;
           clearTimeout(timer);
           console.error(`[API Exception] ${endpointName}:`, ex);
-          resolve(getCleanDefaults(endpointName));
+          resolve({
+            ...getCleanDefaults(endpointName),
+            success: false,
+            error: ex?.message || 'Server bilan bog\'lanishda xatolik',
+          });
         }
       }
     });
@@ -102,7 +115,11 @@ export async function callEndpoint(endpointName, params = {}) {
 
   // Fallback for browsers outside Telegram
   console.warn(`[API] Serverless not available for ${endpointName}`);
-  return getCleanDefaults(endpointName);
+  return {
+    ...getCleanDefaults(endpointName),
+    success: false,
+    error: 'Telegram muhiti topilmadi',
+  };
 }
 
 export default { callEndpoint };
