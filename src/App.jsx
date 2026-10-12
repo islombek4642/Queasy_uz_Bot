@@ -10,6 +10,7 @@ import { LeaderboardView } from './views/LeaderboardView.jsx';
 import { ProfileView } from './views/ProfileView.jsx';
 import { ArenaView } from './views/ArenaView.jsx';
 import { KiutView } from './views/KiutView.jsx';
+import { MistakesView } from './views/MistakesView.jsx';
 import { QuizCreatorModal } from './components/quiz/QuizCreatorModal.jsx';
 import { ErrorBoundary } from './components/common/ErrorBoundary.jsx';
 import {
@@ -25,8 +26,10 @@ export default function App() {
   const [initialData, setInitialData] = useState(null);
   const [activeTab, setActiveTab] = useState(NAV_HOME);
   const [showKiutView, setShowKiutView] = useState(false);
+  const [showMistakesView, setShowMistakesView] = useState(false);
   const [activeQuizId, setActiveQuizId] = useState(null);
   const [activeCustomQuestions, setActiveCustomQuestions] = useState(null);
+  const [activeCustomTitle, setActiveCustomTitle] = useState(null);
   const [showCreator, setShowCreator] = useState(false);
   const [editQuizId, setEditQuizId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -56,17 +59,20 @@ export default function App() {
 
   const handleStartQuiz = (quizId) => {
     setActiveCustomQuestions(null);
+    setActiveCustomTitle(null);
     setActiveQuizId(quizId);
   };
 
-  const handleStartMistakes = (mistakes) => {
+  const handleStartMistakes = (mistakes, title = null) => {
     setActiveQuizId(null);
     setActiveCustomQuestions(mistakes);
+    setActiveCustomTitle(title);
   };
 
   const handleExitArena = () => {
     setActiveQuizId(null);
     setActiveCustomQuestions(null);
+    setActiveCustomTitle(null);
     refreshData();
   };
 
@@ -94,6 +100,7 @@ export default function App() {
       <ArenaView
         quizId={activeQuizId}
         customQuestions={activeCustomQuestions}
+        customTitle={activeCustomTitle}
         onExit={handleExitArena}
       />
     );
@@ -105,6 +112,18 @@ export default function App() {
         <KiutView
           onBack={() => setShowKiutView(false)}
           onStartQuiz={handleStartQuiz}
+        />
+      );
+    }
+
+    if (showMistakesView) {
+      return (
+        <MistakesView
+          onBack={() => setShowMistakesView(false)}
+          onStartMistakesPractice={(questions, title) => {
+            setShowMistakesView(false);
+            handleStartMistakes(questions, title);
+          }}
         />
       );
     }
@@ -134,11 +153,13 @@ export default function App() {
             onStartQuiz={handleStartQuiz}
             onNavigateToTab={(tab) => {
               setShowKiutView(false);
+              setShowMistakesView(false);
               setActiveTab(tab);
             }}
             onOpenCreator={handleOpenCreator}
             onStartMistakesPractice={handleStartMistakes}
             onOpenKiut={() => setShowKiutView(true)}
+            onOpenMistakes={() => setShowMistakesView(true)}
           />
         );
     }

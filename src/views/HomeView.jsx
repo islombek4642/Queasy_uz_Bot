@@ -8,7 +8,15 @@ import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { calculateLevelProgress } from '../utils/gamification.js';
 
-export function HomeView({ initialData, onStartQuiz, onNavigateToTab, onOpenCreator, onStartMistakesPractice, onOpenKiut }) {
+export function HomeView({
+  initialData,
+  onStartQuiz,
+  onNavigateToTab,
+  onOpenCreator,
+  onStartMistakesPractice,
+  onOpenKiut,
+  onOpenMistakes,
+}) {
   const { t } = useTranslation();
   const { user, haptic } = useTelegram();
   const [mistakesData, setMistakesData] = useState({ mistakes: [], count: 0 });
@@ -216,7 +224,11 @@ export function HomeView({ initialData, onStartQuiz, onNavigateToTab, onOpenCrea
         <Card
           interactive
           onClick={() => {
-            if (onStartMistakesPractice) onStartMistakesPractice(mistakesData.mistakes);
+            if (onOpenMistakes) {
+              onOpenMistakes();
+            } else if (onStartMistakesPractice) {
+              onStartMistakesPractice(mistakesData.mistakes);
+            }
           }}
           style={{
             padding: '14px 16px',
