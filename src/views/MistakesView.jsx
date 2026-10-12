@@ -308,31 +308,26 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
                       )}
                     </div>
 
-                    {/* Badges */}
-                    <div
-                      onClick={() => {
-                        haptic.selection();
-                        setExpandedGroupIndex(isExpanded ? null : idx);
-                      }}
-                      style={{ display: 'flex', gap: '6px', alignItems: 'center', cursor: 'pointer' }}
-                    >
-                      <Badge variant="danger" size="sm">
-                        {t('STAT_MISTAKES_COUNT', { count: group.count })}
-                      </Badge>
-                    </div>
-
                     {/* Action Toolbar */}
                     <div
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'space-between',
                         paddingTop: '8px',
                         borderTop: '1px solid var(--surface-border)',
                         marginTop: '2px',
                         gap: '8px',
                       }}
                     >
+                      {/* Left: Badge */}
+                      <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                        <Badge variant="danger" size="sm">
+                          {t('STAT_MISTAKES_COUNT', { count: group.count })}
+                        </Badge>
+                      </div>
+
+                      {/* Right: Practice button */}
                       <Button
                         variant="secondary"
                         size="sm"

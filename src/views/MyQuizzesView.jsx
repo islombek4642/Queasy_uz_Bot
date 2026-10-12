@@ -122,18 +122,6 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                   )}
                 </div>
 
-                {/* Badges */}
-                <div
-                  onClick={() => {
-                    haptic.selection();
-                    setExpandedQuizId(isExpanded ? null : quiz.id);
-                  }}
-                  style={{ display: 'flex', gap: '6px', alignItems: 'center', cursor: 'pointer' }}
-                >
-                  <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
-                  <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
-                </div>
-
                 {/* Action Toolbar */}
                 <div
                   style={{
@@ -144,10 +132,14 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                     borderTop: '1px solid var(--surface-border)',
                     marginTop: '2px',
                     gap: '8px',
+                    flexWrap: 'wrap',
                   }}
                 >
-                  {/* Secondary actions: Inspect, Edit, Delete */}
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexShrink: 0 }}>
+                  {/* Left: Badges + Secondary actions: Inspect, Edit, Delete */}
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                    <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
+
                     <button
                       onClick={() => {
                         haptic.selection();
@@ -191,14 +183,12 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                   <Button
                     size="sm"
                     variant="primary"
-                    onClick={() => onStartQuiz(quiz.id)}
-                    icon="solar:play-bold"
-                    style={{
-                      flexShrink: 0,
-                      padding: '7px 12px',
-                      fontSize: '0.82rem',
-                      whiteSpace: 'nowrap',
+                    onClick={() => {
+                      haptic.impact('medium');
+                      onStartQuiz(quiz.id);
                     }}
+                    icon="solar:play-bold"
+                    style={{ padding: '7px 14px', fontSize: '0.82rem', flexShrink: 0 }}
                   >
                     {t('BTN_START_QUIZ')}
                   </Button>

@@ -518,18 +518,6 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
                   )}
                 </div>
 
-                {/* Badges */}
-                <div
-                  onClick={() => {
-                    haptic.selection();
-                    setExpandedQuizId(isExpanded ? null : quiz.id);
-                  }}
-                  style={{ display: 'flex', gap: '6px', alignItems: 'center', cursor: 'pointer' }}
-                >
-                  <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
-                  <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
-                </div>
-
                 {/* Action Toolbar */}
                 <div
                   style={{
@@ -540,42 +528,52 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
                     borderTop: '1px solid var(--surface-border)',
                     marginTop: '2px',
                     gap: '8px',
+                    flexWrap: 'wrap',
                   }}
                 >
-                  <Button
-                    size="sm"
-                    variant={isQuizSaved(quiz) ? "outline" : "secondary"}
-                    icon={isQuizSaved(quiz) ? "solar:check-circle-bold" : "solar:bookmark-square-bold"}
-                    disabled={isQuizSaved(quiz) || savingQuizId === quiz.id}
-                    loading={savingQuizId === quiz.id}
-                    style={{
-                      padding: '7px 12px',
-                      fontSize: '0.82rem',
-                      ...(isQuizSaved(quiz)
-                        ? {
-                            color: 'var(--color-success)',
-                            borderColor: 'var(--color-success-border, rgba(16, 185, 129, 0.4))',
-                            backgroundColor: 'var(--color-success-bg, rgba(16, 185, 129, 0.12))',
-                          }
-                        : {}),
-                    }}
-                    onClick={() => handleSaveQuiz(quiz)}
-                  >
-                    {isQuizSaved(quiz) ? t('BTN_SAVED_QUIZ') : t('BTN_SAVE_QUIZ')}
-                  </Button>
+                  {/* Left: Badges */}
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                    <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
+                  </div>
 
-                  <Button
-                    size="sm"
-                    variant="primary"
-                    icon="solar:play-bold"
-                    style={{ padding: '7px 14px', fontSize: '0.82rem' }}
-                    onClick={() => {
-                      haptic.impact('medium');
-                      onStartQuiz(quiz.id);
-                    }}
-                  >
-                    {t('BTN_START_QUIZ')}
-                  </Button>
+                  {/* Right: Save & Start buttons */}
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <Button
+                      size="sm"
+                      variant={isQuizSaved(quiz) ? "outline" : "secondary"}
+                      icon={isQuizSaved(quiz) ? "solar:check-circle-bold" : "solar:bookmark-square-bold"}
+                      disabled={isQuizSaved(quiz) || savingQuizId === quiz.id}
+                      loading={savingQuizId === quiz.id}
+                      style={{
+                        padding: '7px 12px',
+                        fontSize: '0.82rem',
+                        ...(isQuizSaved(quiz)
+                          ? {
+                              color: 'var(--color-success)',
+                              borderColor: 'var(--color-success-border, rgba(16, 185, 129, 0.4))',
+                              backgroundColor: 'var(--color-success-bg, rgba(16, 185, 129, 0.12))',
+                            }
+                          : {}),
+                      }}
+                      onClick={() => handleSaveQuiz(quiz)}
+                    >
+                      {isQuizSaved(quiz) ? t('BTN_SAVED_QUIZ') : t('BTN_SAVE_QUIZ')}
+                    </Button>
+
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      icon="solar:play-bold"
+                      style={{ padding: '7px 14px', fontSize: '0.82rem' }}
+                      onClick={() => {
+                        haptic.impact('medium');
+                        onStartQuiz(quiz.id);
+                      }}
+                    >
+                      {t('BTN_START_QUIZ')}
+                    </Button>
+                  </div>
                 </div>
               </Card>
             );

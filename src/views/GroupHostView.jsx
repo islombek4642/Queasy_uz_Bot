@@ -177,30 +177,25 @@ export function GroupHostView() {
                     </div>
                   </div>
 
-                  {/* Badges */}
-                  <div
-                    onClick={() => {
-                      haptic.selection();
-                      setExpandedQuizId(isExpanded ? null : q.id);
-                    }}
-                    style={{ display: 'flex', gap: '6px', alignItems: 'center', cursor: 'pointer' }}
-                  >
-                    <Badge size="sm">{q.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
-                    <Badge size="sm" variant="warning">{q.timeLimit}s</Badge>
-                  </div>
-
                   {/* Action Toolbar */}
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'flex-end',
+                      justifyContent: 'space-between',
                       paddingTop: '8px',
                       borderTop: '1px solid var(--surface-border)',
                       marginTop: '2px',
                       gap: '8px',
                     }}
                   >
+                    {/* Left: Badges */}
+                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                      <Badge size="sm">{q.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                      <Badge size="sm" variant="warning">{q.timeLimit}s</Badge>
+                    </div>
+
+                    {/* Right: Launch in group button */}
                     <Button
                       variant="primary"
                       size="sm"
