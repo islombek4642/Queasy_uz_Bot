@@ -15,4 +15,8 @@ export const EP_CLONE_QUIZ = 'clone_quiz';
 export const EP_CREATE_TOURNAMENT = 'create_tournament';
 export const EP_GET_TOURNAMENT_DETAILS = 'get_tournament_details';
 export const EP_SUBMIT_TOURNAMENT_RESULT = 'submit_tournament_result';
+export const EP_CREATE_LIVE_ROOM = 'create_live_room';
+export const EP_GET_LIVE_ROOM_STATE = 'get_live_room_state';
+export const EP_START_LIVE_ROOM = 'start_live_room';
+
 

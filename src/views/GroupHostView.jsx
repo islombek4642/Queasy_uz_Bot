@@ -3,19 +3,23 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
-import { fetchGroupSessions, createTournament } from '../services/quizService.js';
+import { fetchGroupSessions, createTournament, createLiveRoom } from '../services/quizService.js';
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
+import { Modal } from '../components/common/Modal.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
 
-export function GroupHostView({ onOpenTournament }) {
+export function GroupHostView({ onOpenTournament, onOpenLiveRoom }) {
   const { t } = useTranslation();
   const { haptic } = useTelegram();
   const [data, setData] = useState({ activeSessions: [], launchableQuizzes: [] });
   const [loading, setLoading] = useState(true);
   const [creatingId, setCreatingId] = useState(null);
+  const [creatingLiveId, setCreatingLiveId] = useState(null);
   const [expandedQuizId, setExpandedQuizId] = useState(null);
+  const [shareModalData, setShareModalData] = useState(null);
+  const [copiedModal, setCopiedModal] = useState(false);
 
   const loadSessions = () => {
     setLoading(true);
@@ -43,17 +47,12 @@ export function GroupHostView({ onOpenTournament }) {
     try {
       const res = await createTournament(quizId);
       if (res && res.success) {
+        setShareModalData(res);
         const tg = window.Telegram?.WebApp;
         if (tg && typeof tg.openTelegramLink === 'function') {
           tg.openTelegramLink(res.telegramShareUrl);
         } else if (tg && typeof tg.openLink === 'function') {
           tg.openLink(res.telegramShareUrl);
-        } else {
-          window.open(res.telegramShareUrl, '_blank');
-        }
-
-        if (onOpenTournament && res.shareCode) {
-          onOpenTournament(res.shareCode);
         }
       } else {
         alert(res?.error || 'Turnir yaratishda xatolik yuz berdi');
@@ -65,6 +64,27 @@ export function GroupHostView({ onOpenTournament }) {
       setCreatingId(null);
     }
   };
+
+  const handleCreateLiveRoom = async (quizId) => {
+    haptic.impact('heavy');
+    setCreatingLiveId(quizId);
+    try {
+      const res = await createLiveRoom(quizId);
+      if (res && res.success) {
+        if (onOpenLiveRoom && res.roomCode) {
+          onOpenLiveRoom(res.roomCode);
+        }
+      } else {
+        alert(res?.error || 'Jonli xona ochishda xatolik yuz berdi');
+      }
+    } catch (err) {
+      console.error('Failed to create live room:', err);
+      alert('Xatolik: ' + (err.message || 'Tarmoq xatosi'));
+    } finally {
+      setCreatingLiveId(null);
+    }
+  };
+
 
 
   const handleLaunchInGroup = (shareLink) => {
@@ -244,11 +264,9 @@ export function GroupHostView({ onOpenTournament }) {
                         variant="secondary"
                         size="sm"
                         fullWidth
-                        onClick={() => {
-                          haptic.notification('warning');
-                          alert(t('LIVE_ROOM_COMING_SOON'));
-                        }}
-                        icon="solar:play-circle-bold-duotone"
+                        loading={creatingLiveId === q.id}
+                        onClick={() => handleCreateLiveRoom(q.id)}
+                        icon="solar:bolt-bold"
                         style={{ padding: '7px 8px', fontSize: '0.82rem' }}
                       >
                         {t('BTN_CREATE_LIVE_ROOM')}
@@ -270,9 +288,86 @@ export function GroupHostView({ onOpenTournament }) {
         </div>
         <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <div>🎯 1. <b>«{t('BTN_SHARE_TO_GROUP')}»</b> tugmasini bosing va o'z guruhingizni tanlang.</div>
-          <div>👥 2. Guruhdagilar xabardagi tugmani bosib WebApp ichida test yechishadi va umumiy guruh reytingi shakllanadi!</div>
+          <div>⚡ 2. <b>«{t('BTN_CREATE_LIVE_ROOM')}»</b> orqali Kahoot kabi real-time xona ochib, bir vaqtda test o'ynang!</div>
         </div>
       </Card>
+
+      {/* Share Tournament Modal */}
+      {shareModalData && (
+        <Modal
+          isOpen={Boolean(shareModalData)}
+          title="Guruhga Ulashish 🚀"
+          icon="solar:share-bold"
+          onClose={() => setShareModalData(null)}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', textAlign: 'center' }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
+              <b>«{shareModalData.title}»</b> guruh turniri yaratildi! Guruhdoshlaringizga yuboring:
+            </p>
+
+            <div
+              style={{
+                padding: '12px',
+                background: 'rgba(99, 102, 241, 0.08)',
+                border: '1px solid var(--accent-glow)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '0.8rem',
+                wordBreak: 'break-all',
+                color: 'var(--accent-primary)',
+                fontWeight: '600',
+              }}
+            >
+              {shareModalData.shareLink}
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
+              <Button
+                variant="primary"
+                fullWidth
+                size="md"
+                icon="solar:share-bold"
+                onClick={() => {
+                  const tg = window.Telegram?.WebApp;
+                  if (tg?.openTelegramLink) tg.openTelegramLink(shareModalData.telegramShareUrl);
+                  else if (tg?.openLink) tg.openLink(shareModalData.telegramShareUrl);
+                  else window.open(shareModalData.telegramShareUrl, '_blank');
+                }}
+              >
+                Telegram Guruhga Yuborish
+              </Button>
+
+              <Button
+                variant="secondary"
+                fullWidth
+                size="md"
+                icon={copiedModal ? 'solar:check-circle-bold' : 'solar:copy-bold'}
+                onClick={() => {
+                  navigator.clipboard?.writeText(shareModalData.shareLink);
+                  setCopiedModal(true);
+                  setTimeout(() => setCopiedModal(false), 2000);
+                }}
+              >
+                {copiedModal ? 'Nusxalandi!' : 'Havolani nusxalash'}
+              </Button>
+
+              <Button
+                variant="glass"
+                fullWidth
+                size="md"
+                icon="solar:cup-star-bold"
+                onClick={() => {
+                  const code = shareModalData.shareCode;
+                  setShareModalData(null);
+                  if (onOpenTournament) onOpenTournament(code);
+                }}
+              >
+                Turnir Peshqadamlarini Ko'rish
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
+

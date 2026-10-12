@@ -15,7 +15,11 @@ import {
   EP_CREATE_TOURNAMENT,
   EP_GET_TOURNAMENT_DETAILS,
   EP_SUBMIT_TOURNAMENT_RESULT,
+  EP_CREATE_LIVE_ROOM,
+  EP_GET_LIVE_ROOM_STATE,
+  EP_START_LIVE_ROOM,
 } from '../constants/endpoints.js';
+
 
 
 export async function fetchInitialData() {
@@ -73,5 +77,18 @@ export async function fetchTournamentDetails(shareCode) {
 export async function submitTournamentResult(payload) {
   return await callEndpoint(EP_SUBMIT_TOURNAMENT_RESULT, payload);
 }
+
+export async function createLiveRoom(quizId) {
+  return await callEndpoint(EP_CREATE_LIVE_ROOM, { quizId });
+}
+
+export async function fetchLiveRoomState(roomCode) {
+  return await callEndpoint(EP_GET_LIVE_ROOM_STATE, { roomCode });
+}
+
+export async function startLiveRoom(roomCode) {
+  return await callEndpoint(EP_START_LIVE_ROOM, { roomCode });
+}
+
 
 

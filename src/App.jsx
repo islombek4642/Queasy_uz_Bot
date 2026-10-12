@@ -13,6 +13,7 @@ import { KiutView } from './views/KiutView.jsx';
 import { MistakesView } from './views/MistakesView.jsx';
 import { QuizCreatorView } from './views/QuizCreatorView.jsx';
 import { TournamentView } from './views/TournamentView.jsx';
+import { LiveRoomView } from './views/LiveRoomView.jsx';
 import { QuizModeModal } from './components/quiz/QuizModeModal.jsx';
 import { ErrorBoundary } from './components/common/ErrorBoundary.jsx';
 import {
@@ -35,7 +36,9 @@ export default function App() {
   const [showCreator, setShowCreator] = useState(false);
   const [editQuizId, setEditQuizId] = useState(null);
   const [activeTournamentCode, setActiveTournamentCode] = useState(null);
+  const [activeRoomCode, setActiveRoomCode] = useState(null);
   const [loading, setLoading] = useState(true);
+
 
 
   // Quiz Mode Modal state
@@ -62,10 +65,13 @@ export default function App() {
       const startParam = tgParam || urlParams.get('startapp') || urlParams.get('tgWebAppStartParam');
       if (startParam && startParam.startsWith('gt_')) {
         setActiveTournamentCode(startParam);
+      } else if (startParam && startParam.startsWith('room_')) {
+        setActiveRoomCode(startParam.replace('room_', ''));
       }
     } catch (e) {
       console.error('Failed to parse start param:', e);
     }
+
 
     // 2. Fetch initial app data
     fetchInitialData()
@@ -149,6 +155,23 @@ export default function App() {
   }
 
   const renderActiveView = () => {
+    if (activeRoomCode) {
+      return (
+        <LiveRoomView
+          roomCode={activeRoomCode}
+          onStartGame={(quizId) => {
+            setActiveQuizId(quizId);
+            setActiveQuizMode('full');
+            setActiveQuizRange(null);
+            setActiveQuizRandomCount(null);
+          }}
+          onBack={() => {
+            setActiveRoomCode(null);
+          }}
+        />
+      );
+    }
+
     if (activeTournamentCode) {
       return (
         <TournamentView
@@ -168,7 +191,6 @@ export default function App() {
     }
 
     if (showKiutView) {
-
       return (
         <KiutView
           onBack={() => setShowKiutView(false)}
@@ -216,9 +238,15 @@ export default function App() {
           />
         );
       case NAV_GROUP_HOST:
-        return <GroupHostView onOpenTournament={(code) => setActiveTournamentCode(code)} />;
+        return (
+          <GroupHostView
+            onOpenTournament={(code) => setActiveTournamentCode(code)}
+            onOpenLiveRoom={(code) => setActiveRoomCode(code)}
+          />
+        );
 
       case NAV_LEADERBOARD:
+
         return <LeaderboardView />;
       case NAV_PROFILE:
         return <ProfileView initialData={initialData} />;

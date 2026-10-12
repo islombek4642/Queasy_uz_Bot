@@ -176,3 +176,14 @@ export const liveRooms = table('live_rooms', {
   createdAt:            integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
 });
 
+// 16. Live Room Players
+export const roomPlayers = table('room_players', {
+  id:        integer('id').primaryKey({ autoIncrement: true }),
+  roomCode:  text('room_code').notNull(),
+  userId:    integer('user_id').notNull(),
+  userName:  text('user_name').notNull(),
+  score:     integer('score').notNull().default(0),
+  joinedAt:  integer('joined_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
+});
+
+
