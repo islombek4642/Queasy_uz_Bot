@@ -72,6 +72,7 @@ export default {
   TAB_WEEKLY: 'Weekly',
   TAB_ALL_TIME: 'All-Time',
   YOU_ARE_RANKED: 'Your rank: #{rank}',
+  TOTAL_PARTICIPANTS: 'Total: {count} participants',
   STATS_TOTAL_SOLVED: 'Quizzes Solved',
   STATS_ACCURACY: 'Average Accuracy',
   SETTINGS_TITLE: 'Settings',

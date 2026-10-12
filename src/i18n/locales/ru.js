@@ -72,6 +72,7 @@ export default {
   TAB_WEEKLY: 'За неделю',
   TAB_ALL_TIME: 'За все время',
   YOU_ARE_RANKED: 'Ваше место: #{rank}',
+  TOTAL_PARTICIPANTS: 'Всего: {count} участников',
   STATS_TOTAL_SOLVED: 'Пройдено тестов',
   STATS_ACCURACY: 'Средняя точность',
   SETTINGS_TITLE: 'Настройки',

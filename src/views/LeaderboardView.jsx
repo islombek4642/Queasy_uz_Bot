@@ -60,19 +60,11 @@ export function LeaderboardView() {
 
   return (
     <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }} className="animate-fade-in">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{t('LEADERBOARD_TITLE')}</h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '2px' }}>
-            {t('LEADERBOARD_SUBTITLE')}
-          </p>
-        </div>
-        {leaderboardData?.totalUsers > 0 && (
-          <Badge variant="primary" size="md">
-            <Icon icon="solar:users-group-two-rounded-bold" width="14" height="14" style={{ marginRight: '4px' }} />
-            {leaderboardData.totalUsers.toLocaleString()} {t('PARTICIPANTS')}
-          </Badge>
-        )}
+      <div>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{t('LEADERBOARD_TITLE')}</h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '2px' }}>
+          {t('LEADERBOARD_SUBTITLE')}
+        </p>
       </div>
 
       {/* Tabs */}
@@ -228,6 +220,27 @@ export function LeaderboardView() {
               );
             })}
           </div>
+
+          {/* Total participants count at the bottom */}
+          {leaderboardData?.totalUsers > 0 && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '12px 16px',
+                color: 'var(--text-muted)',
+                fontSize: '0.84rem',
+                fontWeight: '600',
+              }}
+            >
+              <Icon icon="solar:users-group-two-rounded-bold" width="18" height="18" style={{ color: 'var(--accent-primary)' }} />
+              <span>
+                {t('TOTAL_PARTICIPANTS', { count: leaderboardData.totalUsers.toLocaleString() })}
+              </span>
+            </div>
+          )}
 
           {/* Sticky Current User Rank if not in top list */}
           {currentUser && currentUser.rank > 3 && (

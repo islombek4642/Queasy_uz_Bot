@@ -72,6 +72,7 @@ export default {
   TAB_WEEKLY: 'Haftalik',
   TAB_ALL_TIME: 'Umumiy',
   YOU_ARE_RANKED: 'Sizning o\'rningiz: #{rank}',
+  TOTAL_PARTICIPANTS: 'Jami: {count} ishtirokchi',
   STATS_TOTAL_SOLVED: 'Yechilgan testlar',
   STATS_ACCURACY: 'O\'rtacha aniqlik',
   SETTINGS_TITLE: 'Sozlamalar',
