@@ -77,7 +77,7 @@ export default async function (input, ctx) {
       id: q.id,
       title: q.title,
       description: q.description || '',
-      questionCount: qCount.length,
+      questionCount: Number(qCount || 0),
       timeLimit: q.timeLimit || 30,
       shareLink: `https://t.me/Queasy_uz_Bot?startgroup=quiz_${q.id}`,
     });

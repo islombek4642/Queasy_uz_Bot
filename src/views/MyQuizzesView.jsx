@@ -122,73 +122,85 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                   )}
                 </div>
 
-                {/* Action Toolbar */}
+                {/* Action Toolbar - 2 evenly distributed rows */}
                 <div
                   style={{
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
+                    flexDirection: 'column',
                     paddingTop: '8px',
                     borderTop: '1px solid var(--surface-border)',
                     marginTop: '2px',
                     gap: '8px',
-                    flexWrap: 'wrap',
                   }}
                 >
-                  {/* Left: Badges + Secondary actions: Inspect, Edit, Delete */}
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap' }}>
-                    <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
-                    <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
+                  {/* Row 1: Badges on left, secondary actions on right */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '8px',
+                    }}
+                  >
+                    {/* Badges */}
+                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                      <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                      <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
+                    </div>
 
-                    <button
-                      onClick={() => {
-                        haptic.selection();
-                        setInspectQuizId(quiz.id);
-                      }}
-                      className="glass-pill"
-                      style={{ padding: '6px 8px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '4px' }}
-                      title={t('INSPECT_QUIZ_TITLE')}
-                    >
-                      <Icon icon="solar:eye-bold-duotone" width="16" height="16" />
-                      <span className="hide-on-mobile-xs">{t('BTN_INSPECT')}</span>
-                    </button>
+                    {/* Secondary actions: Inspect, Edit, Delete */}
+                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexShrink: 0 }}>
+                      <button
+                        onClick={() => {
+                          haptic.selection();
+                          setInspectQuizId(quiz.id);
+                        }}
+                        className="glass-pill"
+                        style={{ padding: '6px 8px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+                        title={t('INSPECT_QUIZ_TITLE')}
+                      >
+                        <Icon icon="solar:eye-bold-duotone" width="16" height="16" />
+                        <span className="hide-on-mobile-xs">{t('BTN_INSPECT')}</span>
+                      </button>
 
-                    <button
-                      onClick={() => {
-                        haptic.selection();
-                        if (onEditQuiz) onEditQuiz(quiz.id);
-                      }}
-                      className="glass-pill"
-                      style={{ padding: '6px 8px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '4px' }}
-                      title={t('EDIT_QUIZ_TITLE')}
-                    >
-                      <Icon icon="solar:pen-bold-duotone" width="16" height="16" />
-                      <span className="hide-on-mobile-xs">{t('BTN_EDIT')}</span>
-                    </button>
+                      <button
+                        onClick={() => {
+                          haptic.selection();
+                          if (onEditQuiz) onEditQuiz(quiz.id);
+                        }}
+                        className="glass-pill"
+                        style={{ padding: '6px 8px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+                        title={t('EDIT_QUIZ_TITLE')}
+                      >
+                        <Icon icon="solar:pen-bold-duotone" width="16" height="16" />
+                        <span className="hide-on-mobile-xs">{t('BTN_EDIT')}</span>
+                      </button>
 
-                    <button
-                      onClick={() => {
-                        haptic.impact('medium');
-                        setQuizToDelete(quiz);
-                      }}
-                      className="glass-pill"
-                      style={{ padding: '6px 8px', fontSize: '0.78rem', color: 'var(--color-error)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                      title={t('DELETE_QUIZ_TITLE')}
-                    >
-                      <Icon icon="solar:trash-bin-trash-bold" width="16" height="16" />
-                    </button>
+                      <button
+                        onClick={() => {
+                          haptic.impact('medium');
+                          setQuizToDelete(quiz);
+                        }}
+                        className="glass-pill"
+                        style={{ padding: '6px 8px', fontSize: '0.78rem', color: 'var(--color-error)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                        title={t('DELETE_QUIZ_TITLE')}
+                      >
+                        <Icon icon="solar:trash-bin-trash-bold" width="16" height="16" />
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Primary: Start */}
+                  {/* Row 2: Full width Start Button */}
                   <Button
                     size="sm"
                     variant="primary"
+                    fullWidth
                     onClick={() => {
                       haptic.impact('medium');
                       onStartQuiz(quiz.id);
                     }}
                     icon="solar:play-bold"
-                    style={{ padding: '7px 14px', fontSize: '0.82rem', flexShrink: 0 }}
+                    style={{ padding: '7px 14px', fontSize: '0.84rem' }}
                   >
                     {t('BTN_START_QUIZ')}
                   </Button>
