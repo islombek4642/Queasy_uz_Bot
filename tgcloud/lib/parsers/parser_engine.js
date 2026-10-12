@@ -65,8 +65,14 @@ export function parseQuizInput(input, fileName = 'test.txt') {
       rawQuestions = detectFormatAndParse(lines);
     } else {
       // Plain text or .txt
-      const text = typeof input === 'string' ? input : Buffer.from(input).toString('utf8');
-      const lines = cleanRawTextLines(text);
+      let text;
+      if (typeof input === 'string') {
+        text = input;
+      } else {
+        const u8 = input instanceof Uint8Array ? input : new Uint8Array(input);
+        text = new TextDecoder('utf-8').decode(u8);
+      }
+      const lines = cleanRawTextLines(text.replace(/^\uFEFF/, ''));
       rawQuestions = detectFormatAndParse(lines);
     }
 
