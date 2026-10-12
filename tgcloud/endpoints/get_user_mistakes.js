@@ -15,10 +15,18 @@ export default async function (input, ctx) {
       .from(userMistakes)
       .where(eq(userMistakes.userId, currentUserId))
       .orderBy(desc(userMistakes.id))
-      .limit(30)
+      .limit(60)
       .all();
 
-    const formattedMistakes = (rawMistakes || []).map((m) => {
+    // Deduplicate mistakes by questionText
+    const seen = new Set();
+    const formattedMistakes = [];
+
+    for (const m of (rawMistakes || [])) {
+      const qText = String(m.questionText || '').trim();
+      if (!qText || seen.has(qText)) continue;
+      seen.add(qText);
+
       let parsedOptions = [];
       try {
         parsedOptions = JSON.parse(m.optionsJson);
@@ -26,16 +34,19 @@ export default async function (input, ctx) {
         parsedOptions = ['Variant A', 'Variant B'];
       }
 
-      return {
+      formattedMistakes.push({
         id: m.id,
+        mistakeId: m.id,
         questionText: m.questionText,
         options: parsedOptions,
         correctOptionId: m.correctOptionId,
         explanation: m.explanation || null,
         photoFileId: m.photoFileId || null,
         originalQuizId: m.originalQuizId || null,
-      };
-    });
+      });
+
+      if (formattedMistakes.length >= 30) break;
+    }
 
     return {
       mistakes: formattedMistakes,
