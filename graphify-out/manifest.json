@@ -594,9 +594,9 @@
     "semantic_hash": ""
   },
   "src/components/quiz/QuizCreatorModal.jsx": {
-    "mtime": 1791744600.849859,
-    "seen": 1791744787.3301983,
-    "ast_hash": "10a6b0b2f26341a3764b08a89727b491",
+    "mtime": 1791819295.712546,
+    "seen": 1791819335.8802369,
+    "ast_hash": "69a6a1d7b4d4b0b60bece5f7bc90b697",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_group_sessions.js": {
@@ -612,9 +612,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/save_custom_quiz.js": {
-    "mtime": 1791742496.4561384,
-    "seen": 1791742781.8097906,
-    "ast_hash": "53b78ac97cf342692a955acb1704c823",
+    "mtime": 1791817517.5828574,
+    "seen": 1791819335.88037,
+    "ast_hash": "812b916357ba3e07e1060510f77f8755",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase2.md": {
@@ -1038,9 +1038,9 @@
     "semantic_hash": ""
   },
   "src/views/QuizCreatorView.jsx": {
-    "mtime": 1791813353.8850377,
-    "seen": 1791813476.194095,
-    "ast_hash": "b95f9f7eb738da30e9b7a1451898a341",
+    "mtime": 1791819287.667888,
+    "seen": 1791819335.8803105,
+    "ast_hash": "d0e6e57d864b37c52464e79a4e300f97",
     "semantic_hash": ""
   },
   "tests/test_mistakes_sync.mjs": {
