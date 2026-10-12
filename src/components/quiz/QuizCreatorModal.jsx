@@ -254,8 +254,8 @@ export function QuizCreatorModal({ isOpen, onClose, onCreated, quizIdToEdit = nu
             <label style={{ fontSize: '0.82rem', fontWeight: '700', color: 'var(--text-secondary)' }}>
               {t('TIME_LIMIT_LABEL')}
             </label>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {[15, 30, 45, 60].map((sec) => (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+              {[10, 15, 30, 45, 60, 120].map((sec) => (
                 <button
                   key={sec}
                   type="button"
@@ -264,7 +264,6 @@ export function QuizCreatorModal({ isOpen, onClose, onCreated, quizIdToEdit = nu
                     setTimeLimit(sec);
                   }}
                   style={{
-                    flex: 1,
                     padding: '8px 4px',
                     borderRadius: 'var(--radius-sm)',
                     fontWeight: '700',
@@ -272,9 +271,10 @@ export function QuizCreatorModal({ isOpen, onClose, onCreated, quizIdToEdit = nu
                     backgroundColor: timeLimit === sec ? 'var(--accent-primary)' : 'var(--bg-secondary)',
                     color: timeLimit === sec ? '#fff' : 'var(--text-primary)',
                     border: '1px solid var(--surface-border)',
+                    cursor: 'pointer',
                   }}
                 >
-                  {sec}s
+                  {sec >= 60 ? `${sec}s (${sec / 60}m)` : `${sec}s`}
                 </button>
               ))}
             </div>
