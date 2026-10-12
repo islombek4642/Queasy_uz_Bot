@@ -744,6 +744,7 @@ export default async function (message, ctx) {
 
       if (quiz) {
         const isOwner = quiz.ownerId === fromUser.id;
+        const mistakesCount = await getUserMistakesCount(fromUser.id, quiz.id);
         await api.sendMessage({
           chat_id: chatId,
           text: getMessage('QUIZ_INFO_TITLE', lang, {
@@ -754,7 +755,7 @@ export default async function (message, ctx) {
             shuffle: quiz.shuffleOptions ? getMessage('LABEL_YES', lang) : getMessage('LABEL_NO', lang),
           }),
           parse_mode: 'HTML',
-          reply_markup: getQuizCardKeyboard(quiz, lang, isOwner, false),
+          reply_markup: getQuizCardKeyboard(quiz, lang, isOwner, mistakesCount > 0),
         });
         return;
       }

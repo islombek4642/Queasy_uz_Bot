@@ -804,7 +804,13 @@ export async function saveUserMistake(userId, question, originalQuizId = null) {
     .run();
 }
 
-export async function getUserMistakesCount(userId) {
+export async function getUserMistakesCount(userId, quizId = null) {
+  if (quizId && Number(quizId) > 0) {
+    return await db.$count(
+      userMistakes,
+      and(eq(userMistakes.userId, userId), eq(userMistakes.originalQuizId, Number(quizId)))
+    );
+  }
   return await db.$count(userMistakes, eq(userMistakes.userId, userId));
 }
 

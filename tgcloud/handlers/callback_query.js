@@ -642,9 +642,9 @@ export default async function (callbackQuery, ctx) {
   // 8. Solo Mode: Mistakes Test
   if (data.startsWith(ACTIONS.REVIEW_MISTAKES_PREFIX)) {
     const quizId = parseInt(data.replace(ACTIONS.REVIEW_MISTAKES_PREFIX, ''), 10) || 0;
-    const mistakesCount = await getUserMistakesCount(userId);
+    const mistakesCount = await getUserMistakesCount(userId, quizId);
     if (mistakesCount === 0) {
-      await answer(getMessage('MISTAKES_EMPTY', lang), true);
+      await answer(getMessage('ERR_MISTAKES_EMPTY_SUBJECT', lang) || getMessage('MISTAKES_EMPTY', lang), true);
       return;
     }
 
@@ -655,13 +655,20 @@ export default async function (callbackQuery, ctx) {
       } catch {}
     }
 
-    await startQuizSession(api, {
+    const sessionRes = await startQuizSession(api, {
       chatId,
       userId,
       quizId,
       isGroup: false,
       mode: ACTIONS.MODE_MISTAKES,
+      lang,
     });
+    if (sessionRes && !sessionRes.success && sessionRes.error) {
+      await api.sendMessage({
+        chat_id: chatId,
+        text: sessionRes.error,
+      });
+    }
     return;
   }
 
