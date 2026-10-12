@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
-import { fetchKiutCatalog } from '../services/quizService.js';
+import { fetchKiutCatalog, cloneQuiz } from '../services/quizService.js';
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 
-export function KiutView({ onBack, onStartQuiz }) {
+export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
   const { t } = useTranslation();
   const { haptic, backButton } = useTelegram();
 
@@ -17,6 +17,9 @@ export function KiutView({ onBack, onStartQuiz }) {
   const [data, setData] = useState({ categories: [], subcategories: [], quizzes: [], totalQuizzes: 0 });
   const [loading, setLoading] = useState(false);
   const [expandedQuizId, setExpandedQuizId] = useState(null);
+  const [savingQuizId, setSavingQuizId] = useState(null);
+  const [savedQuizIds, setSavedQuizIds] = useState(new Set());
+  const [toastMessage, setToastMessage] = useState(null);
 
   const loadCatalog = (path = '', search = '') => {
     setLoading(true);
@@ -78,6 +81,38 @@ export function KiutView({ onBack, onStartQuiz }) {
     haptic.selection();
     setSearchQuery('');
     setCurrentPath(targetPath);
+  };
+
+  const isQuizSaved = (quiz) => {
+    if (savedQuizIds.has(quiz.id)) return true;
+    if (myQuizzes && myQuizzes.some((mq) => mq.title === quiz.title || mq.id === quiz.id)) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleSaveQuiz = async (quiz) => {
+    if (savingQuizId || isQuizSaved(quiz)) return;
+    haptic.impact('medium');
+    setSavingQuizId(quiz.id);
+
+    try {
+      const res = await cloneQuiz(quiz.id);
+      if (res && res.success) {
+        haptic.notification('success');
+        setSavedQuizIds((prev) => new Set([...prev, quiz.id]));
+        if (onQuizSaved) onQuizSaved();
+        setToastMessage(t('TOAST_QUIZ_SAVED'));
+        setTimeout(() => setToastMessage(null), 3000);
+      } else {
+        haptic.notification('error');
+      }
+    } catch (err) {
+      console.error('Failed to save quiz:', err);
+      haptic.notification('error');
+    } finally {
+      setSavingQuizId(null);
+    }
   };
 
   const handleBackOneLevel = () => {
@@ -156,6 +191,28 @@ export function KiutView({ onBack, onStartQuiz }) {
           </Badge>
         )}
       </div>
+
+      {/* Toast Notification for Saving Quiz */}
+      {toastMessage && (
+        <div
+          className="animate-pop-in"
+          style={{
+            padding: '10px 14px',
+            borderRadius: 'var(--radius-sm, 10px)',
+            backgroundColor: 'var(--color-success-bg, rgba(16, 185, 129, 0.15))',
+            color: 'var(--color-success, #10b981)',
+            border: '1px solid var(--color-success-border, rgba(16, 185, 129, 0.3))',
+            fontSize: '0.85rem',
+            fontWeight: '700',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <Icon icon="solar:check-circle-bold" width="18" height="18" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
 
       {/* Full-width High-Contrast Search Input */}
       <div style={{ position: 'relative' }}>
@@ -463,12 +520,34 @@ export function KiutView({ onBack, onStartQuiz }) {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px', marginTop: '6px' }}>
+                  <Button
+                    size="sm"
+                    variant={isQuizSaved(quiz) ? "outline" : "secondary"}
+                    icon={isQuizSaved(quiz) ? "solar:check-circle-bold" : "solar:bookmark-square-bold"}
+                    disabled={isQuizSaved(quiz) || savingQuizId === quiz.id}
+                    loading={savingQuizId === quiz.id}
+                    style={{
+                      padding: '7px 12px',
+                      fontSize: '0.82rem',
+                      ...(isQuizSaved(quiz)
+                        ? {
+                            color: 'var(--color-success)',
+                            borderColor: 'var(--color-success-border, rgba(16, 185, 129, 0.4))',
+                            backgroundColor: 'var(--color-success-bg, rgba(16, 185, 129, 0.12))',
+                          }
+                        : {}),
+                    }}
+                    onClick={() => handleSaveQuiz(quiz)}
+                  >
+                    {isQuizSaved(quiz) ? t('BTN_SAVED_QUIZ') : t('BTN_SAVE_QUIZ')}
+                  </Button>
+
                   <Button
                     size="sm"
                     variant="primary"
                     icon="solar:play-bold"
-                    style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+                    style={{ padding: '7px 14px', fontSize: '0.82rem' }}
                     onClick={() => {
                       haptic.impact('medium');
                       onStartQuiz(quiz.id);

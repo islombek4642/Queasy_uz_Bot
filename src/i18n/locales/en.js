@@ -167,6 +167,9 @@ export default {
   KIUT_BREADCRUMB_ROOT: 'Catalog',
   KIUT_NO_TESTS_FOUND: 'No tests found in this category',
   KIUT_TOTAL_AVAILABLE: 'tests available',
+  BTN_SAVE_QUIZ: 'Save',
+  BTN_SAVED_QUIZ: 'Saved',
+  TOAST_QUIZ_SAVED: 'Quiz saved to "My Quizzes"!',
 };
 
 

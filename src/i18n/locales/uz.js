@@ -167,6 +167,9 @@ export default {
   KIUT_BREADCRUMB_ROOT: 'Katalog',
   KIUT_NO_TESTS_FOUND: 'Ushbu bo\'limda testlar topilmadi',
   KIUT_TOTAL_AVAILABLE: 'ta test mavjud',
+  BTN_SAVE_QUIZ: 'Saqlash',
+  BTN_SAVED_QUIZ: 'Saqlangan',
+  TOAST_QUIZ_SAVED: 'Test "Mening testlarim" bo\'limiga saqlandi!',
 };
 
 

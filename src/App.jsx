@@ -112,6 +112,8 @@ export default function App() {
         <KiutView
           onBack={() => setShowKiutView(false)}
           onStartQuiz={handleStartQuiz}
+          myQuizzes={initialData?.myQuizzes}
+          onQuizSaved={refreshData}
         />
       );
     }

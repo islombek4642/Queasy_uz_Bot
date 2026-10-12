@@ -161,17 +161,20 @@ export async function updateQuizSettings(quizId, updates = {}) {
     .run();
 }
 
-export async function cloneQuiz(quizId, newOwnerId, lang = CONFIG.I18N.DEFAULT_LANG) {
+export async function cloneQuiz(quizId, newOwnerId, lang = CONFIG.I18N.DEFAULT_LANG, customTitle = null) {
   const original = await getQuizById(quizId);
   if (!original) return null;
 
+  const title = customTitle || (original.ownerId === 0 ? original.title : getMessage('QUIZ_CLONED_TITLE', lang, { title: original.title }));
+
   return await createQuiz(
     newOwnerId,
-    getMessage('QUIZ_CLONED_TITLE', lang, { title: original.title }),
+    title,
     original.questions,
     {
       timeLimit: original.timeLimit,
       shuffleOptions: original.shuffleOptions,
+      description: original.description,
     }
   );
 }

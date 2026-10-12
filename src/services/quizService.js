@@ -53,3 +53,7 @@ export async function fetchKiutCatalog(categoryPath = '', search = '') {
   return await callEndpoint(EP_GET_KIUT_CATALOG, { categoryPath, search });
 }
 
+export async function cloneQuiz(quizId) {
+  return await callEndpoint(EP_CLONE_QUIZ, { quizId });
+}
+

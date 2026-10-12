@@ -167,6 +167,9 @@ export default {
   KIUT_BREADCRUMB_ROOT: 'Каталог',
   KIUT_NO_TESTS_FOUND: 'В этом разделе тесты не найдены',
   KIUT_TOTAL_AVAILABLE: 'тестов доступно',
+  BTN_SAVE_QUIZ: 'Сохранить',
+  BTN_SAVED_QUIZ: 'Сохранено',
+  TOAST_QUIZ_SAVED: 'Тест сохранён в раздел "Мои тесты"!',
 };
 
 
