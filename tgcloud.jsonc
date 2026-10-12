@@ -1,0 +1,7 @@
+{
+  // Queasy Telegram Mini App static configuration
+  "static": {
+    "source": "dist",
+    "spa": true
+  }
+}

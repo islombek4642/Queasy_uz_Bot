@@ -1,0 +1,151 @@
+// src/i18n/locales/uz.js
+export default {
+  // Navigation Tabs
+  NAV_HOME: 'Asosiy',
+  NAV_MY_QUIZZES: 'Testlarim',
+  NAV_GROUP_HOST: 'Guruh Xosti',
+  NAV_LEADERBOARD: 'Reyting',
+  NAV_PROFILE: 'Profil',
+
+  // Header & Status
+  APP_TITLE: 'Queasy Test',
+  THEME_DARK: 'Tungi',
+  THEME_LIGHT: 'Kunduzgi',
+  THEME_AUTO: 'Avto',
+  LEVEL: 'Daraja',
+  XP: 'XP',
+
+  // Home Screen
+  GREETING_HELLO: 'Salom',
+  HERO_SUBTITLE: 'Bilimingizni sinang yoki yangi test yarating!',
+  SECTION_RECENT_QUIZZES: 'Mening testlarim',
+  SECTION_POPULAR: 'Tezkor boshlash',
+  BTN_CREATE_QUIZ: 'Yangi test yaratish',
+  BTN_START_QUIZ: 'Boshlash',
+  QUESTIONS_COUNT: '{count} ta savol',
+  TIME_LIMIT: '{seconds} soniya',
+  NO_QUIZZES_YET: 'Sizda hali testlar yo\'q. Botga fayl yuborib bir zumda yarating!',
+  MY_QUIZZES_EMPTY: 'Hozircha testlar yo\'q',
+  MY_QUIZZES_EMPTY_SUB: 'Birinchi testingizni yarating yoki bot orqali fayl yuboring',
+
+  // Arena & Quiz Play
+  QUESTION_PROGRESS: 'Savol {current} / {total}',
+  CORRECT_ANSWER: 'To\'g\'ri!',
+  WRONG_ANSWER: 'Noto\'g\'ri!',
+  TIME_UP: 'Vaqt tugadi!',
+  EXPLANATION_TITLE: 'Tushuntirish:',
+  CONFIRM_EXIT_TITLE: 'Testni to\'xtatmoqchimisiz?',
+  CONFIRM_EXIT_DESC: 'Chiqsangiz joriy natijalaringiz saqlanmasligi mumkin.',
+  BTN_CONTINUE: 'Davom etish',
+  BTN_EXIT: 'Chiqish',
+
+  // Result Screen
+  RESULT_EXCELLENT: 'Ajoyib natija! 🎉',
+  RESULT_GOOD: 'Yaxshi natija! 👏',
+  RESULT_TRY_AGAIN: 'Yana harakat qilib ko\'ring! 💪',
+  SCORE_LABEL: 'Umumiy ball',
+  ACCURACY_LABEL: 'Aniqlik',
+  CORRECT_COUNT: 'To\'g\'ri javoblar',
+  WRONG_COUNT: 'Xato javoblar',
+  TIME_SPENT: 'Sarflangan vaqt',
+  BTN_RETRY: 'Qayta urinish',
+  BTN_SHARE: 'Do\'stlarga ulashish',
+  BTN_BACK_HOME: 'Bosh sahifaga qaytish',
+
+  // Group Host
+  GROUP_HOST_TITLE: 'Guruh O\'yini Boshqaruv Markazi',
+  GROUP_HOST_DESC: 'Guruhdagi testlarni jonli kuzating va nazorat qiling.',
+  NO_ACTIVE_GROUP_QUIZ: 'Hozircha faol guruh testi yo\'q. Guruhda /quiz buyrug\'ini yuboring.',
+  LIVE_PLAYERS: 'Ishtirokchilar',
+  BTN_NEXT_QUESTION: 'Keyingi savol',
+  ACTIVE_SESSIONS: 'Faol O\'yinlar',
+  NO_ACTIVE_SESSIONS: 'Hozircha guruhlarda faol o\'yinlar yo\'q',
+  LAUNCH_IN_GROUP: 'Guruhda Boshlash',
+  HOW_TO_PLAY_GROUP: 'Qanday qilib guruhda o\'ynash mumkin?',
+  STEP_1_ADD_BOT: '1. Botni guruhingizga qo\'shing va admin qiling',
+  STEP_2_LAUNCH: '2. Quyidagi testlardan birini tanlab guruhda boshlang',
+  PARTICIPANTS: 'ishtirokchi',
+
+  // Leaderboard & Profile
+  LEADERBOARD_TITLE: 'Bilimdonlar Reytingi',
+  LEADERBOARD_SUBTITLE: 'Eng yuqori XP to\'plagan bilimdonlar jadvali',
+  TAB_WEEKLY: 'Haftalik',
+  TAB_ALL_TIME: 'Umumiy',
+  YOU_ARE_RANKED: 'Sizning o\'rningiz: #{rank}',
+  STATS_TOTAL_SOLVED: 'Yechilgan testlar',
+  STATS_ACCURACY: 'O\'rtacha aniqlik',
+  SETTINGS_TITLE: 'Sozlamalar',
+  SETTINGS_LANG: 'Tilni tanlang',
+  SETTINGS_THEME: 'Tizim mavzusi',
+
+  // Quiz Creator
+  CREATE_QUIZ_TITLE: 'Yangi Test Yaratish',
+  QUIZ_NAME_LABEL: 'Test nomi',
+  QUIZ_NAME_PLACEHOLDER: 'Masalan: Ingliz tili B1',
+  QUIZ_DESC_LABEL: 'Qisqa tavsif',
+  QUIZ_DESC_PLACEHOLDER: 'Ixtiyoriy tavsif...',
+  TIME_LIMIT_LABEL: 'Savol vaqti (soniya)',
+  QUESTIONS_COUNT: 'Savollar',
+  ADD_QUESTION: '+ Savol qo\'shish',
+  QUESTION_TEXT_LABEL: 'Savol matni',
+  OPTION_PLACEHOLDER: 'Variant',
+  CORRECT_ANSWER: 'To\'g\'ri javob',
+  DELETE_QUESTION: 'O\'chirish',
+  SAVE_QUIZ_BTN: 'Testni Saqlash',
+  SAVING: 'Saqlanmoqda...',
+  QUIZ_SAVED_SUCCESS: 'Test muvaffaqiyatli yaratildi!',
+  VALIDATION_FILL_FIELDS: 'Iltimos, barcha maydonlarni to\'ldiring',
+
+  // Phase 3: Quiz Studio & Mistakes Training
+  EDIT_QUIZ_TITLE: 'Testni Tahrirlash',
+  INSPECT_QUIZ_TITLE: 'Savollarni Ko\'rish',
+  DELETE_QUIZ_TITLE: 'Testni O\'chirish',
+  BTN_INSPECT: 'Savollar',
+  BTN_EDIT: 'Tahrirlash',
+  CONFIRM_DELETE_TITLE: 'Testni o\'chirish',
+  CONFIRM_DELETE_MSG: 'Haqiqatan ham "{title}" testini butunlay o\'chirmoqchimisiz? Bu amalni ortga qaytarib bo\'lmaydi.',
+  BTN_CONFIRM_DELETE: 'Ha, o\'chirilsin',
+  SHUFFLE_OPTIONS_LABEL: 'Aralashtiriladi',
+  MISTAKES_PRACTICE_TITLE: 'Xatolar Ustida Ishlash',
+  MISTAKES_PRACTICE_DESC: 'Avval adashgan savollaringizni qayta yeching',
+
+  // Phase 4: Gamification, Achievements & Social Sharing
+  ACHIEVEMENTS_TITLE: 'Yutuqlar va Nishonlar',
+  ACH_UNLOCKED: 'Qo\'lga kiritildi',
+  ACH_LOCKED: 'Qulflangan',
+  ACH_FIRST_STEP_TITLE: 'Birinchi Qadam',
+  ACH_FIRST_STEP_DESC: 'Birinchi testingizni muvaffaqiyatli yakunlang',
+  ACH_SNIPER_TITLE: 'Snayper',
+  ACH_SNIPER_DESC: 'Testni 100% aniqlik bilan yeching',
+  ACH_SPEED_TITLE: 'Chaqmoq',
+  ACH_SPEED_DESC: '200 dan ortiq XP to\'plang',
+  ACH_MASTER_TITLE: 'Test Ustasi',
+  ACH_MASTER_DESC: 'Kamida 10 ta testni muvaffaqiyatli yeching',
+  ACH_LEVEL5_TITLE: 'Elita Bilimdon',
+  ACH_LEVEL5_DESC: '5-darajaga yetib boring',
+  ACH_CREATOR_TITLE: 'Muallif',
+  ACH_CREATOR_DESC: 'O\'zingizning birinchi testingizni yarating',
+
+  // XP & Rank Titles
+  RANK_TITLE_LABEL: 'Unvon',
+  RANK_NOVICE: 'Boshlovchi',
+  RANK_EXPLORER: 'Izlanuvchi',
+  RANK_SCHOLAR: 'Bilimdon',
+  RANK_MASTER: 'Afsonaviy Usta',
+  XP_PROGRESS_LABEL: 'Keyingi darajagacha',
+
+  // Social Sharing
+  BTN_SHARE_TELEGRAM: 'Do\'stlarga Ulashish',
+  SHARE_QUIZ_CAPTION: '🏆 Men Queasy test botida «{title}» testini {score}% natija bilan yakunladim! Sen ham o\'zingni sinab ko\'r: https://t.me/Queasy_uz_Bot',
+
+  // KIUT Special Center
+  KIUT_TEST_TITLE: '🏛 KIUT Testlari',
+  KIUT_TEST_SUBTITLE: 'Universitet barcha yo\'nalish va semestr testlari bazasi',
+  KIUT_EXPLORER_TITLE: '🏛 KIUT Test Markazi',
+  KIUT_SEARCH_PLACEHOLDER: 'Fan nomini qidirish (masalan: Tarix, Banking...)',
+  KIUT_BREADCRUMB_ROOT: 'Katalog',
+  KIUT_NO_TESTS_FOUND: 'Ushbu bo\'limda testlar topilmadi',
+  KIUT_TOTAL_AVAILABLE: 'ta test mavjud',
+};
+
+

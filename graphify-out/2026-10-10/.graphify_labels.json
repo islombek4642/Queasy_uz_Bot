@@ -1,0 +1,17 @@
+{
+  "0": "session_service.js",
+  "1": "parser_engine.js",
+  "2": "Database (`db`)",
+  "3": "test_pdf_reader.mjs",
+  "4": "callback_query.js",
+  "5": "Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy To'liq Spetsifikatsiya (Spec v4)",
+  "6": "Centralized Constants & Zero-Hardcode i18n Design Specification",
+  "7": "test_keyboards_i18n.mjs",
+  "8": "scripts",
+  "9": "test_group_commands.mjs",
+  "10": "quiz_service.js",
+  "11": "Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy Implementatsiya Rejasi (PLAN v4)",
+  "12": "Review Focus",
+  "13": "test_syntax.mjs",
+  "14": "test_messages_parity.mjs"
+}

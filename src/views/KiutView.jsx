@@ -1,0 +1,449 @@
+// src/views/KiutView.jsx
+import React, { useState, useEffect } from 'react';
+import { Icon } from '@iconify/react';
+import { useTranslation } from '../hooks/useTranslation.js';
+import { useTelegram } from '../hooks/useTelegram.js';
+import { fetchKiutCatalog } from '../services/quizService.js';
+import { Card } from '../components/common/Card.jsx';
+import { Badge } from '../components/common/Badge.jsx';
+import { Button } from '../components/common/Button.jsx';
+
+export function KiutView({ onBack, onStartQuiz }) {
+  const { t } = useTranslation();
+  const { haptic, backButton } = useTelegram();
+
+  const [currentPath, setCurrentPath] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [data, setData] = useState({ categories: [], subcategories: [], quizzes: [], totalQuizzes: 0 });
+  const [loading, setLoading] = useState(false);
+  const [expandedQuizId, setExpandedQuizId] = useState(null);
+
+  const loadCatalog = (path = '', search = '') => {
+    setLoading(true);
+    fetchKiutCatalog(path, search)
+      .then((res) => {
+        if (res) setData(res);
+      })
+      .catch((err) => {
+        console.error('Failed to load KIUT catalog:', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    loadCatalog(currentPath, searchQuery);
+  }, [currentPath]);
+
+  // Handle Telegram native back button
+  useEffect(() => {
+    const handleTgBack = () => {
+      haptic.selection();
+      if (searchQuery) {
+        setSearchQuery('');
+        loadCatalog(currentPath, '');
+      } else if (currentPath) {
+        const parts = currentPath.split(' / ');
+        parts.pop();
+        setCurrentPath(parts.join(' / '));
+      } else if (onBack) {
+        onBack();
+      }
+    };
+
+    backButton.show(handleTgBack);
+    return () => {
+      backButton.hide(handleTgBack);
+    };
+  }, [currentPath, searchQuery, onBack]);
+
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSearchQuery(val);
+    if (val.trim().length >= 2) {
+      loadCatalog('', val.trim());
+    } else if (val.trim().length === 0) {
+      loadCatalog(currentPath, '');
+    }
+  };
+
+  const handleCategoryClick = (subcat) => {
+    haptic.selection();
+    setSearchQuery('');
+    setCurrentPath(subcat.fullPath);
+  };
+
+  const handleBreadcrumbClick = (targetPath) => {
+    haptic.selection();
+    setSearchQuery('');
+    setCurrentPath(targetPath);
+  };
+
+  const handleBackOneLevel = () => {
+    haptic.selection();
+    setSearchQuery('');
+    if (!currentPath) {
+      if (onBack) onBack();
+      return;
+    }
+    const parts = currentPath.split(' / ');
+    parts.pop();
+    setCurrentPath(parts.join(' / '));
+  };
+
+  const pathParts = currentPath ? currentPath.split(' / ') : [];
+
+  const getCategoryIcon = (name) => {
+    if (name.includes('KUNDUZGI') && name.includes('TIBBIYOT')) return 'solar:health-bold-duotone';
+    if (name.includes('KUNDUZGI')) return 'solar:sun-2-bold-duotone';
+    if (name.includes('SIRTQI')) return 'solar:book-bookmark-bold-duotone';
+    if (name.includes('KECHKI')) return 'solar:moon-stars-bold-duotone';
+    if (name.includes('MASOFAVIY')) return 'solar:laptop-bold-duotone';
+    if (name.includes('FARQI')) return 'solar:refresh-bold-duotone';
+    if (name.includes('SEMESTR')) return 'solar:calendar-bold-duotone';
+    return 'solar:folder-bold-duotone';
+  };
+
+  const getCategoryColor = (name) => {
+    if (name.includes('KUNDUZGI') && name.includes('TIBBIYOT')) return '#ef4444';
+    if (name.includes('KUNDUZGI')) return '#f59e0b';
+    if (name.includes('SIRTQI')) return '#3b82f6';
+    if (name.includes('KECHKI')) return '#8b5cf6';
+    if (name.includes('MASOFAVIY')) return '#10b981';
+    if (name.includes('FARQI')) return '#ec4899';
+    return '#6366f1';
+  };
+
+  return (
+    <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }} className="animate-fade-in">
+      {/* Top Header Row */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <button
+            onClick={handleBackOneLevel}
+            className="glass-pill"
+            style={{
+              width: '38px',
+              height: '38px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: 'var(--text-primary)',
+              background: 'var(--surface-color)',
+              border: '1px solid var(--border-color)',
+            }}
+          >
+            <Icon icon="solar:arrow-left-bold" width="18" height="18" />
+          </button>
+          <div>
+            <h2 style={{ fontSize: '1.15rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
+              {currentPath ? pathParts[pathParts.length - 1] : t('KIUT_EXPLORER_TITLE')}
+            </h2>
+            <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
+              {currentPath ? t('KIUT_TEST_TITLE') : t('KIUT_TEST_SUBTITLE')}
+            </div>
+          </div>
+        </div>
+
+        {data.totalQuizzes > 0 && !currentPath && (
+          <Badge variant="primary" size="md">
+            {data.totalQuizzes} {t('KIUT_TOTAL_AVAILABLE')}
+          </Badge>
+        )}
+      </div>
+
+      {/* Full-width Search Input */}
+      <div style={{ position: 'relative' }}>
+        <div
+          style={{
+            position: 'absolute',
+            left: '14px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: 'var(--text-muted)',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Icon icon="solar:magnifer-bold" width="20" height="20" />
+        </div>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder={t('KIUT_SEARCH_PLACEHOLDER')}
+          className="glass-panel"
+          style={{
+            width: '100%',
+            padding: '12px 16px 12px 42px',
+            fontSize: '0.9rem',
+            color: 'var(--text-primary)',
+            borderRadius: 'var(--radius-md)',
+            outline: 'none',
+            boxSizing: 'border-box',
+            border: '1px solid var(--border-color)',
+            background: 'var(--surface-color)',
+          }}
+        />
+        {searchQuery && (
+          <button
+            onClick={() => {
+              setSearchQuery('');
+              loadCatalog(currentPath, '');
+            }}
+            style={{
+              position: 'absolute',
+              right: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: 'var(--text-muted)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            <Icon icon="solar:close-circle-bold" width="18" height="18" />
+          </button>
+        )}
+      </div>
+
+      {/* Spacious Breadcrumb Navigation */}
+      {!searchQuery && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            flexWrap: 'wrap',
+            fontSize: '0.82rem',
+            padding: '6px 2px',
+          }}
+        >
+          <button
+            onClick={() => handleBreadcrumbClick('')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              color: currentPath ? 'var(--accent-primary)' : 'var(--text-primary)',
+              fontWeight: currentPath ? '600' : '800',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '2px 4px',
+            }}
+          >
+            <Icon icon="solar:home-smile-bold" width="16" height="16" />
+            <span>{t('KIUT_BREADCRUMB_ROOT')}</span>
+          </button>
+
+          {pathParts.map((part, index) => {
+            const fullTillHere = pathParts.slice(0, index + 1).join(' / ');
+            const isLast = index === pathParts.length - 1;
+            return (
+              <React.Fragment key={fullTillHere}>
+                <span style={{ color: 'var(--text-muted)' }}>/</span>
+                <button
+                  onClick={() => handleBreadcrumbClick(fullTillHere)}
+                  style={{
+                    color: isLast ? 'var(--text-primary)' : 'var(--accent-primary)',
+                    fontWeight: isLast ? '800' : '600',
+                    maxWidth: '180px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '2px 4px',
+                  }}
+                  title={part}
+                >
+                  {part}
+                </button>
+              </React.Fragment>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Loading Spinner */}
+      {loading && (
+        <div style={{ textAlign: 'center', padding: '40px 0' }}>
+          <Icon icon="line-md:loading-loop" width="36" height="36" style={{ color: 'var(--accent-primary)' }} />
+        </div>
+      )}
+
+      {/* Root Categories (6 Study Modes) */}
+      {!loading && !searchQuery && !currentPath && data.categories && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {data.categories.map((cat) => {
+            const icon = getCategoryIcon(cat.name);
+            const color = getCategoryColor(cat.name);
+            return (
+              <Card
+                key={cat.name}
+                interactive
+                onClick={() => handleCategoryClick(cat)}
+                style={{
+                  padding: '14px 16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '14px',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <div
+                    style={{
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: `${color}20`,
+                      color,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Icon icon={icon} width="24" height="24" />
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: '800', fontSize: '0.95rem', color: 'var(--text-primary)' }}>
+                      {cat.name}
+                    </div>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+                      {cat.count} {t('KIUT_TOTAL_AVAILABLE')}
+                    </div>
+                  </div>
+                </div>
+                <Icon icon="solar:arrow-right-linear" width="20" height="20" style={{ color: 'var(--text-muted)' }} />
+              </Card>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Subcategories (Directions, Semesters, etc.) */}
+      {!loading && !searchQuery && currentPath && data.subcategories && data.subcategories.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {data.subcategories.map((subcat) => {
+            const icon = getCategoryIcon(subcat.name);
+            const color = getCategoryColor(subcat.name);
+            return (
+              <Card
+                key={subcat.name}
+                interactive
+                onClick={() => handleCategoryClick(subcat)}
+                style={{
+                  padding: '13px 16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '12px',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0, flex: 1 }}>
+                  <Icon icon={icon} width="22" height="22" style={{ color, flexShrink: 0 }} />
+                  <span
+                    style={{
+                      fontWeight: '700',
+                      fontSize: '0.9rem',
+                      color: 'var(--text-primary)',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {subcat.name}
+                  </span>
+                </div>
+                <Badge size="md" variant="neutral">{subcat.count}</Badge>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Direct Quizzes (inside semester or search results) */}
+      {!loading && data.quizzes && data.quizzes.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {data.quizzes.map((quiz) => {
+            const isExpanded = expandedQuizId === quiz.id;
+            return (
+              <Card
+                key={quiz.id}
+                style={{
+                  padding: '14px 16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      onClick={() => setExpandedQuizId(isExpanded ? null : quiz.id)}
+                      style={{
+                        fontWeight: '800',
+                        fontSize: '0.92rem',
+                        color: 'var(--text-primary)',
+                        lineHeight: '1.35',
+                        cursor: 'pointer',
+                      }}
+                      title={quiz.title}
+                    >
+                      {quiz.title}
+                    </div>
+
+                    {searchQuery && quiz.category && (
+                      <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                        📍 {quiz.category}
+                      </div>
+                    )}
+
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '6px', flexWrap: 'wrap' }}>
+                      <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                      <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
+                  <Button
+                    size="sm"
+                    variant="primary"
+                    icon="solar:play-bold"
+                    style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+                    onClick={() => {
+                      haptic.impact('medium');
+                      onStartQuiz(quiz.id);
+                    }}
+                  >
+                    {t('BTN_START_QUIZ')}
+                  </Button>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!loading &&
+        (!data.categories || data.categories.length === 0) &&
+        (!data.subcategories || data.subcategories.length === 0) &&
+        (!data.quizzes || data.quizzes.length === 0) && (
+          <div style={{ textAlign: 'center', padding: '48px 16px', color: 'var(--text-muted)' }}>
+            <Icon icon="solar:folder-open-bold-duotone" width="48" height="48" style={{ marginBottom: '12px' }} />
+            <p style={{ fontSize: '0.9rem' }}>{t('KIUT_NO_TESTS_FOUND')}</p>
+          </div>
+        )}
+    </div>
+  );
+}
+
+export default KiutView;

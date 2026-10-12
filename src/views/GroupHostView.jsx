@@ -1,0 +1,164 @@
+// src/views/GroupHostView.jsx
+import React, { useState, useEffect } from 'react';
+import { Icon } from '@iconify/react';
+import { useTranslation } from '../hooks/useTranslation.js';
+import { useTelegram } from '../hooks/useTelegram.js';
+import { fetchGroupSessions } from '../services/quizService.js';
+import { Card } from '../components/common/Card.jsx';
+import { Badge } from '../components/common/Badge.jsx';
+import { Button } from '../components/common/Button.jsx';
+import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
+
+export function GroupHostView() {
+  const { t } = useTranslation();
+  const { haptic } = useTelegram();
+  const [data, setData] = useState({ activeSessions: [], launchableQuizzes: [] });
+  const [loading, setLoading] = useState(true);
+
+  const loadSessions = () => {
+    setLoading(true);
+    fetchGroupSessions()
+      .then((res) => {
+        if (res) setData(res);
+      })
+      .catch((err) => {
+        console.error('Failed to load group sessions:', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    loadSessions();
+    const interval = setInterval(loadSessions, 15000); // 15s poll
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleLaunchInGroup = (shareLink) => {
+    haptic.impact('medium');
+    const tg = window.Telegram?.WebApp;
+    if (tg && typeof tg.openTelegramLink === 'function') {
+      tg.openTelegramLink(shareLink);
+    } else {
+      window.open(shareLink, '_blank');
+    }
+  };
+
+  const activeSessions = data.activeSessions || [];
+  const launchableQuizzes = data.launchableQuizzes || [];
+
+  return (
+    <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }} className="animate-fade-in">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{t('GROUP_HOST_TITLE')}</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '2px' }}>
+            {t('GROUP_HOST_DESC')}
+          </p>
+        </div>
+        <button
+          onClick={() => {
+            haptic.selection();
+            loadSessions();
+          }}
+          className="glass-pill"
+          style={{ padding: '6px 10px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+          title="Yangilash"
+        >
+          <Icon icon="solar:restart-bold" width="16" height="16" className={loading ? 'animate-spin' : ''} />
+        </button>
+      </div>
+
+      {/* 1. Live Active Sessions */}
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px #10b981' }} />
+          <h3 style={{ fontSize: '1rem', fontWeight: '700' }}>{t('ACTIVE_SESSIONS')} ({activeSessions.length})</h3>
+        </div>
+
+        {activeSessions.length === 0 ? (
+          <Card style={{ padding: '20px 16px', textAlign: 'center' }}>
+            <Icon icon="solar:gamepad-minimalistic-bold-duotone" width="36" height="36" style={{ color: 'var(--text-muted)', margin: '0 auto 8px' }} />
+            <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
+              {t('NO_ACTIVE_SESSIONS')}
+            </div>
+          </Card>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {activeSessions.map((s) => (
+              <Card key={s.sessionId} glow style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ fontWeight: '800', fontSize: '0.95rem' }}>{s.chatTitle}</div>
+                  <Badge variant="success" size="sm">
+                    <Icon icon="solar:users-group-two-rounded-bold" width="14" height="14" style={{ marginRight: '4px' }} />
+                    {s.participantCount} {t('PARTICIPANTS')}
+                  </Badge>
+                </div>
+
+                <div style={{ fontSize: '0.86rem', color: 'var(--accent-primary)', fontWeight: '600' }}>
+                  {s.quizTitle}
+                </div>
+
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                    <span>{t('QUESTIONS_COUNT')}</span>
+                    <span>{s.currentIndex + 1} / {s.totalQuestions}</span>
+                  </div>
+                  <ProgressBar current={s.currentIndex + 1} total={s.totalQuestions} />
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* 2. Launch in Group Section */}
+      <div>
+        <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '10px' }}>
+          {t('LAUNCH_IN_GROUP')}
+        </h3>
+
+        {launchableQuizzes.length === 0 ? (
+          <Card style={{ padding: '16px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+            {t('MY_QUIZZES_EMPTY')}
+          </Card>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {launchableQuizzes.map((q) => (
+              <Card key={q.id} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontWeight: '700', fontSize: '0.92rem' }}>{q.title}</div>
+                  <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+                    {q.questionCount} {t('QUESTIONS_COUNT')} • {q.timeLimit}s
+                  </div>
+                </div>
+
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => handleLaunchInGroup(q.shareLink)}
+                  icon="solar:share-circle-bold-duotone"
+                >
+                  {t('LAUNCH_IN_GROUP')}
+                </Button>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* 3. How to play guide card */}
+      <Card style={{ padding: '16px', backgroundColor: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: '700', fontSize: '0.92rem' }}>
+          <Icon icon="solar:info-circle-bold-duotone" width="20" height="20" style={{ color: 'var(--accent-primary)' }} />
+          <span>{t('HOW_TO_PLAY_GROUP')}</span>
+        </div>
+        <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <div>{t('STEP_1_ADD_BOT')}</div>
+          <div>{t('STEP_2_LAUNCH')}</div>
+        </div>
+      </Card>
+    </div>
+  );
+}

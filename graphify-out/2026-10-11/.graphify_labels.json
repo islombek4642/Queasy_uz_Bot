@@ -1,0 +1,23 @@
+{
+  "1": "cleaner.js",
+  "2": "Database (`db`)",
+  "3": "test_pdf_reader.mjs",
+  "4": "test_keyboards_i18n.mjs",
+  "5": "Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy To'liq Spetsifikatsiya (Spec v4)",
+  "6": "Centralized Constants & Zero-Hardcode i18n Design Specification",
+  "7": "App.jsx",
+  "8": "package.json",
+  "9": "test_group_commands.mjs",
+  "10": "callback_query.js",
+  "11": "Queasy Telegram Mini App (Web App) Arxitektura va Dizayn Spetsifikatsiyasi",
+  "12": "Review Focus",
+  "13": "test_syntax.mjs",
+  "14": "Tasks",
+  "15": "quizService.js",
+  "16": "parser_engine.js",
+  "17": "pdf_reader.js",
+  "18": "test_cleaner_syntax.mjs",
+  "19": "Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy Implementatsiya Rejasi (PLAN v4)",
+  "20": "math_engine.js",
+  "21": "Proposed Changes"
+}

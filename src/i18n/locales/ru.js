@@ -1,0 +1,151 @@
+// src/i18n/locales/ru.js
+export default {
+  // Navigation Tabs
+  NAV_HOME: 'Главная',
+  NAV_MY_QUIZZES: 'Мои тесты',
+  NAV_GROUP_HOST: 'Хост группы',
+  NAV_LEADERBOARD: 'Рейтинг',
+  NAV_PROFILE: 'Профиль',
+
+  // Header & Status
+  APP_TITLE: 'Queasy Test',
+  THEME_DARK: 'Темная',
+  THEME_LIGHT: 'Светлая',
+  THEME_AUTO: 'Авто',
+  LEVEL: 'Уровень',
+  XP: 'XP',
+
+  // Home Screen
+  GREETING_HELLO: 'Привет',
+  HERO_SUBTITLE: 'Проверьте знания или создайте свой тест!',
+  SECTION_RECENT_QUIZZES: 'Мои тесты',
+  SECTION_POPULAR: 'Быстрый старт',
+  BTN_CREATE_QUIZ: 'Создать тест',
+  BTN_START_QUIZ: 'Начать',
+  QUESTIONS_COUNT: '{count} вопр.',
+  TIME_LIMIT: '{seconds} сек',
+  NO_QUIZZES_YET: 'У вас пока нет тестов. Отправьте файл боту, чтобы создать тест!',
+  MY_QUIZZES_EMPTY: 'Пока нет тестов',
+  MY_QUIZZES_EMPTY_SUB: 'Создайте свой первый тест или отправьте файл в бот',
+
+  // Arena & Quiz Play
+  QUESTION_PROGRESS: 'Вопрос {current} из {total}',
+  CORRECT_ANSWER: 'Правильно!',
+  WRONG_ANSWER: 'Неправильно!',
+  TIME_UP: 'Время вышло!',
+  EXPLANATION_TITLE: 'Пояснение:',
+  CONFIRM_EXIT_TITLE: 'Вы уверены, что хотите выйти?',
+  CONFIRM_EXIT_DESC: 'Текущий прогресс в тесте может быть потерян.',
+  BTN_CONTINUE: 'Продолжить',
+  BTN_EXIT: 'Выйти',
+
+  // Result Screen
+  RESULT_EXCELLENT: 'Отличный результат! 🎉',
+  RESULT_GOOD: 'Хорошая работа! 👏',
+  RESULT_TRY_AGAIN: 'Попробуйте еще раз! 💪',
+  SCORE_LABEL: 'Итоговый балл',
+  ACCURACY_LABEL: 'Точность',
+  CORRECT_COUNT: 'Правильно',
+  WRONG_COUNT: 'Ошибки',
+  TIME_SPENT: 'Затраченное время',
+  BTN_RETRY: 'Повторить',
+  BTN_SHARE: 'Поделиться с друзьями',
+  BTN_BACK_HOME: 'На главную',
+
+  // Group Host
+  GROUP_HOST_TITLE: 'Управление групповой игрой',
+  GROUP_HOST_DESC: 'Следите за викториной в реальном времени.',
+  NO_ACTIVE_GROUP_QUIZ: 'Сейчас нет активных тестов в группе. Запустите /quiz в группе.',
+  LIVE_PLAYERS: 'Участники',
+  BTN_NEXT_QUESTION: 'Следующий вопрос',
+  ACTIVE_SESSIONS: 'Активные игры',
+  NO_ACTIVE_SESSIONS: 'Сейчас нет активных игр в группах',
+  LAUNCH_IN_GROUP: 'Запустить в группе',
+  HOW_TO_PLAY_GROUP: 'Как играть в группе?',
+  STEP_1_ADD_BOT: '1. Добавьте бота в группу и назначьте админом',
+  STEP_2_LAUNCH: '2. Выберите тест ниже и запустите в группе',
+  PARTICIPANTS: 'участников',
+
+  // Leaderboard & Profile
+  LEADERBOARD_TITLE: 'Таблица лидеров',
+  LEADERBOARD_SUBTITLE: 'Рейтинг игроков с наибольшим количеством XP',
+  TAB_WEEKLY: 'За неделю',
+  TAB_ALL_TIME: 'За все время',
+  YOU_ARE_RANKED: 'Ваше место: #{rank}',
+  STATS_TOTAL_SOLVED: 'Пройдено тестов',
+  STATS_ACCURACY: 'Средняя точность',
+  SETTINGS_TITLE: 'Настройки',
+  SETTINGS_LANG: 'Язык интерфейса',
+  SETTINGS_THEME: 'Тема оформления',
+
+  // Quiz Creator
+  CREATE_QUIZ_TITLE: 'Создать новый тест',
+  QUIZ_NAME_LABEL: 'Название теста',
+  QUIZ_NAME_PLACEHOLDER: 'Например: Английский B1',
+  QUIZ_DESC_LABEL: 'Краткое описание',
+  QUIZ_DESC_PLACEHOLDER: 'Необязательное описание...',
+  TIME_LIMIT_LABEL: 'Время на вопрос (сек)',
+  QUESTIONS_COUNT: 'Вопросы',
+  ADD_QUESTION: '+ Добавить вопрос',
+  QUESTION_TEXT_LABEL: 'Текст вопроса',
+  OPTION_PLACEHOLDER: 'Вариант',
+  CORRECT_ANSWER: 'Правильный ответ',
+  DELETE_QUESTION: 'Удалить',
+  SAVE_QUIZ_BTN: 'Сохранить тест',
+  SAVING: 'Сохранение...',
+  QUIZ_SAVED_SUCCESS: 'Тест успешно создан!',
+  VALIDATION_FILL_FIELDS: 'Пожалуйста, заполните все поля',
+
+  // Phase 3: Quiz Studio & Mistakes Training
+  EDIT_QUIZ_TITLE: 'Редактировать тест',
+  INSPECT_QUIZ_TITLE: 'Просмотр вопросов',
+  DELETE_QUIZ_TITLE: 'Удалить тест',
+  BTN_INSPECT: 'Вопросы',
+  BTN_EDIT: 'Изменить',
+  CONFIRM_DELETE_TITLE: 'Удаление теста',
+  CONFIRM_DELETE_MSG: 'Вы уверены, что хотите удалить тест "{title}"? Это действие нельзя отменить.',
+  BTN_CONFIRM_DELETE: 'Да, удалить',
+  SHUFFLE_OPTIONS_LABEL: 'Перемешивание',
+  MISTAKES_PRACTICE_TITLE: 'Работа над ошибками',
+  MISTAKES_PRACTICE_DESC: 'Повторите вопросы, в которых ошиблись',
+
+  // Phase 4: Gamification, Achievements & Social Sharing
+  ACHIEVEMENTS_TITLE: 'Достижения и Значки',
+  ACH_UNLOCKED: 'Разблокировано',
+  ACH_LOCKED: 'Заблокировано',
+  ACH_FIRST_STEP_TITLE: 'Первый шаг',
+  ACH_FIRST_STEP_DESC: 'Успешно завершите свой первый тест',
+  ACH_SNIPER_TITLE: 'Снайпер',
+  ACH_SNIPER_DESC: 'Пройдите тест со 100% точностью',
+  ACH_SPEED_TITLE: 'Молния',
+  ACH_SPEED_DESC: 'Наберите более 200 XP',
+  ACH_MASTER_TITLE: 'Мастер викторин',
+  ACH_MASTER_DESC: 'Успешно завершите минимум 10 тестов',
+  ACH_LEVEL5_TITLE: 'Элитный эрудит',
+  ACH_LEVEL5_DESC: 'Достигните 5-го уровня',
+  ACH_CREATOR_TITLE: 'Создатель',
+  ACH_CREATOR_DESC: 'Создайте свой собственный тест',
+
+  // XP & Rank Titles
+  RANK_TITLE_LABEL: 'Титул',
+  RANK_NOVICE: 'Новичок',
+  RANK_EXPLORER: 'Искатель',
+  RANK_SCHOLAR: 'Эрудит',
+  RANK_MASTER: 'Легендарный мастер',
+  XP_PROGRESS_LABEL: 'До следующего уровня',
+
+  // Social Sharing
+  BTN_SHARE_TELEGRAM: 'Поделиться с друзьями',
+  SHARE_QUIZ_CAPTION: '🏆 Я завершил тест «{title}» в боте Queasy с результатом {score}%! Проверь себя: https://t.me/Queasy_uz_Bot',
+
+  // KIUT Special Center
+  KIUT_TEST_TITLE: '🏛 Тесты KIUT',
+  KIUT_TEST_SUBTITLE: 'База всех форм обучения и семестров университета',
+  KIUT_EXPLORER_TITLE: '🏛 Центр тестов KIUT',
+  KIUT_SEARCH_PLACEHOLDER: 'Поиск предмета (например: История, Банкинг...)',
+  KIUT_BREADCRUMB_ROOT: 'Каталог',
+  KIUT_NO_TESTS_FOUND: 'В этом разделе тесты не найдены',
+  KIUT_TOTAL_AVAILABLE: 'тестов доступно',
+};
+
+

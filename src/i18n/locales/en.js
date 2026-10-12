@@ -1,0 +1,151 @@
+// src/i18n/locales/en.js
+export default {
+  // Navigation Tabs
+  NAV_HOME: 'Home',
+  NAV_MY_QUIZZES: 'My Quizzes',
+  NAV_GROUP_HOST: 'Group Host',
+  NAV_LEADERBOARD: 'Leaderboard',
+  NAV_PROFILE: 'Profile',
+
+  // Header & Status
+  APP_TITLE: 'Queasy Test',
+  THEME_DARK: 'Dark',
+  THEME_LIGHT: 'Light',
+  THEME_AUTO: 'Auto',
+  LEVEL: 'Level',
+  XP: 'XP',
+
+  // Home Screen
+  GREETING_HELLO: 'Hello',
+  HERO_SUBTITLE: 'Test your knowledge or build your own quiz!',
+  SECTION_RECENT_QUIZZES: 'My Quizzes',
+  SECTION_POPULAR: 'Quick Start',
+  BTN_CREATE_QUIZ: 'Create Quiz',
+  BTN_START_QUIZ: 'Start',
+  QUESTIONS_COUNT: '{count} questions',
+  TIME_LIMIT: '{seconds}s',
+  NO_QUIZZES_YET: 'No quizzes yet. Send a file to the bot to create one instantly!',
+  MY_QUIZZES_EMPTY: 'No quizzes yet',
+  MY_QUIZZES_EMPTY_SUB: 'Create your first quiz or send a file to the bot',
+
+  // Arena & Quiz Play
+  QUESTION_PROGRESS: 'Question {current} of {total}',
+  CORRECT_ANSWER: 'Correct!',
+  WRONG_ANSWER: 'Wrong!',
+  TIME_UP: 'Time is up!',
+  EXPLANATION_TITLE: 'Explanation:',
+  CONFIRM_EXIT_TITLE: 'Do you want to leave the quiz?',
+  CONFIRM_EXIT_DESC: 'Your current progress will not be saved.',
+  BTN_CONTINUE: 'Continue',
+  BTN_EXIT: 'Leave',
+
+  // Result Screen
+  RESULT_EXCELLENT: 'Outstanding score! 🎉',
+  RESULT_GOOD: 'Great job! 👏',
+  RESULT_TRY_AGAIN: 'Keep trying! 💪',
+  SCORE_LABEL: 'Total Score',
+  ACCURACY_LABEL: 'Accuracy',
+  CORRECT_COUNT: 'Correct',
+  WRONG_COUNT: 'Mistakes',
+  TIME_SPENT: 'Time Taken',
+  BTN_RETRY: 'Play Again',
+  BTN_SHARE: 'Share with Friends',
+  BTN_BACK_HOME: 'Back to Home',
+
+  // Group Host
+  GROUP_HOST_TITLE: 'Group Quiz Host Control',
+  GROUP_HOST_DESC: 'Monitor and control live group quizzes.',
+  NO_ACTIVE_GROUP_QUIZ: 'No active group quiz right now. Send /quiz in your group.',
+  LIVE_PLAYERS: 'Players',
+  BTN_NEXT_QUESTION: 'Next Question',
+  ACTIVE_SESSIONS: 'Active Games',
+  NO_ACTIVE_SESSIONS: 'No active group games currently',
+  LAUNCH_IN_GROUP: 'Start in Group',
+  HOW_TO_PLAY_GROUP: 'How to play in a group?',
+  STEP_1_ADD_BOT: '1. Add the bot to your group as admin',
+  STEP_2_LAUNCH: '2. Select a quiz below and launch in group',
+  PARTICIPANTS: 'participants',
+
+  // Leaderboard & Profile
+  LEADERBOARD_TITLE: 'Leaderboard',
+  LEADERBOARD_SUBTITLE: 'Top players with highest accumulated XP',
+  TAB_WEEKLY: 'Weekly',
+  TAB_ALL_TIME: 'All-Time',
+  YOU_ARE_RANKED: 'Your rank: #{rank}',
+  STATS_TOTAL_SOLVED: 'Quizzes Solved',
+  STATS_ACCURACY: 'Average Accuracy',
+  SETTINGS_TITLE: 'Settings',
+  SETTINGS_LANG: 'Interface Language',
+  SETTINGS_THEME: 'App Theme',
+
+  // Quiz Creator
+  CREATE_QUIZ_TITLE: 'Create New Quiz',
+  QUIZ_NAME_LABEL: 'Quiz Title',
+  QUIZ_NAME_PLACEHOLDER: 'E.g., English Grammar B1',
+  QUIZ_DESC_LABEL: 'Short Description',
+  QUIZ_DESC_PLACEHOLDER: 'Optional description...',
+  TIME_LIMIT_LABEL: 'Time per question (sec)',
+  QUESTIONS_COUNT: 'Questions',
+  ADD_QUESTION: '+ Add Question',
+  QUESTION_TEXT_LABEL: 'Question text',
+  OPTION_PLACEHOLDER: 'Option',
+  CORRECT_ANSWER: 'Correct answer',
+  DELETE_QUESTION: 'Delete',
+  SAVE_QUIZ_BTN: 'Save Quiz',
+  SAVING: 'Saving...',
+  QUIZ_SAVED_SUCCESS: 'Quiz created successfully!',
+  VALIDATION_FILL_FIELDS: 'Please fill all fields',
+
+  // Phase 3: Quiz Studio & Mistakes Training
+  EDIT_QUIZ_TITLE: 'Edit Quiz',
+  INSPECT_QUIZ_TITLE: 'View Questions',
+  DELETE_QUIZ_TITLE: 'Delete Quiz',
+  BTN_INSPECT: 'Questions',
+  BTN_EDIT: 'Edit',
+  CONFIRM_DELETE_TITLE: 'Delete Quiz',
+  CONFIRM_DELETE_MSG: 'Are you sure you want to permanently delete "{title}"? This cannot be undone.',
+  BTN_CONFIRM_DELETE: 'Yes, Delete',
+  SHUFFLE_OPTIONS_LABEL: 'Shuffled',
+  MISTAKES_PRACTICE_TITLE: 'Practice Mistakes',
+  MISTAKES_PRACTICE_DESC: 'Review questions you answered incorrectly',
+
+  // Phase 4: Gamification, Achievements & Social Sharing
+  ACHIEVEMENTS_TITLE: 'Achievements & Badges',
+  ACH_UNLOCKED: 'Unlocked',
+  ACH_LOCKED: 'Locked',
+  ACH_FIRST_STEP_TITLE: 'First Step',
+  ACH_FIRST_STEP_DESC: 'Successfully complete your first quiz',
+  ACH_SNIPER_TITLE: 'Sniper',
+  ACH_SNIPER_DESC: 'Complete a quiz with 100% accuracy',
+  ACH_SPEED_TITLE: 'Lightning',
+  ACH_SPEED_DESC: 'Accumulate more than 200 XP',
+  ACH_MASTER_TITLE: 'Quiz Master',
+  ACH_MASTER_DESC: 'Complete at least 10 quizzes',
+  ACH_LEVEL5_TITLE: 'Elite Scholar',
+  ACH_LEVEL5_DESC: 'Reach Level 5',
+  ACH_CREATOR_TITLE: 'Author',
+  ACH_CREATOR_DESC: 'Create and publish your own quiz',
+
+  // XP & Rank Titles
+  RANK_TITLE_LABEL: 'Title',
+  RANK_NOVICE: 'Novice',
+  RANK_EXPLORER: 'Explorer',
+  RANK_SCHOLAR: 'Scholar',
+  RANK_MASTER: 'Legendary Master',
+  XP_PROGRESS_LABEL: 'To next level',
+
+  // Social Sharing
+  BTN_SHARE_TELEGRAM: 'Share with Friends',
+  SHARE_QUIZ_CAPTION: '🏆 I completed «{title}» on Queasy with a {score}% score! Try it yourself: https://t.me/Queasy_uz_Bot',
+
+  // KIUT Special Center
+  KIUT_TEST_TITLE: '🏛 KIUT Tests',
+  KIUT_TEST_SUBTITLE: 'University database across all study modes & semesters',
+  KIUT_EXPLORER_TITLE: '🏛 KIUT Test Center',
+  KIUT_SEARCH_PLACEHOLDER: 'Search subject (e.g. History, Banking...)',
+  KIUT_BREADCRUMB_ROOT: 'Catalog',
+  KIUT_NO_TESTS_FOUND: 'No tests found in this category',
+  KIUT_TOTAL_AVAILABLE: 'tests available',
+};
+
+
