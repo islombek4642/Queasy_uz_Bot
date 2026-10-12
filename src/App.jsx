@@ -11,7 +11,7 @@ import { ProfileView } from './views/ProfileView.jsx';
 import { ArenaView } from './views/ArenaView.jsx';
 import { KiutView } from './views/KiutView.jsx';
 import { MistakesView } from './views/MistakesView.jsx';
-import { QuizCreatorModal } from './components/quiz/QuizCreatorModal.jsx';
+import { QuizCreatorView } from './views/QuizCreatorView.jsx';
 import { ErrorBoundary } from './components/common/ErrorBoundary.jsx';
 import {
   NAV_HOME,
@@ -128,6 +128,19 @@ export default function App() {
       );
     }
 
+    if (showCreator) {
+      return (
+        <QuizCreatorView
+          quizIdToEdit={editQuizId}
+          onBack={() => {
+            setShowCreator(false);
+            setEditQuizId(null);
+          }}
+          onCreated={handleQuizCreated}
+        />
+      );
+    }
+
     switch (activeTab) {
       case NAV_MY_QUIZZES:
         return (
@@ -154,6 +167,8 @@ export default function App() {
             onNavigateToTab={(tab) => {
               setShowKiutView(false);
               setShowMistakesView(false);
+              setShowCreator(false);
+              setEditQuizId(null);
               setActiveTab(tab);
             }}
             onOpenCreator={handleOpenCreator}
@@ -174,21 +189,14 @@ export default function App() {
         </ErrorBoundary>
       </main>
       <BottomNav
-        activeTab={showKiutView ? null : activeTab}
+        activeTab={showKiutView || showMistakesView || showCreator ? null : activeTab}
         onSelectTab={(tab) => {
           setShowKiutView(false);
-          setActiveTab(tab);
-        }}
-      />
-
-      <QuizCreatorModal
-        isOpen={showCreator}
-        quizIdToEdit={editQuizId}
-        onClose={() => {
+          setShowMistakesView(false);
           setShowCreator(false);
           setEditQuizId(null);
+          setActiveTab(tab);
         }}
-        onCreated={handleQuizCreated}
       />
     </div>
   );

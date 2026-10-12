@@ -95,6 +95,12 @@ export default {
   SAVING: 'Saving...',
   QUIZ_SAVED_SUCCESS: 'Quiz created successfully!',
   VALIDATION_FILL_FIELDS: 'Please fill all fields',
+  QUIZ_OPTIONS_HINT: "Enter options and select the correct answer:",
+  QUESTION_CARD_TITLE: "Question #{num}",
+  ERROR_QUESTION_EMPTY: "Please enter text for question {num}",
+  ERROR_OPTIONS_MIN: "Please enter at least 2 options for question {num}",
+  ERROR_SERVER_CONNECTION: "Error connecting to the server",
+  ERROR_GENERIC: "An error occurred",
 
   // Phase 3: Quiz Studio & Mistakes Training
   EDIT_QUIZ_TITLE: 'Edit Quiz',

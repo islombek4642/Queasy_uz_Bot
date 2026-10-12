@@ -95,6 +95,12 @@ export default {
   SAVING: 'Saqlanmoqda...',
   QUIZ_SAVED_SUCCESS: 'Test muvaffaqiyatli yaratildi!',
   VALIDATION_FILL_FIELDS: 'Iltimos, barcha maydonlarni to\'ldiring',
+  QUIZ_OPTIONS_HINT: "Variantlarni kiriting va to'g'ri javobni tanlang:",
+  QUESTION_CARD_TITLE: "#{num}-savol",
+  ERROR_QUESTION_EMPTY: "{num}-savol matnini kiriting",
+  ERROR_OPTIONS_MIN: "{num}-savol uchun kamida 2 ta variant kiriting",
+  ERROR_SERVER_CONNECTION: "Server bilan bog'lanishda xatolik",
+  ERROR_GENERIC: "Xatolik yuz berdi",
 
   // Phase 3: Quiz Studio & Mistakes Training
   EDIT_QUIZ_TITLE: 'Testni Tahrirlash',

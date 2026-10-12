@@ -95,6 +95,12 @@ export default {
   SAVING: 'Сохранение...',
   QUIZ_SAVED_SUCCESS: 'Тест успешно создан!',
   VALIDATION_FILL_FIELDS: 'Пожалуйста, заполните все поля',
+  QUIZ_OPTIONS_HINT: "Введите варианты и выберите правильный ответ:",
+  QUESTION_CARD_TITLE: "Вопрос #{num}",
+  ERROR_QUESTION_EMPTY: "Введите текст {num}-го вопроса",
+  ERROR_OPTIONS_MIN: "Введите минимум 2 варианта для {num}-го вопроса",
+  ERROR_SERVER_CONNECTION: "Ошибка подключения к серверу",
+  ERROR_GENERIC: "Произошла ошибка",
 
   // Phase 3: Quiz Studio & Mistakes Training
   EDIT_QUIZ_TITLE: 'Редактировать тест',
