@@ -46006,7 +46006,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/quiz/KiutExplorerModal.jsx",
-      "source_location": "L347",
+      "source_location": "L361",
       "weight": 1.0
     },
     {
@@ -46678,7 +46678,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L182",
+      "source_location": "L194",
       "weight": 1.0
     },
     {
@@ -46762,7 +46762,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L348",
+      "source_location": "L347",
       "weight": 1.0
     },
     {
@@ -46774,7 +46774,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L358",
+      "source_location": "L373",
       "weight": 1.0
     },
     {
@@ -46882,7 +46882,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/KiutView.jsx",
-      "source_location": "L528",
+      "source_location": "L538",
       "weight": 1.0
     },
     {
@@ -94089,5 +94089,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1387356e980c57e17fb70b7e86759e122f4c442f"
+  "built_at_commit": "6d385b32ca54855ab8192f908ddddbb9a5c033a5"
 }

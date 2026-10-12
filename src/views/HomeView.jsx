@@ -300,20 +300,24 @@ export function HomeView({
                     overflow: 'hidden',
                   }}
                 >
-                  <div style={{ minWidth: 0, overflow: 'hidden' }}>
+                  {/* Header area - click anywhere to expand/collapse */}
+                  <div
+                    onClick={() => {
+                      haptic.selection();
+                      setExpandedQuizId(isExpanded ? null : quiz.id);
+                    }}
+                    style={{ minWidth: 0, cursor: 'pointer' }}
+                  >
                     <div
-                      onClick={() => {
-                        haptic.selection();
-                        setExpandedQuizId(isExpanded ? null : quiz.id);
-                      }}
                       style={{
                         fontWeight: '800',
                         fontSize: '0.96rem',
                         color: 'var(--text-primary)',
                         whiteSpace: isExpanded ? 'normal' : 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        cursor: 'pointer',
+                        overflow: isExpanded ? 'visible' : 'hidden',
+                        textOverflow: isExpanded ? 'clip' : 'ellipsis',
+                        wordBreak: 'break-word',
+                        overflowWrap: 'anywhere',
                         lineHeight: '1.35',
                       }}
                       title={quiz.title}
@@ -323,18 +327,15 @@ export function HomeView({
 
                     {quiz.description && (
                       <div
-                        onClick={() => {
-                          haptic.selection();
-                          setExpandedQuizId(isExpanded ? null : quiz.id);
-                        }}
                         style={{
                           fontSize: '0.8rem',
                           color: 'var(--text-muted)',
                           marginTop: '2px',
                           whiteSpace: isExpanded ? 'normal' : 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          cursor: 'pointer',
+                          overflow: isExpanded ? 'visible' : 'hidden',
+                          textOverflow: isExpanded ? 'clip' : 'ellipsis',
+                          wordBreak: 'break-word',
+                          overflowWrap: 'anywhere',
                         }}
                       >
                         {quiz.description}
@@ -343,7 +344,13 @@ export function HomeView({
                   </div>
 
                   {/* Badges */}
-                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                  <div
+                    onClick={() => {
+                      haptic.selection();
+                      setExpandedQuizId(isExpanded ? null : quiz.id);
+                    }}
+                    style={{ display: 'flex', gap: '6px', alignItems: 'center', cursor: 'pointer' }}
+                  >
                     <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
                     <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
                   </div>
@@ -353,23 +360,13 @@ export function HomeView({
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'space-between',
+                      justifyContent: 'flex-end',
                       paddingTop: '8px',
                       borderTop: '1px solid var(--surface-border)',
                       marginTop: '2px',
                       gap: '8px',
                     }}
                   >
-                    <div
-                      onClick={() => {
-                        haptic.selection();
-                        setExpandedQuizId(isExpanded ? null : quiz.id);
-                      }}
-                      style={{ fontSize: '0.78rem', color: 'var(--text-muted)', cursor: 'pointer' }}
-                    >
-                      {isExpanded ? '▲ ' + t('SECTION_RECENT_QUIZZES') : ''}
-                    </div>
-
                     <Button
                       size="sm"
                       variant="primary"

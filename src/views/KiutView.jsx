@@ -475,21 +475,25 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
                   overflow: 'hidden',
                 }}
               >
-                <div style={{ minWidth: 0, overflow: 'hidden' }}>
+                {/* Header area - click anywhere to expand/collapse */}
+                <div
+                  onClick={() => {
+                    haptic.selection();
+                    setExpandedQuizId(isExpanded ? null : quiz.id);
+                  }}
+                  style={{ minWidth: 0, cursor: 'pointer' }}
+                >
                   <div
-                    onClick={() => {
-                      haptic.selection();
-                      setExpandedQuizId(isExpanded ? null : quiz.id);
-                    }}
                     style={{
                       fontWeight: '800',
                       fontSize: '0.96rem',
                       color: 'var(--text-primary)',
                       lineHeight: '1.35',
-                      cursor: 'pointer',
                       whiteSpace: isExpanded ? 'normal' : 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
+                      overflow: isExpanded ? 'visible' : 'hidden',
+                      textOverflow: isExpanded ? 'clip' : 'ellipsis',
+                      wordBreak: 'break-word',
+                      overflowWrap: 'anywhere',
                     }}
                     title={quiz.title}
                   >
@@ -503,13 +507,10 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
                         color: 'var(--text-muted)',
                         marginTop: '2px',
                         whiteSpace: isExpanded ? 'normal' : 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => {
-                        haptic.selection();
-                        setExpandedQuizId(isExpanded ? null : quiz.id);
+                        overflow: isExpanded ? 'visible' : 'hidden',
+                        textOverflow: isExpanded ? 'clip' : 'ellipsis',
+                        wordBreak: 'break-word',
+                        overflowWrap: 'anywhere',
                       }}
                     >
                       📍 {quiz.category}
@@ -518,7 +519,13 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
                 </div>
 
                 {/* Badges */}
-                <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                <div
+                  onClick={() => {
+                    haptic.selection();
+                    setExpandedQuizId(isExpanded ? null : quiz.id);
+                  }}
+                  style={{ display: 'flex', gap: '6px', alignItems: 'center', cursor: 'pointer' }}
+                >
                   <Badge size="sm">{quiz.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
                   <Badge size="sm" variant="warning">{quiz.timeLimit}s</Badge>
                 </div>

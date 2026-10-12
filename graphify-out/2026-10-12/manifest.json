@@ -336,9 +336,9 @@
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1791813353.8625615,
-    "seen": 1791813476.1924324,
-    "ast_hash": "b185843745738ffcfe5bdbac1063d06e",
+    "mtime": 1791820819.0757759,
+    "seen": 1791820864.7108514,
+    "ast_hash": "aa2307dd4f383734142172b67f4391c1",
     "semantic_hash": ""
   },
   "src/components/common/Badge.jsx": {
@@ -474,21 +474,21 @@
     "semantic_hash": ""
   },
   "src/i18n/locales/en.js": {
-    "mtime": 1791813353.8655605,
-    "seen": 1791813476.194053,
-    "ast_hash": "95f4c78f38a58d2a46c52e4a79e05ad5",
+    "mtime": 1791820600.2493947,
+    "seen": 1791820864.7109435,
+    "ast_hash": "316396b64b94409b3ffaac08e9c8d399",
     "semantic_hash": ""
   },
   "src/i18n/locales/ru.js": {
-    "mtime": 1791813353.8655605,
-    "seen": 1791813476.1940558,
-    "ast_hash": "6d8644479e43338700b02041d7eb779d",
+    "mtime": 1791820589.125466,
+    "seen": 1791820864.7109456,
+    "ast_hash": "c255a9309dd88bedc567011a3ad76b46",
     "semantic_hash": ""
   },
   "src/i18n/locales/uz.js": {
-    "mtime": 1791813353.866561,
-    "seen": 1791813476.1940587,
-    "ast_hash": "18169ed099a6d5e916025c0bc218838f",
+    "mtime": 1791820581.6910381,
+    "seen": 1791820864.7109475,
+    "ast_hash": "855b6e7f2351cc124ff7d71514a0bf80",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "src/views/ArenaView.jsx": {
-    "mtime": 1791813353.86756,
-    "seen": 1791813476.1940722,
-    "ast_hash": "dd530448d0a170fc43843fc96c480de4",
+    "mtime": 1791820764.060532,
+    "seen": 1791820864.710962,
+    "ast_hash": "e4c96d882ec86190b4918a7676b2d59b",
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
@@ -558,9 +558,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/submit_solo_result.js": {
-    "mtime": 1791813353.8870373,
-    "seen": 1791813476.1941726,
-    "ast_hash": "693f288a2e6b3fe7e8daa4c20c674699",
+    "mtime": 1791820617.5915816,
+    "seen": 1791820864.71105,
+    "ast_hash": "73aab1febdc73d9dd97daf22bf0f2f8e",
     "semantic_hash": ""
   },
   "vite.config.js": {
@@ -2727,6 +2727,18 @@
     "mtime": 1791813652.4421382,
     "seen": 1791814472.472628,
     "ast_hash": "1e1769fac637d63d7daa2e350edccc52",
+    "semantic_hash": ""
+  },
+  "src/components/quiz/QuizModeModal.jsx": {
+    "mtime": 1791820725.8438456,
+    "seen": 1791820864.710895,
+    "ast_hash": "a11f791f100fe84e98ba17d69665eeb0",
+    "semantic_hash": ""
+  },
+  "src/utils/quizHelpers.js": {
+    "mtime": 1791820637.4926302,
+    "seen": 1791820864.7109597,
+    "ast_hash": "5187df3cf60bc17b994835b64306455c",
     "semantic_hash": ""
   }
 }
