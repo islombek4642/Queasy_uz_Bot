@@ -46,16 +46,26 @@ export function GroupHostView({ onOpenTournament }) {
         const tg = window.Telegram?.WebApp;
         if (tg && typeof tg.openTelegramLink === 'function') {
           tg.openTelegramLink(res.telegramShareUrl);
+        } else if (tg && typeof tg.openLink === 'function') {
+          tg.openLink(res.telegramShareUrl);
         } else {
           window.open(res.telegramShareUrl, '_blank');
         }
+
+        if (onOpenTournament && res.shareCode) {
+          onOpenTournament(res.shareCode);
+        }
+      } else {
+        alert(res?.error || 'Turnir yaratishda xatolik yuz berdi');
       }
     } catch (err) {
       console.error('Failed to create tournament:', err);
+      alert('Xatolik: ' + (err.message || 'Tarmoq xatosi'));
     } finally {
       setCreatingId(null);
     }
   };
+
 
   const handleLaunchInGroup = (shareLink) => {
     haptic.impact('medium');

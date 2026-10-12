@@ -35,13 +35,16 @@ export default async function (input, ctx) {
   const shareCode = `gt_${quizId}_${randSuffix}`;
 
   // 3. Insert into groupTournaments
-  const inserted = await db.insert(groupTournaments).values({
+  const insertRes = await db.insert(groupTournaments).values({
     quizId,
     creatorId: currentUserId,
     title: quiz.title,
     shareCode,
     isActive: true,
-  }).returning().get();
+  }).run();
+
+  const tournamentId = insertRes?.lastInsertRowid;
+
 
   const botUsername = 'Queasy_uz_Bot';
   const shareLink = `https://t.me/${botUsername}/app?startapp=${shareCode}`;
@@ -50,11 +53,12 @@ export default async function (input, ctx) {
 
   return {
     success: true,
-    tournamentId: inserted?.id,
+    tournamentId,
     shareCode,
     shareLink,
     telegramShareUrl,
     title: quiz.title,
     questionCount: qCount,
   };
+
 }

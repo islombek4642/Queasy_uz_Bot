@@ -187,6 +187,23 @@ export default {
   RANGE_TO_LABEL: 'To',
   RANDOM_COUNT_LABEL: 'Question count',
   BTN_START_PLAY: 'Start',
+
+  // Group Tournaments & Sharing
+  BTN_SHARE_TO_GROUP: 'Share to Group',
+  BTN_CREATE_LIVE_ROOM: 'Live Room',
+  TOURNAMENT_TITLE: 'Group Tournament',
+  TOURNAMENT_SUBTITLE: 'Participate in this group tournament and compete to win!',
+  TOURNAMENT_LEADERBOARD_TITLE: 'Group Leaderboard',
+  TOURNAMENT_NO_PARTICIPANTS: 'No participants yet. Be the first!',
+  TOURNAMENT_YOUR_RANK: 'Your Rank',
+  TOURNAMENT_BEST_SCORE: 'Your Score',
+  BTN_JOIN_TOURNAMENT: 'Join Tournament',
+  BTN_SHARE_RESULT_GROUP: 'Share Result to Group',
+  TOURNAMENT_SHARE_CAPTION: '🏆 I achieved rank #{rank} in the «{title}» quiz with {score}/{total} points! Try your skills: {link}',
+  TOAST_TOURNAMENT_CREATED: 'Group tournament created! Choose a group...',
+  TOAST_LINK_COPIED: 'Link copied!',
+  LIVE_ROOM_COMING_SOON: 'Live Room mode is coming soon!',
 };
+
 
 
