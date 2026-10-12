@@ -60,7 +60,7 @@ export default {
   ERR_NOT_FOUND: 'Извините, тест не найден или был удален.',
 
   // Quiz Cards & Management
-  QUIZ_INFO_TITLE: '📋 <b>Информация о тесте:</b>\n\n🆔 <b>ID:</b> <code>{id}</code>\n💬 <b>Запуск в группе:</b> <code>/quiz {id}</code>\n\n📌 <b>Название:</b> {title}\n📊 <b>Вопросов:</b> {count}\n⏱ <b>Время:</b> {time}\n🔀 <b>Перемешивание:</b> {shuffle}',
+  QUIZ_INFO_TITLE: '📋 <b>Информация о тесте:</b>\n\n📌 <b>Название:</b> {title}\n📊 <b>Вопросов:</b> {count}\n⏱ <b>Время:</b> {time}\n🔀 <b>Перемешивание:</b> {shuffle}\n\n💬 <b>Запуск в группе:</b> <code>/quiz {id}</code>',
   BTN_START_QUIZ: '▶️ Начать тест',
   BTN_START_GROUP_QUIZ: '👥 Начать в группе',
   BTN_SHARE_QUIZ: '↗️ Поделиться',

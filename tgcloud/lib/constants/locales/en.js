@@ -60,7 +60,7 @@ export default {
   ERR_NOT_FOUND: 'Sorry, quiz not found or was deleted.',
 
   // Quiz Cards & Management
-  QUIZ_INFO_TITLE: '📋 <b>Quiz Info:</b>\n\n🆔 <b>ID:</b> <code>{id}</code>\n💬 <b>Start in group:</b> <code>/quiz {id}</code>\n\n📌 <b>Title:</b> {title}\n📊 <b>Questions:</b> {count}\n⏱ <b>Timer:</b> {time}\n🔀 <b>Shuffle:</b> {shuffle}',
+  QUIZ_INFO_TITLE: '📋 <b>Quiz Info:</b>\n\n📌 <b>Title:</b> {title}\n📊 <b>Questions:</b> {count}\n⏱ <b>Timer:</b> {time}\n🔀 <b>Shuffle:</b> {shuffle}\n\n💬 <b>Start in group:</b> <code>/quiz {id}</code>',
   BTN_START_QUIZ: '▶️ Start Quiz',
   BTN_START_GROUP_QUIZ: '👥 Start in Group',
   BTN_SHARE_QUIZ: '↗️ Share',

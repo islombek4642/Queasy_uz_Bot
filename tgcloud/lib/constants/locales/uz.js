@@ -60,7 +60,7 @@ export default {
   ERR_NOT_FOUND: 'Kechirasiz, test topilmadi yoki o\'chirilgan.',
 
   // Quiz Cards & Management
-  QUIZ_INFO_TITLE: '📋 <b>Test ma\'lumotlari:</b>\n\n🆔 <b>ID:</b> <code>{id}</code>\n💬 <b>Guruhda boshlash:</b> <code>/quiz {id}</code>\n\n📌 <b>Nomi:</b> {title}\n📊 <b>Savollar:</b> {count} ta\n⏱ <b>Vaqt:</b> {time}\n🔀 <b>Aralashtirish:</b> {shuffle}',
+  QUIZ_INFO_TITLE: '📋 <b>Test ma\'lumotlari:</b>\n\n📌 <b>Nomi:</b> {title}\n📊 <b>Savollar:</b> {count} ta\n⏱ <b>Vaqt:</b> {time}\n🔀 <b>Aralashtirish:</b> {shuffle}\n\n💬 <b>Guruhda boshlash:</b> <code>/quiz {id}</code>',
   BTN_START_QUIZ: '▶️ Testni boshlash',
   BTN_START_GROUP_QUIZ: '👥 Guruhda boshlash',
   BTN_SHARE_QUIZ: '↗️ Ulashish',
