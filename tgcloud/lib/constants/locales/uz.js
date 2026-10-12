@@ -122,7 +122,7 @@ export default {
   BTN_CREATE_QUIZ: '➕ Test yaratish',
   NO_ACTIVE_QUIZ: 'ℹ️ Hozirda faol test mavjud emas.',
   GROUP_NO_ACTIVE_QUIZ: 'ℹ️ Ushbu guruhda ayni paytda faol test mavjud emas.',
-  GROUP_CURRENT_RESULTS: '📊 <b>Hozirgi natijalar:</b>\n\n',
+  GROUP_CURRENT_RESULTS: '📊 <b>Hozirgi natijalar:</b>',
   GROUP_LOBBY_PREPARED: '✅ Guruhda test tayyorgarligi boshlandi!',
   GROUP_LOBBY_ANNOUNCED: '✅ <b>Test guruhda e\'lon qilindi!</b> Guruhga o\'tib, ishtirokchilar bilan birga boshlashingiz mumkin.',
   GROUP_CHOOSE_PROMPT: '👥 Ushbu testni guruhda o\'tkazish uchun quyidagi tugmani bosib, testingiz o\'tkaziladigan guruhni tanlang:',

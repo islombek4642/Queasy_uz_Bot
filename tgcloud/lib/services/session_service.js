@@ -601,7 +601,7 @@ export async function finishSession(api, sessionId, isStopped = false) {
       return a.totalTime - b.totalTime;
     });
 
-    let text = `🏁 <b>${escapeHtml(quizTitle)}</b>\n\n`;
+    let text = `🏁 <b>${escapeHtml(quizTitle)}</b>\n`;
     text += `${getMessage('GROUP_LEADERBOARD_TITLE', lang)}\n\n`;
 
     if (sorted.length === 0) {

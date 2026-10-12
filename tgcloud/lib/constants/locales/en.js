@@ -122,7 +122,7 @@ export default {
   BTN_CREATE_QUIZ: '➕ Create Quiz',
   NO_ACTIVE_QUIZ: 'ℹ️ There is currently no active quiz.',
   GROUP_NO_ACTIVE_QUIZ: 'ℹ️ There is no active quiz in this group right now.',
-  GROUP_CURRENT_RESULTS: '📊 <b>Current Results:</b>\n\n',
+  GROUP_CURRENT_RESULTS: '📊 <b>Current Results:</b>',
   GROUP_LOBBY_PREPARED: '✅ Group quiz lobby is ready!',
   GROUP_LOBBY_ANNOUNCED: '✅ <b>Quiz announced in group!</b> Switch to the group to start with participants.',
   GROUP_CHOOSE_PROMPT: '👥 To run this quiz in a group, click the button below and pick a group:',
