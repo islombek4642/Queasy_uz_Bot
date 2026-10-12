@@ -2,7 +2,7 @@
 // Quizzes and questions CRUD operations
 
 import { db } from 'sdk';
-import { eq, desc } from 'sdk/db';
+import { eq, desc, sql } from 'sdk/db';
 import { quizzes, questions } from '../../schema.js';
 import { CONFIG } from '../constants/config.js';
 import { getMessage } from '../constants/messages.js';
@@ -162,21 +162,53 @@ export async function updateQuizSettings(quizId, updates = {}) {
 }
 
 export async function cloneQuiz(quizId, newOwnerId, lang = CONFIG.I18N.DEFAULT_LANG, customTitle = null) {
-  const original = await getQuizById(quizId);
+  // 1. Fetch original quiz header
+  const original = await db
+    .select()
+    .from(quizzes)
+    .where(eq(quizzes.id, quizId))
+    .get();
+
   if (!original) return null;
 
   const title = customTitle || (original.ownerId === 0 ? original.title : getMessage('QUIZ_CLONED_TITLE', lang, { title: original.title }));
 
-  return await createQuiz(
-    newOwnerId,
+  // 2. Insert new quiz header using returning
+  const inserted = await db
+    .insert(quizzes)
+    .values({
+      ownerId: newOwnerId,
+      title: title.slice(0, 200),
+      description: original.description || null,
+      timeLimit: original.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT,
+      shuffleOptions: original.shuffleOptions !== undefined ? original.shuffleOptions : true,
+    })
+    .returning({ id: quizzes.id });
+
+  const newQuizId = inserted && inserted[0] ? inserted[0].id : null;
+  if (!newQuizId) {
+    return null;
+  }
+
+  // 3. Ultra-fast atomic duplicate of all questions in a single SQL query
+  await db.run(sql`
+    INSERT INTO questions (quiz_id, order_index, question_text, options_json, correct_option_id, explanation, photo_file_id, photo_caption)
+    SELECT ${newQuizId}, order_index, question_text, options_json, correct_option_id, explanation, photo_file_id, photo_caption
+    FROM questions
+    WHERE quiz_id = ${quizId}
+    ORDER BY order_index ASC
+  `);
+
+  const qCount = await db.$count(questions, eq(questions.quizId, newQuizId));
+
+  return {
+    id: newQuizId,
     title,
-    original.questions,
-    {
-      timeLimit: original.timeLimit,
-      shuffleOptions: original.shuffleOptions,
-      description: original.description,
-    }
-  );
+    timeLimit: original.timeLimit,
+    shuffleOptions: original.shuffleOptions,
+    ownerId: newOwnerId,
+    questions: new Array(qCount),
+  };
 }
 
 export default {

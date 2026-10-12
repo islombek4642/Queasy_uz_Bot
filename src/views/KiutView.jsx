@@ -102,14 +102,18 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
         haptic.notification('success');
         setSavedQuizIds((prev) => new Set([...prev, quiz.id]));
         if (onQuizSaved) onQuizSaved();
-        setToastMessage(t('TOAST_QUIZ_SAVED'));
+        setToastMessage({ text: t('TOAST_QUIZ_SAVED'), type: 'success' });
         setTimeout(() => setToastMessage(null), 3000);
       } else {
         haptic.notification('error');
+        setToastMessage({ text: res?.error || t('ERROR_GENERIC'), type: 'error' });
+        setTimeout(() => setToastMessage(null), 4000);
       }
     } catch (err) {
       console.error('Failed to save quiz:', err);
       haptic.notification('error');
+      setToastMessage({ text: t('ERROR_SERVER_CONNECTION'), type: 'error' });
+      setTimeout(() => setToastMessage(null), 4000);
     } finally {
       setSavingQuizId(null);
     }
@@ -199,9 +203,9 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
           style={{
             padding: '10px 14px',
             borderRadius: 'var(--radius-sm, 10px)',
-            backgroundColor: 'var(--color-success-bg, rgba(16, 185, 129, 0.15))',
-            color: 'var(--color-success, #10b981)',
-            border: '1px solid var(--color-success-border, rgba(16, 185, 129, 0.3))',
+            backgroundColor: toastMessage.type === 'error' ? 'var(--color-error-bg, rgba(239, 68, 68, 0.15))' : 'var(--color-success-bg, rgba(16, 185, 129, 0.15))',
+            color: toastMessage.type === 'error' ? 'var(--color-error, #ef4444)' : 'var(--color-success, #10b981)',
+            border: toastMessage.type === 'error' ? '1px solid var(--color-error-border, rgba(239, 68, 68, 0.3))' : '1px solid var(--color-success-border, rgba(16, 185, 129, 0.3))',
             fontSize: '0.85rem',
             fontWeight: '700',
             display: 'flex',
@@ -209,8 +213,8 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
             gap: '8px',
           }}
         >
-          <Icon icon="solar:check-circle-bold" width="18" height="18" />
-          <span>{toastMessage}</span>
+          <Icon icon={toastMessage.type === 'error' ? "solar:danger-triangle-bold" : "solar:check-circle-bold"} width="18" height="18" />
+          <span>{toastMessage.text || toastMessage}</span>
         </div>
       )}
 

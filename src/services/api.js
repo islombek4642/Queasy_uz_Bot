@@ -12,6 +12,7 @@ import {
   EP_UPDATE_QUIZ,
   EP_GET_USER_MISTAKES,
   EP_GET_KIUT_CATALOG,
+  EP_CLONE_QUIZ,
 } from '../constants/endpoints.js';
 
 // Default clean fallback structures (Zero fake/dummy data)
@@ -52,6 +53,7 @@ function getCleanDefaults(endpointName) {
     case EP_SAVE_QUIZ:
     case EP_UPDATE_QUIZ:
     case EP_DELETE_QUIZ:
+    case EP_CLONE_QUIZ:
       return { success: false };
     default:
       return { ok: true };
