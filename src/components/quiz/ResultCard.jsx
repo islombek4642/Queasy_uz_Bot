@@ -13,6 +13,8 @@ export function ResultCard({
   correctCount,
   wrongCount,
   totalTimeSeconds,
+  tournamentResult = null,
+  tournamentShareCode = null,
   onRetry,
   onBackHome,
 }) {
@@ -34,16 +36,33 @@ export function ResultCard({
   }, [isHighPerformance]);
 
   const handleShare = () => {
-    const text = encodeURIComponent(
-      t('SHARE_QUIZ_CAPTION', { title: quizTitle, score: accuracy })
-    );
-    const shareUrl = `https://t.me/share/url?url=https://t.me/${APP_CONFIG.BOT_USERNAME}?start=quiz_${quizId}&text=${text}`;
+    let shareUrl;
+    if (tournamentResult && tournamentShareCode) {
+      const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=${tournamentShareCode}`;
+      const text = encodeURIComponent(
+        t('TOURNAMENT_SHARE_CAPTION', {
+          title: quizTitle || 'Viktorina',
+          score: correctCount,
+          total: totalQuestions,
+          rank: tournamentResult.rank || 1,
+          link: shareLink,
+        })
+      );
+      shareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${text}`;
+    } else {
+      const text = encodeURIComponent(
+        t('SHARE_QUIZ_CAPTION', { title: quizTitle, score: accuracy })
+      );
+      shareUrl = `https://t.me/share/url?url=https://t.me/${APP_CONFIG.BOT_USERNAME}?start=quiz_${quizId}&text=${text}`;
+    }
+
     if (window.Telegram?.WebApp?.openTelegramLink) {
       window.Telegram.WebApp.openTelegramLink(shareUrl);
     } else {
       window.open(shareUrl, '_blank');
     }
   };
+
 
   return (
     <div
@@ -141,7 +160,33 @@ export function ResultCard({
             </div>
           </div>
         </div>
+
+        {tournamentResult && (
+          <div
+            style={{
+              marginTop: '16px',
+              padding: '12px 14px',
+              borderRadius: 'var(--radius-md)',
+              background: 'rgba(99, 102, 241, 0.12)',
+              border: '1px solid var(--accent-glow)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t('TOURNAMENT_YOUR_RANK')}</div>
+              <div style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--accent-primary)' }}>
+                #{tournamentResult.rank} <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>/ {tournamentResult.totalParticipants}</span>
+              </div>
+            </div>
+            <div style={{ fontSize: '1.5rem' }}>
+              {tournamentResult.rank === 1 ? '🥇' : tournamentResult.rank === 2 ? '🥈' : tournamentResult.rank === 3 ? '🥉' : '🎯'}
+            </div>
+          </div>
+        )}
       </Card>
+
 
       {/* Action Buttons */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

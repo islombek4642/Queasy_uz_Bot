@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
 import { useQuizTimer } from '../hooks/useQuizTimer.js';
-import { fetchQuizDetail, submitSoloResult } from '../services/quizService.js';
+import { fetchQuizDetail, submitSoloResult, submitTournamentResult } from '../services/quizService.js';
 import { shuffleQuestionOptions } from '../utils/quizHelpers.js';
 import { TimerRing } from '../components/quiz/TimerRing.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
@@ -21,8 +21,10 @@ export function ArenaView({
   mode = 'full',
   range = null,
   randomCount = null,
+  tournamentShareCode = null,
   onExit,
 }) {
+
   const { t } = useTranslation();
   const { haptic, backButton } = useTelegram();
 
@@ -36,11 +38,13 @@ export function ArenaView({
   const [wrongCount, setWrongCount] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
+  const [tournamentResult, setTournamentResult] = useState(null);
 
   const startTimeRef = useRef(Date.now());
   const [totalTimeSpent, setTotalTimeSpent] = useState(0);
   const failedQuestionsRef = useRef([]);
   const resolvedMistakeIdsRef = useRef([]);
+
 
   // Load quiz details or use custom questions with option shuffling
   const loadQuiz = useCallback(async () => {
@@ -129,20 +133,37 @@ export function ArenaView({
       const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000);
       setTotalTimeSpent(elapsed);
       setIsFinished(true);
-      submitSoloResult({
-        quizId: quizId || 0,
-        isMistakesMode: Boolean(customQuestions),
-        mode: Boolean(customQuestions) ? 'mistakes' : mode,
-        correctCount,
-        wrongCount,
-        timeSpent: elapsed,
-        failedQuestions: failedQuestionsRef.current,
-        resolvedMistakeIds: resolvedMistakeIdsRef.current,
-      }).catch((err) => {
-        console.error('Failed to submit solo result:', err);
-      });
+
+      if (tournamentShareCode) {
+        submitTournamentResult({
+          shareCode: tournamentShareCode,
+          score: correctCount,
+          totalQuestions: questions.length,
+          totalTimeSeconds: elapsed,
+        }).then((res) => {
+          if (res && res.success) {
+            setTournamentResult(res);
+          }
+        }).catch((err) => {
+          console.error('Failed to submit tournament result:', err);
+        });
+      } else {
+        submitSoloResult({
+          quizId: quizId || 0,
+          isMistakesMode: Boolean(customQuestions),
+          mode: Boolean(customQuestions) ? 'mistakes' : mode,
+          correctCount,
+          wrongCount,
+          timeSpent: elapsed,
+          failedQuestions: failedQuestionsRef.current,
+          resolvedMistakeIds: resolvedMistakeIdsRef.current,
+        }).catch((err) => {
+          console.error('Failed to submit solo result:', err);
+        });
+      }
     }
-  }, [currentIndex, questions.length, quizId, correctCount, wrongCount, customQuestions, mode]);
+  }, [currentIndex, questions.length, quizId, correctCount, wrongCount, customQuestions, mode, tournamentShareCode]);
+
 
   // Timeout handler
   const handleTimeout = useCallback(() => {
@@ -245,10 +266,13 @@ export function ArenaView({
         correctCount={correctCount}
         wrongCount={wrongCount}
         totalTimeSeconds={totalTimeSpent}
+        tournamentResult={tournamentResult}
+        tournamentShareCode={tournamentShareCode}
         onRetry={() => {
           setCurrentIndex(0);
           setCorrectCount(0);
           setWrongCount(0);
+          setTournamentResult(null);
           failedQuestionsRef.current = [];
           resolvedMistakeIdsRef.current = [];
           setIsFinished(false);
@@ -259,6 +283,7 @@ export function ArenaView({
         onBackHome={onExit}
       />
     );
+
   }
 
   return (

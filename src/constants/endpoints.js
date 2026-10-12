@@ -12,3 +12,7 @@ export const EP_UPDATE_QUIZ = 'update_quiz';
 export const EP_GET_USER_MISTAKES = 'get_user_mistakes';
 export const EP_GET_KIUT_CATALOG = 'get_kiut_catalog';
 export const EP_CLONE_QUIZ = 'clone_quiz';
+export const EP_CREATE_TOURNAMENT = 'create_tournament';
+export const EP_GET_TOURNAMENT_DETAILS = 'get_tournament_details';
+export const EP_SUBMIT_TOURNAMENT_RESULT = 'submit_tournament_result';
+

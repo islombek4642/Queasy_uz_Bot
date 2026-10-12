@@ -12,6 +12,7 @@ import { ArenaView } from './views/ArenaView.jsx';
 import { KiutView } from './views/KiutView.jsx';
 import { MistakesView } from './views/MistakesView.jsx';
 import { QuizCreatorView } from './views/QuizCreatorView.jsx';
+import { TournamentView } from './views/TournamentView.jsx';
 import { QuizModeModal } from './components/quiz/QuizModeModal.jsx';
 import { ErrorBoundary } from './components/common/ErrorBoundary.jsx';
 import {
@@ -33,7 +34,9 @@ export default function App() {
   const [activeCustomTitle, setActiveCustomTitle] = useState(null);
   const [showCreator, setShowCreator] = useState(false);
   const [editQuizId, setEditQuizId] = useState(null);
+  const [activeTournamentCode, setActiveTournamentCode] = useState(null);
   const [loading, setLoading] = useState(true);
+
 
   // Quiz Mode Modal state
   const [modeModalQuizId, setModeModalQuizId] = useState(null);
@@ -52,6 +55,19 @@ export default function App() {
   };
 
   useEffect(() => {
+    // 1. Check deep-link start parameter (e.g. gt_12_abc123)
+    try {
+      const tgParam = window.Telegram?.WebApp?.initDataUnsafe?.start_param;
+      const urlParams = new URLSearchParams(window.location.search);
+      const startParam = tgParam || urlParams.get('startapp') || urlParams.get('tgWebAppStartParam');
+      if (startParam && startParam.startsWith('gt_')) {
+        setActiveTournamentCode(startParam);
+      }
+    } catch (e) {
+      console.error('Failed to parse start param:', e);
+    }
+
+    // 2. Fetch initial app data
     fetchInitialData()
       .then((data) => {
         setInitialData(data);
@@ -63,6 +79,7 @@ export default function App() {
         setLoading(false);
       });
   }, []);
+
 
   const handleStartQuiz = (quizId) => {
     setModeModalQuizId(quizId);
@@ -125,13 +142,33 @@ export default function App() {
         mode={activeQuizMode}
         range={activeQuizRange}
         randomCount={activeQuizRandomCount}
+        tournamentShareCode={activeTournamentCode}
         onExit={handleExitArena}
       />
     );
   }
 
   const renderActiveView = () => {
+    if (activeTournamentCode) {
+      return (
+        <TournamentView
+          shareCode={activeTournamentCode}
+          onStartTournament={(quizId, code) => {
+            setActiveQuizId(quizId);
+            setActiveQuizMode('full');
+            setActiveQuizRange(null);
+            setActiveQuizRandomCount(null);
+            setActiveTournamentCode(code);
+          }}
+          onBack={() => {
+            setActiveTournamentCode(null);
+          }}
+        />
+      );
+    }
+
     if (showKiutView) {
+
       return (
         <KiutView
           onBack={() => setShowKiutView(false)}
@@ -179,7 +216,8 @@ export default function App() {
           />
         );
       case NAV_GROUP_HOST:
-        return <GroupHostView />;
+        return <GroupHostView onOpenTournament={(code) => setActiveTournamentCode(code)} />;
+
       case NAV_LEADERBOARD:
         return <LeaderboardView />;
       case NAV_PROFILE:

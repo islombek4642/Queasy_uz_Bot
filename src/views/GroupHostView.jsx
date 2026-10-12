@@ -3,17 +3,18 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
-import { fetchGroupSessions } from '../services/quizService.js';
+import { fetchGroupSessions, createTournament } from '../services/quizService.js';
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
 
-export function GroupHostView() {
+export function GroupHostView({ onOpenTournament }) {
   const { t } = useTranslation();
   const { haptic } = useTelegram();
   const [data, setData] = useState({ activeSessions: [], launchableQuizzes: [] });
   const [loading, setLoading] = useState(true);
+  const [creatingId, setCreatingId] = useState(null);
   const [expandedQuizId, setExpandedQuizId] = useState(null);
 
   const loadSessions = () => {
@@ -36,6 +37,26 @@ export function GroupHostView() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleShareTournament = async (quizId) => {
+    haptic.impact('medium');
+    setCreatingId(quizId);
+    try {
+      const res = await createTournament(quizId);
+      if (res && res.success) {
+        const tg = window.Telegram?.WebApp;
+        if (tg && typeof tg.openTelegramLink === 'function') {
+          tg.openTelegramLink(res.telegramShareUrl);
+        } else {
+          window.open(res.telegramShareUrl, '_blank');
+        }
+      }
+    } catch (err) {
+      console.error('Failed to create tournament:', err);
+    } finally {
+      setCreatingId(null);
+    }
+  };
+
   const handleLaunchInGroup = (shareLink) => {
     haptic.impact('medium');
     const tg = window.Telegram?.WebApp;
@@ -45,6 +66,7 @@ export function GroupHostView() {
       window.open(shareLink, '_blank');
     }
   };
+
 
   const activeSessions = data.activeSessions || [];
   const launchableQuizzes = data.launchableQuizzes || [];
@@ -194,20 +216,34 @@ export function GroupHostView() {
                       <Badge size="sm" variant="warning">{q.timeLimit}s</Badge>
                     </div>
 
-                    {/* Row 2: Full width Launch in group button */}
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      fullWidth
-                      onClick={() => {
-                        haptic.impact('medium');
-                        handleLaunchInGroup(q.shareLink);
-                      }}
-                      icon="solar:share-circle-bold-duotone"
-                      style={{ padding: '7px 14px', fontSize: '0.84rem' }}
-                    >
-                      {t('LAUNCH_IN_GROUP')}
-                    </Button>
+                    {/* Row 2: Action Buttons (Share Tournament & Live Room) */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        fullWidth
+                        loading={creatingId === q.id}
+                        onClick={() => handleShareTournament(q.id)}
+                        icon="solar:share-bold"
+                        style={{ padding: '7px 8px', fontSize: '0.82rem' }}
+                      >
+                        {t('BTN_SHARE_TO_GROUP')}
+                      </Button>
+
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        fullWidth
+                        onClick={() => {
+                          haptic.notification('warning');
+                          alert(t('LIVE_ROOM_COMING_SOON'));
+                        }}
+                        icon="solar:play-circle-bold-duotone"
+                        style={{ padding: '7px 8px', fontSize: '0.82rem' }}
+                      >
+                        {t('BTN_CREATE_LIVE_ROOM')}
+                      </Button>
+                    </div>
                   </div>
                 </Card>
               );
@@ -223,8 +259,8 @@ export function GroupHostView() {
           <span>{t('HOW_TO_PLAY_GROUP')}</span>
         </div>
         <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <div>{t('STEP_1_ADD_BOT')}</div>
-          <div>{t('STEP_2_LAUNCH')}</div>
+          <div>🎯 1. <b>«{t('BTN_SHARE_TO_GROUP')}»</b> tugmasini bosing va o'z guruhingizni tanlang.</div>
+          <div>👥 2. Guruhdagilar xabardagi tugmani bosib WebApp ichida test yechishadi va umumiy guruh reytingi shakllanadi!</div>
         </div>
       </Card>
     </div>

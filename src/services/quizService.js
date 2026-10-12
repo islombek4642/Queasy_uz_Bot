@@ -12,7 +12,11 @@ import {
   EP_GET_USER_MISTAKES,
   EP_GET_KIUT_CATALOG,
   EP_CLONE_QUIZ,
+  EP_CREATE_TOURNAMENT,
+  EP_GET_TOURNAMENT_DETAILS,
+  EP_SUBMIT_TOURNAMENT_RESULT,
 } from '../constants/endpoints.js';
+
 
 export async function fetchInitialData() {
   return await callEndpoint(EP_GET_INITIAL_DATA);
@@ -57,4 +61,17 @@ export async function fetchKiutCatalog(categoryPath = '', search = '') {
 export async function cloneQuiz(quizId) {
   return await callEndpoint(EP_CLONE_QUIZ, { quizId });
 }
+
+export async function createTournament(quizId) {
+  return await callEndpoint(EP_CREATE_TOURNAMENT, { quizId });
+}
+
+export async function fetchTournamentDetails(shareCode) {
+  return await callEndpoint(EP_GET_TOURNAMENT_DETAILS, { shareCode });
+}
+
+export async function submitTournamentResult(payload) {
+  return await callEndpoint(EP_SUBMIT_TOURNAMENT_RESULT, payload);
+}
+
 
