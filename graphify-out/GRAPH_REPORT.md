@@ -1,21 +1,26 @@
 # Graph Report - Queasy_uz_Bot  (2026-10-12)
 
 ## Corpus Check
-- 121 files · ~58,381 words
+- 122 files · ~59,318 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 6 file(s) not represented in the graph (top: .css 4, (none) 1, .jsonc 1)
 
 ## Summary
-- 570 nodes · 1401 edges · 25 communities (24 shown, 1 thin omitted)
-- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 108 edges (avg confidence: 0.87)
+- 572 nodes · 1423 edges · 25 communities (24 shown, 1 thin omitted)
+- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 109 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `922f4b57`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - schema.js
-- Proposed Changes
+- test_keyboards_i18n.mjs
 - Database (`db`)
 - ErrorBoundary
-- test_messages_parity.mjs
+- test_pdf_reader.mjs
 - Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy To'liq Spetsifikatsiya (Spec v4)
 - Centralized Constants & Zero-Hardcode i18n Design Specification
 - react
@@ -28,10 +33,10 @@
 - Tasks
 - quizService.js
 - Proposed Changes
-- test_cleaner_syntax.mjs
+- cleaner.js
 - index.jsx
-- test_docx_highlight.mjs
-- test_pdf_reader.mjs
+- math_engine.js
+- test_cleaner_syntax.mjs
 - Proposed Changes
 - parser_engine.js
 - pdf_reader.js
@@ -39,13 +44,13 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `getMessage()` - 41 edges
-2. `react` - 33 edges
-3. `useTelegram()` - 32 edges
-4. `useTranslation()` - 28 edges
-5. `Card()` - 22 edges
-6. `@iconify/react` - 19 edges
-7. `Button()` - 18 edges
-8. `Badge()` - 15 edges
+2. `react` - 34 edges
+3. `useTelegram()` - 34 edges
+4. `useTranslation()` - 30 edges
+5. `Card()` - 24 edges
+6. `@iconify/react` - 20 edges
+7. `Button()` - 20 edges
+8. `Badge()` - 17 edges
 9. `Modal()` - 15 edges
 10. `ArenaView()` - 15 edges
 
@@ -67,20 +72,20 @@
 ## Communities (25 total, 1 thin omitted)
 
 ### Community 0 - "schema.js"
-Cohesion: 0.09
-Nodes (33): CONFIG, generateLatexImageUrl(), hasMathFormula(), normalizeLatex(), renderAndUploadFormula(), broadcastMessage(), getBotStatistics(), getMediaChannel() (+25 more)
+Cohesion: 0.13
+Nodes (18): addRequiredChannel(), checkUserSubscribed(), deleteRequiredChannel(), getRequiredChannels(), deactivateGroup(), deduplicateGroups(), listGroups(), upsertGroup() (+10 more)
 
-### Community 1 - "Proposed Changes"
-Cohesion: 0.29
-Nodes (6): 1. Backend Serverless Endpoints (`tgcloud/endpoints/`), 3. Frontend Views & Components, 4. i18n & Zero Hardcoding, 5. Verification & Deployment, Phase 3: Quiz Studio & Advanced Management, Proposed Changes
+### Community 1 - "test_keyboards_i18n.mjs"
+Cohesion: 0.12
+Nodes (15): bcastKbdEn, bcastKbdRu, bcastKbdUz, chKbdEn, chKbdRu, chKbdUz, delKbdEn, delKbdRu (+7 more)
 
 ### Community 2 - "Database (`db`)"
 Cohesion: 0.06
 Nodes (30): Database — the rules that bite, Deploy & migrate workflow, Endpoints — the Mini App's server side, Layout, Mini App front-end, Module system — the rules that bite, Platform SDK (`import … from 'sdk'`), What this project is (+22 more)
 
-### Community 4 - "test_messages_parity.mjs"
-Cohesion: 0.12
-Nodes (11): current, setRes, settingsStore, enKeys, interpolated, missingInEn, missingInRu, requiredNewKeys (+3 more)
+### Community 4 - "test_pdf_reader.mjs"
+Cohesion: 0.11
+Nodes (10): current, setRes, settingsStore, docxBuf, lines, parsed, emptyPdf, lines (+2 more)
 
 ### Community 5 - "Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy To'liq Spetsifikatsiya (Spec v4)"
 Cohesion: 0.11
@@ -91,8 +96,8 @@ Cohesion: 0.12
 Nodes (16): 1.1 Mavjud Muammolar, 1.2 Qat'iy Cheklovlar & Talablar, 1. Muammo va Talablar, 2.1 Yangi Kalitlar Ro'yxati (`tgcloud/lib/constants/messages.js`), 2. Konstantalar Arxitekturasi va Yangi Kalitlar Katalogi, 3.1 Klaviaturalar (`tgcloud/lib/keyboards/`), 3.2 Handlers (`tgcloud/handlers/`), 3.3 Services (`tgcloud/lib/services/`) (+8 more)
 
 ### Community 7 - "react"
-Cohesion: 0.10
-Nodes (58): 2. Frontend Services & Constants, @iconify/react, react, App(), Avatar(), Badge(), Button(), Card() (+50 more)
+Cohesion: 0.12
+Nodes (49): @iconify/react, react, App(), Avatar(), Badge(), Button(), Card(), Modal() (+41 more)
 
 ### Community 8 - "package.json"
 Cohesion: 0.08
@@ -104,7 +109,7 @@ Nodes (8): cmdBotDirected, cmdCreate, cmdOther, cmdQuiz, cmdQuizHelp, cmdQuizId,
 
 ### Community 10 - "callback_query.js"
 Cohesion: 0.06
-Nodes (76): Task 2: Refactor Keyboards to Zero-Hardcode and Multi-Language, bcastKbdEn, bcastKbdRu, bcastKbdUz, chKbdEn, chKbdRu, chKbdUz, delKbdEn (+68 more)
+Nodes (80): Task 2: Refactor Keyboards to Zero-Hardcode and Multi-Language, enKeys, interpolated, missingInEn, missingInRu, requiredNewKeys, ruKeys, uzKeys (+72 more)
 
 ### Community 11 - "Queasy Telegram Mini App (Web App) Arxitektura va Dizayn Spetsifikatsiyasi"
 Cohesion: 0.12
@@ -123,28 +128,28 @@ Cohesion: 0.13
 Nodes (14): Global Constraints, Queasy Mini App (Phase 1: MVP Foundation & Solo Arena) Implementation Plan, Review Focus, Task 10: Build, Integration Verification & Cloud Deployment, Task 1: Scaffolding Vite + React Frontend and Dependencies, Task 2: CSS Design Tokens & Theme Engine (Dark, Light, Auto), Task 3: Zero-Hardcode Constants & Tri-Lingual i18n System, Task 4: Telegram WebApp SDK Integration & Haptic Hook (+6 more)
 
 ### Community 15 - "quizService.js"
-Cohesion: 0.33
-Nodes (12): EP_DELETE_QUIZ, EP_GET_GROUP_SESSIONS, EP_GET_INITIAL_DATA, EP_GET_KIUT_CATALOG, EP_GET_LEADERBOARD, EP_GET_QUIZ_DETAIL, EP_GET_USER_MISTAKES, EP_GROUP_HOST_SYNC (+4 more)
+Cohesion: 0.13
+Nodes (28): 1. Backend Serverless Endpoints (`tgcloud/endpoints/`), 2. Frontend Services & Constants, 3. Frontend Views & Components, 4. i18n & Zero Hardcoding, 5. Verification & Deployment, Phase 3: Quiz Studio & Advanced Management, Proposed Changes, EP_DELETE_QUIZ (+20 more)
 
 ### Community 16 - "Proposed Changes"
 Cohesion: 0.29
 Nodes (6): 1. Achievements & Gamification Engine (`src/constants/achievements.js`), 2. Localization (UZ, RU, EN with 100% Parity), 3. Frontend Components & Views, 4. Verification & Deployment, Phase 4: Gamification, Achievements & Social Share Plan, Proposed Changes
 
-### Community 17 - "test_cleaner_syntax.mjs"
-Cohesion: 0.19
-Nodes (15): Task 4: Hybrid Parser Engine with Smart Validation, abcLines, abcResult, blockLines, blockResult, preprocessed, unglued, cleanRawTextLines() (+7 more)
+### Community 17 - "cleaner.js"
+Cohesion: 0.27
+Nodes (11): Task 4: Hybrid Parser Engine with Smart Validation, cleanRawTextLines(), DASH_MAP, fixBrokenLineJoins(), normalizeUzbekApostrophes(), preprocessSpacedSeparators(), QUOTE_MAP, splitGluedQuestions() (+3 more)
 
 ### Community 18 - "index.jsx"
 Cohesion: 0.15
 Nodes (8): react-dom, APP_CONFIG, TelegramContext, TelegramProvider(), ThemeProvider(), LanguageContext, LanguageProvider(), translations
 
-### Community 19 - "test_docx_highlight.mjs"
-Cohesion: 0.18
-Nodes (11): RFC-1950, RFC-1951, docxBuf, lines, parsed, extractLinesFromDocx(), isHighlightedOrEmphasized(), cleanOmmlText() (+3 more)
+### Community 19 - "math_engine.js"
+Cohesion: 0.44
+Nodes (6): cleanOmmlText(), generateLatexImageUrl(), hasMathFormula(), normalizeLatex(), ommlToLatex(), renderAndUploadFormula()
 
-### Community 20 - "test_pdf_reader.mjs"
+### Community 20 - "test_cleaner_syntax.mjs"
 Cohesion: 0.21
-Nodes (9): emptyPdf, lines, pdfBuffer, questions, extractAnswerKeys(), LETTER_INDEX_MAP, letterToOptionIndex(), parseAbcFormat() (+1 more)
+Nodes (11): abcLines, abcResult, blockLines, blockResult, preprocessed, unglued, extractAnswerKeys(), LETTER_INDEX_MAP (+3 more)
 
 ### Community 21 - "Proposed Changes"
 Cohesion: 0.29
@@ -155,8 +160,8 @@ Cohesion: 0.26
 Nodes (6): parseBlockFormat(), parseGiftFormat(), parseLegacyFormat(), detectFormatAndParse(), parseQuizInput(), validateQuizQuestions()
 
 ### Community 23 - "pdf_reader.js"
-Cohesion: 0.26
-Nodes (11): decodePdfHex(), decodePdfLiteral(), ENDSTREAM_KW, extractLinesFromPdf(), extractTextFromStreamContent(), findSubarray(), STREAM_KW, inflateRaw() (+3 more)
+Cohesion: 0.18
+Nodes (15): RFC-1950, RFC-1951, decodePdfHex(), decodePdfLiteral(), ENDSTREAM_KW, extractLinesFromPdf(), extractTextFromStreamContent(), findSubarray() (+7 more)
 
 ### Community 24 - "Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy Implementatsiya Rejasi (PLAN v4)"
 Cohesion: 0.20
@@ -164,23 +169,23 @@ Nodes (9): Task 1: Scaffolding and CLI Environment Setup, Task 2: Zero-Hardcode 
 
 ## Knowledge Gaps
 - **2 isolated node(s):** `RFC-1951`, `RFC-1950`
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 212 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 211 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **1 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `getMessage()` connect `callback_query.js` to `schema.js`, `Review Focus`, `test_messages_parity.mjs`, `Centralized Constants & Zero-Hardcode i18n Design Specification`?**
-  _High betweenness centrality (0.054) - this node is a cross-community bridge._
+- **Why does `getMessage()` connect `callback_query.js` to `Review Focus`, `Centralized Constants & Zero-Hardcode i18n Design Specification`?**
+  _High betweenness centrality (0.053) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `getMessage()` (e.g. with `Global Constraints` and `3.2 Handlers (`tgcloud/handlers/`)`) actually correct?**
   _`getMessage()` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `RFC-1951`, `RFC-1950` to the rest of the system?**
   _2 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `schema.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.08521303258145363 - nodes in this community are weakly interconnected._
-- **Why does `fixBrokenLineJoins()` connect `test_cleaner_syntax.mjs` to `Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy To'liq Spetsifikatsiya (Spec v4)`?**
+  _Cohesion score 0.1349206349206349 - nodes in this community are weakly interconnected._
+- **Why does `fixBrokenLineJoins()` connect `cleaner.js` to `Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy To'liq Spetsifikatsiya (Spec v4)`?**
   _High betweenness centrality (0.043) - this node is a cross-community bridge._
-- **Should `Database (`db`)` be split into smaller, more focused modules?**
-  _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
-- **Why does `parseQuizInput()` connect `parser_engine.js` to `callback_query.js`, `ingest_kiut_tests.mjs`, `test_cleaner_syntax.mjs`, `test_docx_highlight.mjs`, `pdf_reader.js`?**
+- **Should `test_keyboards_i18n.mjs` be split into smaller, more focused modules?**
+  _Cohesion score 0.125 - nodes in this community are weakly interconnected._
+- **Why does `parseQuizInput()` connect `parser_engine.js` to `cleaner.js`, `callback_query.js`, `ingest_kiut_tests.mjs`, `pdf_reader.js`?**
   _High betweenness centrality (0.037) - this node is a cross-community bridge._

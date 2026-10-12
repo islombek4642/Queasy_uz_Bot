@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "tests/test_hybrid_parsers.mjs": {
-    "mtime": 1791561338.6654656,
-    "seen": 1791642489.9030716,
-    "ast_hash": "e451a5318a38b43f778d7203eb65d396",
+    "mtime": 1791785592.6553297,
+    "seen": 1791787469.626111,
+    "ast_hash": "7b0c9cd243dfef9c8bc868822eb74e36",
     "semantic_hash": ""
   },
   "tests/test_keyboards_i18n.mjs": {
@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "tgcloud/handlers/callback_query.js": {
-    "mtime": 1791784839.2089643,
-    "seen": 1791785061.520549,
-    "ast_hash": "92f9d6b40c4932a8d3c07437ee432157",
+    "mtime": 1791785926.685907,
+    "seen": 1791787469.6261594,
+    "ast_hash": "5ab6af86ac442c64278f29f1d81b6123",
     "semantic_hash": ""
   },
   "tgcloud/handlers/inline_query.js": {
@@ -108,15 +108,15 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/keyboards/mode_keyboard.js": {
-    "mtime": 1791563870.1094663,
-    "seen": 1791642489.9031007,
-    "ast_hash": "852afeedf32d5eaf22db069971088846",
+    "mtime": 1791785510.977344,
+    "seen": 1791787469.626195,
+    "ast_hash": "a350acd04c155dbffc2d57785809b5b3",
     "semantic_hash": ""
   },
   "tgcloud/lib/keyboards/quiz_keyboard.js": {
-    "mtime": 1791641846.27001,
-    "seen": 1791642489.9031026,
-    "ast_hash": "e8462537c1b1d028689636e773de440b",
+    "mtime": 1791785829.2337363,
+    "seen": 1791787469.626197,
+    "ast_hash": "1e8dec86e0f1ee5533e84298ecc30224",
     "semantic_hash": ""
   },
   "tgcloud/lib/keyboards/subscribe_keyboard.js": {
@@ -336,9 +336,9 @@
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1791745705.310538,
-    "seen": 1791745740.0925224,
-    "ast_hash": "ca3f7c13e2f83a5cdd7e5bd2e09349f5",
+    "mtime": 1791786437.121796,
+    "seen": 1791787469.62598,
+    "ast_hash": "2562fa17d122a10523dab4034633a3eb",
     "semantic_hash": ""
   },
   "src/components/common/Badge.jsx": {
@@ -498,9 +498,9 @@
     "semantic_hash": ""
   },
   "src/services/api.js": {
-    "mtime": 1791747909.8782,
-    "seen": 1791783873.671061,
-    "ast_hash": "a422299afe94ea9620198695c9cc046a",
+    "mtime": 1791788157.5280988,
+    "seen": 1791788191.7847912,
+    "ast_hash": "d1b42014d077023803044e30b1f4381e",
     "semantic_hash": ""
   },
   "src/services/quizService.js": {
@@ -522,15 +522,15 @@
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
-    "mtime": 1791748038.684944,
-    "seen": 1791783873.6710727,
-    "ast_hash": "d2d1920790de851c50711d734d2152ee",
+    "mtime": 1791786509.244356,
+    "seen": 1791787469.6260853,
+    "ast_hash": "34c5988415b02b3f444283ba4c498db9",
     "semantic_hash": ""
   },
   "src/views/LeaderboardView.jsx": {
-    "mtime": 1791745152.931392,
-    "seen": 1791745200.4107964,
-    "ast_hash": "c93630ffa851a68a2ebe88691614a587",
+    "mtime": 1791787395.7560558,
+    "seen": 1791787469.62609,
+    "ast_hash": "dbcb8ef68429ccbc6646ec6dc5f53d13",
     "semantic_hash": ""
   },
   "src/views/MyQuizzesView.jsx": {
@@ -546,9 +546,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_initial_data.js": {
-    "mtime": 1791742265.7550797,
-    "seen": 1791742298.6774642,
-    "ast_hash": "cb91e4c981bed77dce2fca2869296c3c",
+    "mtime": 1791788038.6275072,
+    "seen": 1791788191.7848542,
+    "ast_hash": "ce334788ebd34f6cdc33f0236c64a67a",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_quiz_detail.js": {
@@ -600,15 +600,15 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_group_sessions.js": {
-    "mtime": 1791742487.1477988,
-    "seen": 1791742781.8097816,
-    "ast_hash": "0e318684547a12ce29d80ea6aaf9ee61",
+    "mtime": 1791788131.7297478,
+    "seen": 1791788191.7848518,
+    "ast_hash": "741d9a7d610ed711ef7f5b68571a0571",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_leaderboard.js": {
-    "mtime": 1791745033.55801,
-    "seen": 1791745200.410845,
-    "ast_hash": "8a07214337b59418a46c7be384691d06",
+    "mtime": 1791787996.3664255,
+    "seen": 1791788191.7848594,
+    "ast_hash": "9d521ef709319d8c2713b0244fce1e7d",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/save_custom_quiz.js": {
@@ -708,9 +708,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_kiut_catalog.js": {
-    "mtime": 1791783796.390683,
-    "seen": 1791783873.6711211,
-    "ast_hash": "4bf38e6bc20a0cfa5e6c24a629b5e62d",
+    "mtime": 1791786286.7292907,
+    "seen": 1791787469.6261373,
+    "ast_hash": "1d32e7c55ae0b52debb8a44f00530a97",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/ingest_kiut_batch.js": {
@@ -729,6 +729,12 @@
     "mtime": 1791784623.6113942,
     "seen": 1791785061.5203617,
     "ast_hash": "7c811255d3728e9a44ba5cf805268a72",
+    "semantic_hash": ""
+  },
+  "src/views/KiutView.jsx": {
+    "mtime": 1791786391.0786147,
+    "seen": 1791787469.6260877,
+    "ast_hash": "5e1d2333dc89d962b40c9ffeb7d500ac",
     "semantic_hash": ""
   }
 }

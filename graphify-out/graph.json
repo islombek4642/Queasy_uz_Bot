@@ -20,160 +20,52 @@
       "source_location": "L5"
     },
     {
-      "id": "tests_test_math_engine_sendphoto",
-      "label": "sendPhoto()",
+      "id": "tgcloud_lib_services_channel_service_addrequiredchannel",
+      "label": "addRequiredChannel()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "schema.js",
       "file_type": "code",
-      "norm_label": "sendphoto()",
-      "source_file": "tests/test_math_engine.mjs",
-      "source_location": "L57"
+      "norm_label": "addrequiredchannel()",
+      "source_file": "tgcloud/lib/services/channel_service.js",
+      "source_location": "L16"
     },
     {
-      "id": "tgcloud_lib_parsers_math_engine_generatelateximageurl",
-      "label": "generateLatexImageUrl()",
+      "id": "tgcloud_lib_services_channel_service_checkusersubscribed",
+      "label": "checkUserSubscribed()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "schema.js",
       "file_type": "code",
-      "norm_label": "generatelateximageurl()",
-      "source_file": "tgcloud/lib/parsers/math_engine.js",
-      "source_location": "L160"
+      "norm_label": "checkusersubscribed()",
+      "source_file": "tgcloud/lib/services/channel_service.js",
+      "source_location": "L36"
     },
     {
-      "id": "tgcloud_lib_parsers_math_engine_hasmathformula",
-      "label": "hasMathFormula()",
+      "id": "tgcloud_lib_services_channel_service_deleterequiredchannel",
+      "label": "deleteRequiredChannel()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": "schema.js",
       "file_type": "code",
-      "norm_label": "hasmathformula()",
-      "source_file": "tgcloud/lib/parsers/math_engine.js",
+      "norm_label": "deleterequiredchannel()",
+      "source_file": "tgcloud/lib/services/channel_service.js",
+      "source_location": "L29"
+    },
+    {
+      "id": "tgcloud_lib_services_channel_service_getrequiredchannels",
+      "label": "getRequiredChannels()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "schema.js",
+      "file_type": "code",
+      "norm_label": "getrequiredchannels()",
+      "source_file": "tgcloud/lib/services/channel_service.js",
       "source_location": "L8"
-    },
-    {
-      "id": "tgcloud_lib_parsers_math_engine_normalizelatex",
-      "label": "normalizeLatex()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "normalizelatex()",
-      "source_file": "tgcloud/lib/parsers/math_engine.js",
-      "source_location": "L113"
-    },
-    {
-      "id": "tgcloud_lib_parsers_math_engine_renderanduploadformula",
-      "label": "renderAndUploadFormula()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "renderanduploadformula()",
-      "source_file": "tgcloud/lib/parsers/math_engine.js",
-      "source_location": "L171"
-    },
-    {
-      "id": "tgcloud_lib_services_admin_service_broadcastmessage",
-      "label": "broadcastMessage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "broadcastmessage()",
-      "source_file": "tgcloud/lib/services/admin_service.js",
-      "source_location": "L71"
-    },
-    {
-      "id": "tgcloud_lib_services_admin_service_getbotstatistics",
-      "label": "getBotStatistics()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "getbotstatistics()",
-      "source_file": "tgcloud/lib/services/admin_service.js",
-      "source_location": "L15"
-    },
-    {
-      "id": "tgcloud_lib_services_admin_service_getmediachannel",
-      "label": "getMediaChannel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "getmediachannel()",
-      "source_file": "tgcloud/lib/services/admin_service.js",
-      "source_location": "L111"
-    },
-    {
-      "id": "tgcloud_lib_services_admin_service_getuserscount",
-      "label": "getUsersCount()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "getuserscount()",
-      "source_file": "tgcloud/lib/services/admin_service.js",
-      "source_location": "L59"
-    },
-    {
-      "id": "tgcloud_lib_services_admin_service_listusers",
-      "label": "listUsers()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "listusers()",
-      "source_file": "tgcloud/lib/services/admin_service.js",
-      "source_location": "L48"
-    },
-    {
-      "id": "tgcloud_lib_services_admin_service_removemediachannel",
-      "label": "removeMediaChannel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "removemediachannel()",
-      "source_file": "tgcloud/lib/services/admin_service.js",
-      "source_location": "L161"
-    },
-    {
-      "id": "tgcloud_lib_services_admin_service_setmediachannel",
-      "label": "setMediaChannel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "setmediachannel()",
-      "source_file": "tgcloud/lib/services/admin_service.js",
-      "source_location": "L126"
-    },
-    {
-      "id": "tgcloud_lib_services_admin_service_setuserblocked",
-      "label": "setUserBlocked()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "setuserblocked()",
-      "source_file": "tgcloud/lib/services/admin_service.js",
-      "source_location": "L63"
     },
     {
       "id": "tgcloud_lib_services_group_service_deactivategroup",
@@ -212,18 +104,6 @@
       "source_location": "L68"
     },
     {
-      "id": "tgcloud_lib_services_group_service_getgroupscount",
-      "label": "getGroupsCount()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "getgroupscount()",
-      "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L113"
-    },
-    {
       "id": "tgcloud_lib_services_group_service_listgroups",
       "label": "listGroups()",
       "_callable": true,
@@ -246,66 +126,6 @@
       "norm_label": "upsertgroup()",
       "source_file": "tgcloud/lib/services/group_service.js",
       "source_location": "L9"
-    },
-    {
-      "id": "tgcloud_lib_services_quiz_service_clonequiz",
-      "label": "cloneQuiz()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "clonequiz()",
-      "source_file": "tgcloud/lib/services/quiz_service.js",
-      "source_location": "L164"
-    },
-    {
-      "id": "tgcloud_lib_services_quiz_service_createquiz",
-      "label": "createQuiz()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "createquiz()",
-      "source_file": "tgcloud/lib/services/quiz_service.js",
-      "source_location": "L11"
-    },
-    {
-      "id": "tgcloud_lib_services_quiz_service_deletequiz",
-      "label": "deleteQuiz()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "deletequiz()",
-      "source_file": "tgcloud/lib/services/quiz_service.js",
-      "source_location": "L126"
-    },
-    {
-      "id": "tgcloud_lib_services_quiz_service_getuserquizzes",
-      "label": "getUserQuizzes()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "getuserquizzes()",
-      "source_file": "tgcloud/lib/services/quiz_service.js",
-      "source_location": "L108"
-    },
-    {
-      "id": "tgcloud_lib_services_quiz_service_updatequizsettings",
-      "label": "updateQuizSettings()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "updatequizsettings()",
-      "source_file": "tgcloud/lib/services/quiz_service.js",
-      "source_location": "L152"
     },
     {
       "id": "tgcloud_handlers_callback_query_escapehtml",
@@ -497,7 +317,7 @@
       "file_type": "code",
       "norm_label": "getconfirmdeletekeyboard()",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L129"
+      "source_location": "L139"
     },
     {
       "id": "tgcloud_lib_keyboards_quiz_keyboard_getmyquizzespagekeyboard",
@@ -509,7 +329,7 @@
       "file_type": "code",
       "norm_label": "getmyquizzespagekeyboard()",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L65"
+      "source_location": "L75"
     },
     {
       "id": "tgcloud_lib_keyboards_quiz_keyboard_getquizcardkeyboard",
@@ -533,7 +353,7 @@
       "file_type": "code",
       "norm_label": "gettimelimitkeyboard()",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L102"
+      "source_location": "L112"
     },
     {
       "id": "tgcloud_lib_keyboards_subscribe_keyboard_getlanguagekeyboard",
@@ -572,6 +392,54 @@
       "source_location": "L7"
     },
     {
+      "id": "tgcloud_lib_services_admin_service_broadcastmessage",
+      "label": "broadcastMessage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "broadcastmessage()",
+      "source_file": "tgcloud/lib/services/admin_service.js",
+      "source_location": "L71"
+    },
+    {
+      "id": "tgcloud_lib_services_admin_service_getbotstatistics",
+      "label": "getBotStatistics()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "getbotstatistics()",
+      "source_file": "tgcloud/lib/services/admin_service.js",
+      "source_location": "L15"
+    },
+    {
+      "id": "tgcloud_lib_services_admin_service_getmediachannel",
+      "label": "getMediaChannel()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "getmediachannel()",
+      "source_file": "tgcloud/lib/services/admin_service.js",
+      "source_location": "L111"
+    },
+    {
+      "id": "tgcloud_lib_services_admin_service_getuserscount",
+      "label": "getUsersCount()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "getuserscount()",
+      "source_file": "tgcloud/lib/services/admin_service.js",
+      "source_location": "L59"
+    },
+    {
       "id": "tgcloud_lib_services_admin_service_isuseradmin",
       "label": "isUserAdmin()",
       "_callable": true,
@@ -584,52 +452,100 @@
       "source_location": "L10"
     },
     {
-      "id": "tgcloud_lib_services_channel_service_addrequiredchannel",
-      "label": "addRequiredChannel()",
+      "id": "tgcloud_lib_services_admin_service_listusers",
+      "label": "listUsers()",
       "_callable": true,
       "_origin": "ast",
       "community": 10,
       "community_name": "callback_query.js",
       "file_type": "code",
-      "norm_label": "addrequiredchannel()",
-      "source_file": "tgcloud/lib/services/channel_service.js",
-      "source_location": "L16"
+      "norm_label": "listusers()",
+      "source_file": "tgcloud/lib/services/admin_service.js",
+      "source_location": "L48"
     },
     {
-      "id": "tgcloud_lib_services_channel_service_checkusersubscribed",
-      "label": "checkUserSubscribed()",
+      "id": "tgcloud_lib_services_admin_service_removemediachannel",
+      "label": "removeMediaChannel()",
       "_callable": true,
       "_origin": "ast",
       "community": 10,
       "community_name": "callback_query.js",
       "file_type": "code",
-      "norm_label": "checkusersubscribed()",
-      "source_file": "tgcloud/lib/services/channel_service.js",
-      "source_location": "L36"
+      "norm_label": "removemediachannel()",
+      "source_file": "tgcloud/lib/services/admin_service.js",
+      "source_location": "L161"
     },
     {
-      "id": "tgcloud_lib_services_channel_service_deleterequiredchannel",
-      "label": "deleteRequiredChannel()",
+      "id": "tgcloud_lib_services_admin_service_setmediachannel",
+      "label": "setMediaChannel()",
       "_callable": true,
       "_origin": "ast",
       "community": 10,
       "community_name": "callback_query.js",
       "file_type": "code",
-      "norm_label": "deleterequiredchannel()",
-      "source_file": "tgcloud/lib/services/channel_service.js",
-      "source_location": "L29"
+      "norm_label": "setmediachannel()",
+      "source_file": "tgcloud/lib/services/admin_service.js",
+      "source_location": "L126"
     },
     {
-      "id": "tgcloud_lib_services_channel_service_getrequiredchannels",
-      "label": "getRequiredChannels()",
+      "id": "tgcloud_lib_services_admin_service_setuserblocked",
+      "label": "setUserBlocked()",
       "_callable": true,
       "_origin": "ast",
       "community": 10,
       "community_name": "callback_query.js",
       "file_type": "code",
-      "norm_label": "getrequiredchannels()",
-      "source_file": "tgcloud/lib/services/channel_service.js",
-      "source_location": "L8"
+      "norm_label": "setuserblocked()",
+      "source_file": "tgcloud/lib/services/admin_service.js",
+      "source_location": "L63"
+    },
+    {
+      "id": "tgcloud_lib_services_group_service_getgroupscount",
+      "label": "getGroupsCount()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "getgroupscount()",
+      "source_file": "tgcloud/lib/services/group_service.js",
+      "source_location": "L113"
+    },
+    {
+      "id": "tgcloud_lib_services_quiz_service_clonequiz",
+      "label": "cloneQuiz()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "clonequiz()",
+      "source_file": "tgcloud/lib/services/quiz_service.js",
+      "source_location": "L164"
+    },
+    {
+      "id": "tgcloud_lib_services_quiz_service_createquiz",
+      "label": "createQuiz()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "createquiz()",
+      "source_file": "tgcloud/lib/services/quiz_service.js",
+      "source_location": "L11"
+    },
+    {
+      "id": "tgcloud_lib_services_quiz_service_deletequiz",
+      "label": "deleteQuiz()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "deletequiz()",
+      "source_file": "tgcloud/lib/services/quiz_service.js",
+      "source_location": "L126"
     },
     {
       "id": "tgcloud_lib_services_quiz_service_getquizbyid",
@@ -644,6 +560,18 @@
       "source_location": "L68"
     },
     {
+      "id": "tgcloud_lib_services_quiz_service_getuserquizzes",
+      "label": "getUserQuizzes()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "getuserquizzes()",
+      "source_file": "tgcloud/lib/services/quiz_service.js",
+      "source_location": "L108"
+    },
+    {
       "id": "tgcloud_lib_services_quiz_service_getuserquizzescount",
       "label": "getUserQuizzesCount()",
       "_callable": true,
@@ -654,6 +582,18 @@
       "norm_label": "getuserquizzescount()",
       "source_file": "tgcloud/lib/services/quiz_service.js",
       "source_location": "L122"
+    },
+    {
+      "id": "tgcloud_lib_services_quiz_service_updatequizsettings",
+      "label": "updateQuizSettings()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "updatequizsettings()",
+      "source_file": "tgcloud/lib/services/quiz_service.js",
+      "source_location": "L152"
     },
     {
       "id": "tgcloud_lib_services_session_service_advancegroupround",
@@ -1100,12 +1040,132 @@
       "source_location": "L5"
     },
     {
+      "id": "src_services_api_callendpoint",
+      "label": "callEndpoint()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "callendpoint()",
+      "source_file": "src/services/api.js",
+      "source_location": "L61"
+    },
+    {
+      "id": "src_services_api_getcleandefaults",
+      "label": "getCleanDefaults()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "getcleandefaults()",
+      "source_file": "src/services/api.js",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_services_quizservice_deletequiz",
+      "label": "deleteQuiz()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "deletequiz()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L40"
+    },
+    {
+      "id": "src_services_quizservice_fetchgroupsessions",
+      "label": "fetchGroupSessions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "fetchgroupsessions()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L32"
+    },
+    {
+      "id": "src_services_quizservice_fetchinitialdata",
+      "label": "fetchInitialData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "fetchinitialdata()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_services_quizservice_fetchleaderboard",
+      "label": "fetchLeaderboard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "fetchleaderboard()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L28"
+    },
+    {
+      "id": "src_services_quizservice_fetchusermistakes",
+      "label": "fetchUserMistakes()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "fetchusermistakes()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L48"
+    },
+    {
+      "id": "src_services_quizservice_savecustomquiz",
+      "label": "saveCustomQuiz()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "savecustomquiz()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L36"
+    },
+    {
+      "id": "src_services_quizservice_submitsoloresult",
+      "label": "submitSoloResult()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "submitsoloresult()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L24"
+    },
+    {
+      "id": "src_services_quizservice_updatequiz",
+      "label": "updateQuiz()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "updatequiz()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L44"
+    },
+    {
       "id": "tgcloud_lib_parsers_cleaner_cleanrawtextlines",
       "label": "cleanRawTextLines()",
       "_callable": true,
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "cleanrawtextlines()",
       "source_file": "tgcloud/lib/parsers/cleaner.js",
@@ -1117,7 +1177,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "fixbrokenlinejoins()",
       "source_file": "tgcloud/lib/parsers/cleaner.js",
@@ -1129,7 +1189,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "normalizeuzbekapostrophes()",
       "source_file": "tgcloud/lib/parsers/cleaner.js",
@@ -1141,7 +1201,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "preprocessspacedseparators()",
       "source_file": "tgcloud/lib/parsers/cleaner.js",
@@ -1153,7 +1213,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "splitgluedquestions()",
       "source_file": "tgcloud/lib/parsers/cleaner.js",
@@ -1165,11 +1225,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "stripexamheadersandpagenumbers()",
       "source_file": "tgcloud/lib/parsers/cleaner.js",
       "source_location": "L79"
+    },
+    {
+      "id": "tgcloud_lib_parsers_docx_reader_extractlinesfromdocx",
+      "label": "extractLinesFromDocx()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "cleaner.js",
+      "file_type": "code",
+      "norm_label": "extractlinesfromdocx()",
+      "source_file": "tgcloud/lib/parsers/docx_reader.js",
+      "source_location": "L49"
+    },
+    {
+      "id": "tgcloud_lib_parsers_docx_reader_ishighlightedoremphasized",
+      "label": "isHighlightedOrEmphasized()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "cleaner.js",
+      "file_type": "code",
+      "norm_label": "ishighlightedoremphasized()",
+      "source_file": "tgcloud/lib/parsers/docx_reader.js",
+      "source_location": "L12"
     },
     {
       "id": "src_context_telegramcontext_telegramprovider",
@@ -1208,40 +1292,16 @@
       "source_location": "L12"
     },
     {
-      "id": "tests_test_docx_highlight_createzipwithdocumentxml",
-      "label": "createZipWithDocumentXml()",
+      "id": "tests_test_math_engine_sendphoto",
+      "label": "sendPhoto()",
       "_callable": true,
       "_origin": "ast",
       "community": 19,
-      "community_name": "test_docx_highlight.mjs",
+      "community_name": "math_engine.js",
       "file_type": "code",
-      "norm_label": "createzipwithdocumentxml()",
-      "source_file": "tests/test_docx_highlight.mjs",
-      "source_location": "L10"
-    },
-    {
-      "id": "tgcloud_lib_parsers_docx_reader_extractlinesfromdocx",
-      "label": "extractLinesFromDocx()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "code",
-      "norm_label": "extractlinesfromdocx()",
-      "source_file": "tgcloud/lib/parsers/docx_reader.js",
-      "source_location": "L49"
-    },
-    {
-      "id": "tgcloud_lib_parsers_docx_reader_ishighlightedoremphasized",
-      "label": "isHighlightedOrEmphasized()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "code",
-      "norm_label": "ishighlightedoremphasized()",
-      "source_file": "tgcloud/lib/parsers/docx_reader.js",
-      "source_location": "L12"
+      "norm_label": "sendphoto()",
+      "source_file": "tests/test_math_engine.mjs",
+      "source_location": "L57"
     },
     {
       "id": "tgcloud_lib_parsers_math_engine_cleanommltext",
@@ -1249,11 +1309,47 @@
       "_callable": true,
       "_origin": "ast",
       "community": 19,
-      "community_name": "test_docx_highlight.mjs",
+      "community_name": "math_engine.js",
       "file_type": "code",
       "norm_label": "cleanommltext()",
       "source_file": "tgcloud/lib/parsers/math_engine.js",
       "source_location": "L102"
+    },
+    {
+      "id": "tgcloud_lib_parsers_math_engine_generatelateximageurl",
+      "label": "generateLatexImageUrl()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "math_engine.js",
+      "file_type": "code",
+      "norm_label": "generatelateximageurl()",
+      "source_file": "tgcloud/lib/parsers/math_engine.js",
+      "source_location": "L160"
+    },
+    {
+      "id": "tgcloud_lib_parsers_math_engine_hasmathformula",
+      "label": "hasMathFormula()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "math_engine.js",
+      "file_type": "code",
+      "norm_label": "hasmathformula()",
+      "source_file": "tgcloud/lib/parsers/math_engine.js",
+      "source_location": "L8"
+    },
+    {
+      "id": "tgcloud_lib_parsers_math_engine_normalizelatex",
+      "label": "normalizeLatex()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 19,
+      "community_name": "math_engine.js",
+      "file_type": "code",
+      "norm_label": "normalizelatex()",
+      "source_file": "tgcloud/lib/parsers/math_engine.js",
+      "source_location": "L113"
     },
     {
       "id": "tgcloud_lib_parsers_math_engine_ommltolatex",
@@ -1261,47 +1357,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 19,
-      "community_name": "test_docx_highlight.mjs",
+      "community_name": "math_engine.js",
       "file_type": "code",
       "norm_label": "ommltolatex()",
       "source_file": "tgcloud/lib/parsers/math_engine.js",
       "source_location": "L44"
     },
     {
-      "id": "tgcloud_lib_parsers_xlsx_reader_extractquestionsfromxlsx",
-      "label": "extractQuestionsFromXlsx()",
+      "id": "tgcloud_lib_parsers_math_engine_renderanduploadformula",
+      "label": "renderAndUploadFormula()",
       "_callable": true,
       "_origin": "ast",
       "community": 19,
-      "community_name": "test_docx_highlight.mjs",
+      "community_name": "math_engine.js",
       "file_type": "code",
-      "norm_label": "extractquestionsfromxlsx()",
-      "source_file": "tgcloud/lib/parsers/xlsx_reader.js",
-      "source_location": "L6"
-    },
-    {
-      "id": "tgcloud_lib_utils_unzip_extractfilefromzip",
-      "label": "extractFileFromZip()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "code",
-      "norm_label": "extractfilefromzip()",
-      "source_file": "tgcloud/lib/utils/unzip.js",
-      "source_location": "L201"
-    },
-    {
-      "id": "tests_test_pdf_reader_buildsimplepdf",
-      "label": "buildSimplePdf()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 20,
-      "community_name": "test_pdf_reader.mjs",
-      "file_type": "code",
-      "norm_label": "buildsimplepdf()",
-      "source_file": "tests/test_pdf_reader.mjs",
-      "source_location": "L10"
+      "norm_label": "renderanduploadformula()",
+      "source_file": "tgcloud/lib/parsers/math_engine.js",
+      "source_location": "L171"
     },
     {
       "id": "tgcloud_lib_parsers_abc_parser_extractanswerkeys",
@@ -1309,7 +1381,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
       "norm_label": "extractanswerkeys()",
       "source_file": "tgcloud/lib/parsers/abc_parser.js",
@@ -1321,7 +1393,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
       "norm_label": "lettertooptionindex()",
       "source_file": "tgcloud/lib/parsers/abc_parser.js",
@@ -1333,7 +1405,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
       "norm_label": "parseabcformat()",
       "source_file": "tgcloud/lib/parsers/abc_parser.js",
@@ -1345,7 +1417,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
       "norm_label": "commitquestion()",
       "source_file": "tgcloud/lib/parsers/abc_parser.js",
@@ -1520,6 +1592,30 @@
       "source_location": "L11"
     },
     {
+      "id": "tgcloud_lib_parsers_xlsx_reader_extractquestionsfromxlsx",
+      "label": "extractQuestionsFromXlsx()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "pdf_reader.js",
+      "file_type": "code",
+      "norm_label": "extractquestionsfromxlsx()",
+      "source_file": "tgcloud/lib/parsers/xlsx_reader.js",
+      "source_location": "L6"
+    },
+    {
+      "id": "tgcloud_lib_utils_unzip_extractfilefromzip",
+      "label": "extractFileFromZip()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "pdf_reader.js",
+      "file_type": "code",
+      "norm_label": "extractfilefromzip()",
+      "source_file": "tgcloud/lib/utils/unzip.js",
+      "source_location": "L201"
+    },
+    {
       "id": "tgcloud_lib_utils_unzip_inflateraw",
       "label": "inflateRaw()",
       "_callable": true,
@@ -1645,7 +1741,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
       "norm_label": "getmediachannel()",
       "source_file": "tests/test_admin_media_channel.mjs",
@@ -1657,11 +1753,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
       "norm_label": "setmediachannel()",
       "source_file": "tests/test_admin_media_channel.mjs",
       "source_location": "L11"
+    },
+    {
+      "id": "tests_test_docx_highlight_createzipwithdocumentxml",
+      "label": "createZipWithDocumentXml()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "test_pdf_reader.mjs",
+      "file_type": "code",
+      "norm_label": "createzipwithdocumentxml()",
+      "source_file": "tests/test_docx_highlight.mjs",
+      "source_location": "L10"
+    },
+    {
+      "id": "tests_test_pdf_reader_buildsimplepdf",
+      "label": "buildSimplePdf()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "test_pdf_reader.mjs",
+      "file_type": "code",
+      "norm_label": "buildsimplepdf()",
+      "source_file": "tests/test_pdf_reader.mjs",
+      "source_location": "L10"
     },
     {
       "id": "src_app_app",
@@ -1673,7 +1793,7 @@
       "file_type": "code",
       "norm_label": "app()",
       "source_file": "src/App.jsx",
-      "source_location": "L23"
+      "source_location": "L24"
     },
     {
       "id": "src_components_common_avatar_avatar",
@@ -1916,54 +2036,6 @@
       "source_location": "L5"
     },
     {
-      "id": "src_services_api_callendpoint",
-      "label": "callEndpoint()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "callendpoint()",
-      "source_file": "src/services/api.js",
-      "source_location": "L150"
-    },
-    {
-      "id": "src_services_quizservice_deletequiz",
-      "label": "deleteQuiz()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "deletequiz()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L40"
-    },
-    {
-      "id": "src_services_quizservice_fetchgroupsessions",
-      "label": "fetchGroupSessions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "fetchgroupsessions()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L32"
-    },
-    {
-      "id": "src_services_quizservice_fetchinitialdata",
-      "label": "fetchInitialData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "fetchinitialdata()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L16"
-    },
-    {
       "id": "src_services_quizservice_fetchkiutcatalog",
       "label": "fetchKiutCatalog()",
       "_callable": true,
@@ -1976,18 +2048,6 @@
       "source_location": "L52"
     },
     {
-      "id": "src_services_quizservice_fetchleaderboard",
-      "label": "fetchLeaderboard()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "fetchleaderboard()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L28"
-    },
-    {
       "id": "src_services_quizservice_fetchquizdetail",
       "label": "fetchQuizDetail()",
       "_callable": true,
@@ -1998,54 +2058,6 @@
       "norm_label": "fetchquizdetail()",
       "source_file": "src/services/quizService.js",
       "source_location": "L20"
-    },
-    {
-      "id": "src_services_quizservice_fetchusermistakes",
-      "label": "fetchUserMistakes()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "fetchusermistakes()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L48"
-    },
-    {
-      "id": "src_services_quizservice_savecustomquiz",
-      "label": "saveCustomQuiz()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "savecustomquiz()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L36"
-    },
-    {
-      "id": "src_services_quizservice_submitsoloresult",
-      "label": "submitSoloResult()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "submitsoloresult()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L24"
-    },
-    {
-      "id": "src_services_quizservice_updatequiz",
-      "label": "updateQuiz()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "updatequiz()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L44"
     },
     {
       "id": "src_utils_gamification_calculatelevelprogress",
@@ -2093,7 +2105,19 @@
       "file_type": "code",
       "norm_label": "homeview()",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L12"
+      "source_location": "L11"
+    },
+    {
+      "id": "src_views_kiutview_kiutview",
+      "label": "KiutView()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "kiutview()",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L11"
     },
     {
       "id": "src_views_leaderboardview_leaderboardview",
@@ -2142,17 +2166,6 @@
       "norm_label": "parsegroupcmd()",
       "source_file": "tests/test_group_commands.mjs",
       "source_location": "L4"
-    },
-    {
-      "id": "tests_test_math_engine",
-      "label": "test_math_engine.mjs",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "test_math_engine.mjs",
-      "source_file": "tests/test_math_engine.mjs",
-      "source_location": "L1"
     },
     {
       "id": "tgcloud_endpoints_delete_quiz",
@@ -2287,17 +2300,6 @@
       "source_location": "L1"
     },
     {
-      "id": "tgcloud_handlers_inline_query",
-      "label": "inline_query.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "inline_query.js",
-      "source_file": "tgcloud/handlers/inline_query.js",
-      "source_location": "L1"
-    },
-    {
       "id": "tgcloud_handlers_my_chat_member",
       "label": "my_chat_member.js",
       "_origin": "ast",
@@ -2309,47 +2311,14 @@
       "source_location": "L1"
     },
     {
-      "id": "tgcloud_lib_constants_config",
-      "label": "lib/constants/config.js",
+      "id": "tgcloud_lib_services_channel_service",
+      "label": "channel_service.js",
       "_origin": "ast",
       "community": 0,
       "community_name": "schema.js",
       "file_type": "code",
-      "norm_label": "lib/constants/config.js",
-      "source_file": "tgcloud/lib/constants/config.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "tgcloud_lib_constants_config_config",
-      "label": "CONFIG",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "config",
-      "source_file": "tgcloud/lib/constants/config.js",
-      "source_location": "L4"
-    },
-    {
-      "id": "tgcloud_lib_parsers_math_engine",
-      "label": "math_engine.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "math_engine.js",
-      "source_file": "tgcloud/lib/parsers/math_engine.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "tgcloud_lib_services_admin_service",
-      "label": "admin_service.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "admin_service.js",
-      "source_file": "tgcloud/lib/services/admin_service.js",
+      "norm_label": "channel_service.js",
+      "source_file": "tgcloud/lib/services/channel_service.js",
       "source_location": "L1"
     },
     {
@@ -2361,17 +2330,6 @@
       "file_type": "code",
       "norm_label": "group_service.js",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "tgcloud_lib_services_quiz_service",
-      "label": "quiz_service.js",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "quiz_service.js",
-      "source_file": "tgcloud/lib/services/quiz_service.js",
       "source_location": "L1"
     },
     {
@@ -2463,6 +2421,17 @@
       "source_location": "L28"
     },
     {
+      "id": "tgcloud_schema_requiredchannels",
+      "label": "requiredChannels",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "schema.js",
+      "file_type": "code",
+      "norm_label": "requiredchannels",
+      "source_file": "tgcloud/schema.js",
+      "source_location": "L101"
+    },
+    {
       "id": "tgcloud_schema_usermistakes",
       "label": "userMistakes",
       "_origin": "ast",
@@ -2485,106 +2454,11 @@
       "source_location": "L7"
     },
     {
-      "id": "tgcloud_schema_userstates",
-      "label": "userStates",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "schema.js",
-      "file_type": "code",
-      "norm_label": "userstates",
-      "source_file": "tgcloud/schema.js",
-      "source_location": "L112"
-    },
-    {
-      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3",
-      "label": "2026-10-11-queasy-mini-app-phase3.md",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Proposed Changes",
-      "file_type": "document",
-      "node_kind": "page",
-      "norm_label": "2026-10-11-queasy-mini-app-phase3.md",
-      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_1_backend_serverless_endpoints_tgcloud_endpoints",
-      "label": "1. Backend Serverless Endpoints (`tgcloud/endpoints/`)",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Proposed Changes",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "1. backend serverless endpoints (`tgcloud/endpoints/`)",
-      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
-      "source_location": "L7"
-    },
-    {
-      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_3_frontend_views_components",
-      "label": "3. Frontend Views & Components",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Proposed Changes",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "3. frontend views & components",
-      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
-      "source_location": "L18"
-    },
-    {
-      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_4_i18n_zero_hardcoding",
-      "label": "4. i18n & Zero Hardcoding",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Proposed Changes",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "4. i18n & zero hardcoding",
-      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
-      "source_location": "L24"
-    },
-    {
-      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_5_verification_deployment",
-      "label": "5. Verification & Deployment",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Proposed Changes",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "5. verification & deployment",
-      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
-      "source_location": "L27"
-    },
-    {
-      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_phase_3_quiz_studio_advanced_management",
-      "label": "Phase 3: Quiz Studio & Advanced Management",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Proposed Changes",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "phase 3: quiz studio & advanced management",
-      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_proposed_changes",
-      "label": "Proposed Changes",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Proposed Changes",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "proposed changes",
-      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
-      "source_location": "L5"
-    },
-    {
       "id": "tests_test_keyboards_i18n",
       "label": "test_keyboards_i18n.mjs",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "test_keyboards_i18n.mjs",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2594,8 +2468,8 @@
       "id": "tests_test_keyboards_i18n_bcastkbden",
       "label": "bcastKbdEn",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "bcastkbden",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2605,8 +2479,8 @@
       "id": "tests_test_keyboards_i18n_bcastkbdru",
       "label": "bcastKbdRu",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "bcastkbdru",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2616,8 +2490,8 @@
       "id": "tests_test_keyboards_i18n_bcastkbduz",
       "label": "bcastKbdUz",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "bcastkbduz",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2627,8 +2501,8 @@
       "id": "tests_test_keyboards_i18n_chkbden",
       "label": "chKbdEn",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "chkbden",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2638,8 +2512,8 @@
       "id": "tests_test_keyboards_i18n_chkbdru",
       "label": "chKbdRu",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "chkbdru",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2649,8 +2523,8 @@
       "id": "tests_test_keyboards_i18n_chkbduz",
       "label": "chKbdUz",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "chkbduz",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2660,8 +2534,8 @@
       "id": "tests_test_keyboards_i18n_delkbden",
       "label": "delKbdEn",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "delkbden",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2671,8 +2545,8 @@
       "id": "tests_test_keyboards_i18n_delkbdru",
       "label": "delKbdRu",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "delkbdru",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2682,8 +2556,8 @@
       "id": "tests_test_keyboards_i18n_delkbduz",
       "label": "delKbdUz",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "delkbduz",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2693,8 +2567,8 @@
       "id": "tests_test_keyboards_i18n_langkbden",
       "label": "langKbdEn",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "langkbden",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2704,8 +2578,8 @@
       "id": "tests_test_keyboards_i18n_langkbdru",
       "label": "langKbdRu",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "langkbdru",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2715,8 +2589,8 @@
       "id": "tests_test_keyboards_i18n_langkbduz",
       "label": "langKbdUz",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "langkbduz",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2726,8 +2600,8 @@
       "id": "tests_test_keyboards_i18n_timekbden",
       "label": "timeKbdEn",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "timekbden",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2737,8 +2611,8 @@
       "id": "tests_test_keyboards_i18n_timekbdru",
       "label": "timeKbdRu",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "timekbdru",
       "source_file": "tests/test_keyboards_i18n.mjs",
@@ -2748,12 +2622,100 @@
       "id": "tests_test_keyboards_i18n_timekbduz",
       "label": "timeKbdUz",
       "_origin": "ast",
-      "community": 10,
-      "community_name": "callback_query.js",
+      "community": 1,
+      "community_name": "test_keyboards_i18n.mjs",
       "file_type": "code",
       "norm_label": "timekbduz",
       "source_file": "tests/test_keyboards_i18n.mjs",
       "source_location": "L10"
+    },
+    {
+      "id": "tests_test_messages_parity",
+      "label": "test_messages_parity.mjs",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "test_messages_parity.mjs",
+      "source_file": "tests/test_messages_parity.mjs",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_test_messages_parity_enkeys",
+      "label": "enKeys",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "enkeys",
+      "source_file": "tests/test_messages_parity.mjs",
+      "source_location": "L9"
+    },
+    {
+      "id": "tests_test_messages_parity_interpolated",
+      "label": "interpolated",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "interpolated",
+      "source_file": "tests/test_messages_parity.mjs",
+      "source_location": "L92"
+    },
+    {
+      "id": "tests_test_messages_parity_missinginen",
+      "label": "missingInEn",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "missinginen",
+      "source_file": "tests/test_messages_parity.mjs",
+      "source_location": "L16"
+    },
+    {
+      "id": "tests_test_messages_parity_missinginru",
+      "label": "missingInRu",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "missinginru",
+      "source_file": "tests/test_messages_parity.mjs",
+      "source_location": "L15"
+    },
+    {
+      "id": "tests_test_messages_parity_requirednewkeys",
+      "label": "requiredNewKeys",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "requirednewkeys",
+      "source_file": "tests/test_messages_parity.mjs",
+      "source_location": "L30"
+    },
+    {
+      "id": "tests_test_messages_parity_rukeys",
+      "label": "ruKeys",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "rukeys",
+      "source_file": "tests/test_messages_parity.mjs",
+      "source_location": "L8"
+    },
+    {
+      "id": "tests_test_messages_parity_uzkeys",
+      "label": "uzKeys",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "uzkeys",
+      "source_file": "tests/test_messages_parity.mjs",
+      "source_location": "L7"
     },
     {
       "id": "tests_test_poll_truncation_formatting",
@@ -2775,6 +2737,17 @@
       "file_type": "code",
       "norm_label": "callback_query.js",
       "source_file": "tgcloud/handlers/callback_query.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "tgcloud_handlers_inline_query",
+      "label": "inline_query.js",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "inline_query.js",
+      "source_file": "tgcloud/handlers/inline_query.js",
       "source_location": "L1"
     },
     {
@@ -2844,6 +2817,28 @@
       "source_location": "L61"
     },
     {
+      "id": "tgcloud_lib_constants_config",
+      "label": "lib/constants/config.js",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "lib/constants/config.js",
+      "source_file": "tgcloud/lib/constants/config.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "tgcloud_lib_constants_config_config",
+      "label": "CONFIG",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "config",
+      "source_file": "tgcloud/lib/constants/config.js",
+      "source_location": "L4"
+    },
+    {
       "id": "tgcloud_lib_constants_locales_en",
       "label": "constants/locales/en.js",
       "_origin": "ast",
@@ -2886,6 +2881,17 @@
       "norm_label": "messages.js",
       "source_file": "tgcloud/lib/constants/messages.js",
       "source_location": "L1"
+    },
+    {
+      "id": "tgcloud_lib_constants_messages_messages",
+      "label": "MESSAGES",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "messages",
+      "source_file": "tgcloud/lib/constants/messages.js",
+      "source_location": "L8"
     },
     {
       "id": "tgcloud_lib_keyboards_admin_keyboard",
@@ -2954,14 +2960,25 @@
       "source_location": "L1"
     },
     {
-      "id": "tgcloud_lib_services_channel_service",
-      "label": "channel_service.js",
+      "id": "tgcloud_lib_services_admin_service",
+      "label": "admin_service.js",
       "_origin": "ast",
       "community": 10,
       "community_name": "callback_query.js",
       "file_type": "code",
-      "norm_label": "channel_service.js",
-      "source_file": "tgcloud/lib/services/channel_service.js",
+      "norm_label": "admin_service.js",
+      "source_file": "tgcloud/lib/services/admin_service.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "tgcloud_lib_services_quiz_service",
+      "label": "quiz_service.js",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "quiz_service.js",
+      "source_file": "tgcloud/lib/services/quiz_service.js",
       "source_location": "L1"
     },
     {
@@ -3009,15 +3026,15 @@
       "source_location": "L127"
     },
     {
-      "id": "tgcloud_schema_requiredchannels",
-      "label": "requiredChannels",
+      "id": "tgcloud_schema_userstates",
+      "label": "userStates",
       "_origin": "ast",
       "community": 10,
       "community_name": "callback_query.js",
       "file_type": "code",
-      "norm_label": "requiredchannels",
+      "norm_label": "userstates",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L101"
+      "source_location": "L112"
     },
     {
       "id": "docs_superpowers_plans_2026_10_10_centralized_constants_and_i18n_task_2_refactor_keyboards_to_zero_hardcode_and_multi_language",
@@ -3732,17 +3749,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_services_api_mock_data",
-      "label": "MOCK_DATA",
-      "_origin": "ast",
-      "community": 15,
-      "community_name": "quizService.js",
-      "file_type": "code",
-      "norm_label": "mock_data",
-      "source_file": "src/services/api.js",
-      "source_location": "L18"
-    },
-    {
       "id": "src_services_quizservice",
       "label": "quizService.js",
       "_origin": "ast",
@@ -3752,6 +3758,102 @@
       "norm_label": "quizservice.js",
       "source_file": "src/services/quizService.js",
       "source_location": "L1"
+    },
+    {
+      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3",
+      "label": "2026-10-11-queasy-mini-app-phase3.md",
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "2026-10-11-queasy-mini-app-phase3.md",
+      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_1_backend_serverless_endpoints_tgcloud_endpoints",
+      "label": "1. Backend Serverless Endpoints (`tgcloud/endpoints/`)",
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. backend serverless endpoints (`tgcloud/endpoints/`)",
+      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
+      "source_location": "L7"
+    },
+    {
+      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_2_frontend_services_constants",
+      "label": "2. Frontend Services & Constants",
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. frontend services & constants",
+      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
+      "source_location": "L13"
+    },
+    {
+      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_3_frontend_views_components",
+      "label": "3. Frontend Views & Components",
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. frontend views & components",
+      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
+      "source_location": "L18"
+    },
+    {
+      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_4_i18n_zero_hardcoding",
+      "label": "4. i18n & Zero Hardcoding",
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. i18n & zero hardcoding",
+      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
+      "source_location": "L24"
+    },
+    {
+      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_5_verification_deployment",
+      "label": "5. Verification & Deployment",
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "5. verification & deployment",
+      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
+      "source_location": "L27"
+    },
+    {
+      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_phase_3_quiz_studio_advanced_management",
+      "label": "Phase 3: Quiz Studio & Advanced Management",
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "phase 3: quiz studio & advanced management",
+      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_proposed_changes",
+      "label": "Proposed Changes",
+      "_origin": "ast",
+      "community": 15,
+      "community_name": "quizService.js",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "proposed changes",
+      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
+      "source_location": "L5"
     },
     {
       "id": "docs_superpowers_plans_2026_10_12_queasy_mini_app_phase4",
@@ -3838,88 +3940,11 @@
       "source_location": "L5"
     },
     {
-      "id": "tests_test_cleaner_syntax",
-      "label": "test_cleaner_syntax.mjs",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
-      "file_type": "code",
-      "norm_label": "test_cleaner_syntax.mjs",
-      "source_file": "tests/test_cleaner_syntax.mjs",
-      "source_location": "L1"
-    },
-    {
-      "id": "tests_test_cleaner_syntax_abclines",
-      "label": "abcLines",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
-      "file_type": "code",
-      "norm_label": "abclines",
-      "source_file": "tests/test_cleaner_syntax.mjs",
-      "source_location": "L63"
-    },
-    {
-      "id": "tests_test_cleaner_syntax_abcresult",
-      "label": "abcResult",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
-      "file_type": "code",
-      "norm_label": "abcresult",
-      "source_file": "tests/test_cleaner_syntax.mjs",
-      "source_location": "L64"
-    },
-    {
-      "id": "tests_test_cleaner_syntax_blocklines",
-      "label": "blockLines",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
-      "file_type": "code",
-      "norm_label": "blocklines",
-      "source_file": "tests/test_cleaner_syntax.mjs",
-      "source_location": "L31"
-    },
-    {
-      "id": "tests_test_cleaner_syntax_blockresult",
-      "label": "blockResult",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
-      "file_type": "code",
-      "norm_label": "blockresult",
-      "source_file": "tests/test_cleaner_syntax.mjs",
-      "source_location": "L32"
-    },
-    {
-      "id": "tests_test_cleaner_syntax_preprocessed",
-      "label": "preprocessed",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
-      "file_type": "code",
-      "norm_label": "preprocessed",
-      "source_file": "tests/test_cleaner_syntax.mjs",
-      "source_location": "L27"
-    },
-    {
-      "id": "tests_test_cleaner_syntax_unglued",
-      "label": "unglued",
-      "_origin": "ast",
-      "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
-      "file_type": "code",
-      "norm_label": "unglued",
-      "source_file": "tests/test_cleaner_syntax.mjs",
-      "source_location": "L44"
-    },
-    {
       "id": "tests_test_hybrid_parsers",
       "label": "test_hybrid_parsers.mjs",
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "test_hybrid_parsers.mjs",
       "source_file": "tests/test_hybrid_parsers.mjs",
@@ -3930,7 +3955,7 @@
       "label": "cleaner.js",
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "cleaner.js",
       "source_file": "tgcloud/lib/parsers/cleaner.js",
@@ -3941,7 +3966,7 @@
       "label": "DASH_MAP",
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "dash_map",
       "source_file": "tgcloud/lib/parsers/cleaner.js",
@@ -3952,18 +3977,29 @@
       "label": "QUOTE_MAP",
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "code",
       "norm_label": "quote_map",
       "source_file": "tgcloud/lib/parsers/cleaner.js",
       "source_location": "L5"
     },
     {
+      "id": "tgcloud_lib_parsers_docx_reader",
+      "label": "docx_reader.js",
+      "_origin": "ast",
+      "community": 17,
+      "community_name": "cleaner.js",
+      "file_type": "code",
+      "norm_label": "docx_reader.js",
+      "source_file": "tgcloud/lib/parsers/docx_reader.js",
+      "source_location": "L1"
+    },
+    {
       "id": "docs_plan_task_4_hybrid_parser_engine_with_smart_validation",
       "label": "Task 4: Hybrid Parser Engine with Smart Validation",
       "_origin": "ast",
       "community": 17,
-      "community_name": "test_cleaner_syntax.mjs",
+      "community_name": "cleaner.js",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "task 4: hybrid parser engine with smart validation",
@@ -4103,103 +4139,26 @@
       "source_location": "L20"
     },
     {
-      "id": "tests_test_docx_highlight",
-      "label": "test_docx_highlight.mjs",
+      "id": "tests_test_math_engine",
+      "label": "test_math_engine.mjs",
       "_origin": "ast",
       "community": 19,
-      "community_name": "test_docx_highlight.mjs",
+      "community_name": "math_engine.js",
       "file_type": "code",
-      "norm_label": "test_docx_highlight.mjs",
-      "source_file": "tests/test_docx_highlight.mjs",
+      "norm_label": "test_math_engine.mjs",
+      "source_file": "tests/test_math_engine.mjs",
       "source_location": "L1"
     },
     {
-      "id": "tests_test_docx_highlight_docxbuf",
-      "label": "docxBuf",
+      "id": "tgcloud_lib_parsers_math_engine",
+      "label": "math_engine.js",
       "_origin": "ast",
       "community": 19,
-      "community_name": "test_docx_highlight.mjs",
+      "community_name": "math_engine.js",
       "file_type": "code",
-      "norm_label": "docxbuf",
-      "source_file": "tests/test_docx_highlight.mjs",
-      "source_location": "L87"
-    },
-    {
-      "id": "tests_test_docx_highlight_lines",
-      "label": "lines",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "code",
-      "norm_label": "lines",
-      "source_file": "tests/test_docx_highlight.mjs",
-      "source_location": "L88"
-    },
-    {
-      "id": "tests_test_docx_highlight_parsed",
-      "label": "parsed",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "code",
-      "norm_label": "parsed",
-      "source_file": "tests/test_docx_highlight.mjs",
-      "source_location": "L92"
-    },
-    {
-      "id": "tgcloud_lib_parsers_docx_reader",
-      "label": "docx_reader.js",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "code",
-      "norm_label": "docx_reader.js",
-      "source_file": "tgcloud/lib/parsers/docx_reader.js",
+      "norm_label": "math_engine.js",
+      "source_file": "tgcloud/lib/parsers/math_engine.js",
       "source_location": "L1"
-    },
-    {
-      "id": "tgcloud_lib_parsers_xlsx_reader",
-      "label": "xlsx_reader.js",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "code",
-      "norm_label": "xlsx_reader.js",
-      "source_file": "tgcloud/lib/parsers/xlsx_reader.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "tgcloud_lib_utils_unzip",
-      "label": "unzip.js",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "code",
-      "norm_label": "unzip.js",
-      "source_file": "tgcloud/lib/utils/unzip.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "docref_rfc_1950",
-      "label": "RFC-1950",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "concept",
-      "norm_label": "rfc-1950",
-      "source_file": "tgcloud/lib/utils/unzip.js",
-      "source_location": "L185"
-    },
-    {
-      "id": "docref_rfc_1951",
-      "label": "RFC-1951",
-      "_origin": "ast",
-      "community": 19,
-      "community_name": "test_docx_highlight.mjs",
-      "file_type": "concept",
-      "norm_label": "rfc-1951",
-      "source_file": "tgcloud/lib/utils/unzip.js",
-      "source_location": "L6"
     },
     {
       "id": "agents",
@@ -4598,66 +4557,88 @@
       "source_location": "L1"
     },
     {
-      "id": "tests_test_pdf_reader",
-      "label": "test_pdf_reader.mjs",
+      "id": "tests_test_cleaner_syntax",
+      "label": "test_cleaner_syntax.mjs",
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
-      "norm_label": "test_pdf_reader.mjs",
-      "source_file": "tests/test_pdf_reader.mjs",
+      "norm_label": "test_cleaner_syntax.mjs",
+      "source_file": "tests/test_cleaner_syntax.mjs",
       "source_location": "L1"
     },
     {
-      "id": "tests_test_pdf_reader_emptypdf",
-      "label": "emptyPdf",
+      "id": "tests_test_cleaner_syntax_abclines",
+      "label": "abcLines",
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
-      "norm_label": "emptypdf",
-      "source_file": "tests/test_pdf_reader.mjs",
-      "source_location": "L61"
+      "norm_label": "abclines",
+      "source_file": "tests/test_cleaner_syntax.mjs",
+      "source_location": "L63"
     },
     {
-      "id": "tests_test_pdf_reader_lines",
-      "label": "lines",
+      "id": "tests_test_cleaner_syntax_abcresult",
+      "label": "abcResult",
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
-      "norm_label": "lines",
-      "source_file": "tests/test_pdf_reader.mjs",
-      "source_location": "L50"
+      "norm_label": "abcresult",
+      "source_file": "tests/test_cleaner_syntax.mjs",
+      "source_location": "L64"
     },
     {
-      "id": "tests_test_pdf_reader_pdfbuffer",
-      "label": "pdfBuffer",
+      "id": "tests_test_cleaner_syntax_blocklines",
+      "label": "blockLines",
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
-      "norm_label": "pdfbuffer",
-      "source_file": "tests/test_pdf_reader.mjs",
-      "source_location": "L49"
+      "norm_label": "blocklines",
+      "source_file": "tests/test_cleaner_syntax.mjs",
+      "source_location": "L31"
     },
     {
-      "id": "tests_test_pdf_reader_questions",
-      "label": "questions",
+      "id": "tests_test_cleaner_syntax_blockresult",
+      "label": "blockResult",
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
-      "norm_label": "questions",
-      "source_file": "tests/test_pdf_reader.mjs",
-      "source_location": "L55"
+      "norm_label": "blockresult",
+      "source_file": "tests/test_cleaner_syntax.mjs",
+      "source_location": "L32"
+    },
+    {
+      "id": "tests_test_cleaner_syntax_preprocessed",
+      "label": "preprocessed",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "test_cleaner_syntax.mjs",
+      "file_type": "code",
+      "norm_label": "preprocessed",
+      "source_file": "tests/test_cleaner_syntax.mjs",
+      "source_location": "L27"
+    },
+    {
+      "id": "tests_test_cleaner_syntax_unglued",
+      "label": "unglued",
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "test_cleaner_syntax.mjs",
+      "file_type": "code",
+      "norm_label": "unglued",
+      "source_file": "tests/test_cleaner_syntax.mjs",
+      "source_location": "L44"
     },
     {
       "id": "tgcloud_lib_parsers_abc_parser",
       "label": "abc_parser.js",
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
       "norm_label": "abc_parser.js",
       "source_file": "tgcloud/lib/parsers/abc_parser.js",
@@ -4668,7 +4649,7 @@
       "label": "LETTER_INDEX_MAP",
       "_origin": "ast",
       "community": 20,
-      "community_name": "test_pdf_reader.mjs",
+      "community_name": "test_cleaner_syntax.mjs",
       "file_type": "code",
       "norm_label": "letter_index_map",
       "source_file": "tgcloud/lib/parsers/abc_parser.js",
@@ -4836,6 +4817,50 @@
       "source_location": "L8"
     },
     {
+      "id": "tgcloud_lib_parsers_xlsx_reader",
+      "label": "xlsx_reader.js",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "pdf_reader.js",
+      "file_type": "code",
+      "norm_label": "xlsx_reader.js",
+      "source_file": "tgcloud/lib/parsers/xlsx_reader.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "tgcloud_lib_utils_unzip",
+      "label": "unzip.js",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "pdf_reader.js",
+      "file_type": "code",
+      "norm_label": "unzip.js",
+      "source_file": "tgcloud/lib/utils/unzip.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "docref_rfc_1950",
+      "label": "RFC-1950",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "pdf_reader.js",
+      "file_type": "concept",
+      "norm_label": "rfc-1950",
+      "source_file": "tgcloud/lib/utils/unzip.js",
+      "source_location": "L185"
+    },
+    {
+      "id": "docref_rfc_1951",
+      "label": "RFC-1951",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "pdf_reader.js",
+      "file_type": "concept",
+      "norm_label": "rfc-1951",
+      "source_file": "tgcloud/lib/utils/unzip.js",
+      "source_location": "L6"
+    },
+    {
       "id": "docs_plan",
       "label": "PLAN.md",
       "_origin": "ast",
@@ -4960,7 +4985,7 @@
       "label": "test_admin_media_channel.mjs",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
       "norm_label": "test_admin_media_channel.mjs",
       "source_file": "tests/test_admin_media_channel.mjs",
@@ -4971,7 +4996,7 @@
       "label": "current",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
       "norm_label": "current",
       "source_file": "tests/test_admin_media_channel.mjs",
@@ -4982,7 +5007,7 @@
       "label": "setRes",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
       "norm_label": "setres",
       "source_file": "tests/test_admin_media_channel.mjs",
@@ -4993,110 +5018,110 @@
       "label": "settingsStore",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
       "norm_label": "settingsstore",
       "source_file": "tests/test_admin_media_channel.mjs",
       "source_location": "L9"
     },
     {
-      "id": "tests_test_messages_parity",
-      "label": "test_messages_parity.mjs",
+      "id": "tests_test_docx_highlight",
+      "label": "test_docx_highlight.mjs",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
-      "norm_label": "test_messages_parity.mjs",
-      "source_file": "tests/test_messages_parity.mjs",
+      "norm_label": "test_docx_highlight.mjs",
+      "source_file": "tests/test_docx_highlight.mjs",
       "source_location": "L1"
     },
     {
-      "id": "tests_test_messages_parity_enkeys",
-      "label": "enKeys",
+      "id": "tests_test_docx_highlight_docxbuf",
+      "label": "docxBuf",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
-      "norm_label": "enkeys",
-      "source_file": "tests/test_messages_parity.mjs",
-      "source_location": "L9"
+      "norm_label": "docxbuf",
+      "source_file": "tests/test_docx_highlight.mjs",
+      "source_location": "L87"
     },
     {
-      "id": "tests_test_messages_parity_interpolated",
-      "label": "interpolated",
+      "id": "tests_test_docx_highlight_lines",
+      "label": "lines",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
-      "norm_label": "interpolated",
-      "source_file": "tests/test_messages_parity.mjs",
+      "norm_label": "lines",
+      "source_file": "tests/test_docx_highlight.mjs",
+      "source_location": "L88"
+    },
+    {
+      "id": "tests_test_docx_highlight_parsed",
+      "label": "parsed",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "test_pdf_reader.mjs",
+      "file_type": "code",
+      "norm_label": "parsed",
+      "source_file": "tests/test_docx_highlight.mjs",
       "source_location": "L92"
     },
     {
-      "id": "tests_test_messages_parity_missinginen",
-      "label": "missingInEn",
+      "id": "tests_test_pdf_reader",
+      "label": "test_pdf_reader.mjs",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
-      "norm_label": "missinginen",
-      "source_file": "tests/test_messages_parity.mjs",
-      "source_location": "L16"
+      "norm_label": "test_pdf_reader.mjs",
+      "source_file": "tests/test_pdf_reader.mjs",
+      "source_location": "L1"
     },
     {
-      "id": "tests_test_messages_parity_missinginru",
-      "label": "missingInRu",
+      "id": "tests_test_pdf_reader_emptypdf",
+      "label": "emptyPdf",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
-      "norm_label": "missinginru",
-      "source_file": "tests/test_messages_parity.mjs",
-      "source_location": "L15"
+      "norm_label": "emptypdf",
+      "source_file": "tests/test_pdf_reader.mjs",
+      "source_location": "L61"
     },
     {
-      "id": "tests_test_messages_parity_requirednewkeys",
-      "label": "requiredNewKeys",
+      "id": "tests_test_pdf_reader_lines",
+      "label": "lines",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
-      "norm_label": "requirednewkeys",
-      "source_file": "tests/test_messages_parity.mjs",
-      "source_location": "L30"
+      "norm_label": "lines",
+      "source_file": "tests/test_pdf_reader.mjs",
+      "source_location": "L50"
     },
     {
-      "id": "tests_test_messages_parity_rukeys",
-      "label": "ruKeys",
+      "id": "tests_test_pdf_reader_pdfbuffer",
+      "label": "pdfBuffer",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
-      "norm_label": "rukeys",
-      "source_file": "tests/test_messages_parity.mjs",
-      "source_location": "L8"
+      "norm_label": "pdfbuffer",
+      "source_file": "tests/test_pdf_reader.mjs",
+      "source_location": "L49"
     },
     {
-      "id": "tests_test_messages_parity_uzkeys",
-      "label": "uzKeys",
+      "id": "tests_test_pdf_reader_questions",
+      "label": "questions",
       "_origin": "ast",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "file_type": "code",
-      "norm_label": "uzkeys",
-      "source_file": "tests/test_messages_parity.mjs",
-      "source_location": "L7"
-    },
-    {
-      "id": "tgcloud_lib_constants_messages_messages",
-      "label": "MESSAGES",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "test_messages_parity.mjs",
-      "file_type": "code",
-      "norm_label": "messages",
-      "source_file": "tgcloud/lib/constants/messages.js",
-      "source_location": "L8"
+      "norm_label": "questions",
+      "source_file": "tests/test_pdf_reader.mjs",
+      "source_location": "L55"
     },
     {
       "id": "docs_specification",
@@ -6026,6 +6051,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_views_kiutview",
+      "label": "KiutView.jsx",
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "kiutview.jsx",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_views_leaderboardview",
       "label": "LeaderboardView.jsx",
       "_origin": "ast",
@@ -6090,18 +6126,6 @@
       "norm_label": "react",
       "source_file": "package.json",
       "source_location": "L19"
-    },
-    {
-      "id": "docs_superpowers_plans_2026_10_11_queasy_mini_app_phase3_2_frontend_services_constants",
-      "label": "2. Frontend Services & Constants",
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "react",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2. frontend services & constants",
-      "source_file": "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md",
-      "source_location": "L13"
     },
     {
       "id": "package",
@@ -6566,24 +6590,24 @@
       "type": "external"
     },
     {
-      "id": "ref_node_zlib",
-      "label": "ref_node_zlib",
-      "community": 20,
+      "id": "ref_node_assert",
+      "label": "ref_node_assert",
+      "community": 4,
       "community_name": "test_pdf_reader.mjs",
       "external": true,
       "file_type": "concept",
-      "norm_label": "ref_node_zlib",
+      "norm_label": "ref_node_assert",
       "source_file": "",
       "type": "external"
     },
     {
-      "id": "ref_node_assert",
-      "label": "ref_node_assert",
+      "id": "ref_node_zlib",
+      "label": "ref_node_zlib",
       "community": 4,
-      "community_name": "test_messages_parity.mjs",
+      "community_name": "test_pdf_reader.mjs",
       "external": true,
       "file_type": "concept",
-      "norm_label": "ref_node_assert",
+      "norm_label": "ref_node_zlib",
       "source_file": "",
       "type": "external"
     },
@@ -6638,31 +6662,19 @@
     },
     {
       "source": "src_app_app",
+      "target": "src_views_kiutview_kiutview",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/App.jsx",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_app",
       "target": "src_views_myquizzesview_myquizzesview",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/App.jsx",
-      "source_location": "L104",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_app",
-      "target": "src_views_grouphostview_grouphostview",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/App.jsx",
-      "source_location": "L113",
-      "weight": 1.0
-    },
-    {
-      "source": "src_app_app",
-      "target": "src_views_leaderboardview_leaderboardview",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -6674,6 +6686,30 @@
     },
     {
       "source": "src_app_app",
+      "target": "src_views_grouphostview_grouphostview",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/App.jsx",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_app",
+      "target": "src_views_leaderboardview_leaderboardview",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/App.jsx",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_app",
       "target": "src_views_profileview_profileview",
       "relation": "calls",
       "_origin": "ast",
@@ -6681,7 +6717,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L117",
+      "source_location": "L128",
       "weight": 1.0
     },
     {
@@ -6693,7 +6729,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L121",
+      "source_location": "L132",
       "weight": 1.0
     },
     {
@@ -6705,7 +6741,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L134",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -6717,7 +6753,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L136",
+      "source_location": "L151",
       "weight": 1.0
     },
     {
@@ -6729,7 +6765,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L140",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -6741,7 +6777,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L142",
+      "source_location": "L163",
       "weight": 1.0
     },
     {
@@ -6753,7 +6789,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L33",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -6765,7 +6801,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L92",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -7249,6 +7285,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_services_api_callendpoint",
+      "target": "src_services_api_getcleandefaults",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/services/api.js",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
       "source": "src_services_quizservice_deletequiz",
       "target": "src_services_api_callendpoint",
       "relation": "calls",
@@ -7605,7 +7653,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -7617,7 +7665,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -7629,7 +7677,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L20",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -7641,7 +7689,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L30",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -7653,7 +7701,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L329",
+      "source_location": "L327",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_homeview_homeview",
+      "target": "src_components_common_card_card",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/HomeView.jsx",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -7665,31 +7725,79 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L338",
+      "source_location": "L336",
       "weight": 1.0
     },
     {
-      "source": "src_views_homeview_homeview",
+      "source": "src_views_kiutview_kiutview",
+      "target": "src_hooks_usetranslation_usetranslation",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview_kiutview",
+      "target": "src_hooks_usetelegram_usetelegram",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview_kiutview",
+      "target": "src_components_common_badge_badge",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview_kiutview",
+      "target": "src_services_quizservice_fetchkiutcatalog",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview_kiutview",
       "target": "src_components_common_card_card",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
-      "source_file": "src/views/HomeView.jsx",
-      "source_location": "L35",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L287",
       "weight": 1.0
     },
     {
-      "source": "src_views_homeview_homeview",
-      "target": "src_components_quiz_kiutexplorermodal_kiutexplorermodal",
+      "source": "src_views_kiutview_kiutview",
+      "target": "src_components_common_button_button",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
-      "source_file": "src/views/HomeView.jsx",
-      "source_location": "L359",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L416",
       "weight": 1.0
     },
     {
@@ -7701,7 +7809,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LeaderboardView.jsx",
-      "source_location": "L116",
+      "source_location": "L121",
       "weight": 1.0
     },
     {
@@ -7713,7 +7821,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LeaderboardView.jsx",
-      "source_location": "L129",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -7725,7 +7833,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LeaderboardView.jsx",
-      "source_location": "L133",
+      "source_location": "L138",
       "weight": 1.0
     },
     {
@@ -8121,7 +8229,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L133",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -8133,7 +8241,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L82",
+      "source_location": "L92",
       "weight": 1.0
     },
     {
@@ -8157,7 +8265,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L105",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -9494,7 +9602,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_quiz_quizcreatormodal_quizcreatormodal",
+      "target": "src_views_kiutview_kiutview",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9506,7 +9614,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_common_errorboundary_errorboundary",
+      "target": "src_components_quiz_quizcreatormodal_quizcreatormodal",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9518,7 +9626,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_constants_routes_nav_group_host",
+      "target": "src_components_common_errorboundary_errorboundary",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -9526,6 +9634,18 @@
       "context": "import",
       "source_file": "src/App.jsx",
       "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_constants_routes_nav_group_host",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -9537,7 +9657,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -9549,7 +9669,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -9561,7 +9681,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -9573,7 +9693,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -9585,7 +9705,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/App.jsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -10886,18 +11006,6 @@
     },
     {
       "source": "src_views_homeview",
-      "target": "src_components_quiz_kiutexplorermodal_kiutexplorermodal",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/views/HomeView.jsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_homeview",
       "target": "src_hooks_usetranslation_usetranslation",
       "relation": "imports",
       "_origin": "ast",
@@ -10977,6 +11085,78 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/views/HomeView.jsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_hooks_usetranslation_usetranslation",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_hooks_usetelegram_usetelegram",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_services_quizservice_fetchkiutcatalog",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_components_common_card_card",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_components_common_badge_badge",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_components_common_button_button",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
       "source_location": "L9",
       "weight": 1.0
     },
@@ -14126,7 +14306,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_quiz_quizcreatormodal",
+      "target": "src_views_kiutview",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -14138,7 +14318,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_components_common_errorboundary",
+      "target": "src_components_quiz_quizcreatormodal",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -14150,7 +14330,7 @@
     },
     {
       "source": "src_app",
-      "target": "src_constants_routes",
+      "target": "src_components_common_errorboundary",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -14158,6 +14338,18 @@
       "context": "import",
       "source_file": "src/App.jsx",
       "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_constants_routes",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/App.jsx",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -15710,18 +15902,6 @@
     },
     {
       "source": "src_views_homeview",
-      "target": "src_components_quiz_kiutexplorermodal",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/views/HomeView.jsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_homeview",
       "target": "ref_iconify_react",
       "relation": "imports_from",
       "_origin": "ast",
@@ -15813,6 +15993,102 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/views/HomeView.jsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "ref_iconify_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_hooks_usetranslation",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_hooks_usetelegram",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_services_quizservice",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_components_common_card",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_components_common_badge",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_components_common_button",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/KiutView.jsx",
       "source_location": "L9",
       "weight": 1.0
     },
@@ -19851,7 +20127,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/App.jsx",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -20450,18 +20726,7 @@
     },
     {
       "source": "src_services_api",
-      "target": "src_services_api_callendpoint",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/services/api.js",
-      "source_location": "L150",
-      "weight": 1.0
-    },
-    {
-      "source": "src_services_api",
-      "target": "src_services_api_mock_data",
+      "target": "src_services_api_getcleandefaults",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -20621,7 +20886,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L12",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_kiutview",
+      "target": "src_views_kiutview_kiutview",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
@@ -21792,6 +22068,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_services_api",
+      "target": "src_services_api_callendpoint",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "collection",
+      "source_file": "src/services/api.js",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
       "source": "tgcloud_lib_constants_messages",
       "target": "tgcloud_lib_constants_messages_getmessage",
       "relation": "indirect_call",
@@ -21944,7 +22232,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L141",
+      "source_location": "L151",
       "weight": 1.0
     },
     {
@@ -21956,7 +22244,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L142",
+      "source_location": "L152",
       "weight": 1.0
     },
     {
@@ -21968,7 +22256,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L143",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -21980,7 +22268,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L144",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -23076,5 +23364,6 @@
       "weight": 1.0
     }
   ],
-  "hyperedges": []
+  "hyperedges": [],
+  "built_at_commit": "922f4b57e4e91fad2d4f81f43e949d345485e0bb"
 }
