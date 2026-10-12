@@ -98,4 +98,21 @@ assert.strictEqual(isButtonMatch('📚 Мои тесты', 'BTN_MY_QUIZZES'), tr
 assert.strictEqual(isButtonMatch('📚 My Quizzes', 'BTN_MY_QUIZZES'), true);
 assert.strictEqual(isButtonMatch('Random string', 'BTN_MY_QUIZZES'), false);
 
-console.log('✅ ALL MESSAGES TESTS PASSED!');
+// Test Frontend i18n Parity
+console.log('--- Testing Frontend Mini App Locales Parity ---');
+const feUz = (await import('../src/i18n/locales/uz.js')).default;
+const feRu = (await import('../src/i18n/locales/ru.js')).default;
+const feEn = (await import('../src/i18n/locales/en.js')).default;
+
+const feUzKeys = Object.keys(feUz).sort();
+const feRuKeys = Object.keys(feRu).sort();
+const feEnKeys = Object.keys(feEn).sort();
+
+console.log(`Frontend UZ: ${feUzKeys.length}, RU: ${feRuKeys.length}, EN: ${feEnKeys.length}`);
+const feMissingInRu = feUzKeys.filter((k) => !(k in feRu));
+const feMissingInEn = feUzKeys.filter((k) => !(k in feEn));
+
+assert.strictEqual(feMissingInRu.length, 0, `Frontend RU is missing: ${feMissingInRu.join(', ')}`);
+assert.strictEqual(feMissingInEn.length, 0, `Frontend EN is missing: ${feMissingInEn.join(', ')}`);
+
+console.log('✅ ALL MESSAGES & FRONTEND LOCALES TESTS PASSED!');

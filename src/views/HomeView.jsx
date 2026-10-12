@@ -214,7 +214,7 @@ export function HomeView({
           </div>
           <div>
             <div style={{ fontWeight: '700', fontSize: '0.92rem' }}>{t('CREATE_QUIZ_TITLE')}</div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Mini App ichida o'z testingizni yarating</div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{t('CREATE_QUIZ_SUBTITLE')}</div>
           </div>
         </div>
       </Card>

@@ -51,14 +51,20 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
   const handleStartAll = () => {
     haptic.impact('medium');
     if (onStartMistakesPractice && data.mistakes?.length > 0) {
-      onStartMistakesPractice(data.mistakes, `${t('MISTAKES_PRACTICE_TITLE')} (Barchasi)`);
+      onStartMistakesPractice(
+        data.mistakes,
+        `${t('MISTAKES_PRACTICE_TITLE')} (${t('MISTAKES_TAG_ALL')})`
+      );
     }
   };
 
   const handleStartGroup = (group) => {
     haptic.impact('medium');
     if (onStartMistakesPractice && group.mistakes?.length > 0) {
-      onStartMistakesPractice(group.mistakes, `${group.title} (Xatolar)`);
+      onStartMistakesPractice(
+        group.mistakes,
+        `${group.title} (${t('MISTAKES_TAG_SUBJECT')})`
+      );
     }
   };
 
@@ -97,12 +103,12 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
           }}
         >
           <Icon icon="solar:arrow-left-linear" width="18" height="18" />
-          <span>{t('BTN_BACK') || 'Orqaga'}</span>
+          <span>{t('BTN_BACK')}</span>
         </button>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Badge variant="danger" size="md">
-            {data.count} {t('STAT_MISTAKES') || 'ta xato'}
+            {t('STAT_MISTAKES_COUNT', { count: data.count })}
           </Badge>
         </div>
       </div>
@@ -126,10 +132,10 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
           </div>
           <div>
             <h2 style={{ fontSize: '1.35rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
-              {t('MISTAKES_PRACTICE_TITLE') || 'Xatolar Ustida Ishlash'}
+              {t('MISTAKES_PRACTICE_TITLE')}
             </h2>
             <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: 0 }}>
-              Fanlar bo'yicha ajratilgan xatolar to'plami
+              {t('MISTAKES_SUBTITLE')}
             </p>
           </div>
         </div>
@@ -169,14 +175,14 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
           </div>
           <div>
             <h3 style={{ fontSize: '1.2rem', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '6px' }}>
-              Barcha xatolar to'g'rilangan!
+              {t('MISTAKES_EMPTY_TITLE')}
             </h3>
             <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', maxWidth: '320px', margin: '0 auto' }}>
-              Sizda hozircha xato qilingan savollar qolmagan. Yangi testlarni yechib bilimingizni mustahkamlang!
+              {t('MISTAKES_EMPTY_DESC')}
             </p>
           </div>
           <Button variant="primary" size="md" onClick={onBack} style={{ marginTop: '8px' }}>
-            {t('BTN_BACK_HOME') || 'Bosh sahifaga qaytish'}
+            {t('BTN_BACK_HOME')}
           </Button>
         </Card>
       ) : (
@@ -212,10 +218,10 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
                 </div>
                 <div>
                   <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>
-                    Barcha fanlar aralash
+                    {t('MISTAKES_ALL_TITLE')}
                   </h3>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '2px 0 0' }}>
-                    Jami {data.count} ta xatoni bitta umumiy testda qayta ishlash
+                    {t('MISTAKES_ALL_DESC', { count: data.count })}
                   </p>
                 </div>
               </div>
@@ -226,7 +232,7 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
 
             <Button variant="primary" size="md" fullWidth onClick={handleStartAll}>
               <Icon icon="solar:play-bold" width="18" height="18" />
-              <span>Hammasini birdan boshlash</span>
+              <span>{t('MISTAKES_START_ALL')}</span>
             </Button>
           </Card>
 
@@ -234,10 +240,10 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '6px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <h3 style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>
-                Fanlar bo'yicha xatolar ({data.grouped?.length || 0})
+                {t('MISTAKES_BY_SUBJECTS', { count: data.grouped?.length || 0 })}
               </h3>
               <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-                Fanni tanlang va faqat uning xatolarini yeching
+                {t('MISTAKES_CHOOSE_SUBJECT_DESC')}
               </span>
             </div>
 
@@ -302,7 +308,7 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
                     <Badge variant="danger" size="md">
-                      {group.count}
+                      {t('STAT_MISTAKES_COUNT', { count: group.count })}
                     </Badge>
                     <Button
                       variant="secondary"
@@ -311,7 +317,7 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
                       style={{ padding: '6px 14px' }}
                     >
                       <Icon icon="solar:play-bold" width="14" height="14" />
-                      <span>Boshlash</span>
+                      <span>{t('BTN_PRACTICE')}</span>
                     </Button>
                   </div>
                 </Card>
@@ -323,3 +329,4 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
     </div>
   );
 }
+export default MistakesView;
