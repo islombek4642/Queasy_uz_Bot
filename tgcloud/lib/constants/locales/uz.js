@@ -176,7 +176,7 @@ export default {
   LABEL_NO: 'Yo\'q',
   DEFAULT_USER_NAME: 'Foydalanuvchi',
   INLINE_QUIZ_DESC: 'Savollar: {count} ta | Vaqt: {time}s',
-  INLINE_QUIZ_BODY: '🎯 <b>{title}</b>\n\n🆔 <b>ID:</b> <code>{id}</code>\n💬 <b>Guruhda boshlash:</b> <code>/quiz {id}</code>\n\n📊 Savollar: <b>{count}</b> ta\n⏱ Vaqt: <b>{time}</b> soniya\n\nTestni yechish yoki guruhda boshlash uchun quyidagi tugmalarni bosing:',
+  INLINE_QUIZ_BODY: '🎯 <b>{title}</b>\n\n📊 Savollar: <b>{count}</b> ta\n⏱ Vaqt: <b>{time}</b> soniya\n\n💬 <b>Guruhda boshlash:</b> <code>/quiz {id}</code>',
 
   // Media Channel Admin
   BTN_ADMIN_MEDIA_CHANNEL: '🖼 Media kanal',

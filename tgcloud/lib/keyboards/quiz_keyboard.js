@@ -18,12 +18,15 @@ export function getQuizCardKeyboard(quiz, lang = 'UZ', isOwner = true, hasMistak
     ]);
   }
 
-  // 2. Play buttons: Solo and Group
+  // 2. Play buttons: Solo and Group (3 separate rows)
   inline_keyboard.push([
     {
       text: getMessage('BTN_START_QUIZ', lang),
       callback_data: `${ACTIONS.START_QUIZ_PREFIX}${quiz.id}`,
     },
+  ]);
+
+  inline_keyboard.push([
     {
       text: getMessage('BTN_START_GROUP_QUIZ', lang),
       callback_data: `${ACTIONS.START_GROUP_QUIZ_PREFIX}${quiz.id}`,

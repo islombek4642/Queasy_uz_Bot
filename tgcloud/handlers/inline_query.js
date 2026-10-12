@@ -37,9 +37,17 @@ export default async function (inlineQuery, ctx) {
               text: getMessage('BTN_START_QUIZ', lang),
               url: `https://t.me/${CONFIG.BOT.USERNAME}?start=quiz_${quiz.id}`,
             },
+          ],
+          [
             {
               text: getMessage('BTN_START_GROUP_QUIZ', lang),
               url: `https://t.me/${CONFIG.BOT.USERNAME}?startgroup=quiz_${quiz.id}`,
+            },
+          ],
+          [
+            {
+              text: getMessage('BTN_SHARE_QUIZ', lang),
+              switch_inline_query: `quiz_${quiz.id}`,
             },
           ],
         ],

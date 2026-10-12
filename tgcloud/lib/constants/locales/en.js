@@ -176,7 +176,7 @@ export default {
   LABEL_NO: 'No',
   DEFAULT_USER_NAME: 'User',
   INLINE_QUIZ_DESC: 'Questions: {count} | Timer: {time}s',
-  INLINE_QUIZ_BODY: '🎯 <b>{title}</b>\n\n🆔 <b>ID:</b> <code>{id}</code>\n💬 <b>Start in group:</b> <code>/quiz {id}</code>\n\n📊 Questions: <b>{count}</b>\n⏱ Time: <b>{time}</b>s\n\nClick below to solve this quiz or start in a group:',
+  INLINE_QUIZ_BODY: '🎯 <b>{title}</b>\n\n📊 Questions: <b>{count}</b>\n⏱ Time: <b>{time}</b>s\n\n💬 <b>Start in group:</b> <code>/quiz {id}</code>',
 
   // Media Channel Admin
   BTN_ADMIN_MEDIA_CHANNEL: '🖼 Media Channel',
