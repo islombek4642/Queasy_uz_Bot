@@ -187,6 +187,22 @@ export default {
   RANGE_TO_LABEL: 'До',
   RANDOM_COUNT_LABEL: 'Количество вопросов',
   BTN_START_PLAY: 'Начать',
-};
+
+  // Group Tournaments & Sharing
+  BTN_SHARE_TO_GROUP: 'Поделиться в группу',
+  BTN_CREATE_LIVE_ROOM: 'Комната онлайн',
+  TOURNAMENT_TITLE: 'Групповая Викторина',
+  TOURNAMENT_SUBTITLE: 'Примите участие в турнире группы и побеждайте!',
+  TOURNAMENT_LEADERBOARD_TITLE: 'Лидеры группы',
+  TOURNAMENT_NO_PARTICIPANTS: 'Пока никто не проходил тест. Будьте первыми!',
+  TOURNAMENT_YOUR_RANK: 'Ваше место',
+  TOURNAMENT_BEST_SCORE: 'Ваш результат',
+  BTN_JOIN_TOURNAMENT: 'Участвовать в турнире',
+  BTN_SHARE_RESULT_GROUP: 'Поделиться результатом в группе',
+  TOURNAMENT_SHARE_CAPTION: '🏆 Я занял(а) {rank}-е место в викторине «{title}» с результатом {score}/{total}! Попробуй и ты: {link}',
+  TOAST_TOURNAMENT_CREATED: 'Турнир создан! Выберите группу...',
+  TOAST_LINK_COPIED: 'Ссылка скопирована!',
+  LIVE_ROOM_COMING_SOON: 'Режим онлайн-комнаты скоро будет доступен!',
+ };
 
 

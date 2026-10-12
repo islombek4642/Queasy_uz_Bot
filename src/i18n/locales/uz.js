@@ -187,6 +187,23 @@ export default {
   RANGE_TO_LABEL: 'Tugashi',
   RANDOM_COUNT_LABEL: 'Savollar soni',
   BTN_START_PLAY: 'Boshlash',
+
+  // Group Tournaments & Sharing
+  BTN_SHARE_TO_GROUP: 'Guruhga ulashish',
+  BTN_CREATE_LIVE_ROOM: 'Jonli xona',
+  TOURNAMENT_TITLE: 'Guruh Viktorinasi',
+  TOURNAMENT_SUBTITLE: 'Ushbu guruh turnirida ishtirok eting va g\'olib bo\'ling!',
+  TOURNAMENT_LEADERBOARD_TITLE: 'Guruh Peshqadamlari',
+  TOURNAMENT_NO_PARTICIPANTS: 'Hozircha hech kim test topshirmadi. Birinchi bo\'ling!',
+  TOURNAMENT_YOUR_RANK: 'Sizning o\'rningiz',
+  TOURNAMENT_BEST_SCORE: 'Natijangiz',
+  BTN_JOIN_TOURNAMENT: 'Turnirda qatnashish',
+  BTN_SHARE_RESULT_GROUP: 'Natijani guruhga ulashish',
+  TOURNAMENT_SHARE_CAPTION: '🏆 Men «{title}» guruh viktorinasida {score}/{total} ball bilan {rank}-o\'rinni oldim! Siz ham o\'zingizni sinab ko\'ring: {link}',
+  TOAST_TOURNAMENT_CREATED: 'Guruh turniri yaratildi! Guruhni tanlang...',
+  TOAST_LINK_COPIED: 'Havola nusxalandi!',
+  LIVE_ROOM_COMING_SOON: 'Jonli xona rejimi tez kunda ishga tushadi!',
 };
+
 
 
