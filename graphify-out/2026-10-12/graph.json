@@ -679,7 +679,7 @@
       "file_type": "code",
       "norm_label": "getconfirmdeletekeyboard()",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L139"
+      "source_location": "L142"
     },
     {
       "id": "tgcloud_lib_keyboards_quiz_keyboard_getmyquizzespagekeyboard",
@@ -691,7 +691,7 @@
       "file_type": "code",
       "norm_label": "getmyquizzespagekeyboard()",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L75"
+      "source_location": "L78"
     },
     {
       "id": "tgcloud_lib_keyboards_quiz_keyboard_getquizcardkeyboard",
@@ -715,7 +715,7 @@
       "file_type": "code",
       "norm_label": "gettimelimitkeyboard()",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L112"
+      "source_location": "L115"
     },
     {
       "id": "tgcloud_lib_keyboards_subscribe_keyboard_getlanguagekeyboard",
@@ -47340,7 +47340,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L143",
+      "source_location": "L146",
       "weight": 1.0
     },
     {
@@ -47352,7 +47352,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L92",
+      "source_location": "L95",
       "weight": 1.0
     },
     {
@@ -47376,7 +47376,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L115",
+      "source_location": "L118",
       "weight": 1.0
     },
     {
@@ -91957,7 +91957,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L151",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -91969,7 +91969,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L152",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -91981,7 +91981,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L153",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -91993,7 +91993,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/keyboards/quiz_keyboard.js",
-      "source_location": "L154",
+      "source_location": "L157",
       "weight": 1.0
     },
     {
@@ -93708,5 +93708,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "188b0abe409bfa529dcd341c85200b9432178a41"
+  "built_at_commit": "e9f97812a6e1969f40ff0edfadcbb93593c21baf"
 }
