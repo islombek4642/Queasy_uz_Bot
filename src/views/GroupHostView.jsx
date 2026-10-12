@@ -177,34 +177,34 @@ export function GroupHostView() {
                     </div>
                   </div>
 
-                  {/* Action Toolbar */}
+                  {/* Action Toolbar - 2 evenly distributed rows */}
                   <div
                     style={{
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
+                      flexDirection: 'column',
                       paddingTop: '8px',
                       borderTop: '1px solid var(--surface-border)',
                       marginTop: '2px',
                       gap: '8px',
                     }}
                   >
-                    {/* Left: Badges */}
+                    {/* Row 1: Badges */}
                     <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
                       <Badge size="sm">{q.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
                       <Badge size="sm" variant="warning">{q.timeLimit}s</Badge>
                     </div>
 
-                    {/* Right: Launch in group button */}
+                    {/* Row 2: Full width Launch in group button */}
                     <Button
                       variant="primary"
                       size="sm"
+                      fullWidth
                       onClick={() => {
                         haptic.impact('medium');
                         handleLaunchInGroup(q.shareLink);
                       }}
                       icon="solar:share-circle-bold-duotone"
-                      style={{ padding: '7px 14px', fontSize: '0.82rem' }}
+                      style={{ padding: '7px 14px', fontSize: '0.84rem' }}
                     >
                       {t('LAUNCH_IN_GROUP')}
                     </Button>
