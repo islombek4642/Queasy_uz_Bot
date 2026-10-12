@@ -871,7 +871,7 @@
       "file_type": "code",
       "norm_label": "getusermistakesgrouped()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L818"
+      "source_location": "L824"
     },
     {
       "id": "tgcloud_lib_services_user_service_clearuserstate",
@@ -4531,7 +4531,7 @@
       "file_type": "code",
       "norm_label": "announcegrouplobby()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L874"
+      "source_location": "L880"
     },
     {
       "id": "tgcloud_lib_services_session_service_finishsession",
@@ -4567,7 +4567,7 @@
       "file_type": "code",
       "norm_label": "handlelobbycancel()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1106"
+      "source_location": "L1112"
     },
     {
       "id": "tgcloud_lib_services_session_service_handlelobbyjoin",
@@ -4579,7 +4579,7 @@
       "file_type": "code",
       "norm_label": "handlelobbyjoin()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L961"
+      "source_location": "L967"
     },
     {
       "id": "tgcloud_lib_services_session_service_handlelobbystart",
@@ -4591,7 +4591,7 @@
       "file_type": "code",
       "norm_label": "handlelobbystart()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1039"
+      "source_location": "L1045"
     },
     {
       "id": "tgcloud_lib_services_session_service_handlepollanswer",
@@ -4615,7 +4615,7 @@
       "file_type": "code",
       "norm_label": "ischatadmin()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L855"
+      "source_location": "L861"
     },
     {
       "id": "tgcloud_lib_services_session_service_saveusermistake",
@@ -6175,7 +6175,7 @@
       "file_type": "code",
       "norm_label": "clearusermistakes()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L811"
+      "source_location": "L817"
     },
     {
       "id": "src_components_common_errorboundary_errorboundary_constructor",
@@ -48036,7 +48036,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L882",
+      "source_location": "L888",
       "weight": 1.0
     },
     {
@@ -48048,7 +48048,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L884",
+      "source_location": "L890",
       "weight": 1.0
     },
     {
@@ -48132,7 +48132,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1118",
+      "source_location": "L1124",
       "weight": 1.0
     },
     {
@@ -48144,7 +48144,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1135",
+      "source_location": "L1141",
       "weight": 1.0
     },
     {
@@ -48156,7 +48156,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L983",
+      "source_location": "L989",
       "weight": 1.0
     },
     {
@@ -48168,7 +48168,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L986",
+      "source_location": "L992",
       "weight": 1.0
     },
     {
@@ -48180,7 +48180,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1051",
+      "source_location": "L1057",
       "weight": 1.0
     },
     {
@@ -48192,7 +48192,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1074",
+      "source_location": "L1080",
       "weight": 1.0
     },
     {
@@ -48204,7 +48204,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1089",
+      "source_location": "L1095",
       "weight": 1.0
     },
     {
@@ -92593,7 +92593,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1145",
+      "source_location": "L1151",
       "weight": 1.0
     },
     {
@@ -92605,7 +92605,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1146",
+      "source_location": "L1152",
       "weight": 1.0
     },
     {
@@ -92617,7 +92617,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1147",
+      "source_location": "L1153",
       "weight": 1.0
     },
     {
@@ -92629,7 +92629,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1148",
+      "source_location": "L1154",
       "weight": 1.0
     },
     {
@@ -92641,7 +92641,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1149",
+      "source_location": "L1155",
       "weight": 1.0
     },
     {
@@ -92653,7 +92653,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1150",
+      "source_location": "L1156",
       "weight": 1.0
     },
     {
@@ -92665,7 +92665,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1151",
+      "source_location": "L1157",
       "weight": 1.0
     },
     {
@@ -92677,7 +92677,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1152",
+      "source_location": "L1158",
       "weight": 1.0
     },
     {
@@ -92689,7 +92689,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1153",
+      "source_location": "L1159",
       "weight": 1.0
     },
     {
@@ -92701,7 +92701,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1154",
+      "source_location": "L1160",
       "weight": 1.0
     },
     {
@@ -92713,7 +92713,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1155",
+      "source_location": "L1161",
       "weight": 1.0
     },
     {
@@ -92725,7 +92725,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1156",
+      "source_location": "L1162",
       "weight": 1.0
     },
     {
@@ -92737,7 +92737,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1157",
+      "source_location": "L1163",
       "weight": 1.0
     },
     {
@@ -92749,7 +92749,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1158",
+      "source_location": "L1164",
       "weight": 1.0
     },
     {
@@ -92761,7 +92761,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1159",
+      "source_location": "L1165",
       "weight": 1.0
     },
     {
@@ -92773,7 +92773,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1160",
+      "source_location": "L1166",
       "weight": 1.0
     },
     {
@@ -93708,5 +93708,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "40f95a9e4c44817d71cd780e02b38b18f1123b68"
+  "built_at_commit": "359a5a4774af48513edd78c5dc372db04c9d9efd"
 }

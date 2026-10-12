@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "tgcloud/handlers/callback_query.js": {
-    "mtime": 1791785926.685907,
-    "seen": 1791787469.6261594,
-    "ast_hash": "5ab6af86ac442c64278f29f1d81b6123",
+    "mtime": 1791814361.7786129,
+    "seen": 1791814472.4717567,
+    "ast_hash": "577352338884b64a23e73614a388b187",
     "semantic_hash": ""
   },
   "tgcloud/handlers/inline_query.js": {
@@ -54,9 +54,9 @@
     "semantic_hash": ""
   },
   "tgcloud/handlers/message.js": {
-    "mtime": 1791784686.67836,
-    "seen": 1791785061.5205545,
-    "ast_hash": "eba528a03914ea6f9c3b52c3192c75ac",
+    "mtime": 1791814390.8574605,
+    "seen": 1791814472.4717631,
+    "ast_hash": "db8d1b344963c2ea6ef98de2d5a9a69e",
     "semantic_hash": ""
   },
   "tgcloud/handlers/my_chat_member.js": {
@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/services/session_service.js": {
-    "mtime": 1791662643.4583778,
-    "seen": 1791662724.4728851,
-    "ast_hash": "81dbedf8aeaaca91b2f59fee45300397",
+    "mtime": 1791814331.2281175,
+    "seen": 1791814472.471843,
+    "ast_hash": "cd4e7a8d579b9fe143c084e54fba68ff",
     "semantic_hash": ""
   },
   "tgcloud/lib/services/user_service.js": {
@@ -264,21 +264,21 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/locales/en.js": {
-    "mtime": 1791748074.6684818,
-    "seen": 1791783873.671163,
-    "ast_hash": "9fe6a2885fef87080de2f093ba18ff40",
+    "mtime": 1791815474.511668,
+    "seen": 1791815527.1074872,
+    "ast_hash": "f42cc2da1ea68bb336b5f748c614af65",
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/locales/ru.js": {
-    "mtime": 1791748063.1926851,
-    "seen": 1791783873.6711655,
-    "ast_hash": "63b8f3569a1e68907d6178c2f0f03af0",
+    "mtime": 1791815459.2324831,
+    "seen": 1791815527.1074903,
+    "ast_hash": "8535fa9cb9a8b1d852e481a00c09364f",
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/locales/uz.js": {
-    "mtime": 1791748051.6367676,
-    "seen": 1791783873.6711679,
-    "ast_hash": "d1de7c9aaba2274c3845ca8ae0e199f7",
+    "mtime": 1791815442.2515497,
+    "seen": 1791815527.1074927,
+    "ast_hash": "aab06a545311e7c8f29151c66db43bb2",
     "semantic_hash": ""
   },
   "tests/test_admin_media_channel.mjs": {
@@ -2715,6 +2715,18 @@
     "mtime": 1790271471.290236,
     "seen": 1791813476.1949012,
     "ast_hash": "cb56bf002d36bb860c3d320a23bd871a",
+    "semantic_hash": ""
+  },
+  "assets/avatars/queasy_avatar_logo.jpg": {
+    "mtime": 1791813668.9475462,
+    "seen": 1791814472.4726257,
+    "ast_hash": "81cc9920e2c25fa687262556c1f4c265",
+    "semantic_hash": ""
+  },
+  "assets/avatars/queasy_avatar_mascot.jpg": {
+    "mtime": 1791813652.4421382,
+    "seen": 1791814472.472628,
+    "ast_hash": "1e1769fac637d63d7daa2e350edccc52",
     "semantic_hash": ""
   }
 }

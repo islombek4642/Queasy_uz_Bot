@@ -1,7 +1,7 @@
 # Graph Report - Queasy_uz_Bot  (2026-10-12)
 
 ## Corpus Check
-- 418 files · ~393,799 words
+- 418 files · ~443,874 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 99 file(s) not represented in the graph (top: .ttf 54, .csv 37, .css 4)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `40f95a9e`
+- Built from commit: `359a5a47`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -1214,7 +1214,7 @@ Nodes (4): Example: TDD Skill Bulletproofing, Initial Test (Failed), Iteration 1
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `search()` connect `search` to `BM25`, `DesignSystemGenerator`, `Commands`, `test_core_data_quality.py`, `design_system.py`, `.generate`, `detect_domain`, `core.py`, `search_stack`?**
-  _High betweenness centrality (0.119) - this node is a cross-community bridge._
+  _High betweenness centrality (0.120) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `search()` (e.g. with ``search` — Search registries` and `Muse Tool Mapping`) actually correct?**
   _`search()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `RFC-6455`, `RFC-1951`, `RFC-1950` to the rest of the system?**
@@ -1222,7 +1222,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `getMessage` be split into smaller, more focused modules?**
   _Cohesion score 0.1006006006006006 - nodes in this community are weakly interconnected._
 - **Why does `shadcn CLI Reference` connect `Commands` to `shadcn/SKILL.md`?**
-  _High betweenness centrality (0.112) - this node is a cross-community bridge._
+  _High betweenness centrality (0.113) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `getMessage()` (e.g. with `Global Constraints` and `3.2 Handlers (`tgcloud/handlers/`)`) actually correct?**
   _`getMessage()` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **Should `Database (`db`)` be split into smaller, more focused modules?**
