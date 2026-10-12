@@ -30,6 +30,8 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
 
   const startTimeRef = useRef(Date.now());
   const [totalTimeSpent, setTotalTimeSpent] = useState(0);
+  const failedQuestionsRef = useRef([]);
+  const resolvedMistakeIdsRef = useRef([]);
 
   // Load quiz details or use custom questions
   const loadQuiz = useCallback(async () => {
@@ -80,13 +82,18 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
       setTotalTimeSpent(elapsed);
       setIsFinished(true);
       submitSoloResult({
-        quizId,
+        quizId: quizId || 0,
+        isMistakesMode: Boolean(customQuestions),
         correctCount,
         wrongCount,
         timeSpent: elapsed,
-      }).catch(() => {});
+        failedQuestions: failedQuestionsRef.current,
+        resolvedMistakeIds: resolvedMistakeIdsRef.current,
+      }).catch((err) => {
+        console.error('Failed to submit solo result:', err);
+      });
     }
-  }, [currentIndex, questions.length, quizId, correctCount, wrongCount]);
+  }, [currentIndex, questions.length, quizId, correctCount, wrongCount, customQuestions]);
 
   // Timeout handler
   const handleTimeout = useCallback(() => {
@@ -95,10 +102,21 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
     setIsRevealed(true);
     setWrongCount((prev) => prev + 1);
 
+    // If solving regular quiz and timed out, count as failed question
+    if (!customQuestions && currentQ) {
+      failedQuestionsRef.current.push({
+        questionText: currentQ.questionText,
+        options: currentQ.options || [],
+        correctOptionId: currentQ.correctOptionId ?? 0,
+        explanation: currentQ.explanation || null,
+        originalQuizId: quizId || null,
+      });
+    }
+
     setTimeout(() => {
       handleAdvance();
     }, 1200);
-  }, [isRevealed, isFinished, haptic, handleAdvance]);
+  }, [isRevealed, isFinished, haptic, handleAdvance, customQuestions, currentQ, quizId]);
 
   // Timer hook
   const { timeLeft, reset: resetTimer } = useQuizTimer(timeLimit, handleTimeout);
@@ -121,9 +139,23 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
     if (isCorrect) {
       haptic.notification('success');
       setCorrectCount((prev) => prev + 1);
+      // If solving mistakes practice, mark this mistake as resolved
+      if (customQuestions && (currentQ?.mistakeId || currentQ?.id)) {
+        resolvedMistakeIdsRef.current.push(currentQ.mistakeId || currentQ.id);
+      }
     } else {
       haptic.notification('error');
       setWrongCount((prev) => prev + 1);
+      // If solving regular quiz, collect failed question for mistakes practice
+      if (!customQuestions && currentQ) {
+        failedQuestionsRef.current.push({
+          questionText: currentQ.questionText,
+          options: currentQ.options || [],
+          correctOptionId: currentQ.correctOptionId ?? 0,
+          explanation: currentQ.explanation || null,
+          originalQuizId: quizId || null,
+        });
+      }
     }
 
     // Delay to let user see correct/wrong feedback, then advance
@@ -168,6 +200,8 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
           setCurrentIndex(0);
           setCorrectCount(0);
           setWrongCount(0);
+          failedQuestionsRef.current = [];
+          resolvedMistakeIdsRef.current = [];
           setIsFinished(false);
           setIsRevealed(false);
           setSelectedOption(null);
