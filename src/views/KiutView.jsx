@@ -315,7 +315,7 @@ export function KiutView({ onBack, onStartQuiz }) {
                   gap: '14px',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0, flex: 1 }}>
                   <div
                     style={{
                       width: '44px',
@@ -326,12 +326,23 @@ export function KiutView({ onBack, onStartQuiz }) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      flexShrink: 0,
                     }}
                   >
                     <Icon icon={icon} width="24" height="24" />
                   </div>
-                  <div>
-                    <div style={{ fontWeight: '800', fontSize: '0.95rem', color: 'var(--text-primary)' }}>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div
+                      style={{
+                        fontWeight: '800',
+                        fontSize: '0.95rem',
+                        color: 'var(--text-primary)',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                      title={cat.name}
+                    >
                       {cat.name}
                     </div>
                     <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>
@@ -339,7 +350,7 @@ export function KiutView({ onBack, onStartQuiz }) {
                     </div>
                   </div>
                 </div>
-                <Icon icon="solar:arrow-right-linear" width="20" height="20" style={{ color: 'var(--text-muted)' }} />
+                <Icon icon="solar:arrow-right-linear" width="20" height="20" style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
               </Card>
             );
           })}
@@ -400,18 +411,25 @@ export function KiutView({ onBack, onStartQuiz }) {
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '10px',
+                  overflow: 'hidden',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px' }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div
-                      onClick={() => setExpandedQuizId(isExpanded ? null : quiz.id)}
+                      onClick={() => {
+                        haptic.selection();
+                        setExpandedQuizId(isExpanded ? null : quiz.id);
+                      }}
                       style={{
                         fontWeight: '800',
                         fontSize: '0.92rem',
                         color: 'var(--text-primary)',
                         lineHeight: '1.35',
                         cursor: 'pointer',
+                        whiteSpace: isExpanded ? 'normal' : 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
                       }}
                       title={quiz.title}
                     >
@@ -419,7 +437,21 @@ export function KiutView({ onBack, onStartQuiz }) {
                     </div>
 
                     {searchQuery && quiz.category && (
-                      <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                      <div
+                        style={{
+                          fontSize: '0.74rem',
+                          color: 'var(--text-muted)',
+                          marginTop: '4px',
+                          whiteSpace: isExpanded ? 'normal' : 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => {
+                          haptic.selection();
+                          setExpandedQuizId(isExpanded ? null : quiz.id);
+                        }}
+                      >
                         📍 {quiz.category}
                       </div>
                     )}

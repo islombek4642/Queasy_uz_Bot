@@ -79,8 +79,8 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
           {myQuizzes.map((quiz) => {
             const isExpanded = expandedQuizId === quiz.id;
             return (
-              <Card key={quiz.id} style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div>
+              <Card key={quiz.id} style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px', overflow: 'hidden' }}>
+                <div style={{ minWidth: 0, overflow: 'hidden' }}>
                   <div
                     onClick={() => {
                       haptic.selection();
@@ -102,6 +102,10 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                   </div>
                   {quiz.description && (
                     <div
+                      onClick={() => {
+                        haptic.selection();
+                        setExpandedQuizId(isExpanded ? null : quiz.id);
+                      }}
                       style={{
                         fontSize: '0.8rem',
                         color: 'var(--text-muted)',
@@ -109,6 +113,7 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                         whiteSpace: isExpanded ? 'normal' : 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
+                        cursor: 'pointer',
                       }}
                     >
                       {quiz.description}

@@ -89,7 +89,7 @@ export function ResultCard({
         <h2 style={{ fontSize: '1.4rem', fontWeight: '800', marginBottom: '6px' }}>
           {accuracy >= 80 ? t('RESULT_EXCELLENT') : accuracy >= 50 ? t('RESULT_GOOD') : t('RESULT_TRY_AGAIN')}
         </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', wordBreak: 'break-word', lineHeight: '1.4', margin: '4px 0 0' }}>
           {quizTitle}
         </p>
 

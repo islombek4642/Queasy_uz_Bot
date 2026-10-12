@@ -80,7 +80,7 @@ export function Modal({
             backgroundColor: 'var(--bg-primary)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1, marginRight: '8px' }}>
             {icon && (
               <div
                 style={{
@@ -92,12 +92,24 @@ export function Modal({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  flexShrink: 0,
                 }}
               >
                 <Icon icon={icon} width="22" height="22" />
               </div>
             )}
-            <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--text-primary)' }}>
+            <h3
+              style={{
+                fontSize: '1.15rem',
+                fontWeight: '800',
+                color: 'var(--text-primary)',
+                minWidth: 0,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+              title={typeof title === 'string' ? title : undefined}
+            >
               {title}
             </h3>
           </div>

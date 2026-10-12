@@ -61,7 +61,7 @@ export function QuestionInspectorModal({ isOpen, onClose, quizId, onStartQuiz })
           </div>
 
           {quiz?.description && (
-            <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+            <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.4', wordBreak: 'break-word' }}>
               {quiz.description}
             </p>
           )}

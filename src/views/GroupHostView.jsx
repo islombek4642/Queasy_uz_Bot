@@ -14,6 +14,7 @@ export function GroupHostView() {
   const { haptic } = useTelegram();
   const [data, setData] = useState({ activeSessions: [], launchableQuizzes: [] });
   const [loading, setLoading] = useState(true);
+  const [expandedQuizId, setExpandedQuizId] = useState(null);
 
   const loadSessions = () => {
     setLoading(true);
@@ -87,16 +88,28 @@ export function GroupHostView() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {activeSessions.map((s) => (
-              <Card key={s.sessionId} glow style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ fontWeight: '800', fontSize: '0.95rem' }}>{s.chatTitle}</div>
-                  <Badge variant="success" size="sm">
+              <Card key={s.sessionId} glow style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', overflow: 'hidden' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                  <div style={{ fontWeight: '800', fontSize: '0.95rem', minWidth: 0, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={s.chatTitle}>
+                    {s.chatTitle}
+                  </div>
+                  <Badge variant="success" size="sm" style={{ flexShrink: 0 }}>
                     <Icon icon="solar:users-group-two-rounded-bold" width="14" height="14" style={{ marginRight: '4px' }} />
                     {s.participantCount} {t('PARTICIPANTS')}
                   </Badge>
                 </div>
 
-                <div style={{ fontSize: '0.86rem', color: 'var(--accent-primary)', fontWeight: '600' }}>
+                <div
+                  style={{
+                    fontSize: '0.86rem',
+                    color: 'var(--accent-primary)',
+                    fontWeight: '600',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                  title={s.quizTitle}
+                >
                   {s.quizTitle}
                 </div>
 
@@ -125,25 +138,57 @@ export function GroupHostView() {
           </Card>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {launchableQuizzes.map((q) => (
-              <Card key={q.id} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div>
-                  <div style={{ fontWeight: '700', fontSize: '0.92rem' }}>{q.title}</div>
-                  <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-                    {q.questionCount} {t('QUESTIONS_COUNT')} • {q.timeLimit}s
-                  </div>
-                </div>
-
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={() => handleLaunchInGroup(q.shareLink)}
-                  icon="solar:share-circle-bold-duotone"
+            {launchableQuizzes.map((q) => {
+              const isExpanded = expandedQuizId === q.id;
+              return (
+                <Card
+                  key={q.id}
+                  style={{
+                    padding: '14px 16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '12px',
+                    overflow: 'hidden',
+                  }}
                 >
-                  {t('LAUNCH_IN_GROUP')}
-                </Button>
-              </Card>
-            ))}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      onClick={() => {
+                        haptic.selection();
+                        setExpandedQuizId(isExpanded ? null : q.id);
+                      }}
+                      style={{
+                        fontWeight: '700',
+                        fontSize: '0.92rem',
+                        color: 'var(--text-primary)',
+                        whiteSpace: isExpanded ? 'normal' : 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        cursor: 'pointer',
+                        lineHeight: '1.35',
+                      }}
+                      title={q.title}
+                    >
+                      {q.title}
+                    </div>
+                    <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+                      {q.questionCount} {t('QUESTIONS_COUNT')} • {q.timeLimit}s
+                    </div>
+                  </div>
+
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    style={{ flexShrink: 0 }}
+                    onClick={() => handleLaunchInGroup(q.shareLink)}
+                    icon="solar:share-circle-bold-duotone"
+                  >
+                    {t('LAUNCH_IN_GROUP')}
+                  </Button>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>

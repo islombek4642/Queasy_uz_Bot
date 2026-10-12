@@ -14,6 +14,7 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
 
   const [data, setData] = useState({ mistakes: [], count: 0, grouped: [] });
   const [loading, setLoading] = useState(true);
+  const [expandedGroupIndex, setExpandedGroupIndex] = useState(null);
 
   const loadMistakes = () => {
     setLoading(true);
@@ -248,80 +249,96 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {data.grouped?.map((group, idx) => (
-                <Card
-                  key={group.quizId || idx}
-                  style={{
-                    padding: '16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: '12px',
-                    border: '1px solid var(--surface-border)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: 0 }}>
-                    <div
-                      style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '10px',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'var(--color-danger, #ef4444)',
-                        flexShrink: 0,
-                      }}
-                    >
-                      <Icon icon="solar:book-bookmark-bold" width="22" height="22" />
-                    </div>
-                    <div style={{ minWidth: 0, flex: 1 }}>
+              {data.grouped?.map((group, idx) => {
+                const isExpanded = expandedGroupIndex === idx;
+                return (
+                  <Card
+                    key={group.quizId || idx}
+                    style={{
+                      padding: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '12px',
+                      border: '1px solid var(--surface-border)',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: 0 }}>
                       <div
                         style={{
-                          fontSize: '0.98rem',
-                          fontWeight: '700',
-                          color: 'var(--text-primary)',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '10px',
+                          backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'var(--color-danger, #ef4444)',
+                          flexShrink: 0,
                         }}
                       >
-                        {group.title}
+                        <Icon icon="solar:book-bookmark-bold" width="22" height="22" />
                       </div>
-                      {group.category && (
+                      <div style={{ minWidth: 0, flex: 1 }}>
                         <div
+                          onClick={() => {
+                            haptic.selection();
+                            setExpandedGroupIndex(isExpanded ? null : idx);
+                          }}
                           style={{
-                            fontSize: '0.78rem',
-                            color: 'var(--text-secondary)',
+                            fontSize: '0.98rem',
+                            fontWeight: '700',
+                            color: 'var(--text-primary)',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            marginTop: '2px',
+                            whiteSpace: isExpanded ? 'normal' : 'nowrap',
+                            cursor: 'pointer',
+                            lineHeight: '1.35',
                           }}
+                          title={group.title}
                         >
-                          {group.category}
+                          {group.title}
                         </div>
-                      )}
+                        {group.category && (
+                          <div
+                            onClick={() => {
+                              haptic.selection();
+                              setExpandedGroupIndex(isExpanded ? null : idx);
+                            }}
+                            style={{
+                              fontSize: '0.78rem',
+                              color: 'var(--text-secondary)',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: isExpanded ? 'normal' : 'nowrap',
+                              marginTop: '2px',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            {group.category}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-                    <Badge variant="danger" size="md">
-                      {t('STAT_MISTAKES_COUNT', { count: group.count })}
-                    </Badge>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => handleStartGroup(group)}
-                      style={{ padding: '6px 14px' }}
-                    >
-                      <Icon icon="solar:play-bold" width="14" height="14" />
-                      <span>{t('BTN_PRACTICE')}</span>
-                    </Button>
-                  </div>
-                </Card>
-              ))}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+                      <Badge variant="danger" size="md">
+                        {t('STAT_MISTAKES_COUNT', { count: group.count })}
+                      </Badge>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => handleStartGroup(group)}
+                        style={{ padding: '6px 14px' }}
+                      >
+                        <Icon icon="solar:play-bold" width="14" height="14" />
+                        <span>{t('BTN_PRACTICE')}</span>
+                      </Button>
+                    </div>
+                  </Card>
+                );
+              })}
             </div>
           </div>
         </>
