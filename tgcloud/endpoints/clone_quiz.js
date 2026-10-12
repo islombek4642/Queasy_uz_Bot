@@ -5,54 +5,62 @@ import { quizzes } from '../schema.js';
 import { cloneQuiz } from '../lib/services/quiz_service.js';
 
 export default async function (input, ctx) {
-  const currentUserId = ctx?.initData?.user?.id;
-  if (!currentUserId) {
-    return { success: false, error: 'Avtorizatsiya talab qilinadi' };
-  }
+  try {
+    const currentUserId = ctx?.initData?.user?.id;
+    if (!currentUserId) {
+      return { success: false, error: 'Avtorizatsiya talab qilinadi' };
+    }
 
-  const quizId = Number(input?.quizId);
-  if (!quizId) {
-    return { success: false, error: 'Quiz ID ko\'rsatilmadi' };
-  }
+    const quizId = Number(input?.quizId);
+    if (!quizId) {
+      return { success: false, error: 'Quiz ID ko\'rsatilmadi' };
+    }
 
-  // 1. Fetch original quiz
-  const original = await db
-    .select()
-    .from(quizzes)
-    .where(eq(quizzes.id, quizId))
-    .get();
+    // 1. Fetch original quiz
+    const original = await db
+      .select()
+      .from(quizzes)
+      .where(eq(quizzes.id, quizId))
+      .get();
 
-  if (!original) {
-    return { success: false, error: 'Test topilmadi' };
-  }
+    if (!original) {
+      return { success: false, error: 'Test topilmadi' };
+    }
 
-  // 2. Check if user already owns this quiz or already cloned it with identical title
-  const existing = await db
-    .select()
-    .from(quizzes)
-    .where(and(eq(quizzes.ownerId, currentUserId), eq(quizzes.title, original.title)))
-    .get();
+    // 2. Check if user already owns this quiz or already cloned it with identical title
+    const existing = await db
+      .select()
+      .from(quizzes)
+      .where(and(eq(quizzes.ownerId, currentUserId), eq(quizzes.title, original.title)))
+      .get();
 
-  if (existing) {
+    if (existing) {
+      return {
+        success: true,
+        alreadySaved: true,
+        quizId: existing.id,
+        title: existing.title,
+      };
+    }
+
+    // 3. Clone quiz for current user
+    const lang = ctx?.initData?.user?.language_code?.toUpperCase()?.includes('RU') ? 'RU' : 'UZ';
+    const cloned = await cloneQuiz(quizId, currentUserId, lang);
+
+    if (!cloned) {
+      return { success: false, error: 'Testni saqlashda xatolik yuz berdi' };
+    }
+
     return {
       success: true,
-      alreadySaved: true,
-      quizId: existing.id,
-      title: existing.title,
+      quizId: cloned.id,
+      title: cloned.title,
+    };
+  } catch (err) {
+    console.error('[clone_quiz error]:', err);
+    return {
+      success: false,
+      error: `Server xatosi: ${err?.message || 'Noma\'lum xatolik'}`,
     };
   }
-
-  // 3. Clone quiz for current user
-  const lang = ctx?.initData?.user?.language_code?.toUpperCase()?.includes('RU') ? 'RU' : 'UZ';
-  const cloned = await cloneQuiz(quizId, currentUserId, lang);
-
-  if (!cloned) {
-    return { success: false, error: 'Testni saqlashda xatolik yuz berdi' };
-  }
-
-  return {
-    success: true,
-    quizId: cloned.id,
-    title: cloned.title,
-  };
 }

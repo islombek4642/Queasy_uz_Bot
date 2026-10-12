@@ -173,29 +173,38 @@ export async function cloneQuiz(quizId, newOwnerId, lang = CONFIG.I18N.DEFAULT_L
 
   const title = customTitle || (original.ownerId === 0 ? original.title : getMessage('QUIZ_CLONED_TITLE', lang, { title: original.title }));
 
-  // 2. Insert new quiz header using returning
+  // 2. Insert new quiz header
+  const categoryDesc = original.description || (original.category ? `KIUT ${original.category}` : null);
   const inserted = await db
     .insert(quizzes)
     .values({
       ownerId: newOwnerId,
       title: title.slice(0, 200),
-      description: original.description || null,
+      description: categoryDesc,
+      category: original.category || null,
       timeLimit: original.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT,
       shuffleOptions: original.shuffleOptions !== undefined ? original.shuffleOptions : true,
     })
     .returning({ id: quizzes.id });
 
-  const newQuizId = inserted && inserted[0] ? inserted[0].id : null;
+  let newQuizId = inserted && inserted[0] ? inserted[0].id : null;
+  if (!newQuizId && inserted?.lastInsertRowid) {
+    newQuizId = Number(inserted.lastInsertRowid);
+  }
+
   if (!newQuizId) {
     return null;
   }
 
+  const targetQuizId = Number(newQuizId);
+  const sourceQuizId = Number(quizId);
+
   // 3. Ultra-fast atomic duplicate of all questions in a single SQL query
   await db.run(sql`
     INSERT INTO questions (quiz_id, order_index, question_text, options_json, correct_option_id, explanation, photo_file_id, photo_caption)
-    SELECT ${newQuizId}, order_index, question_text, options_json, correct_option_id, explanation, photo_file_id, photo_caption
+    SELECT ${targetQuizId}, order_index, question_text, options_json, correct_option_id, explanation, photo_file_id, photo_caption
     FROM questions
-    WHERE quiz_id = ${quizId}
+    WHERE quiz_id = ${sourceQuizId}
     ORDER BY order_index ASC
   `);
 
