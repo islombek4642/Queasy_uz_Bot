@@ -313,9 +313,10 @@ export function KiutExplorerModal({ isOpen, onClose, onStartQuiz }) {
                   style={{
                     padding: '12px 14px',
                     display: 'flex',
-                    alignItems: 'center',
+                    flexDirection: isExpanded ? 'column' : 'row',
+                    alignItems: isExpanded ? 'stretch' : 'center',
                     justifyContent: 'space-between',
-                    gap: '12px',
+                    gap: isExpanded ? '10px' : '12px',
                   }}
                 >
                   <div style={{ flex: 1, minWidth: 0 }}>
@@ -329,6 +330,7 @@ export function KiutExplorerModal({ isOpen, onClose, onStartQuiz }) {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         cursor: 'pointer',
+                        lineHeight: '1.35',
                       }}
                       title={quiz.title}
                     >
@@ -341,19 +343,21 @@ export function KiutExplorerModal({ isOpen, onClose, onStartQuiz }) {
                     </div>
                   </div>
 
-                  <Button
-                    size="sm"
-                    variant="primary"
-                    icon="solar:play-bold"
-                    style={{ flexShrink: 0, padding: '7px 12px', fontSize: '0.82rem', whiteSpace: 'nowrap' }}
-                    onClick={() => {
-                      haptic.impact('medium');
-                      onClose();
-                      onStartQuiz(quiz.id);
-                    }}
-                  >
-                    {t('BTN_START_QUIZ')}
-                  </Button>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      icon="solar:play-bold"
+                      style={{ padding: '7px 12px', fontSize: '0.82rem', whiteSpace: 'nowrap' }}
+                      onClick={() => {
+                        haptic.impact('medium');
+                        onClose();
+                        onStartQuiz(quiz.id);
+                      }}
+                    >
+                      {t('BTN_START_QUIZ')}
+                    </Button>
+                  </div>
                 </Card>
               );
             })}

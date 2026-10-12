@@ -294,10 +294,11 @@ export function HomeView({
                   key={quiz.id}
                   style={{
                     display: 'flex',
-                    alignItems: 'center',
+                    flexDirection: isExpanded ? 'column' : 'row',
+                    alignItems: isExpanded ? 'stretch' : 'center',
                     justifyContent: 'space-between',
                     padding: '12px 14px',
-                    gap: '12px',
+                    gap: isExpanded ? '10px' : '12px',
                     overflow: 'hidden',
                   }}
                 >
@@ -320,7 +321,7 @@ export function HomeView({
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         cursor: 'pointer',
-                        lineHeight: '1.3',
+                        lineHeight: '1.35',
                       }}
                       title={quiz.title}
                     >
@@ -329,12 +330,14 @@ export function HomeView({
 
                     {quiz.description && (
                       <div
+                        onClick={() => setExpandedQuizId(isExpanded ? null : quiz.id)}
                         style={{
                           fontSize: '0.78rem',
                           color: 'var(--text-muted)',
                           whiteSpace: isExpanded ? 'normal' : 'nowrap',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
+                          cursor: 'pointer',
                         }}
                       >
                         {quiz.description}
@@ -351,19 +354,20 @@ export function HomeView({
                     </div>
                   </div>
 
-                  <Button
-                    size="sm"
-                    variant="primary"
-                    icon="solar:play-bold"
-                    style={{
-                      flexShrink: 0,
-                      padding: '8px 12px',
-                      fontSize: '0.82rem',
-                    }}
-                    onClick={() => onStartQuiz(quiz.id)}
-                  >
-                    {t('BTN_START_QUIZ')}
-                  </Button>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      icon="solar:play-bold"
+                      style={{
+                        padding: '8px 14px',
+                        fontSize: '0.82rem',
+                      }}
+                      onClick={() => onStartQuiz(quiz.id)}
+                    >
+                      {t('BTN_START_QUIZ')}
+                    </Button>
+                  </div>
                 </Card>
               );
             })}

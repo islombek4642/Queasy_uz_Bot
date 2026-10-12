@@ -146,9 +146,10 @@ export function GroupHostView() {
                   style={{
                     padding: '14px 16px',
                     display: 'flex',
-                    alignItems: 'center',
+                    flexDirection: isExpanded ? 'column' : 'row',
+                    alignItems: isExpanded ? 'stretch' : 'center',
                     justifyContent: 'space-between',
-                    gap: '12px',
+                    gap: isExpanded ? '10px' : '12px',
                     overflow: 'hidden',
                   }}
                 >
@@ -177,15 +178,16 @@ export function GroupHostView() {
                     </div>
                   </div>
 
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    style={{ flexShrink: 0 }}
-                    onClick={() => handleLaunchInGroup(q.shareLink)}
-                    icon="solar:share-circle-bold-duotone"
-                  >
-                    {t('LAUNCH_IN_GROUP')}
-                  </Button>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => handleLaunchInGroup(q.shareLink)}
+                      icon="solar:share-circle-bold-duotone"
+                    >
+                      {t('LAUNCH_IN_GROUP')}
+                    </Button>
+                  </div>
                 </Card>
               );
             })}
