@@ -112,7 +112,7 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
     } catch (err) {
       console.error('Failed to save quiz:', err);
       haptic.notification('error');
-      setToastMessage({ text: t('ERROR_SERVER_CONNECTION'), type: 'error' });
+      setToastMessage({ text: err?.message || t('ERROR_SERVER_CONNECTION'), type: 'error' });
       setTimeout(() => setToastMessage(null), 4000);
     } finally {
       setSavingQuizId(null);
