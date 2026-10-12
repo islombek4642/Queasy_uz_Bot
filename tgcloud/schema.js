@@ -140,3 +140,39 @@ export const categories = table('categories', {
   id:   integer('id').primaryKey({ autoIncrement: true }),
   path: text('path').notNull().unique(),
 });
+
+// 13. Group Tournaments (WebApp Group Challenge)
+export const groupTournaments = table('group_tournaments', {
+  id:        integer('id').primaryKey({ autoIncrement: true }),
+  quizId:    integer('quiz_id').notNull(),
+  creatorId: integer('creator_id').notNull(),
+  title:     text('title').notNull(),
+  shareCode: text('share_code').notNull().unique(),
+  isActive:  integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  createdAt: integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
+});
+
+// 14. Tournament Participants (Leaderboard tracker)
+export const tournamentParticipants = table('tournament_participants', {
+  id:               integer('id').primaryKey({ autoIncrement: true }),
+  tournamentId:     integer('tournament_id').notNull(),
+  userId:           integer('user_id').notNull(),
+  userName:         text('user_name').notNull(),
+  userAvatar:       text('user_avatar'),
+  score:            integer('score').notNull().default(0),
+  totalQuestions:   integer('total_questions').notNull(),
+  totalTimeSeconds: integer('total_time_seconds').notNull().default(0),
+  finishedAt:       integer('finished_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
+});
+
+// 15. Live Multiplayer Rooms (Kahoot Style)
+export const liveRooms = table('live_rooms', {
+  id:                   integer('id').primaryKey({ autoIncrement: true }),
+  roomCode:             text('room_code').notNull().unique(),
+  quizId:               integer('quiz_id').notNull(),
+  hostId:               integer('host_id').notNull(),
+  status:               text('status').notNull().default('waiting'), // waiting, active, finished
+  currentQuestionIndex: integer('current_question_index').notNull().default(0),
+  createdAt:            integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
+});
+
