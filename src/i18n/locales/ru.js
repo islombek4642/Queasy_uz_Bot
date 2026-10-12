@@ -170,6 +170,20 @@ export default {
   BTN_SAVE_QUIZ: 'Сохранить',
   BTN_SAVED_QUIZ: 'Сохранено',
   TOAST_QUIZ_SAVED: 'Тест сохранён в раздел "Мои тесты"!',
+
+  // Quiz Modes
+  SELECT_MODE_TITLE: 'Выберите режим теста',
+  SELECT_MODE_SUBTITLE: 'В каком порядке вы хотите решать?',
+  MODE_FULL_TITLE: 'Полный тест',
+  MODE_FULL_DESC: 'Все {total} вопросов по порядку',
+  MODE_RANGE_TITLE: 'Диапазон вопросов',
+  MODE_RANGE_DESC: 'Выбрать диапазон вопросов',
+  MODE_RANDOM_TITLE: 'Случайный тест',
+  MODE_RANDOM_DESC: 'Решать вопросы в случайном порядке',
+  RANGE_FROM_LABEL: 'От',
+  RANGE_TO_LABEL: 'До',
+  RANDOM_COUNT_LABEL: 'Количество вопросов',
+  BTN_START_PLAY: 'Начать',
 };
 
 

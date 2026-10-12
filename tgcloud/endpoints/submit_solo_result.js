@@ -26,7 +26,7 @@ export default async function (input, ctx) {
     chatId: userId,
     userId,
     isGroup: false,
-    mode: isMistakesMode ? 'mistakes' : 'full',
+    mode: isMistakesMode ? 'mistakes' : (input?.mode || 'full'),
     currentIndex: totalQuestions,
     totalQuestions,
     correctCount,

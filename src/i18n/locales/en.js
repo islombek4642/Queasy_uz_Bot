@@ -170,6 +170,20 @@ export default {
   BTN_SAVE_QUIZ: 'Save',
   BTN_SAVED_QUIZ: 'Saved',
   TOAST_QUIZ_SAVED: 'Quiz saved to "My Quizzes"!',
+
+  // Quiz Modes
+  SELECT_MODE_TITLE: 'Select Quiz Mode',
+  SELECT_MODE_SUBTITLE: 'How would you like to solve?',
+  MODE_FULL_TITLE: 'Full Quiz',
+  MODE_FULL_DESC: 'All {total} questions in order',
+  MODE_RANGE_TITLE: 'Range Mode',
+  MODE_RANGE_DESC: 'Select question range',
+  MODE_RANDOM_TITLE: 'Random Quiz',
+  MODE_RANDOM_DESC: 'Solve questions in random order',
+  RANGE_FROM_LABEL: 'From',
+  RANGE_TO_LABEL: 'To',
+  RANDOM_COUNT_LABEL: 'Question count',
+  BTN_START_PLAY: 'Start',
 };
 
 

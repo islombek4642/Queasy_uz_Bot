@@ -170,6 +170,20 @@ export default {
   BTN_SAVE_QUIZ: 'Saqlash',
   BTN_SAVED_QUIZ: 'Saqlangan',
   TOAST_QUIZ_SAVED: 'Test "Mening testlarim" bo\'limiga saqlandi!',
+
+  // Quiz Modes
+  SELECT_MODE_TITLE: 'Test Rejimini Tanlang',
+  SELECT_MODE_SUBTITLE: 'Qaysi tartibda yechmoqchisiz?',
+  MODE_FULL_TITLE: 'To\'liq test',
+  MODE_FULL_DESC: 'Barcha {total} ta savolni ketma-ket yechish',
+  MODE_RANGE_TITLE: 'Oraliq test',
+  MODE_RANGE_DESC: 'Savollar oralig\'ini belgilash',
+  MODE_RANDOM_TITLE: 'Tasodifiy test',
+  MODE_RANDOM_DESC: 'Savollarni aralash tartibda yechish',
+  RANGE_FROM_LABEL: 'Boshlanishi',
+  RANGE_TO_LABEL: 'Tugashi',
+  RANDOM_COUNT_LABEL: 'Savollar soni',
+  BTN_START_PLAY: 'Boshlash',
 };
 
 

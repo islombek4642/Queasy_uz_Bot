@@ -5,6 +5,7 @@ import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
 import { useQuizTimer } from '../hooks/useQuizTimer.js';
 import { fetchQuizDetail, submitSoloResult } from '../services/quizService.js';
+import { shuffleQuestionOptions } from '../utils/quizHelpers.js';
 import { TimerRing } from '../components/quiz/TimerRing.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
 import { OptionCard } from '../components/quiz/OptionCard.jsx';
@@ -13,7 +14,15 @@ import { ResultCard } from '../components/quiz/ResultCard.jsx';
 import { Modal } from '../components/common/Modal.jsx';
 import { Card } from '../components/common/Card.jsx';
 
-export function ArenaView({ quizId, customQuestions = null, customTitle = null, onExit }) {
+export function ArenaView({
+  quizId,
+  customQuestions = null,
+  customTitle = null,
+  mode = 'full',
+  range = null,
+  randomCount = null,
+  onExit,
+}) {
   const { t } = useTranslation();
   const { haptic, backButton } = useTelegram();
 
@@ -33,7 +42,7 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
   const failedQuestionsRef = useRef([]);
   const resolvedMistakeIdsRef = useRef([]);
 
-  // Load quiz details or use custom questions
+  // Load quiz details or use custom questions with option shuffling
   const loadQuiz = useCallback(async () => {
     if (customQuestions && customQuestions.length > 0) {
       setQuiz({
@@ -42,7 +51,18 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
         timeLimit: 30,
         shuffleOptions: true,
       });
-      setQuestions(customQuestions);
+
+      // Always shuffle options for mistakes practice questions while preserving question order
+      const preparedMistakes = customQuestions.map((q) => {
+        const shuf = shuffleQuestionOptions(q.options || [], q.correctOptionId ?? 0);
+        return {
+          ...q,
+          options: shuf.options,
+          correctOptionId: shuf.correctOptionId,
+        };
+      });
+
+      setQuestions(preparedMistakes);
       setLoading(false);
       return;
     }
@@ -52,14 +72,42 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
       const data = await fetchQuizDetail(quizId);
       if (data && data.quiz && data.questions?.length > 0) {
         setQuiz(data.quiz);
-        setQuestions(data.questions);
+        let pool = [...data.questions];
+
+        // 1. Filter / Slice questions based on selected mode
+        if (mode === 'range' && Array.isArray(range) && range.length === 2) {
+          const start = Math.max(1, Math.min(Number(range[0]) || 1, pool.length));
+          const end = Math.max(start, Math.min(Number(range[1]) || pool.length, pool.length));
+          pool = pool.slice(start - 1, end);
+        } else if (mode === 'random' && randomCount) {
+          // Only in random mode: shuffle question order!
+          const count = Math.min(pool.length, Math.max(1, Number(randomCount) || 10));
+          pool = [...pool].sort(() => Math.random() - 0.5).slice(0, count);
+        }
+        // In other modes (full, range): question order remains strictly sequential!
+
+        // 2. Always shuffle options for each question (Fisher-Yates) unless shuffleOptions is explicitly false
+        const shouldShuffle = data.quiz.shuffleOptions !== false;
+        const preparedQuestions = pool.map((q) => {
+          if (shouldShuffle && Array.isArray(q.options) && q.options.length >= 2) {
+            const shuf = shuffleQuestionOptions(q.options, q.correctOptionId ?? 0);
+            return {
+              ...q,
+              options: shuf.options,
+              correctOptionId: shuf.correctOptionId,
+            };
+          }
+          return q;
+        });
+
+        setQuestions(preparedQuestions);
       }
     } catch (err) {
       console.error('Failed to load quiz:', err);
     } finally {
       setLoading(false);
     }
-  }, [quizId, customQuestions, customTitle, t]);
+  }, [quizId, customQuestions, customTitle, mode, range, randomCount, t]);
 
   useEffect(() => {
     loadQuiz();
@@ -84,6 +132,7 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
       submitSoloResult({
         quizId: quizId || 0,
         isMistakesMode: Boolean(customQuestions),
+        mode: Boolean(customQuestions) ? 'mistakes' : mode,
         correctCount,
         wrongCount,
         timeSpent: elapsed,
@@ -93,7 +142,7 @@ export function ArenaView({ quizId, customQuestions = null, customTitle = null, 
         console.error('Failed to submit solo result:', err);
       });
     }
-  }, [currentIndex, questions.length, quizId, correctCount, wrongCount, customQuestions]);
+  }, [currentIndex, questions.length, quizId, correctCount, wrongCount, customQuestions, mode]);
 
   // Timeout handler
   const handleTimeout = useCallback(() => {

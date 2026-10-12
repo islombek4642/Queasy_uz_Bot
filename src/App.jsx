@@ -12,6 +12,7 @@ import { ArenaView } from './views/ArenaView.jsx';
 import { KiutView } from './views/KiutView.jsx';
 import { MistakesView } from './views/MistakesView.jsx';
 import { QuizCreatorView } from './views/QuizCreatorView.jsx';
+import { QuizModeModal } from './components/quiz/QuizModeModal.jsx';
 import { ErrorBoundary } from './components/common/ErrorBoundary.jsx';
 import {
   NAV_HOME,
@@ -33,6 +34,12 @@ export default function App() {
   const [showCreator, setShowCreator] = useState(false);
   const [editQuizId, setEditQuizId] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Quiz Mode Modal state
+  const [modeModalQuizId, setModeModalQuizId] = useState(null);
+  const [activeQuizMode, setActiveQuizMode] = useState('full');
+  const [activeQuizRange, setActiveQuizRange] = useState(null);
+  const [activeQuizRandomCount, setActiveQuizRandomCount] = useState(null);
 
   const refreshData = () => {
     fetchInitialData()
@@ -58,21 +65,35 @@ export default function App() {
   }, []);
 
   const handleStartQuiz = (quizId) => {
+    setModeModalQuizId(quizId);
+  };
+
+  const handleConfirmMode = ({ quizId, mode, range, randomCount }) => {
+    setModeModalQuizId(null);
     setActiveCustomQuestions(null);
     setActiveCustomTitle(null);
     setActiveQuizId(quizId);
+    setActiveQuizMode(mode);
+    setActiveQuizRange(range);
+    setActiveQuizRandomCount(randomCount);
   };
 
   const handleStartMistakes = (mistakes, title = null) => {
     setActiveQuizId(null);
     setActiveCustomQuestions(mistakes);
     setActiveCustomTitle(title);
+    setActiveQuizMode('mistakes');
+    setActiveQuizRange(null);
+    setActiveQuizRandomCount(null);
   };
 
   const handleExitArena = () => {
     setActiveQuizId(null);
     setActiveCustomQuestions(null);
     setActiveCustomTitle(null);
+    setActiveQuizMode('full');
+    setActiveQuizRange(null);
+    setActiveQuizRandomCount(null);
     refreshData();
   };
 
@@ -101,6 +122,9 @@ export default function App() {
         quizId={activeQuizId}
         customQuestions={activeCustomQuestions}
         customTitle={activeCustomTitle}
+        mode={activeQuizMode}
+        range={activeQuizRange}
+        randomCount={activeQuizRandomCount}
         onExit={handleExitArena}
       />
     );
@@ -199,6 +223,13 @@ export default function App() {
           setEditQuizId(null);
           setActiveTab(tab);
         }}
+      />
+
+      <QuizModeModal
+        isOpen={Boolean(modeModalQuizId)}
+        onClose={() => setModeModalQuizId(null)}
+        quizId={modeModalQuizId}
+        onConfirmMode={handleConfirmMode}
       />
     </div>
   );
