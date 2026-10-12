@@ -60,11 +60,19 @@ export function LeaderboardView() {
 
   return (
     <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }} className="animate-fade-in">
-      <div>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{t('LEADERBOARD_TITLE')}</h2>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '2px' }}>
-          {t('LEADERBOARD_SUBTITLE')}
-        </p>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{t('LEADERBOARD_TITLE')}</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '2px' }}>
+            {t('LEADERBOARD_SUBTITLE')}
+          </p>
+        </div>
+        {leaderboardData?.totalUsers > 0 && (
+          <Badge variant="primary" size="md">
+            <Icon icon="solar:users-group-two-rounded-bold" width="14" height="14" style={{ marginRight: '4px' }} />
+            {leaderboardData.totalUsers.toLocaleString()} {t('PARTICIPANTS')}
+          </Badge>
+        )}
       </div>
 
       {/* Tabs */}

@@ -86,11 +86,19 @@ export default async function (input, ctx) {
       });
     }
 
+    // 0. Total users count
+    let totalUsersCount = 0;
+    try {
+      totalUsersCount = await db.$count(users);
+    } catch (err) {
+      console.error('get_leaderboard count error:', err);
+    }
+
     // Sort descending by XP
     computedUsers.sort((a, b) => b.xp - a.xp);
 
-    // Assign ranks
-    const topUsers = computedUsers.slice(0, 20).map((u, index) => ({
+    // Assign ranks (Top 10)
+    const topUsers = computedUsers.slice(0, 10).map((u, index) => ({
       ...u,
       rank: index + 1,
       isCurrentUser: u.id === currentUserId,
@@ -115,7 +123,7 @@ export default async function (input, ctx) {
           level: 1,
           accuracy: 0,
           quizzesSolved: 0,
-          rank: computedUsers.length + 1,
+          rank: totalUsersCount || computedUsers.length + 1,
           isCurrentUser: true,
           photo_url: ctx?.initData?.user?.photo_url || null,
         };
@@ -126,6 +134,7 @@ export default async function (input, ctx) {
       timeframe,
       topUsers,
       currentUserRank,
+      totalUsers: Number(totalUsersCount || computedUsers.length),
     };
   } catch (error) {
     console.error('Fatal get_leaderboard error:', error);
