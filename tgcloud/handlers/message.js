@@ -250,6 +250,8 @@ export default async function (message, ctx) {
         chat_id: chatId,
         text: statsText,
         parse_mode: 'HTML',
+        disable_web_page_preview: true,
+        link_preview_options: { is_disabled: true },
       });
       return;
     }

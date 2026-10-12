@@ -641,6 +641,8 @@ export async function finishSession(api, sessionId, isStopped = false) {
       text,
       parse_mode: 'HTML',
       reply_markup,
+      disable_web_page_preview: true,
+      link_preview_options: { is_disabled: true },
     });
   } else {
     // Solo Scorecard
