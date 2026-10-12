@@ -1,5 +1,6 @@
 // tgcloud/endpoints/save_custom_quiz.js
 import { db } from 'sdk';
+import { eq, desc } from 'sdk/db';
 import { quizzes, questions } from '../schema.js';
 
 export default async function (input, ctx) {
@@ -8,7 +9,7 @@ export default async function (input, ctx) {
     return { success: false, error: 'Unauthorized: User ID missing' };
   }
 
-  const { title, description, timeLimit, questions: questionsList } = input || {};
+  const { title, description, timeLimit, shuffleOptions, questions: questionsList } = input || {};
 
   if (!title || typeof title !== 'string' || !title.trim()) {
     return { success: false, error: 'Sarlavha kiritilishi shart' };
@@ -18,19 +19,31 @@ export default async function (input, ctx) {
     return { success: false, error: 'Kamida 1 ta savol qo\'shilishi shart' };
   }
 
+  const isShuffle = shuffleOptions !== undefined ? Boolean(shuffleOptions) : true;
+
   // 1. Insert Quiz
   const insertQuizResult = await db
     .insert(quizzes)
     .values({
       ownerId: currentUserId,
-      title: title.trim(),
+      title: title.trim().slice(0, 200),
       description: description?.trim() || '',
       timeLimit: Number(timeLimit) || 30,
-      shuffleOptions: true,
+      shuffleOptions: isShuffle,
     })
     .run();
 
-  const newQuizId = Number(insertQuizResult.lastInsertRowid);
+  let newQuizId = insertQuizResult?.lastInsertRowid ? Number(insertQuizResult.lastInsertRowid) : null;
+  if (!newQuizId) {
+    const latest = await db
+      .select({ id: quizzes.id })
+      .from(quizzes)
+      .where(eq(quizzes.ownerId, currentUserId))
+      .orderBy(desc(quizzes.id))
+      .limit(1)
+      .get();
+    newQuizId = latest?.id ? Number(latest.id) : null;
+  }
 
   // 2. Insert Questions
   for (let i = 0; i < questionsList.length; i++) {
