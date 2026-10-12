@@ -119,43 +119,45 @@ export function KiutView({ onBack, onStartQuiz }) {
     <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }} className="animate-fade-in">
       {/* Top Header Row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <button
-            onClick={handleBackOneLevel}
-            className="glass-pill"
-            style={{
-              width: '38px',
-              height: '38px',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: 'var(--text-primary)',
-              background: 'var(--surface-color)',
-              border: '1px solid var(--border-color)',
-            }}
-          >
-            <Icon icon="solar:arrow-left-bold" width="18" height="18" />
-          </button>
-          <div>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
+          {currentPath && (
+            <button
+              onClick={handleBackOneLevel}
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: 'var(--text-primary)',
+                background: 'var(--surface-card, #161c2a)',
+                border: '1px solid var(--surface-border, rgba(255, 255, 255, 0.12))',
+                flexShrink: 0,
+              }}
+            >
+              <Icon icon="solar:arrow-left-bold" width="18" height="18" />
+            </button>
+          )}
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: '800', margin: 0, color: 'var(--text-primary)', lineHeight: '1.3' }}>
               {currentPath ? pathParts[pathParts.length - 1] : t('KIUT_EXPLORER_TITLE')}
             </h2>
-            <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '2px', lineHeight: '1.3' }}>
               {currentPath ? t('KIUT_TEST_TITLE') : t('KIUT_TEST_SUBTITLE')}
             </div>
           </div>
         </div>
 
         {data.totalQuizzes > 0 && !currentPath && (
-          <Badge variant="primary" size="md">
+          <Badge variant="primary" size="md" style={{ flexShrink: 0, whiteSpace: 'nowrap' }}>
             {data.totalQuizzes} {t('KIUT_TOTAL_AVAILABLE')}
           </Badge>
         )}
       </div>
 
-      {/* Full-width Search Input */}
+      {/* Full-width High-Contrast Search Input */}
       <div style={{ position: 'relative' }}>
         <div
           style={{
@@ -163,9 +165,10 @@ export function KiutView({ onBack, onStartQuiz }) {
             left: '14px',
             top: '50%',
             transform: 'translateY(-50%)',
-            color: 'var(--text-muted)',
+            color: searchQuery ? 'var(--accent-primary)' : 'var(--text-secondary)',
             display: 'flex',
             alignItems: 'center',
+            pointerEvents: 'none',
           }}
         >
           <Icon icon="solar:magnifer-bold" width="20" height="20" />
@@ -175,17 +178,27 @@ export function KiutView({ onBack, onStartQuiz }) {
           value={searchQuery}
           onChange={handleSearchChange}
           placeholder={t('KIUT_SEARCH_PLACEHOLDER')}
-          className="glass-panel"
           style={{
             width: '100%',
-            padding: '12px 16px 12px 42px',
-            fontSize: '0.9rem',
+            padding: '13px 40px 13px 44px',
+            fontSize: '0.92rem',
+            fontWeight: '500',
             color: 'var(--text-primary)',
-            borderRadius: 'var(--radius-md)',
+            borderRadius: 'var(--radius-md, 14px)',
             outline: 'none',
             boxSizing: 'border-box',
-            border: '1px solid var(--border-color)',
-            background: 'var(--surface-color)',
+            border: '1.5px solid var(--surface-border, rgba(255, 255, 255, 0.15))',
+            backgroundColor: 'var(--surface-card, #161c2a)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+            transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = 'var(--accent-primary, #6366f1)';
+            e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.25)';
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'var(--surface-border, rgba(255, 255, 255, 0.15))';
+            e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.25)';
           }}
         />
         {searchQuery && (
@@ -199,13 +212,19 @@ export function KiutView({ onBack, onStartQuiz }) {
               right: '12px',
               top: '50%',
               transform: 'translateY(-50%)',
-              color: 'var(--text-muted)',
-              background: 'none',
+              background: 'rgba(255, 255, 255, 0.1)',
               border: 'none',
+              borderRadius: '50%',
+              width: '24px',
+              height: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--text-secondary)',
               cursor: 'pointer',
             }}
           >
-            <Icon icon="solar:close-circle-bold" width="18" height="18" />
+            <Icon icon="solar:close-circle-bold" width="16" height="16" />
           </button>
         )}
       </div>
