@@ -17,10 +17,16 @@ export function HomeView({ initialData, onStartQuiz, onNavigateToTab, onOpenCrea
   useEffect(() => {
     fetchUserMistakes()
       .then((res) => {
-        if (res && res.count) setMistakesData(res);
+        if (res && typeof res.count === 'number') {
+          setMistakesData(res);
+        } else {
+          setMistakesData({ mistakes: [], count: 0 });
+        }
       })
-      .catch(() => {});
-  }, []);
+      .catch(() => {
+        setMistakesData({ mistakes: [], count: 0 });
+      });
+  }, [initialData]);
 
   const myQuizzes = initialData?.myQuizzes || [];
   const stats = initialData?.stats || { totalSolved: 0, accuracy: 0, globalRank: '-' };
