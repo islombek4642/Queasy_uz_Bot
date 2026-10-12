@@ -18,10 +18,10 @@ export default async function (input, ctx) {
   // 1. Fetch or ensure user
   let userRow = await db.select().from(users).where(eq(users.telegramId, userId)).get();
   if (!userRow) {
-    const fullName = [tgUser.first_name, tgUser.last_name].filter(Boolean).join(' ') || 'Foydalanuvchi';
     await db.insert(users).values({
       telegramId: userId,
-      name: fullName,
+      firstName: tgUser.first_name || 'Foydalanuvchi',
+      lastName: tgUser.last_name || null,
       username: tgUser.username || null,
       lang: tgUser.language_code?.toUpperCase()?.includes('RU') ? 'RU' : 'UZ',
     }).run();
@@ -38,29 +38,37 @@ export default async function (input, ctx) {
     .all();
 
   const myQuizzes = [];
-  for (const q of rawQuizzes) {
-    const qCountRows = await db
-      .select()
-      .from(questions)
-      .where(eq(questions.quizId, q.id))
-      .all();
+  for (const q of (rawQuizzes || [])) {
+    const qCount = await db.$count(questions, eq(questions.quizId, q.id));
 
     myQuizzes.push({
       id: q.id,
       title: q.title,
       description: q.description || '',
       timeLimit: q.timeLimit || 30,
-      questionCount: qCountRows.length,
+      questionCount: qCount,
       shuffleOptions: Boolean(q.shuffleOptions),
     });
   }
 
   // 3. User Statistics
-  const finishedSessions = await db
-    .select()
-    .from(quizSessions)
-    .where(and(eq(quizSessions.userId, userId), eq(quizSessions.isActive, false)))
-    .all();
+  let finishedSessions = [];
+  try {
+    const rawSessions = await db
+      .select({
+        id: quizSessions.id,
+        correctCount: quizSessions.correctCount,
+        wrongCount: quizSessions.wrongCount,
+        isActive: quizSessions.isActive,
+      })
+      .from(quizSessions)
+      .where(eq(quizSessions.userId, userId))
+      .limit(100)
+      .all();
+    finishedSessions = (rawSessions || []).filter(s => !s.isActive);
+  } catch (sErr) {
+    console.error('[get_initial_data] session query err:', sErr?.message);
+  }
 
   let totalCorrect = 0;
   let totalAnswered = 0;
@@ -72,13 +80,14 @@ export default async function (input, ctx) {
   const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
   const xp = totalCorrect * 10;
   const level = Math.floor(xp / 100) + 1;
+  const fullName = [userRow?.firstName, userRow?.lastName].filter(Boolean).join(' ') || tgUser?.first_name || 'Foydalanuvchi';
 
   return {
     user: {
       id: userId,
-      name: userRow?.name || tgUser.first_name,
+      name: fullName,
       username: userRow?.username || tgUser.username,
-      photo_url: tgUser?.photo_url || null,
+      photo_url: tgUser?.photo_url || (userRow?.username ? `https://t.me/i/userpic/320/${userRow.username}.jpg` : null),
       level,
       xp,
       lang: userRow?.lang || 'UZ',

@@ -59,30 +59,47 @@ function getCleanDefaults(endpointName) {
 }
 
 export async function callEndpoint(endpointName, params = {}) {
-  const initData = window.Telegram?.WebApp?.initData || '';
+  const serverless = window.Telegram?.WebApp?.Serverless;
 
-  // 1. Try real HTTP call to /api/<endpointName>
-  try {
-    const res = await fetch(`/api/${endpointName}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(initData ? { 'Authorization': `tma ${initData}`, 'x-telegram-init-data': initData } : {}),
-      },
-      body: JSON.stringify(params),
+  if (serverless && typeof serverless.call === 'function') {
+    return new Promise((resolve) => {
+      let resolved = false;
+
+      // 8s watchdog timeout
+      const timer = setTimeout(() => {
+        if (!resolved) {
+          resolved = true;
+          console.warn(`[API Timeout] ${endpointName}`);
+          resolve(getCleanDefaults(endpointName));
+        }
+      }, 8000);
+
+      try {
+        serverless.call(endpointName, params, (err, res) => {
+          if (resolved) return;
+          resolved = true;
+          clearTimeout(timer);
+
+          if (err) {
+            console.error(`[API Error] ${endpointName}:`, err);
+            resolve(getCleanDefaults(endpointName));
+          } else {
+            resolve(res);
+          }
+        });
+      } catch (ex) {
+        if (!resolved) {
+          resolved = true;
+          clearTimeout(timer);
+          console.error(`[API Exception] ${endpointName}:`, ex);
+          resolve(getCleanDefaults(endpointName));
+        }
+      }
     });
-
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    } else {
-      console.warn(`[API ${res.status}] ${endpointName}`);
-    }
-  } catch (err) {
-    console.warn(`[API Network Error] ${endpointName}:`, err?.message);
   }
 
-  // 2. Return clean empty data if offline or unauthorized
+  // Fallback for browsers outside Telegram
+  console.warn(`[API] Serverless not available for ${endpointName}`);
   return getCleanDefaults(endpointName);
 }
 

@@ -25,10 +25,16 @@ export default async function (input, ctx) {
     let finishedSessions = [];
     try {
       const rawSessions = await db
-        .select()
+        .select({
+          id: quizSessions.id,
+          userId: quizSessions.userId,
+          correctCount: quizSessions.correctCount,
+          wrongCount: quizSessions.wrongCount,
+          isActive: quizSessions.isActive,
+        })
         .from(quizSessions)
         .orderBy(desc(quizSessions.id))
-        .limit(60)
+        .limit(100)
         .all();
       finishedSessions = (rawSessions || []).filter((s) => !s.isActive);
     } catch (err) {
