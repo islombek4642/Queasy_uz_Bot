@@ -18,6 +18,8 @@ import {
   EP_CREATE_LIVE_ROOM,
   EP_GET_LIVE_ROOM_STATE,
   EP_START_LIVE_ROOM,
+  EP_SUBMIT_LIVE_ROOM_RESULT,
+  EP_FINISH_LIVE_ROOM,
 } from '../constants/endpoints.js';
 
 
@@ -88,6 +90,14 @@ export async function fetchLiveRoomState(roomCode) {
 
 export async function startLiveRoom(roomCode) {
   return await callEndpoint(EP_START_LIVE_ROOM, { roomCode });
+}
+
+export async function submitLiveRoomResult(payload) {
+  return await callEndpoint(EP_SUBMIT_LIVE_ROOM_RESULT, payload);
+}
+
+export async function finishLiveRoom(roomCode) {
+  return await callEndpoint(EP_FINISH_LIVE_ROOM, { roomCode });
 }
 
 

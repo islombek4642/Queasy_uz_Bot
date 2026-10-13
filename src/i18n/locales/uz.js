@@ -191,6 +191,9 @@ export default {
   // Group Tournaments & Sharing
   BTN_SHARE_TO_GROUP: 'Guruhga ulashish',
   BTN_CREATE_LIVE_ROOM: 'Jonli xona',
+  BTN_LAUNCH_BOT_POLL: 'Bot orqali boshlash',
+  BTN_GROUP_TOURNAMENT: 'Guruh turniri',
+  BTN_LIVE_ROOM: 'Jonli xona',
   TOURNAMENT_TITLE: 'Guruh Viktorinasi',
   TOURNAMENT_SUBTITLE: 'Ushbu guruh turnirida ishtirok eting va g\'olib bo\'ling!',
   TOURNAMENT_LEADERBOARD_TITLE: 'Guruh Peshqadamlari',
@@ -202,7 +205,40 @@ export default {
   TOURNAMENT_SHARE_CAPTION: '🏆 Men «{title}» guruh viktorinasida {score}/{total} ball bilan {rank}-o\'rinni oldim! Siz ham o\'zingizni sinab ko\'ring: {link}',
   TOAST_TOURNAMENT_CREATED: 'Guruh turniri yaratildi! Guruhni tanlang...',
   TOAST_LINK_COPIED: 'Havola nusxalandi!',
-  LIVE_ROOM_COMING_SOON: 'Jonli xona rejimi tez kunda ishga tushadi!',
+  
+  // Live Room Translations
+  LIVE_ROOM_TITLE: 'Jonli Xona (Live)',
+  LIVE_ROOM_PIN_LABEL: 'Xona PIN kodi',
+  LIVE_ROOM_INVITE_GROUP: 'Guruhga taklif qilish',
+  LIVE_ROOM_COPY_LINK: 'Xona havolasini nusxalash',
+  LIVE_ROOM_LOBBY_TITLE: 'Kutish zali',
+  LIVE_ROOM_YOU_ARE_HOST: 'Siz boshlovchisiz',
+  LIVE_ROOM_WAITING_HOST: 'Boshlovchi o\'yinni boshlashini kuting...',
+  LIVE_ROOM_EMPTY_PLAYERS: 'Hozircha hech kim qo\'shilmadi. PIN kodni do\'stlaringizga ulashing!',
+  LIVE_ROOM_START_BTN: 'O\'yinni Boshlash ({count} o\'yinchi)',
+  LIVE_ROOM_WAITING_CARD_TITLE: 'Boshlovchi o\'yinni boshlashini kuting...',
+  LIVE_ROOM_WAITING_CARD_SUB: 'Boshlovchi "Start" tugmasini bosishi bilanoq test avtomatik boshlanadi!',
+  LIVE_ROOM_PODIUM_TITLE: 'Jonli Xona Natijalari 🏆',
+  LIVE_ROOM_EXIT: 'Xonadan chiqish',
+  LIVE_ROOM_FINISH_BTN: 'Xonani yakunlash',
+  LIVE_ROOM_LOADING: 'Xona yuklanmoqda...',
+  LIVE_ROOM_NOT_FOUND: 'Xona topilmadi yoki yopilgan',
+  LIVE_ROOM_RANK_LABEL: 'Sizning natijangiz',
+  LIVE_ROOM_VIEW_RESULTS: 'Jonli Xona Natijalariga Qaytish',
+
+  // Group Host Launcher & Empty states
+  GROUP_LAUNCH_POLL_HINT: 'Telegram botini guruhingizga qo\'shing va savollarni bot orqali o\'tkazing',
+  GROUP_CHOOSE_CATALOG: 'KIUT katalogidan tanlash',
+  GROUP_CREATE_NEW_QUIZ: 'Yangi test yaratish',
+  BADGE_PUBLIC_QUIZ: 'Ommaviy',
+  BADGE_MY_QUIZ: 'Mening testim',
+  TOURNAMENT_SUBMITTED: 'Topshirilgan',
+  TOURNAMENT_NOT_FOUND_TITLE: 'Turnir topilmadi yoki yakunlangan',
+  TOURNAMENT_NOT_FOUND_DESC: 'Ushbu guruh turniri havolasi eskirgan yoki xato kiritilgan bo\'lishi mumkin.',
+  SHARE_MODAL_TITLE: 'Guruhga Ulashish 🚀',
+  SHARE_MODAL_SUBTITLE: '«{title}» guruh turniri yaratildi! Guruhdoshlaringizga yuboring:',
+  BTN_TELEGRAM_SHARE_GROUP: 'Telegram Guruhga Yuborish',
+  BTN_VIEW_TOURNAMENT_RANKS: 'Turnir Peshqadamlarini Ko\'rish',
 };
 
 

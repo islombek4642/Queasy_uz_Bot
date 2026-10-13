@@ -17,5 +17,7 @@ export const EP_SUBMIT_TOURNAMENT_RESULT = 'submit_tournament_result';
 export const EP_CREATE_LIVE_ROOM = 'create_live_room';
 export const EP_GET_LIVE_ROOM_STATE = 'get_live_room_state';
 export const EP_START_LIVE_ROOM = 'start_live_room';
+export const EP_SUBMIT_LIVE_ROOM_RESULT = 'submit_live_room_result';
+export const EP_FINISH_LIVE_ROOM = 'finish_live_room';
 
 

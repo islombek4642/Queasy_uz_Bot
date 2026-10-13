@@ -191,6 +191,9 @@ export default {
   // Group Tournaments & Sharing
   BTN_SHARE_TO_GROUP: 'Поделиться в группу',
   BTN_CREATE_LIVE_ROOM: 'Комната онлайн',
+  BTN_LAUNCH_BOT_POLL: 'Запустить через бота',
+  BTN_GROUP_TOURNAMENT: 'Турнир группы',
+  BTN_LIVE_ROOM: 'Онлайн комната',
   TOURNAMENT_TITLE: 'Групповая Викторина',
   TOURNAMENT_SUBTITLE: 'Примите участие в турнире группы и побеждайте!',
   TOURNAMENT_LEADERBOARD_TITLE: 'Лидеры группы',
@@ -202,7 +205,40 @@ export default {
   TOURNAMENT_SHARE_CAPTION: '🏆 Я занял(а) {rank}-е место в викторине «{title}» с результатом {score}/{total}! Попробуй и ты: {link}',
   TOAST_TOURNAMENT_CREATED: 'Турнир создан! Выберите группу...',
   TOAST_LINK_COPIED: 'Ссылка скопирована!',
-  LIVE_ROOM_COMING_SOON: 'Режим онлайн-комнаты скоро будет доступен!',
- };
+
+  // Live Room Translations
+  LIVE_ROOM_TITLE: 'Комната Онлайн (Live)',
+  LIVE_ROOM_PIN_LABEL: 'PIN-код комнаты',
+  LIVE_ROOM_INVITE_GROUP: 'Пригласить в группу',
+  LIVE_ROOM_COPY_LINK: 'Скопировать ссылку',
+  LIVE_ROOM_LOBBY_TITLE: 'Комната ожидания',
+  LIVE_ROOM_YOU_ARE_HOST: 'Вы ведущий',
+  LIVE_ROOM_WAITING_HOST: 'Ожидайте начала от ведущего...',
+  LIVE_ROOM_EMPTY_PLAYERS: 'Пока никто не присоединился. Поделитесь PIN-кодом с друзьями!',
+  LIVE_ROOM_START_BTN: 'Начать игру ({count} участников)',
+  LIVE_ROOM_WAITING_CARD_TITLE: 'Ожидайте запуска игры...',
+  LIVE_ROOM_WAITING_CARD_SUB: 'Как только ведущий нажмет "Старт", тест начнется автоматически!',
+  LIVE_ROOM_PODIUM_TITLE: 'Результаты Комнаты 🏆',
+  LIVE_ROOM_EXIT: 'Выйти из комнаты',
+  LIVE_ROOM_FINISH_BTN: 'Завершить комнату',
+  LIVE_ROOM_LOADING: 'Комната загружается...',
+  LIVE_ROOM_NOT_FOUND: 'Комната не найдена или закрыта',
+  LIVE_ROOM_RANK_LABEL: 'Ваш результат',
+  LIVE_ROOM_VIEW_RESULTS: 'Вернуться к результатам',
+
+  // Group Host Launcher & Empty states
+  GROUP_LAUNCH_POLL_HINT: 'Добавьте бота в группу и запускайте вопросы как опрос',
+  GROUP_CHOOSE_CATALOG: 'Выбрать из каталога KIUT',
+  GROUP_CREATE_NEW_QUIZ: 'Создать новый тест',
+  BADGE_PUBLIC_QUIZ: 'Общий',
+  BADGE_MY_QUIZ: 'Мой тест',
+  TOURNAMENT_SUBMITTED: 'Сдан',
+  TOURNAMENT_NOT_FOUND_TITLE: 'Турнир не найден или завершен',
+  TOURNAMENT_NOT_FOUND_DESC: 'Ссылка на этот турнир устарела или введена неверно.',
+  SHARE_MODAL_TITLE: 'Поделиться в группу 🚀',
+  SHARE_MODAL_SUBTITLE: 'Турнир «{title}» создан! Отправьте участникам группы:',
+  BTN_TELEGRAM_SHARE_GROUP: 'Отправить в Telegram группу',
+  BTN_VIEW_TOURNAMENT_RANKS: 'Посмотреть лидеров турнира',
+};
 
 
