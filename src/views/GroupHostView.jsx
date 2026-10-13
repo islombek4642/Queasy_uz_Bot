@@ -335,11 +335,11 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
           isOpen={Boolean(shareModalData)}
           title={t('SHARE_MODAL_TITLE')}
           icon="solar:share-bold"
-          maxWidth="440px"
+          maxWidth="400px"
           onClose={() => setShareModalData(null)}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'center' }}>
-            <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', textAlign: 'center' }}>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: '1.35', margin: 0 }}>
               {t('SHARE_MODAL_SUBTITLE', { title: shareModalData.title })}
             </p>
 
@@ -351,14 +351,14 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
                 background: 'rgba(99, 102, 241, 0.08)',
                 border: '1px solid var(--accent-glow)',
                 borderRadius: 'var(--radius-md)',
-                padding: '5px 8px 5px 12px',
-                gap: '8px',
+                padding: '4px 6px 4px 10px',
+                gap: '6px',
               }}
             >
               <span
                 style={{
                   flex: 1,
-                  fontSize: '0.78rem',
+                  fontSize: '0.76rem',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
@@ -380,8 +380,8 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
                 }}
                 className="glass-pill"
                 style={{
-                  padding: '5px 10px',
-                  fontSize: '0.75rem',
+                  padding: '4px 8px',
+                  fontSize: '0.72rem',
                   fontWeight: '700',
                   color: copiedModal ? 'var(--color-success)' : 'var(--text-primary)',
                   display: 'flex',
@@ -391,18 +391,19 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
                   cursor: 'pointer',
                 }}
               >
-                <Icon icon={copiedModal ? 'solar:check-circle-bold' : 'solar:copy-bold'} width="14" height="14" />
+                <Icon icon={copiedModal ? 'solar:check-circle-bold' : 'solar:copy-bold'} width="13" height="13" />
                 <span>{copiedModal ? t('TOAST_LINK_COPIED') : t('LIVE_ROOM_COPY_LINK')}</span>
               </button>
             </div>
 
             {/* Action Buttons: 2 sleek buttons */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '2px' }}>
               <Button
                 variant="primary"
                 fullWidth
-                size="md"
+                size="sm"
                 icon="solar:share-bold"
+                style={{ padding: '9px 12px', fontSize: '0.85rem' }}
                 onClick={() => {
                   haptic.impact('medium');
                   const tg = window.Telegram?.WebApp;
@@ -417,8 +418,9 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
               <Button
                 variant="glass"
                 fullWidth
-                size="md"
+                size="sm"
                 icon="solar:cup-star-bold"
+                style={{ padding: '8px 12px', fontSize: '0.82rem' }}
                 onClick={() => {
                   haptic.selection();
                   const code = shareModalData.shareCode;

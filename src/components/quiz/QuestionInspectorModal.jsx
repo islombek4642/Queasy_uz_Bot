@@ -37,50 +37,50 @@ export function QuestionInspectorModal({ isOpen, onClose, quizId, onStartQuiz })
       isOpen={isOpen}
       onClose={onClose}
       title={quiz?.title || t('INSPECT_QUIZ_TITLE')}
-      maxWidth="560px"
+      maxWidth="520px"
     >
       {loading ? (
-        <div style={{ padding: '36px', display: 'flex', justifyContent: 'center' }}>
-          <Icon icon="line-md:loading-loop" width="36" height="36" style={{ color: 'var(--accent-primary)' }} />
+        <div style={{ padding: '24px', display: 'flex', justifyContent: 'center' }}>
+          <Icon icon="line-md:loading-loop" width="32" height="32" style={{ color: 'var(--accent-primary)' }} />
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {/* Metadata badges */}
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <Badge variant="primary" icon="solar:question-circle-bold">
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            <Badge variant="primary" icon="solar:question-circle-bold" size="sm">
               {questions.length} {t('QUESTIONS_COUNT')}
             </Badge>
-            <Badge variant="warning" icon="solar:clock-circle-bold">
+            <Badge variant="warning" icon="solar:clock-circle-bold" size="sm">
               {quiz?.timeLimit || 30}s
             </Badge>
             {quiz?.shuffleOptions && (
-              <Badge variant="neutral" icon="solar:shuffle-bold">
+              <Badge variant="neutral" icon="solar:shuffle-bold" size="sm">
                 {t('SHUFFLE_OPTIONS_LABEL')}
               </Badge>
             )}
           </div>
 
           {quiz?.description && (
-            <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.4', wordBreak: 'break-word' }}>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: '1.35', wordBreak: 'break-word', margin: 0 }}>
               {quiz.description}
             </p>
           )}
 
           {/* Question List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {questions.map((q, idx) => (
-              <Card key={q.id || idx} style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontWeight: '800', color: 'var(--accent-primary)', fontSize: '0.85rem' }}>
+              <Card key={q.id || idx} style={{ padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontWeight: '800', color: 'var(--accent-primary)', fontSize: '0.82rem' }}>
                     #{idx + 1}
                   </span>
-                  <div style={{ fontWeight: '700', fontSize: '0.92rem', color: 'var(--text-primary)' }}>
+                  <div style={{ fontWeight: '700', fontSize: '0.88rem', color: 'var(--text-primary)' }}>
                     <MathText text={q.questionText} />
                   </div>
                 </div>
 
                 {/* Options */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '4px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '2px' }}>
                   {(q.options || []).map((opt, oIdx) => {
                     const isCorrect = q.correctOptionId === oIdx;
                     return (
@@ -89,17 +89,17 @@ export function QuestionInspectorModal({ isOpen, onClose, quizId, onStartQuiz })
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px',
-                          padding: '6px 10px',
+                          gap: '6px',
+                          padding: '5px 8px',
                           borderRadius: 'var(--radius-sm)',
                           backgroundColor: isCorrect ? 'rgba(16, 185, 129, 0.12)' : 'var(--bg-secondary)',
                           border: isCorrect ? '1px solid var(--color-success)' : '1px solid var(--surface-border)',
-                          fontSize: '0.85rem',
+                          fontSize: '0.82rem',
                           color: isCorrect ? 'var(--color-success)' : 'var(--text-secondary)',
                           fontWeight: isCorrect ? '700' : '500',
                         }}
                       >
-                        <span style={{ width: '18px', fontWeight: '800' }}>
+                        <span style={{ width: '16px', fontWeight: '800' }}>
                           {isCorrect ? '✓' : String.fromCharCode(65 + oIdx)}
                         </span>
                         <MathText text={opt} />
@@ -109,7 +109,7 @@ export function QuestionInspectorModal({ isOpen, onClose, quizId, onStartQuiz })
                 </div>
 
                 {q.explanation && (
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontStyle: 'italic', marginTop: '4px' }}>
+                  <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontStyle: 'italic', marginTop: '2px' }}>
                     💡 {q.explanation}
                   </div>
                 )}
@@ -118,13 +118,13 @@ export function QuestionInspectorModal({ isOpen, onClose, quizId, onStartQuiz })
           </div>
 
           {/* Footer Action */}
-          <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
-            <Button variant="secondary" size="md" onClick={onClose} style={{ flex: 1 }}>
+          <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+            <Button variant="secondary" size="sm" onClick={onClose} style={{ flex: 1 }}>
               {t('BTN_EXIT')}
             </Button>
             <Button
               variant="primary"
-              size="md"
+              size="sm"
               style={{ flex: 2 }}
               icon="solar:play-bold"
               onClick={() => {

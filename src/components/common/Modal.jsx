@@ -59,7 +59,7 @@ export function Modal({
         style={{
           width: '100%',
           maxWidth,
-          maxHeight: '88vh',
+          maxHeight: 'min(86vh, 640px)',
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: 'var(--bg-secondary)',
@@ -75,18 +75,18 @@ export function Modal({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '16px 20px',
+            padding: '12px 16px',
             borderBottom: '1px solid var(--surface-border)',
             backgroundColor: 'var(--bg-primary)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1, marginRight: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flex: 1, marginRight: '8px' }}>
             {icon && (
               <div
                 style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: 'var(--radius-md)',
+                  width: '30px',
+                  height: '30px',
+                  borderRadius: 'var(--radius-sm)',
                   backgroundColor: 'rgba(99, 102, 241, 0.15)',
                   color: 'var(--accent-primary)',
                   display: 'flex',
@@ -95,12 +95,12 @@ export function Modal({
                   flexShrink: 0,
                 }}
               >
-                <Icon icon={icon} width="22" height="22" />
+                <Icon icon={icon} width="18" height="18" />
               </div>
             )}
             <h3
               style={{
-                fontSize: '1.15rem',
+                fontSize: '1.02rem',
                 fontWeight: '800',
                 color: 'var(--text-primary)',
                 minWidth: 0,
@@ -121,8 +121,8 @@ export function Modal({
               if (onClose) onClose();
             }}
             style={{
-              width: '34px',
-              height: '34px',
+              width: '30px',
+              height: '30px',
               borderRadius: 'var(--radius-full)',
               backgroundColor: 'var(--surface-border)',
               display: 'flex',
@@ -131,15 +131,24 @@ export function Modal({
               color: 'var(--text-secondary)',
               cursor: 'pointer',
               transition: 'all var(--transition-fast)',
+              flexShrink: 0,
             }}
             title="Yopish"
           >
-            <Icon icon="solar:close-circle-bold" width="22" height="22" />
+            <Icon icon="solar:close-circle-bold" width="18" height="18" />
           </button>
         </div>
 
         {/* Scrollable Body */}
-        <div style={{ padding: '20px', overflowY: 'auto', flex: 1, color: 'var(--text-secondary)' }}>
+        <div
+          style={{
+            padding: '14px 16px',
+            overflowY: 'auto',
+            flex: 1,
+            color: 'var(--text-secondary)',
+            overscrollBehavior: 'contain',
+          }}
+        >
           {children}
         </div>
 
@@ -148,20 +157,20 @@ export function Modal({
           <div
             style={{
               display: 'flex',
-              gap: '10px',
+              gap: '8px',
               justifyContent: 'flex-end',
-              padding: '14px 20px',
+              padding: '10px 16px',
               borderTop: '1px solid var(--surface-border)',
               backgroundColor: 'var(--bg-primary)',
             }}
           >
             {cancelText && (
-              <Button variant="secondary" onClick={onClose} style={{ flex: 1 }}>
+              <Button variant="secondary" size="sm" onClick={onClose} style={{ flex: 1 }}>
                 {cancelText}
               </Button>
             )}
             {confirmText && (
-              <Button variant={confirmVariant} onClick={onConfirm} style={{ flex: 1 }}>
+              <Button variant={confirmVariant} size="sm" onClick={onConfirm} style={{ flex: 1 }}>
                 {confirmText}
               </Button>
             )}

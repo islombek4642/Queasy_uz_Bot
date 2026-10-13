@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "src/components/common/Modal.jsx": {
-    "mtime": 1791813353.8635612,
-    "seen": 1791813476.1924493,
-    "ast_hash": "7cab021afee2af4cb0576b7577095c48",
+    "mtime": 1791909301.4894795,
+    "seen": 1791909450.1621523,
+    "ast_hash": "ce5ee8a4e1ffdc5d9fd6632393be7869",
     "semantic_hash": ""
   },
   "src/components/navigation/BottomNav.jsx": {
@@ -516,9 +516,9 @@
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
-    "mtime": 1791907211.8969321,
-    "seen": 1791907302.8104496,
-    "ast_hash": "3ac6184763ebf155457aa5c377411c55",
+    "mtime": 1791909323.1774707,
+    "seen": 1791909450.1622417,
+    "ast_hash": "e29f1bffd38a41018e930b49f7e95938",
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
@@ -624,9 +624,9 @@
     "semantic_hash": ""
   },
   "src/components/quiz/QuestionInspectorModal.jsx": {
-    "mtime": 1791813353.8645606,
-    "seen": 1791813476.193988,
-    "ast_hash": "42710cab647de0e56a307cc9837c2c72",
+    "mtime": 1791909409.5752845,
+    "seen": 1791909450.1621745,
+    "ast_hash": "9c0c654c93cfc0a2ac6747765d6c1238",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/delete_quiz.js": {
@@ -2730,9 +2730,9 @@
     "semantic_hash": ""
   },
   "src/components/quiz/QuizModeModal.jsx": {
-    "mtime": 1791820725.8438456,
-    "seen": 1791820864.710895,
-    "ast_hash": "a11f791f100fe84e98ba17d69665eeb0",
+    "mtime": 1791909385.5844555,
+    "seen": 1791909450.1621802,
+    "ast_hash": "9f742c0582c421fea7282df225e34139",
     "semantic_hash": ""
   },
   "src/utils/quizHelpers.js": {
