@@ -3,19 +3,22 @@ import React, { useState, useEffect } from 'react';
 import { fetchInitialData } from './services/quizService.js';
 import { Header } from './components/navigation/Header.jsx';
 import { BottomNav } from './components/navigation/BottomNav.jsx';
+import { Icon } from '@iconify/react';
 import { HomeView } from './views/HomeView.jsx';
-import { MyQuizzesView } from './views/MyQuizzesView.jsx';
-import { GroupHostView } from './views/GroupHostView.jsx';
-import { LeaderboardView } from './views/LeaderboardView.jsx';
 import { ProfileView } from './views/ProfileView.jsx';
-import { ArenaView } from './views/ArenaView.jsx';
-import { KiutView } from './views/KiutView.jsx';
-import { MistakesView } from './views/MistakesView.jsx';
-import { QuizCreatorView } from './views/QuizCreatorView.jsx';
-import { TournamentView } from './views/TournamentView.jsx';
-import { LiveRoomView } from './views/LiveRoomView.jsx';
 import { QuizModeModal } from './components/quiz/QuizModeModal.jsx';
 import { ErrorBoundary } from './components/common/ErrorBoundary.jsx';
+
+// Code-split heavy secondary views
+const MyQuizzesView = React.lazy(() => import('./views/MyQuizzesView.jsx').then(m => ({ default: m.MyQuizzesView })));
+const GroupHostView = React.lazy(() => import('./views/GroupHostView.jsx').then(m => ({ default: m.GroupHostView })));
+const LeaderboardView = React.lazy(() => import('./views/LeaderboardView.jsx').then(m => ({ default: m.LeaderboardView })));
+const ArenaView = React.lazy(() => import('./views/ArenaView.jsx').then(m => ({ default: m.ArenaView })));
+const KiutView = React.lazy(() => import('./views/KiutView.jsx').then(m => ({ default: m.KiutView })));
+const MistakesView = React.lazy(() => import('./views/MistakesView.jsx').then(m => ({ default: m.MistakesView })));
+const QuizCreatorView = React.lazy(() => import('./views/QuizCreatorView.jsx').then(m => ({ default: m.QuizCreatorView })));
+const TournamentView = React.lazy(() => import('./views/TournamentView.jsx').then(m => ({ default: m.TournamentView })));
+const LiveRoomView = React.lazy(() => import('./views/LiveRoomView.jsx').then(m => ({ default: m.LiveRoomView })));
 import {
   NAV_HOME,
   NAV_MY_QUIZZES,
@@ -277,7 +280,15 @@ export default function App() {
       <Header userStats={initialData?.user} />
       <main style={{ flex: 1 }}>
         <ErrorBoundary>
-          {renderActiveView()}
+          <React.Suspense
+            fallback={
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '40vh' }} className="animate-fade-in">
+                <Icon icon="solar:restart-bold" width="36" height="36" className="animate-spin" style={{ color: 'var(--accent-primary)' }} />
+              </div>
+            }
+          >
+            {renderActiveView()}
+          </React.Suspense>
         </ErrorBoundary>
       </main>
       <BottomNav
