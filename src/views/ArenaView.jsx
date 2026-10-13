@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
 import { useQuizTimer } from '../hooks/useQuizTimer.js';
-import { fetchQuizDetail, submitSoloResult, submitTournamentResult } from '../services/quizService.js';
+import { fetchQuizDetail, submitSoloResult, submitTournamentResult, submitLiveRoomResult } from '../services/quizService.js';
 import { shuffleQuestionOptions } from '../utils/quizHelpers.js';
 import { TimerRing } from '../components/quiz/TimerRing.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
@@ -22,6 +22,7 @@ export function ArenaView({
   range = null,
   randomCount = null,
   tournamentShareCode = null,
+  liveRoomCode = null,
   onExit,
 }) {
 
@@ -39,6 +40,7 @@ export function ArenaView({
   const [isFinished, setIsFinished] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const [tournamentResult, setTournamentResult] = useState(null);
+  const [liveRoomResult, setLiveRoomResult] = useState(null);
 
   const startTimeRef = useRef(Date.now());
   const [totalTimeSpent, setTotalTimeSpent] = useState(0);
@@ -152,6 +154,19 @@ export function ArenaView({
         }).catch((err) => {
           console.error('Failed to submit tournament result:', err);
         });
+      } else if (liveRoomCode) {
+        submitLiveRoomResult({
+          roomCode: liveRoomCode,
+          score: finalCorrect,
+          totalQuestions: questions.length,
+          totalTimeSeconds: elapsed,
+        }).then((res) => {
+          if (res && res.success) {
+            setLiveRoomResult(res);
+          }
+        }).catch((err) => {
+          console.error('Failed to submit live room result:', err);
+        });
       } else {
         submitSoloResult({
           quizId: quizId || 0,
@@ -167,7 +182,7 @@ export function ArenaView({
         });
       }
     }
-  }, [currentIndex, questions.length, quizId, customQuestions, mode, tournamentShareCode]);
+  }, [currentIndex, questions.length, quizId, customQuestions, mode, tournamentShareCode, liveRoomCode]);
 
 
   // Timeout handler
@@ -276,11 +291,14 @@ export function ArenaView({
         totalTimeSeconds={totalTimeSpent}
         tournamentResult={tournamentResult}
         tournamentShareCode={tournamentShareCode}
+        liveRoomResult={liveRoomResult}
+        liveRoomCode={liveRoomCode}
         onRetry={() => {
           setCurrentIndex(0);
           setCorrectCount(0);
           setWrongCount(0);
           setTournamentResult(null);
+          setLiveRoomResult(null);
           failedQuestionsRef.current = [];
           resolvedMistakeIdsRef.current = [];
           setIsFinished(false);

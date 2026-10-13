@@ -15,6 +15,8 @@ export function ResultCard({
   totalTimeSeconds,
   tournamentResult = null,
   tournamentShareCode = null,
+  liveRoomResult = null,
+  liveRoomCode = null,
   onRetry,
   onBackHome,
 }) {
@@ -185,6 +187,31 @@ export function ResultCard({
             </div>
           </div>
         )}
+
+        {liveRoomResult && (
+          <div
+            style={{
+              marginTop: '16px',
+              padding: '12px 14px',
+              borderRadius: 'var(--radius-md)',
+              background: 'rgba(16, 185, 129, 0.12)',
+              border: '1px solid rgba(16, 185, 129, 0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t('LIVE_ROOM_RANK_LABEL')}</div>
+              <div style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--color-success)' }}>
+                #{liveRoomResult.rank} <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>/ {liveRoomResult.totalPlayers}</span>
+              </div>
+            </div>
+            <div style={{ fontSize: '1.5rem' }}>
+              {liveRoomResult.rank === 1 ? '🥇' : liveRoomResult.rank === 2 ? '🥈' : liveRoomResult.rank === 3 ? '🥉' : '⚡'}
+            </div>
+          </div>
+        )}
       </Card>
 
 
@@ -198,8 +225,8 @@ export function ResultCard({
           {t('BTN_RETRY')}
         </Button>
 
-        <Button variant="glass" fullWidth icon="solar:home-2-bold" onClick={onBackHome}>
-          {t('BTN_BACK_HOME')}
+        <Button variant="glass" fullWidth icon={liveRoomCode ? "solar:cup-star-bold" : "solar:home-2-bold"} onClick={onBackHome}>
+          {liveRoomCode ? t('LIVE_ROOM_VIEW_RESULTS') : t('BTN_BACK_HOME')}
         </Button>
       </div>
     </div>

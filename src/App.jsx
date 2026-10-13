@@ -40,6 +40,7 @@ export default function App() {
   const [editQuizId, setEditQuizId] = useState(null);
   const [activeTournamentCode, setActiveTournamentCode] = useState(null);
   const [activeRoomCode, setActiveRoomCode] = useState(null);
+  const [activeLiveRoomCode, setActiveLiveRoomCode] = useState(null);
   const [loading, setLoading] = useState(true);
 
 
@@ -152,6 +153,7 @@ export default function App() {
         range={activeQuizRange}
         randomCount={activeQuizRandomCount}
         tournamentShareCode={activeTournamentCode}
+        liveRoomCode={activeLiveRoomCode}
         onExit={handleExitArena}
       />
     );
@@ -162,14 +164,16 @@ export default function App() {
       return (
         <LiveRoomView
           roomCode={activeRoomCode}
-          onStartGame={(quizId) => {
+          onStartGame={(quizId, roomCode) => {
             setActiveQuizId(quizId);
             setActiveQuizMode('full');
             setActiveQuizRange(null);
             setActiveQuizRandomCount(null);
+            setActiveLiveRoomCode(roomCode || activeRoomCode);
           }}
           onBack={() => {
             setActiveRoomCode(null);
+            setActiveLiveRoomCode(null);
           }}
         />
       );
