@@ -1,6 +1,6 @@
 // tgcloud/endpoints/get_leaderboard.js
 import { db } from 'sdk';
-import { desc } from 'sdk/db';
+import { eq, and, sql, desc, inArray } from 'sdk/db';
 import { users, quizSessions } from '../schema.js';
 
 export default async function (input, ctx) {
@@ -8,151 +8,180 @@ export default async function (input, ctx) {
     const currentUserId = ctx?.initData?.user?.id || 0;
     const timeframe = input?.timeframe || 'all';
 
-    // 1. Fetch top users with limit
-    let allUsers = [];
-    try {
-      allUsers = await db
-        .select()
-        .from(users)
-        .orderBy(desc(users.telegramId))
-        .limit(30)
-        .all();
-    } catch (err) {
-      console.error('get_leaderboard users error:', err);
+    // 1. Calculate timeframe cutoff timestamp
+    const nowSec = Math.floor(Date.now() / 1000);
+    let thresholdSec = 0;
+    if (timeframe === 'today') {
+      thresholdSec = nowSec - 86400;
+    } else if (timeframe === 'week') {
+      thresholdSec = nowSec - 7 * 86400;
+    } else if (timeframe === 'month') {
+      thresholdSec = nowSec - 30 * 86400;
     }
 
-    // 2. Fetch recent finished sessions with limit
-    let finishedSessions = [];
-    try {
-      const rawSessions = await db
-        .select({
-          id: quizSessions.id,
-          userId: quizSessions.userId,
-          correctCount: quizSessions.correctCount,
-          wrongCount: quizSessions.wrongCount,
-          isActive: quizSessions.isActive,
-        })
-        .from(quizSessions)
-        .orderBy(desc(quizSessions.id))
-        .limit(100)
-        .all();
-      finishedSessions = (rawSessions || []).filter((s) => !s.isActive);
-    } catch (err) {
-      console.error('get_leaderboard sessions error:', err);
-    }
+    // 2. Query finished sessions
+    const sessionsQuery = thresholdSec > 0
+      ? db
+          .select({
+            userId: quizSessions.userId,
+            correctCount: quizSessions.correctCount,
+            wrongCount: quizSessions.wrongCount,
+          })
+          .from(quizSessions)
+          .where(
+            and(
+              eq(quizSessions.isActive, false),
+              sql`${quizSessions.startedAt} >= ${thresholdSec}`
+            )
+          )
+          .limit(500)
+      : db
+          .select({
+            userId: quizSessions.userId,
+            correctCount: quizSessions.correctCount,
+            wrongCount: quizSessions.wrongCount,
+          })
+          .from(quizSessions)
+          .where(eq(quizSessions.isActive, false))
+          .limit(1000);
 
-    // 3. Aggregate user stats
+    const finishedSessions = (await sessionsQuery.all()) || [];
+
+    // 3. Aggregate user performance
     const userStatsMap = new Map();
-    for (const session of finishedSessions) {
-      const uid = session.userId;
+    for (const s of finishedSessions) {
+      const uid = Number(s.userId);
+      if (!uid) continue;
+
       if (!userStatsMap.has(uid)) {
         userStatsMap.set(uid, {
+          userId: uid,
           totalCorrect: 0,
           totalAnswered: 0,
           quizzesCount: 0,
         });
       }
-      const current = userStatsMap.get(uid);
-      const correct = Number(session.correctCount) || 0;
-      const wrong = Number(session.wrongCount) || 0;
-      current.totalCorrect += correct;
-      current.totalAnswered += correct + wrong;
-      current.quizzesCount += 1;
+      const cur = userStatsMap.get(uid);
+      const correct = Number(s.correctCount) || 0;
+      const wrong = Number(s.wrongCount) || 0;
+      cur.totalCorrect += correct;
+      cur.totalAnswered += correct + wrong;
+      cur.quizzesCount += 1;
     }
 
-    const computedUsers = [];
-
-    for (const u of allUsers) {
-      const uid = Number(u.telegramId || u.id);
-      const stats = userStatsMap.get(uid) || {
-        totalCorrect: 0,
-        totalAnswered: 0,
-        quizzesCount: 0,
-      };
-      const xp = stats.totalCorrect * 10;
-      const accuracy = stats.totalAnswered > 0 ? Math.round((stats.totalCorrect / stats.totalAnswered) * 100) : 0;
-      const level = Math.floor(xp / 100) + 1;
-      const displayName = [u.firstName || u.name, u.lastName].filter(Boolean).join(' ') || u.username || 'Foydalanuvchi';
-
-      computedUsers.push({
-        id: uid,
-        name: displayName,
-        username: u.username || '',
-        xp,
-        level,
-        accuracy,
-        quizzesSolved: stats.quizzesCount,
-        photo_url: u.username ? `https://t.me/i/userpic/320/${u.username}.jpg` : null,
-      });
-    }
-
-    // 0. Total users count
-    let totalUsersCount = 0;
-    try {
-      totalUsersCount = await db.$count(users);
-    } catch (err) {
-      console.error('get_leaderboard count error:', err);
-    }
-
-    // Sort descending by XP
-    computedUsers.sort((a, b) => b.xp - a.xp);
-
-    // Assign ranks (Top 10)
-    const topUsers = computedUsers.slice(0, 10).map((u, index) => ({
-      ...u,
-      rank: index + 1,
-      isCurrentUser: u.id === currentUserId,
+    // 4. Sort users descending by XP (correct answers * 10)
+    const sortedStats = Array.from(userStatsMap.values()).map((s) => ({
+      id: s.userId,
+      xp: s.totalCorrect * 10,
+      level: Math.floor((s.totalCorrect * 10) / 100) + 1,
+      accuracy: s.totalAnswered > 0 ? Math.round((s.totalCorrect / s.totalAnswered) * 100) : 0,
+      quizzesSolved: s.quizzesCount,
     }));
 
-    // Find current user rank
+    sortedStats.sort((a, b) => b.xp - a.xp);
+
+    // 5. Fetch profile info for top 10 users + current user
+    const top10Stats = sortedStats.slice(0, 10);
+    const neededUserIds = new Set(top10Stats.map((s) => s.id));
+    if (currentUserId) neededUserIds.add(currentUserId);
+
+    const userProfileMap = new Map();
+    if (neededUserIds.size > 0) {
+      try {
+        const userRows = await db
+          .select({
+            telegramId: users.telegramId,
+            firstName: users.firstName,
+            lastName: users.lastName,
+            username: users.username,
+          })
+          .from(users)
+          .where(inArray(users.telegramId, Array.from(neededUserIds)))
+          .all();
+
+        for (const u of userRows || []) {
+          userProfileMap.set(Number(u.telegramId), u);
+        }
+      } catch (uErr) {
+        console.error('[get_leaderboard] user profiles lookup error:', uErr);
+      }
+    }
+
+    // 6. Format top 10
+    const topUsers = top10Stats.map((stat, idx) => {
+      const profile = userProfileMap.get(stat.id);
+      const rawName = [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') || profile?.username || `Foydalanuvchi #${stat.id}`;
+
+      return {
+        rank: idx + 1,
+        id: stat.id,
+        name: rawName,
+        username: profile?.username || '',
+        xp: stat.xp,
+        level: stat.level,
+        accuracy: stat.accuracy,
+        quizzesSolved: stat.quizzesSolved,
+        isCurrentUser: currentUserId ? stat.id === currentUserId : false,
+        photo_url: profile?.username ? `https://t.me/i/userpic/320/${profile.username}.jpg` : null,
+      };
+    });
+
+    // 7. Determine current user rank
     let currentUserRank = topUsers.find((u) => u.isCurrentUser);
     if (!currentUserRank) {
-      const userIndex = computedUsers.findIndex((u) => u.id === currentUserId);
+      const userIndex = sortedStats.findIndex((s) => s.id === currentUserId);
+      const profile = userProfileMap.get(currentUserId);
+      const rawName = [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') || profile?.username || ctx?.initData?.user?.first_name || 'Siz';
+
       if (userIndex !== -1) {
+        const stat = sortedStats[userIndex];
         currentUserRank = {
-          ...computedUsers[userIndex],
           rank: userIndex + 1,
+          id: currentUserId,
+          name: rawName,
+          username: profile?.username || ctx?.initData?.user?.username || '',
+          xp: stat.xp,
+          level: stat.level,
+          accuracy: stat.accuracy,
+          quizzesSolved: stat.quizzesSolved,
           isCurrentUser: true,
+          photo_url: profile?.username ? `https://t.me/i/userpic/320/${profile.username}.jpg` : null,
         };
       } else {
         currentUserRank = {
+          rank: sortedStats.length + 1,
           id: currentUserId,
-          name: ctx?.initData?.user?.first_name || 'Siz',
-          username: ctx?.initData?.user?.username || '',
+          name: rawName,
+          username: profile?.username || ctx?.initData?.user?.username || '',
           xp: 0,
           level: 1,
           accuracy: 0,
           quizzesSolved: 0,
-          rank: totalUsersCount || computedUsers.length + 1,
           isCurrentUser: true,
-          photo_url: ctx?.initData?.user?.photo_url || null,
+          photo_url: profile?.username ? `https://t.me/i/userpic/320/${profile.username}.jpg` : null,
         };
       }
     }
+
+    let totalUsersCount = 0;
+    try {
+      totalUsersCount = await db.$count(users);
+    } catch {}
 
     return {
       timeframe,
       topUsers,
       currentUserRank,
-      totalUsers: Number(totalUsersCount || computedUsers.length),
+      totalUsers: Math.max(totalUsersCount || 0, sortedStats.length),
     };
   } catch (error) {
     console.error('Fatal get_leaderboard error:', error);
     return {
-      timeframe: 'all',
-      topUsers: [
-        { rank: 1, id: 9991, name: 'Azizbek Rahimov', username: 'azizbek_r', xp: 1250, level: 13, accuracy: 96, quizzesSolved: 34 },
-        { rank: 2, id: 9992, name: 'Dilnoza Karimova', username: 'dilnoza_k', xp: 980, level: 10, accuracy: 91, quizzesSolved: 28 },
-        { rank: 3, id: 9993, name: 'Javohir Toirov', username: 'javohir_t', xp: 840, level: 9, accuracy: 88, quizzesSolved: 22 },
-      ],
-      currentUserRank: {
-        id: ctx?.initData?.user?.id || 0,
-        name: ctx?.initData?.user?.first_name || 'Siz',
-        rank: 4,
-        xp: 0,
-        level: 1,
-        isCurrentUser: true,
-      },
+      timeframe: input?.timeframe || 'all',
+      topUsers: [],
+      currentUserRank: null,
+      totalUsers: 0,
+      error: error.message,
     };
   }
 }

@@ -37,19 +37,20 @@ export default async function (input, ctx) {
     .limit(20)
     .all();
 
-  const myQuizzes = [];
-  for (const q of (rawQuizzes || [])) {
-    const qCount = await db.$count(questions, eq(questions.quizId, q.id));
-
-    myQuizzes.push({
-      id: q.id,
-      title: q.title,
-      description: q.description || '',
-      timeLimit: q.timeLimit || 30,
-      questionCount: qCount,
-      shuffleOptions: Boolean(q.shuffleOptions),
-    });
-  }
+  // Parallelize user quizzes question count lookups
+  const myQuizzes = await Promise.all(
+    (rawQuizzes || []).map(async (q) => {
+      const qCount = await db.$count(questions, eq(questions.quizId, q.id));
+      return {
+        id: q.id,
+        title: q.title,
+        description: q.description || '',
+        timeLimit: q.timeLimit || 30,
+        questionCount: qCount,
+        shuffleOptions: Boolean(q.shuffleOptions),
+      };
+    })
+  );
 
   // 3. User Statistics
   let finishedSessions = [];
@@ -59,13 +60,12 @@ export default async function (input, ctx) {
         id: quizSessions.id,
         correctCount: quizSessions.correctCount,
         wrongCount: quizSessions.wrongCount,
-        isActive: quizSessions.isActive,
       })
       .from(quizSessions)
-      .where(eq(quizSessions.userId, userId))
+      .where(and(eq(quizSessions.userId, userId), eq(quizSessions.isActive, false)))
       .limit(100)
       .all();
-    finishedSessions = (rawSessions || []).filter(s => !s.isActive);
+    finishedSessions = rawSessions || [];
   } catch (sErr) {
     console.error('[get_initial_data] session query err:', sErr?.message);
   }
@@ -96,7 +96,7 @@ export default async function (input, ctx) {
     stats: {
       totalSolved: finishedSessions.length,
       accuracy,
-      globalRank: 1,
+      globalRank: finishedSessions.length > 0 ? 1 : '-',
     },
   };
 }

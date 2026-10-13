@@ -23,22 +23,23 @@ export default async function (input, ctx) {
         .limit(30)
         .all();
 
-      const result = [];
-      for (const q of matched) {
-        const qCount = await db
-          .select({ count: sql`count(*)` })
-          .from(questions)
-          .where(eq(questions.quizId, q.id))
-          .get();
+      const result = await Promise.all(
+        matched.map(async (q) => {
+          const qCount = await db
+            .select({ count: sql`count(*)` })
+            .from(questions)
+            .where(eq(questions.quizId, q.id))
+            .get();
 
-        result.push({
-          id: q.id,
-          title: q.title,
-          category: q.category || '',
-          timeLimit: q.timeLimit || 30,
-          questionCount: Number(qCount?.count || 0),
-        });
-      }
+          return {
+            id: q.id,
+            title: q.title,
+            category: q.category || '',
+            timeLimit: q.timeLimit || 30,
+            questionCount: Number(qCount?.count || 0),
+          };
+        })
+      );
 
       return {
         mode: 'search',
@@ -97,22 +98,23 @@ export default async function (input, ctx) {
         a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' })
       );
 
-      const formattedQuizzes = [];
-      for (const q of sortedDirectQuizzes.slice(0, 100)) {
-        const qCount = await db
-          .select({ count: sql`count(*)` })
-          .from(questions)
-          .where(eq(questions.quizId, q.id))
-          .get();
+      const formattedQuizzes = await Promise.all(
+        sortedDirectQuizzes.slice(0, 100).map(async (q) => {
+          const qCount = await db
+            .select({ count: sql`count(*)` })
+            .from(questions)
+            .where(eq(questions.quizId, q.id))
+            .get();
 
-        formattedQuizzes.push({
-          id: q.id,
-          title: q.title,
-          category: q.category || '',
-          timeLimit: q.timeLimit || 30,
-          questionCount: Number(qCount?.count || 0),
-        });
-      }
+          return {
+            id: q.id,
+            title: q.title,
+            category: q.category || '',
+            timeLimit: q.timeLimit || 30,
+            questionCount: Number(qCount?.count || 0),
+          };
+        })
+      );
 
       return {
         mode: 'category',
