@@ -13,25 +13,27 @@ export function isUserAdmin(userId) {
 }
 
 export async function getBotStatistics() {
-  const totalUsers = await db.$count(users);
-  const activeGroups = await getGroupsCount();
-  const totalQuizzes = await db.$count(quizzes);
-  const totalSessions = await db.$count(quizSessions);
-
-  // Today's new users (within last 24 hours in unix seconds)
   const oneDayAgoSec = Math.floor(Date.now() / 1000) - 86400;
-  const todayUsers = await db.$count(users, sql`${users.createdAt} >= ${oneDayAgoSec}`);
 
-  // Active quiz sessions (group and private)
-  const activeTotalSessions = await db.$count(quizSessions, eq(quizSessions.isActive, true));
-  const activeGroupSessions = await db.$count(
-    quizSessions,
-    and(eq(quizSessions.isActive, true), eq(quizSessions.isGroup, true))
-  );
-  const activePrivateSessions = await db.$count(
-    quizSessions,
-    and(eq(quizSessions.isActive, true), eq(quizSessions.isGroup, false))
-  );
+  const [
+    totalUsers,
+    todayUsers,
+    activeGroups,
+    totalQuizzes,
+    totalSessions,
+    activeTotalSessions,
+    activeGroupSessions,
+    activePrivateSessions,
+  ] = await Promise.all([
+    db.$count(users),
+    db.$count(users, sql`${users.createdAt} >= ${oneDayAgoSec}`),
+    getGroupsCount(),
+    db.$count(quizzes),
+    db.$count(quizSessions),
+    db.$count(quizSessions, eq(quizSessions.isActive, true)),
+    db.$count(quizSessions, and(eq(quizSessions.isActive, true), eq(quizSessions.isGroup, true))),
+    db.$count(quizSessions, and(eq(quizSessions.isActive, true), eq(quizSessions.isGroup, false))),
+  ]);
 
   return {
     totalUsers,
@@ -46,9 +48,15 @@ export async function getBotStatistics() {
 }
 
 export async function listUsers(page = 0, pageSize = CONFIG.PAGINATION.USERS) {
-  const offset = page * pageSize;
+  const offset = Math.max(0, page * pageSize);
   return await db
-    .select()
+    .select({
+      telegramId: users.telegramId,
+      firstName: users.firstName,
+      lastName: users.lastName,
+      username: users.username,
+      createdAt: users.createdAt,
+    })
     .from(users)
     .orderBy(desc(users.createdAt))
     .limit(pageSize)

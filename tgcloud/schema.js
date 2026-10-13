@@ -1,7 +1,7 @@
 // tgcloud/schema.js
 // SQLite database schema for Telegram Serverless QuizBot
 
-import { table, integer, text, sql } from 'sdk/db';
+import { table, integer, text, sql, index } from 'sdk/db';
 
 // 1. Users table
 export const users = table('users', {
@@ -13,7 +13,9 @@ export const users = table('users', {
   isBlocked:    integer('is_blocked', { mode: 'boolean' }).notNull().default(false),
   createdAt:    integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
   lastActiveAt: integer('last_active_at', { mode: 'timestamp' }),
-});
+}, (t) => ({
+  createdIdx: index('idx_users_created_at').on(t.createdAt),
+}));
 
 // 2. Connected Groups table
 export const groups = table('groups', {
@@ -22,7 +24,10 @@ export const groups = table('groups', {
   username:  text('username'),
   isActive:  integer('is_active', { mode: 'boolean' }).notNull().default(true),
   createdAt: integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
-});
+}, (t) => ({
+  createdIdx: index('idx_groups_created_at').on(t.createdAt),
+  activeIdx:  index('idx_groups_is_active').on(t.isActive),
+}));
 
 // 3. Quizzes table
 export const quizzes = table('quizzes', {
@@ -35,7 +40,11 @@ export const quizzes = table('quizzes', {
   timeLimit:      integer('time_limit').notNull().default(30),
   shuffleOptions: integer('shuffle_options', { mode: 'boolean' }).notNull().default(true),
   createdAt:      integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
-});
+}, (t) => ({
+  ownerIdx:    index('idx_quizzes_owner_id').on(t.ownerId),
+  categoryIdx: index('idx_quizzes_category').on(t.category),
+  publicIdx:   index('idx_quizzes_is_public').on(t.isPublic),
+}));
 
 // 4. Questions table
 export const questions = table('questions', {
@@ -48,7 +57,9 @@ export const questions = table('questions', {
   explanation:     text('explanation'),
   photoFileId:     text('photo_file_id'),
   photoCaption:    text('photo_caption'),
-});
+}, (t) => ({
+  quizIdx: index('idx_questions_quiz_id').on(t.quizId),
+}));
 
 // 5. User Mistakes table (Xatolar ustida ishlash)
 export const userMistakes = table('user_mistakes', {
@@ -62,7 +73,9 @@ export const userMistakes = table('user_mistakes', {
   originalQuizId:  integer('original_quiz_id'),
   originalNum:     integer('original_num'),
   createdAt:       integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
-});
+}, (t) => ({
+  userIdx: index('idx_mistakes_user_id').on(t.userId),
+}));
 
 // 6. Active & Finished Quiz Sessions
 export const quizSessions = table('quiz_sessions', {
@@ -82,7 +95,10 @@ export const quizSessions = table('quiz_sessions', {
   lastPollSentAt:        integer('last_poll_sent_at'),
   selectedQuestionsJson: text('selected_questions_json'),
   startedAt:             integer('started_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
-});
+}, (t) => ({
+  userIdx:   index('idx_sessions_user_id').on(t.userId),
+  activeIdx: index('idx_sessions_is_active').on(t.isActive),
+}));
 
 // 7. Group Multiplayer Answers Tracker
 export const groupAnswers = table('group_answers', {

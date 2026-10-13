@@ -62,7 +62,8 @@ import {
 } from '../lib/keyboards/admin_keyboard.js';
 
 function escapeHtml(str = '') {
-  return String(str || '')
+  const text = typeof str?.toWellFormed === 'function' ? str.toWellFormed() : String(str || '');
+  return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -72,8 +73,9 @@ function escapeHtml(str = '') {
 
 function truncateText(str = '', maxLen = 25) {
   const clean = String(str || '').replace(/\s+/g, ' ').trim();
-  if (clean.length > maxLen) {
-    return clean.slice(0, maxLen - 3) + '...';
+  const chars = Array.from(clean);
+  if (chars.length > maxLen) {
+    return chars.slice(0, maxLen - 3).join('') + '...';
   }
   return clean;
 }
@@ -102,6 +104,30 @@ export default async function (callbackQuery, ctx) {
       });
     } catch {
       // Ignore network/timing glitches
+    }
+  };
+
+  // Helper to edit messages safely without throwing on unmodified or entity error
+  const safeEditMessageText = async (params) => {
+    const rawText = typeof params?.text?.toWellFormed === 'function' ? params.text.toWellFormed() : (params?.text || '');
+    const cleanParams = { ...params, text: rawText };
+    try {
+      return await api.editMessageText(cleanParams);
+    } catch (err) {
+      const errStr = String(err?.message || err);
+      if (errStr.includes('message is not modified')) {
+        return; // Ignore duplicated or same content edits
+      }
+      if (cleanParams.parse_mode && (errStr.includes('parse') || errStr.includes('entity') || errStr.includes('UTF-8'))) {
+        try {
+          return await api.editMessageText({
+            ...cleanParams,
+            text: (cleanParams.text || '').replace(/<[^>]*>/g, ''),
+            parse_mode: undefined,
+          });
+        } catch {}
+      }
+      console.error('safeEditMessageText error:', err);
     }
   };
 
@@ -873,7 +899,7 @@ export default async function (callbackQuery, ctx) {
     if (data === ACTIONS.ADMIN_MENU) {
       await answer();
       await clearUserState(userId);
-      await api.editMessageText({
+      await safeEditMessageText({
         chat_id: chatId,
         message_id: messageId,
         text: getMessage('ADMIN_WELCOME', lang),
@@ -884,9 +910,9 @@ export default async function (callbackQuery, ctx) {
     }
 
     if (data === ACTIONS.ADMIN_STATS) {
-      const stats = await getBotStatistics();
       await answer();
-      await api.editMessageText({
+      const stats = await getBotStatistics();
+      await safeEditMessageText({
         chat_id: chatId,
         message_id: messageId,
         text: getMessage('ADMIN_STATS_TITLE', lang, {
@@ -1066,8 +1092,9 @@ export default async function (callbackQuery, ctx) {
     }
 
     if (data === ACTIONS.ADMIN_USERS || data.startsWith(ACTIONS.USERS_PAGE_PREFIX)) {
+      await answer();
       const page = data.startsWith(ACTIONS.USERS_PAGE_PREFIX)
-        ? parseInt(data.replace(ACTIONS.USERS_PAGE_PREFIX, ''), 10) || 0
+        ? Math.max(0, parseInt(data.replace(ACTIONS.USERS_PAGE_PREFIX, ''), 10) || 0)
         : 0;
       const pageSize = CONFIG.PAGINATION.USERS || 10;
       const [usersList, totalUsers] = await Promise.all([
@@ -1094,8 +1121,7 @@ export default async function (callbackQuery, ctx) {
 
       text += `\n${getMessage('PAGE_COUNTER', lang, { page: page + 1, total: totalPages })}`;
 
-      await answer();
-      await api.editMessageText({
+      await safeEditMessageText({
         chat_id: chatId,
         message_id: messageId,
         text,
@@ -1107,8 +1133,9 @@ export default async function (callbackQuery, ctx) {
     }
 
     if (data === ACTIONS.ADMIN_GROUPS || data.startsWith(ACTIONS.GROUPS_PAGE_PREFIX)) {
+      await answer();
       const page = data.startsWith(ACTIONS.GROUPS_PAGE_PREFIX)
-        ? parseInt(data.replace(ACTIONS.GROUPS_PAGE_PREFIX, ''), 10) || 0
+        ? Math.max(0, parseInt(data.replace(ACTIONS.GROUPS_PAGE_PREFIX, ''), 10) || 0)
         : 0;
       const pageSize = CONFIG.PAGINATION.GROUPS || 10;
       const [groupsList, totalGroups] = await Promise.all([
@@ -1139,8 +1166,7 @@ export default async function (callbackQuery, ctx) {
 
       text += `\n${getMessage('PAGE_COUNTER', lang, { page: page + 1, total: totalPages })}`;
 
-      await answer();
-      await api.editMessageText({
+      await safeEditMessageText({
         chat_id: chatId,
         message_id: messageId,
         text,
