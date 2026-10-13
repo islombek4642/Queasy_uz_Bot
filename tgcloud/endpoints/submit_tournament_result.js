@@ -50,7 +50,7 @@ export default async function (input, ctx) {
           totalQuestions,
           totalTimeSeconds,
           userName,
-          finishedAt: new Date(),
+          finishedAt: Math.floor(Date.now() / 1000),
         })
         .where(eq(tournamentParticipants.id, existing.id))
         .run();
