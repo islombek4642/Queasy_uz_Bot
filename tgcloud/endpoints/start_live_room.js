@@ -22,6 +22,11 @@ export default async function (input, ctx) {
     return { success: false, error: 'ROOM_NOT_FOUND' };
   }
 
+  // Enforce host authorization
+  if (!currentUserId || room.hostId !== currentUserId) {
+    return { success: false, error: 'NOT_HOST' };
+  }
+
   // Update room status to active
   await db
     .update(liveRooms)

@@ -2,10 +2,14 @@
 import { db } from 'sdk';
 import { eq, inArray } from 'sdk/db';
 import { quizzes, questions } from '../schema.js';
+import { isUserAdmin } from '../lib/services/admin_service.js';
 
 export default async function (input, ctx) {
-  if (input?.secret !== 'KIUT_QUEASY_SECRET_2026') {
-    return { success: false, error: 'Unauthorized' };
+  const callerId = ctx?.initData?.user?.id;
+  const isAuthorizedAdmin = callerId && isUserAdmin(callerId);
+
+  if (!isAuthorizedAdmin) {
+    return { success: false, error: 'UNAUTHORIZED_ADMIN_ONLY' };
   }
 
   const limit = Math.min(Number(input?.limit) || 20, 30);

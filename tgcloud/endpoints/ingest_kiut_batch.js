@@ -1,11 +1,14 @@
 // tgcloud/endpoints/ingest_kiut_batch.js
 import { db } from 'sdk';
 import { quizzes, questions } from '../schema.js';
+import { isUserAdmin } from '../lib/services/admin_service.js';
 
 export default async function (input, ctx) {
-  const secret = input?.secret;
-  if (secret !== 'KIUT_QUEASY_SECRET_2026') {
-    return { success: false, error: 'Unauthorized batch ingestion' };
+  const callerId = ctx?.initData?.user?.id;
+  const isAuthorizedAdmin = callerId && isUserAdmin(callerId);
+
+  if (!isAuthorizedAdmin) {
+    return { success: false, error: 'UNAUTHORIZED_ADMIN_ONLY' };
   }
 
   const batch = input?.quizzes;
