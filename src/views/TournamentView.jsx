@@ -81,10 +81,10 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
         <Card style={{ padding: '28px 20px' }}>
           <Icon icon="solar:danger-triangle-bold" width="48" height="48" style={{ color: 'var(--color-error)', margin: '0 auto 12px' }} />
           <h3 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px' }}>
-            Turnir topilmadi yoki yakunlangan
+            {t('TOURNAMENT_NOT_FOUND_TITLE')}
           </h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '20px' }}>
-            Ushbu guruh turniri havolasi eskirgan yoki xato kiritilgan bo'lishi mumkin.
+            {t('TOURNAMENT_NOT_FOUND_DESC')}
           </p>
           <Button variant="primary" fullWidth onClick={onBack}>
             {t('BTN_BACK_HOME') || 'Bosh sahifaga qaytish'}
@@ -124,7 +124,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px #10b981' }} />
             <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Faol Guruh Turniri
+              {t('TOURNAMENT_TITLE')}
             </span>
           </div>
           <h2 style={{ fontSize: '1.2rem', fontWeight: '800', lineHeight: '1.35', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
@@ -177,7 +177,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
             </div>
             <Badge variant="success" size="sm">
               <Icon icon="solar:check-circle-bold" width="14" height="14" style={{ marginRight: '4px' }} />
-              Topshirilgan
+              {t('TOURNAMENT_SUBMITTED')}
             </Badge>
           </div>
         )}
@@ -214,7 +214,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
               icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'}
               onClick={handleCopyLink}
             >
-              {copied ? 'Havola nusxalandi!' : 'Turnir havolasini nusxalash'}
+              {copied ? t('TOAST_LINK_COPIED') : t('LIVE_ROOM_COPY_LINK')}
             </Button>
           </div>
         </div>

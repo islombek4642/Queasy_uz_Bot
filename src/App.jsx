@@ -249,6 +249,8 @@ export default function App() {
           <GroupHostView
             onOpenTournament={(code) => setActiveTournamentCode(code)}
             onOpenLiveRoom={(code) => setActiveRoomCode(code)}
+            onOpenCreator={() => setShowCreator(true)}
+            onOpenKiut={() => setShowKiutView(true)}
           />
         );
 
