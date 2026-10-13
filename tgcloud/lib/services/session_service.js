@@ -269,20 +269,7 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
           ],
         ],
       }
-    : {
-        inline_keyboard: [
-          [
-            {
-              text: getMessage('BTN_NEXT_QUESTION', 'UZ'),
-              callback_data: `${ACTIONS.NEXT_QUESTION_PREFIX}${sessionId}`,
-            },
-            {
-              text: getMessage('BTN_STOP_QUIZ', 'UZ'),
-              callback_data: `${ACTIONS.STOP_QUIZ_PREFIX}${sessionId}`,
-            },
-          ],
-        ],
-      };
+    : undefined;
 
   try {
     let pollMsg;
@@ -487,33 +474,14 @@ export async function advanceGroupRound(api, sessionIdOrChatId, timeLimit = 30) 
   if (!session) return;
 
   const nextIndex = session.currentIndex + 1;
-  const isSolo = !session.isGroup;
-
-  let nextWrong = session.wrongCount;
-  if (isSolo) {
-    nextWrong = session.wrongCount + 1;
-    try {
-      const questions = JSON.parse(session.selectedQuestionsJson || '[]');
-      const currentQ = questions[session.currentIndex];
-      if (currentQ) {
-        await saveUserMistake(session.userId, currentQ, session.quizId);
-      }
-    } catch {}
-  }
-
   if (nextIndex >= session.totalQuestions) {
-    await db
-      .update(quizSessions)
-      .set({ currentIndex: nextIndex, wrongCount: nextWrong, lastPollId: null })
-      .where(eq(quizSessions.id, session.id))
-      .run();
     await finishSession(api, session.id);
   } else {
     const quiz = await getQuizById(session.quizId);
     const roundTimeLimit = quiz?.timeLimit || timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT;
     await db
       .update(quizSessions)
-      .set({ currentIndex: nextIndex, wrongCount: nextWrong, lastPollId: null })
+      .set({ currentIndex: nextIndex, lastPollId: null })
       .where(eq(quizSessions.id, session.id))
       .run();
 
@@ -532,26 +500,11 @@ export async function advanceGroupRoundByPollId(api, pollId) {
   if (!session) return;
 
   const nextIndex = session.currentIndex + 1;
-  const isSolo = !session.isGroup;
-
-  let nextWrong = session.wrongCount;
-  if (isSolo) {
-    nextWrong = session.wrongCount + 1;
-    try {
-      const questions = JSON.parse(session.selectedQuestionsJson || '[]');
-      const currentQ = questions[session.currentIndex];
-      if (currentQ) {
-        await saveUserMistake(session.userId, currentQ, session.quizId);
-      }
-    } catch {}
-  }
-
   // Clear lastPollId atomically so duplicate poll updates don't trigger twice
   const res = await db
     .update(quizSessions)
     .set({
       currentIndex: nextIndex,
-      wrongCount: nextWrong,
       lastPollId: null,
     })
     .where(and(eq(quizSessions.id, session.id), eq(quizSessions.lastPollId, pId)))
@@ -562,7 +515,7 @@ export async function advanceGroupRoundByPollId(api, pollId) {
     return;
   }
 
-  // Cleanly close the finished poll in the chat so it displays results
+  // Cleanly close the finished poll in the group so it displays results
   if (session.lastPollMessageId) {
     try {
       await api.stopPoll({
