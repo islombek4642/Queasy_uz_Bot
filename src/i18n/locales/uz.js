@@ -163,9 +163,9 @@ export default {
   SHARE_QUIZ_CAPTION: '🏆 Men Queasy test botida «{title}» testini {score}% natija bilan yakunladim! Sen ham o\'zingni sinab ko\'r: https://t.me/Queasy_uz_Bot',
 
   // KIUT Special Center
-  KIUT_TEST_TITLE: '🏛 KIUT Testlari',
+  KIUT_TEST_TITLE: 'KIUT Testlari',
   KIUT_TEST_SUBTITLE: 'Universitet barcha yo\'nalish va semestr testlari bazasi',
-  KIUT_EXPLORER_TITLE: '🏛 KIUT Test Markazi',
+  KIUT_EXPLORER_TITLE: 'KIUT Test Markazi',
   KIUT_SEARCH_PLACEHOLDER: 'Fan nomini qidirish (masalan: Tarix, Banking...)',
   KIUT_BREADCRUMB_ROOT: 'Katalog',
   KIUT_NO_TESTS_FOUND: 'Ushbu bo\'limda testlar topilmadi',

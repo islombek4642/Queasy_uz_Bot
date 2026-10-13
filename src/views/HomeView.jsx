@@ -53,19 +53,16 @@ export function HomeView({
           padding: '20px',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h2 style={{ fontSize: '1.35rem', fontWeight: '800', marginBottom: '4px', color: 'var(--text-primary)' }}>
-              {t('GREETING_HELLO')}, {user?.first_name || 'Bilimdon'}! 👋
+            <h2 style={{ fontSize: '1.3rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
+              {t('GREETING_HELLO')}, {user?.first_name || 'Bilimdon'}!
             </h2>
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
-              {t('HERO_SUBTITLE')}
-            </p>
           </div>
           <div
             style={{
-              width: '44px',
-              height: '44px',
+              width: '42px',
+              height: '42px',
               borderRadius: 'var(--radius-md)',
               background: 'var(--accent-gradient)',
               display: 'flex',
@@ -75,14 +72,17 @@ export function HomeView({
               boxShadow: 'var(--shadow-accent)',
             }}
           >
-            <Icon icon="solar:star-fall-bold-duotone" width="26" height="26" />
+            <Icon icon="solar:star-fall-bold-duotone" width="24" height="24" />
           </div>
         </div>
 
         {/* Level XP Progress Bar */}
-        <div style={{ marginTop: '16px', background: 'rgba(0, 0, 0, 0.2)', padding: '10px 12px', borderRadius: 'var(--radius-sm)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', color: 'var(--text-secondary)', marginBottom: '5px' }}>
-            <span>{t('LEVEL')} {progress.level} • {t(progress.rankKey)}</span>
+        <div style={{ marginTop: '14px', background: 'rgba(0, 0, 0, 0.2)', padding: '10px 12px', borderRadius: 'var(--radius-sm)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <Icon icon="solar:shield-star-bold-duotone" width="16" height="16" style={{ color: 'var(--accent-primary)' }} />
+              {t('LEVEL')} {progress.level} • {t(progress.rankKey)}
+            </span>
             <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>
               {progress.currentLevelXp} / {progress.nextLevelXp} XP ({progress.percentage}%)
             </span>
@@ -103,14 +103,25 @@ export function HomeView({
         {/* Stats Row */}
         <div
           style={{
-            marginTop: '18px',
+            marginTop: '16px',
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '10px',
           }}
         >
-          <div className="glass-panel" style={{ padding: '10px', textAlign: 'center' }}>
-            <div style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--accent-primary)' }}>
+          <div
+            className="glass-panel"
+            style={{
+              padding: '10px 6px',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '4px',
+            }}
+          >
+            <Icon icon="solar:check-circle-bold-duotone" width="20" height="20" style={{ color: 'var(--accent-primary)' }} />
+            <div style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--text-primary)', lineHeight: 1.1 }}>
               {stats.totalSolved}
             </div>
             <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
@@ -118,8 +129,19 @@ export function HomeView({
             </div>
           </div>
 
-          <div className="glass-panel" style={{ padding: '10px', textAlign: 'center' }}>
-            <div style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--color-success)' }}>
+          <div
+            className="glass-panel"
+            style={{
+              padding: '10px 6px',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '4px',
+            }}
+          >
+            <Icon icon="solar:chart-2-bold-duotone" width="20" height="20" style={{ color: 'var(--color-success)' }} />
+            <div style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--color-success)', lineHeight: 1.1 }}>
               {stats.accuracy}%
             </div>
             <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
@@ -127,8 +149,19 @@ export function HomeView({
             </div>
           </div>
 
-          <div className="glass-panel" style={{ padding: '10px', textAlign: 'center' }}>
-            <div style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--color-warning)' }}>
+          <div
+            className="glass-panel"
+            style={{
+              padding: '10px 6px',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '4px',
+            }}
+          >
+            <Icon icon="solar:cup-star-bold-duotone" width="20" height="20" style={{ color: 'var(--color-warning)' }} />
+            <div style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--color-warning)', lineHeight: 1.1 }}>
               #{stats.globalRank}
             </div>
             <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
@@ -171,13 +204,8 @@ export function HomeView({
           >
             <Icon icon="solar:diploma-verified-bold-duotone" width="24" height="24" />
           </div>
-          <div>
-            <div style={{ fontWeight: '800', fontSize: '0.98rem', color: 'var(--text-primary)' }}>
-              {t('KIUT_TEST_TITLE')}
-            </div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-              {t('KIUT_TEST_SUBTITLE')}
-            </div>
+          <div style={{ fontWeight: '800', fontSize: '1rem', color: 'var(--text-primary)' }}>
+            {t('KIUT_TEST_TITLE')}
           </div>
         </div>
         <div style={{ color: '#3b82f6', display: 'flex', alignItems: 'center' }}>
@@ -198,11 +226,11 @@ export function HomeView({
           border: '1px dashed var(--accent-primary)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div
             style={{
-              width: '36px',
-              height: '36px',
+              width: '42px',
+              height: '42px',
               borderRadius: 'var(--radius-sm)',
               backgroundColor: 'var(--accent-primary)',
               color: '#fff',
@@ -211,12 +239,14 @@ export function HomeView({
               justifyContent: 'center',
             }}
           >
-            <Icon icon="solar:add-circle-bold" width="22" height="22" />
+            <Icon icon="solar:add-circle-bold-duotone" width="24" height="24" />
           </div>
-          <div>
-            <div style={{ fontWeight: '700', fontSize: '0.92rem' }}>{t('CREATE_QUIZ_TITLE')}</div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{t('CREATE_QUIZ_SUBTITLE')}</div>
+          <div style={{ fontWeight: '700', fontSize: '0.96rem', color: 'var(--text-primary)' }}>
+            {t('CREATE_QUIZ_TITLE')}
           </div>
+        </div>
+        <div style={{ color: 'var(--accent-primary)', display: 'flex', alignItems: 'center' }}>
+          <Icon icon="solar:alt-arrow-right-bold" width="20" height="20" />
         </div>
       </Card>
 
@@ -240,11 +270,11 @@ export function HomeView({
             border: '1px solid rgba(245, 158, 11, 0.4)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <div
               style={{
-                width: '36px',
-                height: '36px',
+                width: '42px',
+                height: '42px',
                 borderRadius: 'var(--radius-sm)',
                 backgroundColor: 'var(--color-warning)',
                 color: '#fff',
@@ -253,15 +283,10 @@ export function HomeView({
                 justifyContent: 'center',
               }}
             >
-              <Icon icon="solar:target-bold-duotone" width="22" height="22" />
+              <Icon icon="solar:target-bold-duotone" width="24" height="24" />
             </div>
-            <div>
-              <div style={{ fontWeight: '700', fontSize: '0.92rem', color: 'var(--color-warning)' }}>
-                {t('MISTAKES_PRACTICE_TITLE')} ({mistakesData.count})
-              </div>
-              <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                {t('MISTAKES_PRACTICE_DESC')}
-              </div>
+            <div style={{ fontWeight: '700', fontSize: '0.96rem', color: 'var(--color-warning)' }}>
+              {t('MISTAKES_PRACTICE_TITLE')} ({mistakesData.count})
             </div>
           </div>
           <Icon icon="solar:alt-arrow-right-bold" width="20" height="20" style={{ color: 'var(--color-warning)' }} />

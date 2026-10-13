@@ -163,9 +163,9 @@ export default {
   SHARE_QUIZ_CAPTION: '🏆 Я завершил тест «{title}» в боте Queasy с результатом {score}%! Проверь себя: https://t.me/Queasy_uz_Bot',
 
   // KIUT Special Center
-  KIUT_TEST_TITLE: '🏛 Тесты KIUT',
+  KIUT_TEST_TITLE: 'Тесты KIUT',
   KIUT_TEST_SUBTITLE: 'База всех форм обучения и семестров университета',
-  KIUT_EXPLORER_TITLE: '🏛 Центр тестов KIUT',
+  KIUT_EXPLORER_TITLE: 'Центр тестов KIUT',
   KIUT_SEARCH_PLACEHOLDER: 'Поиск предмета (например: История, Банкинг...)',
   KIUT_BREADCRUMB_ROOT: 'Каталог',
   KIUT_NO_TESTS_FOUND: 'В этом разделе тесты не найдены',
