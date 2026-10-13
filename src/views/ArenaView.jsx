@@ -42,12 +42,15 @@ export function ArenaView({
 
   const startTimeRef = useRef(Date.now());
   const [totalTimeSpent, setTotalTimeSpent] = useState(0);
+  const correctCountRef = useRef(0);
+  const wrongCountRef = useRef(0);
   const failedQuestionsRef = useRef([]);
   const resolvedMistakeIdsRef = useRef([]);
 
-
   // Load quiz details or use custom questions with option shuffling
   const loadQuiz = useCallback(async () => {
+    correctCountRef.current = 0;
+    wrongCountRef.current = 0;
     if (customQuestions && customQuestions.length > 0) {
       setQuiz({
         id: 0,
@@ -88,7 +91,6 @@ export function ArenaView({
           const count = Math.min(pool.length, Math.max(1, Number(randomCount) || 10));
           pool = [...pool].sort(() => Math.random() - 0.5).slice(0, count);
         }
-        // In other modes (full, range): question order remains strictly sequential!
 
         // 2. Always shuffle options for each question (Fisher-Yates) unless shuffleOptions is explicitly false
         const shouldShuffle = data.quiz.shuffleOptions !== false;
@@ -134,10 +136,13 @@ export function ArenaView({
       setTotalTimeSpent(elapsed);
       setIsFinished(true);
 
+      const finalCorrect = correctCountRef.current;
+      const finalWrong = wrongCountRef.current;
+
       if (tournamentShareCode) {
         submitTournamentResult({
           shareCode: tournamentShareCode,
-          score: correctCount,
+          score: finalCorrect,
           totalQuestions: questions.length,
           totalTimeSeconds: elapsed,
         }).then((res) => {
@@ -152,8 +157,8 @@ export function ArenaView({
           quizId: quizId || 0,
           isMistakesMode: Boolean(customQuestions),
           mode: Boolean(customQuestions) ? 'mistakes' : mode,
-          correctCount,
-          wrongCount,
+          correctCount: finalCorrect,
+          wrongCount: finalWrong,
           timeSpent: elapsed,
           failedQuestions: failedQuestionsRef.current,
           resolvedMistakeIds: resolvedMistakeIdsRef.current,
@@ -162,7 +167,7 @@ export function ArenaView({
         });
       }
     }
-  }, [currentIndex, questions.length, quizId, correctCount, wrongCount, customQuestions, mode, tournamentShareCode]);
+  }, [currentIndex, questions.length, quizId, customQuestions, mode, tournamentShareCode]);
 
 
   // Timeout handler
@@ -170,6 +175,7 @@ export function ArenaView({
     if (isRevealed || isFinished) return;
     haptic.notification('error');
     setIsRevealed(true);
+    wrongCountRef.current += 1;
     setWrongCount((prev) => prev + 1);
 
     // If solving regular quiz and timed out, count as failed question
@@ -208,6 +214,7 @@ export function ArenaView({
     const isCorrect = optIndex === currentQ?.correctOptionId;
     if (isCorrect) {
       haptic.notification('success');
+      correctCountRef.current += 1;
       setCorrectCount((prev) => prev + 1);
       // If solving mistakes practice, mark this mistake as resolved
       if (customQuestions && (currentQ?.mistakeId || currentQ?.id)) {
@@ -215,6 +222,7 @@ export function ArenaView({
       }
     } else {
       haptic.notification('error');
+      wrongCountRef.current += 1;
       setWrongCount((prev) => prev + 1);
       // If solving regular quiz, collect failed question for mistakes practice
       if (!customQuestions && currentQ) {
