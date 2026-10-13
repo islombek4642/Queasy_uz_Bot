@@ -336,9 +336,9 @@
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1791905557.9537804,
-    "seen": 1791905647.615635,
-    "ast_hash": "605c9569ece244c6ef9b2c2432a3853e",
+    "mtime": 1791907223.8653855,
+    "seen": 1791907302.810334,
+    "ast_hash": "8b2c904654786090791d4d2e507b70e0",
     "semantic_hash": ""
   },
   "src/components/common/Badge.jsx": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "src/components/quiz/ResultCard.jsx": {
-    "mtime": 1791825480.6990864,
-    "seen": 1791825708.1328542,
-    "ast_hash": "922b1699c9a764d6d53f3383ef323c19",
+    "mtime": 1791907045.5223732,
+    "seen": 1791907302.8103833,
+    "ast_hash": "9fd54f584f2cc20ae1ee8083252da761",
     "semantic_hash": ""
   },
   "src/components/quiz/TimerRing.jsx": {
@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "src/constants/endpoints.js": {
-    "mtime": 1791905536.2291574,
-    "seen": 1791905647.6156933,
-    "ast_hash": "f8d687bda97b909f65c195a4ec18d9f2",
+    "mtime": 1791906874.1693723,
+    "seen": 1791907302.8104029,
+    "ast_hash": "3b263e3695ffff16bc7cc4a91e9cfd50",
     "semantic_hash": ""
   },
   "src/constants/routes.js": {
@@ -480,15 +480,15 @@
     "semantic_hash": ""
   },
   "src/i18n/locales/ru.js": {
-    "mtime": 1791903732.6540937,
-    "seen": 1791903905.070259,
-    "ast_hash": "859ef18d1d0ff482113d6341ace07e8e",
+    "mtime": 1791906925.2134748,
+    "seen": 1791907302.8104308,
+    "ast_hash": "3c2fe7da4e9d394db97f002068fb5a65",
     "semantic_hash": ""
   },
   "src/i18n/locales/uz.js": {
-    "mtime": 1791903732.655094,
-    "seen": 1791903905.0702615,
-    "ast_hash": "6c1208eb177c250039e7b98f4c97ddf4",
+    "mtime": 1791906909.5618067,
+    "seen": 1791907302.810433,
+    "ast_hash": "436bd51e5aeaf89ac605fc92a1b9ae02",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -504,21 +504,21 @@
     "semantic_hash": ""
   },
   "src/services/quizService.js": {
-    "mtime": 1791826898.8832097,
-    "seen": 1791827106.4080994,
-    "ast_hash": "769a2622877eb3cbe4e612d817eb3875",
+    "mtime": 1791906891.0824957,
+    "seen": 1791907302.8104398,
+    "ast_hash": "bd85fd3864f4e5f6a7dba4cb233cca8a",
     "semantic_hash": ""
   },
   "src/views/ArenaView.jsx": {
-    "mtime": 1791905495.5109956,
-    "seen": 1791905647.61574,
-    "ast_hash": "6a4631254db6aaf46d7e43bcfc8789cf",
+    "mtime": 1791907020.023644,
+    "seen": 1791907302.8104477,
+    "ast_hash": "90e9338f226e114737b1fb2142ce0264",
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
-    "mtime": 1791829366.4244213,
-    "seen": 1791829656.2132456,
-    "ast_hash": "8695f08ac147594770015d479b0282e6",
+    "mtime": 1791907211.8969321,
+    "seen": 1791907302.8104496,
+    "ast_hash": "3ac6184763ebf155457aa5c377411c55",
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
@@ -600,9 +600,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_group_sessions.js": {
-    "mtime": 1791905292.5732262,
-    "seen": 1791905647.6158223,
-    "ast_hash": "d1a0c2d01b77962fc620c804e0d08d9b",
+    "mtime": 1791906855.2958078,
+    "seen": 1791907302.810535,
+    "ast_hash": "d8bb14e9bfc3d765a7f9268902894fc9",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_leaderboard.js": {
@@ -2742,9 +2742,9 @@
     "semantic_hash": ""
   },
   "src/views/TournamentView.jsx": {
-    "mtime": 1791829626.6388204,
-    "seen": 1791829656.213269,
-    "ast_hash": "7f982b2d10f832d32cac0da5e2279781",
+    "mtime": 1791907262.6418164,
+    "seen": 1791907302.810473,
+    "ast_hash": "489e49cc679365e301c35475f06c591e",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/create_tournament.js": {
@@ -2778,21 +2778,21 @@
     "semantic_hash": ""
   },
   "src/views/LiveRoomView.jsx": {
-    "mtime": 1791829596.3232093,
-    "seen": 1791829656.2132561,
-    "ast_hash": "cd817fa4891472668e7a163e937543de",
+    "mtime": 1791907147.2583313,
+    "seen": 1791907302.8104599,
+    "ast_hash": "593d5cbedd1da6c859b352de53c56606",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/create_live_room.js": {
-    "mtime": 1791903836.3647206,
-    "seen": 1791903905.0703447,
-    "ast_hash": "cf6f063a5c6694f15337ce44ef065da8",
+    "mtime": 1791906826.0049696,
+    "seen": 1791907302.810525,
+    "ast_hash": "925d37c827e80d14315c9f95ba83cf84",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_live_room_state.js": {
-    "mtime": 1791903836.4239597,
-    "seen": 1791903905.0703611,
-    "ast_hash": "4c2b44473dc09d29410b7d26dff225f3",
+    "mtime": 1791906841.2647855,
+    "seen": 1791907302.8105452,
+    "ast_hash": "ea156467a8383569ff7457592c942801",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/start_live_room.js": {
@@ -2819,12 +2819,6 @@
     "ast_hash": "acf539c60a0fd6ea31e348ca35513243",
     "semantic_hash": ""
   },
-  ".superpowers/sdd/2026-10-13-audit-fixes/progress.md": {
-    "mtime": 1791905586.0876725,
-    "seen": 1791905647.6166947,
-    "ast_hash": "949ccad7b085687976abd39c076e24e9",
-    "semantic_hash": ""
-  },
   "AUDIT_REPORT.md": {
     "mtime": 1791904481.3971665,
     "seen": 1791905647.6166997,
@@ -2841,6 +2835,42 @@
     "mtime": 1791904993.5387816,
     "seen": 1791905647.6167393,
     "ast_hash": "2e1adbfd798336e9401e9abecf266f16",
+    "semantic_hash": ""
+  },
+  "tests/test_group_catalog_sessions.mjs": {
+    "mtime": 1791906786.0067601,
+    "seen": 1791907302.810489,
+    "ast_hash": "94715b14b466368014327a7019c46bc9",
+    "semantic_hash": ""
+  },
+  "tests/test_live_room_endpoints.mjs": {
+    "mtime": 1791906769.5860865,
+    "seen": 1791907302.8105042,
+    "ast_hash": "327eee13821aac37ff12df08b08a870d",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/finish_live_room.js": {
+    "mtime": 1791906758.374958,
+    "seen": 1791907302.8105326,
+    "ast_hash": "6a3b1b4b5948a34c5d657260cc711a8c",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/submit_live_room_result.js": {
+    "mtime": 1791906751.4606428,
+    "seen": 1791907302.810568,
+    "ast_hash": "cc8005d0727448de8d354459dcffa767",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/plans/2026-10-13-group-host-fixes.md": {
+    "mtime": 1791906684.231649,
+    "seen": 1791907302.8118749,
+    "ast_hash": "3a783b62070e1d32cfb4374e31253f20",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-10-13-group-host-fixes-design.md": {
+    "mtime": 1791906627.9966018,
+    "seen": 1791907302.8118937,
+    "ast_hash": "b4076573ee954a101654126bc9111d68",
     "semantic_hash": ""
   }
 }

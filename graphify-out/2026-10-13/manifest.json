@@ -336,9 +336,9 @@
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1791826998.8451655,
-    "seen": 1791827106.4080005,
-    "ast_hash": "ff60c8f91f32d8f1dadbcb2ade7bfd4a",
+    "mtime": 1791905557.9537804,
+    "seen": 1791905647.615635,
+    "ast_hash": "605c9569ece244c6ef9b2c2432a3853e",
     "semantic_hash": ""
   },
   "src/components/common/Badge.jsx": {
@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "src/constants/endpoints.js": {
-    "mtime": 1791826876.3479834,
-    "seen": 1791827106.4080594,
-    "ast_hash": "f2780d12bde79d95744a0981e6371629",
+    "mtime": 1791905536.2291574,
+    "seen": 1791905647.6156933,
+    "ast_hash": "f8d687bda97b909f65c195a4ec18d9f2",
     "semantic_hash": ""
   },
   "src/constants/routes.js": {
@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "src/views/ArenaView.jsx": {
-    "mtime": 1791825544.7239401,
-    "seen": 1791825708.1329103,
-    "ast_hash": "dbb43508d1a71f0e78bfad537aebd7fd",
+    "mtime": 1791905495.5109956,
+    "seen": 1791905647.61574,
+    "ast_hash": "6a4631254db6aaf46d7e43bcfc8789cf",
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
@@ -546,9 +546,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_initial_data.js": {
-    "mtime": 1791903836.40199,
-    "seen": 1791903905.0703542,
-    "ast_hash": "5e144fac91defc746a6dbb4e79205e16",
+    "mtime": 1791905410.8769422,
+    "seen": 1791905647.6158247,
+    "ast_hash": "069ee0c03b492eed58479d76dacd0490",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_quiz_detail.js": {
@@ -600,15 +600,15 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_group_sessions.js": {
-    "mtime": 1791903836.3917253,
-    "seen": 1791903905.0703518,
-    "ast_hash": "67b30b5b67d04ff5faf5d311062280d7",
+    "mtime": 1791905292.5732262,
+    "seen": 1791905647.6158223,
+    "ast_hash": "d1a0c2d01b77962fc620c804e0d08d9b",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_leaderboard.js": {
-    "mtime": 1791903836.4229572,
-    "seen": 1791903905.0703585,
-    "ast_hash": "cb0044445a4f6e212162ca35fa6bebb2",
+    "mtime": 1791905368.367498,
+    "seen": 1791905647.615829,
+    "ast_hash": "621cac9c268aa04321a6ffb928152930",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/save_custom_quiz.js": {
@@ -708,21 +708,21 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_kiut_catalog.js": {
-    "mtime": 1791903836.4168298,
-    "seen": 1791903905.0703561,
-    "ast_hash": "781b4fc6adc5953044f22247ebddf2af",
+    "mtime": 1791905390.793947,
+    "seen": 1791905647.6158268,
+    "ast_hash": "e5883f3bd7acd3f643fb2218872721d0",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/ingest_kiut_batch.js": {
-    "mtime": 1791903836.4339159,
-    "seen": 1791903905.070371,
-    "ast_hash": "b07f55ebc60a949f5a488080d5d7b062",
+    "mtime": 1791905233.3407378,
+    "seen": 1791905647.6158423,
+    "ast_hash": "dfcbbf0e875963debfa97011a9457915",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/reset_kiut_quizzes.js": {
-    "mtime": 1791903836.4339159,
-    "seen": 1791903905.0703728,
-    "ast_hash": "319eb076ef9dbf33eb5b60e532cf8e5e",
+    "mtime": 1791905222.100703,
+    "seen": 1791905647.6158447,
+    "ast_hash": "6c045f0cff9588fcf612b6e60e14b212",
     "semantic_hash": ""
   },
   "scripts/sync_categories_table.mjs": {
@@ -2760,9 +2760,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/submit_tournament_result.js": {
-    "mtime": 1791903836.4410298,
-    "seen": 1791903905.0703852,
-    "ast_hash": "c005d0d2624e4949d4dbaefe037d1dcd",
+    "mtime": 1791905303.6327991,
+    "seen": 1791905647.6158571,
+    "ast_hash": "0fb3c1c249f7a5c6fc32579cf049ab4f",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-10-12-webapp-group-quizzes.md": {
@@ -2796,9 +2796,51 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/start_live_room.js": {
-    "mtime": 1791903836.4359152,
-    "seen": 1791903905.07038,
-    "ast_hash": "4d127cef81c8b25c1d9a53ee86a16812",
+    "mtime": 1791905210.921973,
+    "seen": 1791905647.615852,
+    "ast_hash": "f28d5471cec077f3f838565c6854dd97",
+    "semantic_hash": ""
+  },
+  "tests/test_auth_endpoints.mjs": {
+    "mtime": 1791905196.5031972,
+    "seen": 1791905647.6157753,
+    "ast_hash": "6628a8232c8f9a9ee077877cdfc2adf8",
+    "semantic_hash": ""
+  },
+  "tests/test_group_filter.mjs": {
+    "mtime": 1791905270.929454,
+    "seen": 1791905647.6157854,
+    "ast_hash": "55eb33b8f77dfb296fdfb5c02757679b",
+    "semantic_hash": ""
+  },
+  "tests/test_leaderboard.mjs": {
+    "mtime": 1791905336.838184,
+    "seen": 1791905647.6157928,
+    "ast_hash": "acf539c60a0fd6ea31e348ca35513243",
+    "semantic_hash": ""
+  },
+  ".superpowers/sdd/2026-10-13-audit-fixes/progress.md": {
+    "mtime": 1791905586.0876725,
+    "seen": 1791905647.6166947,
+    "ast_hash": "949ccad7b085687976abd39c076e24e9",
+    "semantic_hash": ""
+  },
+  "AUDIT_REPORT.md": {
+    "mtime": 1791904481.3971665,
+    "seen": 1791905647.6166997,
+    "ast_hash": "b2f90754701116a2db89f090777a48a6",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/plans/2026-10-13-audit-fixes.md": {
+    "mtime": 1791905086.6907518,
+    "seen": 1791905647.616726,
+    "ast_hash": "63b3c4f36d01fdcd8efc6d028317cd74",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-10-13-audit-fixes-design.md": {
+    "mtime": 1791904993.5387816,
+    "seen": 1791905647.6167393,
+    "ast_hash": "2e1adbfd798336e9401e9abecf266f16",
     "semantic_hash": ""
   }
 }
