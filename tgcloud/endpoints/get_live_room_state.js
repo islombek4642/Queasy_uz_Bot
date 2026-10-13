@@ -48,13 +48,13 @@ export default async function (input, ctx) {
         roomCode,
         userId: currentUserId,
         userName,
-        score: 0,
+        score: -1,
       }).run();
     }
   }
 
   // 3. Fetch all players
-  const players = await db
+  const rawPlayers = await db
     .select({
       id: roomPlayers.id,
       userId: roomPlayers.userId,
@@ -79,6 +79,17 @@ export default async function (input, ctx) {
 
   const qCount = await db.$count(questions, eq(questions.quizId, room.quizId));
 
+  const formattedPlayers = (rawPlayers || []).map((p, idx) => ({
+    ...p,
+    score: Math.max(0, p.score || 0),
+    hasFinished: p.score >= 0,
+    rank: idx + 1,
+    isCurrentUser: currentUserId ? p.userId === currentUserId : p.userName === userName,
+  }));
+
+  const currentPlayer = formattedPlayers.find((p) => p.isCurrentUser);
+  const hasFinished = Boolean(currentPlayer?.hasFinished || room.status === 'finished');
+
   return {
     success: true,
     room: {
@@ -86,6 +97,7 @@ export default async function (input, ctx) {
       status: room.status,
       currentQuestionIndex: room.currentQuestionIndex,
       isHost,
+      isFinished: room.status === 'finished',
     },
     quiz: {
       id: quiz?.id || room.quizId,
@@ -93,11 +105,8 @@ export default async function (input, ctx) {
       timeLimit: quiz?.timeLimit || 20,
       questionCount: Number(qCount || 0),
     },
-    players: (players || []).map((p, idx) => ({
-      ...p,
-      rank: idx + 1,
-      isCurrentUser: currentUserId ? p.userId === currentUserId : false,
-    })),
-    totalPlayers: (players || []).length,
+    players: formattedPlayers,
+    hasFinished,
+    totalPlayers: formattedPlayers.length,
   };
 }

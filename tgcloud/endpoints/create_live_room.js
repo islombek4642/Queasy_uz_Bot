@@ -48,7 +48,7 @@ export default async function (input, ctx) {
       roomCode,
       userId: currentUserId,
       userName: `${userName} (Host)`,
-      score: 0,
+      score: -1,
     }).run();
   }
 

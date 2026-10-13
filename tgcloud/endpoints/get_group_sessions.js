@@ -55,6 +55,7 @@ export default async function (input, ctx) {
       title: quizzes.title,
       description: quizzes.description,
       timeLimit: quizzes.timeLimit,
+      ownerId: quizzes.ownerId,
     })
     .from(quizzes)
     .where(eq(quizzes.ownerId, currentUserId))
@@ -62,9 +63,32 @@ export default async function (input, ctx) {
     .limit(10)
     .all();
 
+  // If user has few or 0 quizzes, supplement with public catalog quizzes (ownerId = 0)
+  let publicQuizzes = [];
+  if ((userQuizzes || []).length < 5) {
+    publicQuizzes = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        description: quizzes.description,
+        timeLimit: quizzes.timeLimit,
+        ownerId: quizzes.ownerId,
+      })
+      .from(quizzes)
+      .where(eq(quizzes.ownerId, 0))
+      .orderBy(desc(quizzes.id))
+      .limit(10 - (userQuizzes || []).length)
+      .all();
+  }
+
+  const combined = [
+    ...(userQuizzes || []).map((q) => ({ ...q, isPublic: false })),
+    ...(publicQuizzes || []).map((q) => ({ ...q, isPublic: true })),
+  ];
+
   // Parallelize question count calculation
   const formattedQuizzes = await Promise.all(
-    (userQuizzes || []).map(async (q) => {
+    combined.map(async (q) => {
       const qCount = await db.$count(questions, eq(questions.quizId, q.id));
       return {
         id: q.id,
@@ -72,6 +96,7 @@ export default async function (input, ctx) {
         description: q.description || '',
         questionCount: Number(qCount || 0),
         timeLimit: q.timeLimit || 30,
+        isPublic: Boolean(q.isPublic),
         shareLink: `https://t.me/Queasy_uz_Bot?startgroup=quiz_${q.id}`,
       };
     })
