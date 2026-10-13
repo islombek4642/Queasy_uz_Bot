@@ -12,7 +12,27 @@ export function isUserAdmin(userId) {
   return CONFIG.ADMINS.includes(Number(userId));
 }
 
+export async function cleanupStaleSessions(timeoutSeconds = 1800) {
+  try {
+    const cutoff = Math.floor(Date.now() / 1000) - timeoutSeconds;
+    await db
+      .update(quizSessions)
+      .set({ isActive: false })
+      .where(
+        and(
+          eq(quizSessions.isActive, true),
+          sql`(${quizSessions.lastPollSentAt} IS NOT NULL AND ${quizSessions.lastPollSentAt} < ${cutoff})`
+        )
+      )
+      .run();
+  } catch (err) {
+    console.error('Error cleaning up stale sessions:', err);
+  }
+}
+
 export async function getBotStatistics() {
+  await cleanupStaleSessions(1800);
+
   const oneDayAgoSec = Math.floor(Date.now() / 1000) - 86400;
 
   const [
@@ -179,6 +199,7 @@ export async function removeMediaChannel() {
 
 export default {
   isUserAdmin,
+  cleanupStaleSessions,
   getBotStatistics,
   listUsers,
   getUsersCount,
