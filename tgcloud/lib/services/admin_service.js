@@ -12,7 +12,7 @@ export function isUserAdmin(userId) {
   return CONFIG.ADMINS.includes(Number(userId));
 }
 
-export async function cleanupStaleSessions(timeoutSeconds = 1800) {
+export async function cleanupStaleSessions(timeoutSeconds = 300) {
   try {
     const cutoff = Math.floor(Date.now() / 1000) - timeoutSeconds;
     await db
@@ -31,7 +31,7 @@ export async function cleanupStaleSessions(timeoutSeconds = 1800) {
 }
 
 export async function getBotStatistics() {
-  await cleanupStaleSessions(1800);
+  await cleanupStaleSessions(300);
 
   const oneDayAgoSec = Math.floor(Date.now() / 1000) - 86400;
 

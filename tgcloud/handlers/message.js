@@ -725,6 +725,9 @@ export default async function (message, ctx) {
   if (text.startsWith('/start')) {
     await clearUserState(fromUser.id);
     const param = text.split(/\s+/)[1];
+    if (!param) {
+      await stopSession(api, chatId);
+    }
 
     if (param && param.startsWith('review_quiz_')) {
       const quizId = parseInt(param.replace('review_quiz_', ''), 10);

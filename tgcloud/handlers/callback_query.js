@@ -40,6 +40,8 @@ import {
   handleLobbyStart,
   handleLobbyCancel,
   advanceGroupRound,
+  finishSession,
+  stopSession,
   isChatAdmin,
 } from '../lib/services/session_service.js';
 
@@ -587,6 +589,32 @@ export default async function (callbackQuery, ctx) {
     }
 
     await advanceGroupRound(api, session.id);
+    return;
+  }
+
+  // 4h. Stop Quiz Button (inline button in solo/group quiz)
+  if (data.startsWith(ACTIONS.STOP_QUIZ_PREFIX)) {
+    await answer();
+    const sessionId = parseInt(data.replace(ACTIONS.STOP_QUIZ_PREFIX, ''), 10);
+    const session = await db
+      .select()
+      .from(quizSessions)
+      .where(and(eq(quizSessions.id, sessionId), eq(quizSessions.isActive, true)))
+      .get();
+
+    if (session) {
+      if (session.isGroup) {
+        const isAdmin = await isChatAdmin(api, session.chatId, userId);
+        const isCreator = session.userId === userId;
+        if (!isAdmin && !isCreator) {
+          await answer(getMessage('ONLY_ADMINS_COMMAND', lang), true);
+          return;
+        }
+      }
+      await finishSession(api, session.id, true);
+    } else {
+      await stopSession(api, chatId);
+    }
     return;
   }
 
