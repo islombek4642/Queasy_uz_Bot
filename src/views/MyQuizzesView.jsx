@@ -1,4 +1,3 @@
-// src/views/MyQuizzesView.jsx
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation } from '../hooks/useTranslation.js';
@@ -8,17 +7,21 @@ import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { Modal } from '../components/common/Modal.jsx';
-import { QuestionInspectorModal } from '../components/quiz/QuestionInspectorModal.jsx';
+import { Pagination } from '../components/common/Pagination.jsx';
 
-export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQuiz, onRefreshData }) {
+export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQuiz, onRefreshData, onInspectQuiz }) {
   const { t } = useTranslation();
   const { haptic } = useTelegram();
   const myQuizzes = initialData?.myQuizzes || [];
 
   const [quizToDelete, setQuizToDelete] = useState(null);
-  const [inspectQuizId, setInspectQuizId] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [expandedQuizId, setExpandedQuizId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const totalPages = Math.ceil(myQuizzes.length / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const currentQuizzes = myQuizzes.slice(startIndex, startIndex + pageSize);
 
   const handleDeleteConfirm = async () => {
     if (!quizToDelete) return;
@@ -76,7 +79,22 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
         </Card>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {myQuizzes.map((quiz) => {
+          {/* Top pagination if multiple pages */}
+          {totalPages > 1 && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px' }}>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600' }}>
+                {startIndex + 1}–{Math.min(startIndex + pageSize, myQuizzes.length)} / {myQuizzes.length}
+              </span>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                style={{ padding: 0 }}
+              />
+            </div>
+          )}
+
+          {currentQuizzes.map((quiz) => {
             const isExpanded = expandedQuizId === quiz.id;
             return (
               <Card key={quiz.id} style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px', overflow: 'hidden' }}>
@@ -153,7 +171,7 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                       <button
                         onClick={() => {
                           haptic.selection();
-                          setInspectQuizId(quiz.id);
+                          if (onInspectQuiz) onInspectQuiz(quiz.id);
                         }}
                         className="glass-pill"
                         style={{ padding: '6px 8px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '4px' }}
@@ -208,6 +226,15 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
               </Card>
             );
           })}
+
+          {/* Bottom pagination if multiple pages */}
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
         </div>
       )}
 
@@ -226,14 +253,6 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
           {t('CONFIRM_DELETE_MSG', { title: quizToDelete?.title })}
         </p>
       </Modal>
-
-      {/* Question Inspector Modal */}
-      <QuestionInspectorModal
-        isOpen={Boolean(inspectQuizId)}
-        onClose={() => setInspectQuizId(null)}
-        quizId={inspectQuizId}
-        onStartQuiz={onStartQuiz}
-      />
     </div>
   );
 }

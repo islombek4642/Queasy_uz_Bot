@@ -19,6 +19,7 @@ const MistakesView = React.lazy(() => import('./views/MistakesView.jsx').then(m 
 const QuizCreatorView = React.lazy(() => import('./views/QuizCreatorView.jsx').then(m => ({ default: m.QuizCreatorView })));
 const TournamentView = React.lazy(() => import('./views/TournamentView.jsx').then(m => ({ default: m.TournamentView })));
 const LiveRoomView = React.lazy(() => import('./views/LiveRoomView.jsx').then(m => ({ default: m.LiveRoomView })));
+const QuizDetailView = React.lazy(() => import('./views/QuizDetailView.jsx').then(m => ({ default: m.QuizDetailView })));
 import {
   NAV_HOME,
   NAV_MY_QUIZZES,
@@ -38,6 +39,7 @@ export default function App() {
   const [activeCustomTitle, setActiveCustomTitle] = useState(null);
   const [showCreator, setShowCreator] = useState(false);
   const [editQuizId, setEditQuizId] = useState(null);
+  const [inspectQuizId, setInspectQuizId] = useState(null);
   const [activeTournamentCode, setActiveTournamentCode] = useState(null);
   const [activeRoomCode, setActiveRoomCode] = useState(null);
   const [activeLiveRoomCode, setActiveLiveRoomCode] = useState(null);
@@ -233,6 +235,23 @@ export default function App() {
       );
     }
 
+    if (inspectQuizId) {
+      return (
+        <QuizDetailView
+          quizId={inspectQuizId}
+          onBack={() => setInspectQuizId(null)}
+          onStartQuiz={(qid) => {
+            setInspectQuizId(null);
+            handleStartQuiz(qid);
+          }}
+          onEditQuiz={(qid) => {
+            setInspectQuizId(null);
+            handleEditQuiz(qid);
+          }}
+        />
+      );
+    }
+
     switch (activeTab) {
       case NAV_MY_QUIZZES:
         return (
@@ -241,6 +260,7 @@ export default function App() {
             onStartQuiz={handleStartQuiz}
             onOpenCreator={handleOpenCreator}
             onEditQuiz={handleEditQuiz}
+            onInspectQuiz={(qid) => setInspectQuizId(qid)}
             onRefreshData={refreshData}
           />
         );
@@ -269,6 +289,7 @@ export default function App() {
               setShowKiutView(false);
               setShowMistakesView(false);
               setShowCreator(false);
+              setInspectQuizId(null);
               setEditQuizId(null);
               setActiveTab(tab);
             }}
@@ -298,11 +319,12 @@ export default function App() {
         </ErrorBoundary>
       </main>
       <BottomNav
-        activeTab={showKiutView || showMistakesView || showCreator ? null : activeTab}
+        activeTab={showKiutView || showMistakesView || showCreator || inspectQuizId ? null : activeTab}
         onSelectTab={(tab) => {
           setShowKiutView(false);
           setShowMistakesView(false);
           setShowCreator(false);
+          setInspectQuizId(null);
           setEditQuizId(null);
           setActiveTab(tab);
         }}

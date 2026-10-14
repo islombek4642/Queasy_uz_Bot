@@ -7,6 +7,7 @@ import { saveCustomQuiz, updateQuiz, fetchQuizDetail } from '../services/quizSer
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
+import { Pagination } from '../components/common/Pagination.jsx';
 
 export function QuizCreatorView({ onBack, onCreated, quizIdToEdit = null }) {
   const { t } = useTranslation();
@@ -18,6 +19,8 @@ export function QuizCreatorView({ onBack, onCreated, quizIdToEdit = null }) {
   const [saving, setSaving] = useState(false);
   const [loadingQuiz, setLoadingQuiz] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   const [questions, setQuestions] = useState([
     {
@@ -85,20 +88,32 @@ export function QuizCreatorView({ onBack, onCreated, quizIdToEdit = null }) {
 
   const handleAddQuestion = () => {
     haptic.selection();
-    setQuestions((prev) => [
-      ...prev,
-      {
-        questionText: '',
-        options: ['', '', '', ''],
-        correctOptionId: 0,
-      },
-    ]);
+    setQuestions((prev) => {
+      const next = [
+        ...prev,
+        {
+          questionText: '',
+          options: ['', '', '', ''],
+          correctOptionId: 0,
+        },
+      ];
+      const newTotal = Math.ceil(next.length / pageSize);
+      setCurrentPage(newTotal);
+      return next;
+    });
   };
 
   const handleRemoveQuestion = (index) => {
     if (questions.length <= 1) return;
     haptic.selection();
-    setQuestions((prev) => prev.filter((_, i) => i !== index));
+    setQuestions((prev) => {
+      const next = prev.filter((_, i) => i !== index);
+      const newTotal = Math.ceil(next.length / pageSize);
+      if (currentPage > newTotal) {
+        setCurrentPage(Math.max(1, newTotal));
+      }
+      return next;
+    });
   };
 
   const handleQuestionTextChange = (qIndex, text) => {
@@ -197,6 +212,9 @@ export function QuizCreatorView({ onBack, onCreated, quizIdToEdit = null }) {
   };
 
   const pageTitle = quizIdToEdit ? t('EDIT_QUIZ_TITLE') : t('CREATE_QUIZ_TITLE');
+  const totalPages = Math.ceil(questions.length / pageSize);
+  const startIndex = (currentPage - 1) * pageSize;
+  const currentQuestions = questions.slice(startIndex, startIndex + pageSize);
 
   return (
     <div
@@ -405,7 +423,20 @@ export function QuizCreatorView({ onBack, onCreated, quizIdToEdit = null }) {
               </Button>
             </div>
 
-            {questions.map((q, qIndex) => (
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(p) => {
+                  setCurrentPage(p);
+                  window.scrollTo({ top: 300, behavior: 'smooth' });
+                }}
+              />
+            )}
+
+            {currentQuestions.map((q, localIdx) => {
+              const qIndex = startIndex + localIdx;
+              return (
               <Card
                 key={qIndex}
                 style={{
@@ -564,7 +595,18 @@ export function QuizCreatorView({ onBack, onCreated, quizIdToEdit = null }) {
                   })}
                 </div>
               </Card>
-            ))}
+            ); })}
+
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(p) => {
+                  setCurrentPage(p);
+                  window.scrollTo({ top: 300, behavior: 'smooth' });
+                }}
+              />
+            )}
 
             {/* Quick Add Question Button */}
             <button
