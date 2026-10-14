@@ -109,6 +109,8 @@ export default {
   // Phase 3: Quiz Studio & Mistakes Training
   EDIT_QUIZ_TITLE: 'Edit Quiz',
   INSPECT_QUIZ_TITLE: 'View Questions',
+  INSPECT_SEARCH_PLACEHOLDER: 'Search questions...',
+  NO_QUESTIONS_FOUND: 'No questions found',
   DELETE_QUIZ_TITLE: 'Delete Quiz',
   BTN_INSPECT: 'Questions',
   BTN_EDIT: 'Edit',

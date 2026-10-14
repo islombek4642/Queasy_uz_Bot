@@ -109,6 +109,8 @@ export default {
   // Phase 3: Quiz Studio & Mistakes Training
   EDIT_QUIZ_TITLE: 'Редактировать тест',
   INSPECT_QUIZ_TITLE: 'Просмотр вопросов',
+  INSPECT_SEARCH_PLACEHOLDER: 'Поиск по вопросам...',
+  NO_QUESTIONS_FOUND: 'Вопросы не найдены',
   DELETE_QUIZ_TITLE: 'Удалить тест',
   BTN_INSPECT: 'Вопросы',
   BTN_EDIT: 'Изменить',

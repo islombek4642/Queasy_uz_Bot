@@ -97,7 +97,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
   const { tournament, quiz, leaderboard, userParticipation } = data;
 
   return (
-    <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }} className="animate-fade-in">
+    <div style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: '12px' }} className="animate-fade-in">
       {/* Top Navigation */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button
@@ -106,49 +106,49 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
             onBack();
           }}
           className="glass-pill"
-          style={{ padding: '6px 12px', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+          style={{ padding: '5px 10px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '5px' }}
         >
-          <Icon icon="solar:arrow-left-bold" width="16" height="16" />
+          <Icon icon="solar:arrow-left-bold" width="14" height="14" />
           <span>{t('BTN_BACK') || 'Orqaga'}</span>
         </button>
 
         <Badge variant="accent" size="sm">
-          <Icon icon="solar:cup-star-bold" width="14" height="14" style={{ marginRight: '4px' }} />
+          <Icon icon="solar:cup-star-bold" width="13" height="13" style={{ marginRight: '4px' }} />
           {t('TOURNAMENT_TITLE')}
         </Badge>
       </div>
 
       {/* Tournament Card */}
-      <Card glow style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      <Card glow style={{ padding: '14px 12px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px #10b981' }} />
-            <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '2px' }}>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 8px #10b981' }} />
+            <span style={{ fontSize: '0.72rem', fontWeight: '700', color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.4px' }}>
               {t('TOURNAMENT_TITLE')}
             </span>
           </div>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: '800', lineHeight: '1.35', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
+          <h2 style={{ fontSize: '1.08rem', fontWeight: '800', lineHeight: '1.3', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
             {quiz.title}
           </h2>
           {quiz.description && (
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginTop: '4px', lineHeight: '1.4', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.78rem', marginTop: '2px', lineHeight: '1.3', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
               {quiz.description}
             </p>
           )}
         </div>
 
         {/* Stats Badges */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           <Badge variant="primary" size="sm">
-            <Icon icon="solar:question-circle-bold" width="14" height="14" style={{ marginRight: '4px' }} />
+            <Icon icon="solar:question-circle-bold" width="13" height="13" style={{ marginRight: '3px' }} />
             {quiz.questionCount} {t('QUESTIONS_COUNT')}
           </Badge>
           <Badge variant="warning" size="sm">
-            <Icon icon="solar:clock-circle-bold" width="14" height="14" style={{ marginRight: '4px' }} />
+            <Icon icon="solar:clock-circle-bold" width="13" height="13" style={{ marginRight: '3px' }} />
             {quiz.timeLimit}s
           </Badge>
           <Badge variant="glass" size="sm">
-            <Icon icon="solar:users-group-two-rounded-bold" width="14" height="14" style={{ marginRight: '4px' }} />
+            <Icon icon="solar:users-group-two-rounded-bold" width="13" height="13" style={{ marginRight: '3px' }} />
             {leaderboard.length} {t('PARTICIPANTS')}
           </Badge>
         </div>
@@ -157,7 +157,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
         {userParticipation && (
           <div
             style={{
-              padding: '12px 14px',
+              padding: '8px 10px',
               borderRadius: 'var(--radius-md)',
               background: 'rgba(99, 102, 241, 0.12)',
               border: '1px solid var(--surface-border-glow)',
@@ -167,28 +167,29 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
             }}
           >
             <div>
-              <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>{t('TOURNAMENT_YOUR_RANK')}</div>
-              <div style={{ fontSize: '1.15rem', fontWeight: '900', color: 'var(--accent-primary)' }}>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{t('TOURNAMENT_YOUR_RANK')}</div>
+              <div style={{ fontSize: '1.05rem', fontWeight: '900', color: 'var(--accent-primary)' }}>
                 #{userParticipation.rank}{' '}
-                <span style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--text-secondary)' }}>
+                <span style={{ fontSize: '0.78rem', fontWeight: '600', color: 'var(--text-secondary)' }}>
                   ({userParticipation.score}/{quiz.questionCount})
                 </span>
               </div>
             </div>
             <Badge variant="success" size="sm">
-              <Icon icon="solar:check-circle-bold" width="14" height="14" style={{ marginRight: '4px' }} />
+              <Icon icon="solar:check-circle-bold" width="13" height="13" style={{ marginRight: '3px' }} />
               {t('TOURNAMENT_SUBMITTED')}
             </Badge>
           </div>
         )}
 
-        {/* Action Buttons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
+        {/* Action Buttons: Row 1 = Primary, Row 2 = Share & Copy side-by-side */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <Button
             variant="primary"
             fullWidth
-            size="lg"
+            size="md"
             icon="solar:play-circle-bold"
+            style={{ padding: '9px 14px', fontSize: '0.88rem' }}
             onClick={() => {
               haptic.impact('heavy');
               onStartTournament(quiz.id, shareCode);
@@ -197,12 +198,13 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
             {userParticipation ? t('BTN_RETRY') : t('BTN_JOIN_TOURNAMENT')}
           </Button>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
             <Button
               variant="secondary"
               fullWidth
-              size="md"
+              size="sm"
               icon="solar:share-bold"
+              style={{ padding: '7px 8px', fontSize: '0.78rem' }}
               onClick={handleShareToTelegram}
             >
               {t('BTN_SHARE_TO_GROUP')}
@@ -212,6 +214,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
               fullWidth
               size="sm"
               icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'}
+              style={{ padding: '7px 8px', fontSize: '0.78rem' }}
               onClick={handleCopyLink}
             >
               {copied ? t('TOAST_LINK_COPIED') : t('LIVE_ROOM_COPY_LINK')}
@@ -223,9 +226,9 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
 
       {/* Leaderboard Section */}
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Icon icon="solar:cup-star-bold" width="18" height="18" style={{ color: '#f59e0b' }} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+          <h3 style={{ fontSize: '0.92rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <Icon icon="solar:cup-star-bold" width="16" height="16" style={{ color: '#f59e0b' }} />
             {t('TOURNAMENT_LEADERBOARD_TITLE')} ({leaderboard.length})
           </h3>
           <button
@@ -234,21 +237,21 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
               loadData();
             }}
             className="glass-pill"
-            style={{ padding: '4px 8px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '4px' }}
+            style={{ padding: '3px 7px', fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: '3px' }}
           >
-            <Icon icon="solar:restart-bold" width="14" height="14" />
+            <Icon icon="solar:restart-bold" width="13" height="13" />
           </button>
         </div>
 
         {leaderboard.length === 0 ? (
-          <Card style={{ padding: '24px 16px', textAlign: 'center' }}>
-            <Icon icon="solar:cup-bold" width="36" height="36" style={{ color: 'var(--text-muted)', margin: '0 auto 8px' }} />
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+          <Card style={{ padding: '18px 12px', textAlign: 'center' }}>
+            <Icon icon="solar:cup-bold" width="30" height="30" style={{ color: 'var(--text-muted)', margin: '0 auto 6px' }} />
+            <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
               {t('TOURNAMENT_NO_PARTICIPANTS')}
             </div>
           </Card>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
             {leaderboard.map((p) => {
               const rankMedal = p.rank === 1 ? '🥇' : p.rank === 2 ? '🥈' : p.rank === 3 ? '🥉' : `#${p.rank}`;
               return (
@@ -256,7 +259,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
                   key={p.id}
                   glow={p.isCurrentUser}
                   style={{
-                    padding: '12px 14px',
+                    padding: '7px 10px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -264,14 +267,14 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
                     background: p.isCurrentUser ? 'rgba(99, 102, 241, 0.08)' : 'var(--surface-card)',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
-                    <div style={{ width: '28px', textAlign: 'center', fontSize: p.rank <= 3 ? '1.2rem' : '0.9rem', fontWeight: '800', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flex: 1 }}>
+                    <div style={{ width: '24px', textAlign: 'center', fontSize: p.rank <= 3 ? '1.05rem' : '0.82rem', fontWeight: '800', flexShrink: 0 }}>
                       {rankMedal}
                     </div>
                     <div style={{ minWidth: 0, flex: 1 }}>
                       <div
                         style={{
-                          fontSize: '0.9rem',
+                          fontSize: '0.84rem',
                           fontWeight: '700',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
@@ -281,17 +284,17 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
                       >
                         {p.userName} {p.isCurrentUser && '(Siz)'}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                         {p.totalTimeSeconds} soniya
                       </div>
                     </div>
                   </div>
 
                   <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                    <div style={{ fontSize: '1rem', fontWeight: '900', color: '#10b981' }}>
+                    <div style={{ fontSize: '0.92rem', fontWeight: '900', color: '#10b981' }}>
                       {p.score}/{quiz.questionCount}
                     </div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                    <div style={{ fontSize: '0.66rem', color: 'var(--text-muted)' }}>
                       to'g'ri
                     </div>
                   </div>

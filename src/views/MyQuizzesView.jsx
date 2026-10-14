@@ -97,7 +97,7 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
           {currentQuizzes.map((quiz) => {
             const isExpanded = expandedQuizId === quiz.id;
             return (
-              <Card key={quiz.id} style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '10px', overflow: 'hidden' }}>
+              <Card key={quiz.id} style={{ padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: '6px', overflow: 'hidden' }}>
                 {/* Header area - click anywhere to expand/collapse */}
                 <div
                   onClick={() => {
@@ -109,14 +109,14 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                   <div
                     style={{
                       fontWeight: '800',
-                      fontSize: '0.96rem',
+                      fontSize: '0.92rem',
                       color: 'var(--text-primary)',
                       whiteSpace: isExpanded ? 'normal' : 'nowrap',
                       overflow: isExpanded ? 'visible' : 'hidden',
                       textOverflow: isExpanded ? 'clip' : 'ellipsis',
                       wordBreak: 'break-word',
                       overflowWrap: 'anywhere',
-                      lineHeight: '1.35',
+                      lineHeight: '1.3',
                     }}
                     title={quiz.title}
                   >
@@ -125,9 +125,9 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                   {quiz.description && (
                     <div
                       style={{
-                        fontSize: '0.8rem',
+                        fontSize: '0.76rem',
                         color: 'var(--text-muted)',
-                        marginTop: '2px',
+                        marginTop: '1px',
                         whiteSpace: isExpanded ? 'normal' : 'nowrap',
                         overflow: isExpanded ? 'visible' : 'hidden',
                         textOverflow: isExpanded ? 'clip' : 'ellipsis',
@@ -140,15 +140,16 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                   )}
                 </div>
 
-                {/* Action Toolbar - 2 evenly distributed rows */}
+                {/* Sleek single action row */}
                 <div
                   style={{
                     display: 'flex',
-                    flexDirection: 'column',
-                    paddingTop: '8px',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingTop: '6px',
                     borderTop: '1px solid var(--surface-border)',
                     marginTop: '2px',
-                    gap: '8px',
+                    gap: '6px',
                   }}
                 >
                   {/* Row 1: Badges on left, secondary actions on right */}
@@ -208,23 +209,23 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                     </div>
                   </div>
 
-                  {/* Row 2: Full width Start Button */}
+                  {/* Row 2: Full-width Start button */}
                   <Button
                     size="sm"
                     variant="primary"
-                    fullWidth
                     onClick={() => {
                       haptic.impact('medium');
                       onStartQuiz(quiz.id);
                     }}
                     icon="solar:play-bold"
-                    style={{ padding: '7px 14px', fontSize: '0.84rem' }}
+                    style={{ width: '100%', marginTop: '2px' }}
                   >
                     {t('BTN_START_QUIZ')}
                   </Button>
                 </div>
               </Card>
             );
+
           })}
 
           {/* Bottom pagination if multiple pages */}

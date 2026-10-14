@@ -109,6 +109,8 @@ export default {
   // Phase 3: Quiz Studio & Mistakes Training
   EDIT_QUIZ_TITLE: 'Testni Tahrirlash',
   INSPECT_QUIZ_TITLE: 'Savollarni Ko\'rish',
+  INSPECT_SEARCH_PLACEHOLDER: 'Savollardan qidirish...',
+  NO_QUESTIONS_FOUND: 'Savollar topilmadi',
   DELETE_QUIZ_TITLE: 'Testni O\'chirish',
   BTN_INSPECT: 'Savollar',
   BTN_EDIT: 'Tahrirlash',
