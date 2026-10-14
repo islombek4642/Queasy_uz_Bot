@@ -68,6 +68,7 @@ export default {
   ERR_INVALID_COUNT: '⚠️ Invalid number. Enter between 1 and {total}.',
   ERR_NO_QUIZZES: 'You do not have any quizzes yet. Send a file or text to create one!',
   ERR_NOT_FOUND: 'Sorry, quiz not found or was deleted.',
+  ERR_SECTION_NOT_FOUND: '⚠️ Section not found.',
 
   // Quiz Cards & Management
   QUIZ_INFO_TITLE: '📋 <b>Quiz Info:</b>\n\n📌 <b>Title:</b> {title}\n📊 <b>Questions:</b> {count}\n⏱ <b>Timer:</b> {time}\n🔀 <b>Shuffle:</b> {shuffle}\n\n💬 <b>Start in group:</b> <code>/quiz {id}</code>',
@@ -79,6 +80,7 @@ export default {
   BTN_DELETE_QUIZ: '🗑 Delete',
   BTN_CLONE_QUIZ: '📥 Clone Quiz',
   BTN_REVIEW_MISTAKES: '❌ Review Mistakes',
+  BTN_RESUME_QUIZ: '▶️ Resume Quiz',
   BTN_PREV: '⬅️ Prev',
   BTN_NEXT: '➡️ Next',
   QUIZ_DELETED_SUCCESS: '🗑 Quiz deleted successfully.',
@@ -93,6 +95,7 @@ export default {
 
   // In-Quiz & Results
   QUIZ_STARTING: '🚀 Quiz is starting! Stay focused on every question.',
+  QUIZ_RESUMING: '▶️ <b>Resuming quiz...</b>\n\n📌 Question: <b>[{current}/{total}]</b>',
   QUIZ_SOLO_FINISHED: '🎉 <b>Quiz Completed!</b>\n\n📊 <b>Total questions:</b> {total}\n✅ <b>Correct answers:</b> {correct} ({percent}%)\n❌ <b>Mistakes:</b> {wrong}',
   QUIZ_STOPPED: '🛑 <b>Quiz Stopped!</b>\n\n📊 <b>Total questions:</b> {total}\n✅ <b>Correct answers:</b> {correct} ({percent}%)\n❌ <b>Mistakes:</b> {wrong}',
   MISTAKES_EMPTY: '🎉 Great! You have no recorded mistakes.',

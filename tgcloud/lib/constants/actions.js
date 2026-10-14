@@ -22,6 +22,7 @@ export const ACTIONS = {
   NEXT_QUESTION_PREFIX: 'next_q:',
   REVIEW_MISTAKES_PREFIX: 'rev_mistakes:',
   CLEAR_MISTAKES_PREFIX: 'clear_mistakes:',
+  RESUME_QUIZ_PREFIX: 'resume_quiz:',
 
   // Group Multiplayer Lobby
   LOBBY_JOIN_PREFIX: 'join_lobby:',

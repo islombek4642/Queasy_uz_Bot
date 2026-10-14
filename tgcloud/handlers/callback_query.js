@@ -41,6 +41,7 @@ import {
   handleLobbyCancel,
   advanceGroupRound,
   isChatAdmin,
+  resumeQuizSession,
 } from '../lib/services/session_service.js';
 
 import { listGroups, getGroupsCount } from '../lib/services/group_service.js';
@@ -260,7 +261,7 @@ export default async function (callbackQuery, ctx) {
     const catPath = currentCat?.path || '';
 
     if (!catPath) {
-      await answer('Bo\'lim topilmadi', true);
+      await answer(getMessage('ERR_SECTION_NOT_FOUND', lang), true);
       return;
     }
 
@@ -662,6 +663,24 @@ export default async function (callbackQuery, ctx) {
       parse_mode: 'HTML',
       reply_markup: getCancelKeyboard(lang),
     });
+    return;
+  }
+
+  // 7b. Solo Mode: Resume Quiz from skipped question
+  if (data.startsWith(ACTIONS.RESUME_QUIZ_PREFIX)) {
+    const sessionId = parseInt(data.replace(ACTIONS.RESUME_QUIZ_PREFIX, ''), 10);
+    try {
+      await answer(getMessage('QUIZ_STARTING', lang));
+      if (messageId) {
+        try {
+          await api.deleteMessage({ chat_id: chatId, message_id: messageId });
+        } catch {}
+      }
+      await resumeQuizSession(api, sessionId, userId);
+    } catch (err) {
+      console.error('Error resuming quiz session:', err);
+      await answer(getMessage('ERR_NOT_FOUND', lang), true);
+    }
     return;
   }
 

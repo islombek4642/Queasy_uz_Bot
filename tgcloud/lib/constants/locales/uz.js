@@ -68,6 +68,7 @@ export default {
   ERR_INVALID_COUNT: '⚠️ Noto\'g\'ri son kiritildi. 1 dan {total} gacha son kiriting.',
   ERR_NO_QUIZZES: 'Sizda hozircha yaratilgan testlar mavjud emas. Yangi test yuklash uchun fayl yoki matn yuboring!',
   ERR_NOT_FOUND: 'Kechirasiz, test topilmadi yoki o\'chirilgan.',
+  ERR_SECTION_NOT_FOUND: '⚠️ Bo\'lim topilmadi.',
 
   // Quiz Cards & Management
   QUIZ_INFO_TITLE: '📋 <b>Test ma\'lumotlari:</b>\n\n📌 <b>Nomi:</b> {title}\n📊 <b>Savollar:</b> {count} ta\n⏱ <b>Vaqt:</b> {time}\n🔀 <b>Aralashtirish:</b> {shuffle}\n\n💬 <b>Guruhda boshlash:</b> <code>/quiz {id}</code>',
@@ -79,6 +80,7 @@ export default {
   BTN_DELETE_QUIZ: '🗑 O\'chirish',
   BTN_CLONE_QUIZ: '📥 O\'zimga nusxalash',
   BTN_REVIEW_MISTAKES: '❌ Xatolar ustida ishlash',
+  BTN_RESUME_QUIZ: '▶️ Davom ettirish',
   BTN_PREV: '⬅️ Oldingi',
   BTN_NEXT: '➡️ Keyingi',
   QUIZ_DELETED_SUCCESS: '🗑 Test muvaffaqiyatli o\'chirildi.',
@@ -93,6 +95,7 @@ export default {
 
   // In-Quiz & Results
   QUIZ_STARTING: '🚀 Test boshlanmoqda! Har bir savolga e\'tiborli bo\'ling.',
+  QUIZ_RESUMING: '▶️ <b>Test davom ettirilmoqda...</b>\n\n📌 <b>[{current}/{total}]</b>-savol',
   QUIZ_SOLO_FINISHED: '🎉 <b>Test yakunlandi!</b>\n\n📊 <b>Jami savollar:</b> {total} ta\n✅ <b>To\'g\'ri javoblar:</b> {correct} ta ({percent}%)\n❌ <b>Xatolar:</b> {wrong} ta',
   QUIZ_STOPPED: '🛑 <b>Test to\'xtatildi!</b>\n\n📊 <b>Jami savollar:</b> {total} ta\n✅ <b>To\'g\'ri javoblar:</b> {correct} ta ({percent}%)\n❌ <b>Xatolar:</b> {wrong} ta',
   MISTAKES_EMPTY: '🎉 Ajoyib! Sizda xatolar mavjud emas.',

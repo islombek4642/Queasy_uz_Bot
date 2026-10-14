@@ -13,7 +13,7 @@ import { getStopKeyboard } from '../keyboards/mode_keyboard.js';
 import { truncateQuestion, truncateOption, truncateExplanation, escapeHtml, formatParticipantName } from '../utils/poll_helpers.js';
 import { sanitizeQuestionText, sanitizeOptionsList } from '../parsers/sanitizer.js';
 import { getMediaChannel } from './admin_service.js';
-import { hasMathFormula, renderAndUploadFormula } from '../parsers/math_engine.js';
+import { hasMathFormula, renderAndUploadFormula, generateLatexImageUrl } from '../parsers/math_engine.js';
 
 
 /**
@@ -198,9 +198,12 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
   if (!session || !session.isActive) return;
 
   let timeLimit = customTimeLimit;
-  if (!timeLimit && session.quizId) {
-    const quiz = await getQuizById(session.quizId);
-    timeLimit = quiz?.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT;
+  let quiz = null;
+  if (session.quizId) {
+    quiz = await getQuizById(session.quizId);
+    if (!timeLimit) {
+      timeLimit = quiz?.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT;
+    }
   }
   if (!timeLimit) {
     timeLimit = CONFIG.POLL.DEFAULT_TIME_LIMIT;
@@ -246,29 +249,12 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
             .run();
           q.photoFileId = photoToSend;
         }
+      } else {
+        // Agar maxsus media kanal ulanmagan bo'lsa, to'g'ridan-to'g'ri CodeCogs 300 DPI rasm URL'idan foydalanamiz
+        photoToSend = generateLatexImageUrl(q.questionText, 300);
       }
     } catch (mathErr) {
       console.error(`[sendNextQuestionPoll] Auto math formula render error for question ${qNum}:`, mathErr?.message);
-    }
-  }
-
-  // 2. Agar rasm mavjud bo'lsa (yoki yangi generatsiya qilingan bo'lsa), yuboriladi
-  if (photoToSend) {
-    try {
-      await api.sendPhoto({
-        chat_id: session.chatId,
-        photo: photoToSend,
-        caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
-        parse_mode: 'HTML',
-      });
-    } catch (photoErr) {
-      console.error(`[sendNextQuestionPoll] Failed to send photo for question ${qNum}:`, photoErr?.message);
-      try {
-        await api.sendPhoto({
-          chat_id: session.chatId,
-          photo: photoToSend,
-        });
-      } catch {}
     }
   }
 
@@ -277,10 +263,28 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
   const cleanText = sanitizeQuestionText(q.questionText);
   const questionTitle = truncateQuestion(prefix, cleanText, CONFIG.POLL.MAX_QUESTION_LENGTH);
 
-  // 3. Variantlar (tozalangan va max 100 belgi limit)
+  // 3. Variantlar (tozalangan, formulalar rasmga o'girilgan va max 100 belgi limit)
   const sanitizedOpts = sanitizeOptionsList(q.options || []);
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
   let options = sanitizedOpts
-    .map((opt) => truncateOption(opt, CONFIG.POLL.MAX_OPTION_LENGTH))
+    .map((opt, idx) => {
+      const letter = letters[idx] || String(idx + 1);
+      // Agar variant allaqachon media obyektiga ega bo'lsa
+      if (opt && typeof opt === 'object' && opt.media) {
+        return truncateOption(opt, CONFIG.POLL.MAX_OPTION_LENGTH);
+      }
+      const optText = typeof opt === 'object' ? opt.text : String(opt || '');
+      // Agar variantda matematik/kimyoviy formula bo'lsa, avtomatik 300 DPI rasm biriktiramiz
+      if (hasMathFormula(optText)) {
+        const cleanMathText = optText.replace(/\$/g, '').trim();
+        const formulaImgUrl = generateLatexImageUrl(optText, 300);
+        return {
+          text: truncateOption(`${letter}) ${cleanMathText}`, CONFIG.POLL.MAX_OPTION_LENGTH),
+          media: { type: 'photo', media: formulaImgUrl },
+        };
+      }
+      return truncateOption(opt, CONFIG.POLL.MAX_OPTION_LENGTH);
+    })
     .filter(Boolean);
 
   if (options.length < CONFIG.POLL.MIN_OPTIONS) {
@@ -307,36 +311,113 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
       }
     : undefined;
 
+  const shuffleOptions = quiz ? quiz.shuffleOptions !== false : true;
+  const isGroup = Boolean(session.isGroup);
+  const pollMedia = (photoToSend && typeof photoToSend === 'string' && photoToSend.trim().length > 0)
+    ? { type: 'photo', media: photoToSend.trim() }
+    : undefined;
+  const explanationMedia = (q.explanationPhotoFileId && typeof q.explanationPhotoFileId === 'string' && q.explanationPhotoFileId.trim().length > 0)
+    ? { type: 'photo', media: q.explanationPhotoFileId.trim() }
+    : undefined;
+
+  const hasStructuredOptions = options.some((o) => typeof o === 'object' && o.media);
+  const useModernPoll = Boolean(pollMedia || hasStructuredOptions);
+
   try {
-    let pollMsg;
-    try {
-      pollMsg = await api.sendPoll({
-        chat_id: session.chatId,
-        question: questionTitle,
-        question_parse_mode: 'HTML',
-        options,
-        is_anonymous: false,
-        type: 'quiz',
-        correct_option_id: correctOptionId,
-        explanation,
-        explanation_parse_mode: explanation ? 'HTML' : undefined,
-        open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
-        reply_markup: nextBtnMarkup,
-      });
-    } catch (htmlErr) {
-      // Fallback: agar HTML parse mode xato bersa (masalan, noto'g'ri taglar), parse_mode'siz yuborish
-      console.warn(`[sendNextQuestionPoll] HTML parse mode failed, falling back to plain text:`, htmlErr?.message);
-      pollMsg = await api.sendPoll({
-        chat_id: session.chatId,
-        question: questionTitle,
-        options,
-        is_anonymous: false,
-        type: 'quiz',
-        correct_option_id: correctOptionId,
-        explanation,
-        open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
-        reply_markup: nextBtnMarkup,
-      });
+    let pollMsg = null;
+    let fallbackPhotoSent = false;
+
+    // A. Bot API 10.0+ formati: agar poll media yoki variant rasmlari bo'lsa
+    if (useModernPoll) {
+      try {
+        pollMsg = await api.sendPoll({
+          chat_id: session.chatId,
+          question: questionTitle,
+          question_parse_mode: 'HTML',
+          options,
+          is_anonymous: false,
+          type: 'quiz',
+          correct_option_id: correctOptionId,
+          explanation,
+          explanation_parse_mode: explanation ? 'HTML' : undefined,
+          explanation_media: explanationMedia,
+          media: pollMedia,
+          shuffle_options: shuffleOptions,
+          members_only: isGroup ? true : undefined,
+          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+          reply_markup: nextBtnMarkup,
+        });
+      } catch (mediaPollErr) {
+        // Agar Telegram platformasi modern poll formatini qabul qilmasa, an'anaviy sendPhoto va oddiy matnli variantlarga fallback qilamiz
+        console.warn(`[sendNextQuestionPoll] Modern sendPoll not accepted, falling back to standard format:`, mediaPollErr?.message);
+        if (photoToSend) {
+          try {
+            await api.sendPhoto({
+              chat_id: session.chatId,
+              photo: photoToSend,
+              caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
+              parse_mode: 'HTML',
+            });
+            fallbackPhotoSent = true;
+          } catch (photoErr) {
+            console.error(`[sendNextQuestionPoll] Failed to send fallback photo:`, photoErr?.message);
+          }
+        }
+      }
+    }
+
+    // B. Agar embedded media ishlamagan bo'lsa (yoki rasm bo'lmasa)
+    if (!pollMsg) {
+      // Agar rasm bor bo'lsa-yu, hali yuborilmagan bo'lsa
+      if (photoToSend && !fallbackPhotoSent) {
+        try {
+          await api.sendPhoto({
+            chat_id: session.chatId,
+            photo: photoToSend,
+            caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
+            parse_mode: 'HTML',
+          });
+        } catch (photoErr) {
+          console.error(`[sendNextQuestionPoll] Standalone photo send error:`, photoErr?.message);
+        }
+      }
+
+      // Convert any structured options to plain strings for standard sendPoll
+      const stringOptions = options.map((o) => (typeof o === 'object' ? o.text : String(o)));
+
+      try {
+        pollMsg = await api.sendPoll({
+          chat_id: session.chatId,
+          question: questionTitle,
+          question_parse_mode: 'HTML',
+          options: stringOptions,
+          is_anonymous: false,
+          type: 'quiz',
+          correct_option_id: correctOptionId,
+          explanation,
+          explanation_parse_mode: explanation ? 'HTML' : undefined,
+          shuffle_options: shuffleOptions,
+          members_only: isGroup ? true : undefined,
+          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+          reply_markup: nextBtnMarkup,
+        });
+      } catch (htmlErr) {
+        // HTML parse fallback without parse_mode
+        console.warn(`[sendNextQuestionPoll] HTML parse mode failed, falling back to plain text:`, htmlErr?.message);
+        pollMsg = await api.sendPoll({
+          chat_id: session.chatId,
+          question: questionTitle,
+          options: stringOptions,
+          is_anonymous: false,
+          type: 'quiz',
+          correct_option_id: correctOptionId,
+          explanation,
+          shuffle_options: shuffleOptions,
+          members_only: isGroup ? true : undefined,
+          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+          reply_markup: nextBtnMarkup,
+        });
+      }
     }
 
     if (pollMsg && pollMsg.poll) {
@@ -700,17 +781,28 @@ export async function finishSession(api, sessionId, isStopped = false) {
 
     const isAdmin = CONFIG.ADMINS.includes(Number(session.userId));
     const hasMistakes = session.wrongCount > 0 || remainingMistakes > 0;
+    const hasRemainingQuestions = !session.isGroup && (session.currentIndex < session.totalQuestions);
 
+    const inline_keyboard = [];
     if (hasMistakes) {
-      const inline_keyboard = [
-        [
-          {
-            text: getMessage('BTN_REVIEW_MISTAKES', lang),
-            callback_data: `${ACTIONS.REVIEW_MISTAKES_PREFIX}${session.quizId || 0}`,
-          },
-        ],
-      ];
+      inline_keyboard.push([
+        {
+          text: getMessage('BTN_REVIEW_MISTAKES', lang),
+          callback_data: `${ACTIONS.REVIEW_MISTAKES_PREFIX}${session.quizId || 0}`,
+        },
+      ]);
+    }
 
+    if (hasRemainingQuestions) {
+      inline_keyboard.push([
+        {
+          text: getMessage('BTN_RESUME_QUIZ', lang),
+          callback_data: `${ACTIONS.RESUME_QUIZ_PREFIX}${session.id}`,
+        },
+      ]);
+    }
+
+    if (inline_keyboard.length > 0) {
       try {
         await api.sendMessage({
           chat_id: session.chatId,
@@ -805,6 +897,66 @@ export async function stopSession(api, chatId) {
     return true;
   } catch (err) {
     console.error('Error in stopSession:', err);
+    return false;
+  }
+}
+
+export async function resumeQuizSession(api, sessionId, userId = null) {
+  try {
+    const session = await db
+      .select()
+      .from(quizSessions)
+      .where(eq(quizSessions.id, Number(sessionId)))
+      .get();
+
+    if (!session) {
+      return false;
+    }
+
+    if (session.isGroup || session.currentIndex >= session.totalQuestions) {
+      return false;
+    }
+
+    // Deactivate any currently active sessions for this user to avoid conflicts
+    await db
+      .update(quizSessions)
+      .set({ isActive: false })
+      .where(and(eq(quizSessions.userId, session.userId), eq(quizSessions.isActive, true)))
+      .run();
+
+    // Reactivate this session
+    await db
+      .update(quizSessions)
+      .set({ isActive: true, lastPollId: null })
+      .where(eq(quizSessions.id, session.id))
+      .run();
+
+    const user = await db
+      .select()
+      .from(users)
+      .where(eq(users.telegramId, session.userId))
+      .get();
+    const lang = user?.lang || 'UZ';
+
+    // Restore bottom reply keyboard with "Testni to'xtatish" button
+    await api.sendMessage({
+      chat_id: session.chatId,
+      text: getMessage('QUIZ_RESUMING', lang, {
+        current: session.currentIndex + 1,
+        total: session.totalQuestions,
+      }),
+      parse_mode: 'HTML',
+      reply_markup: getStopKeyboard(lang),
+    });
+
+    const quiz = await getQuizById(session.quizId);
+    const timeLimit = quiz?.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT;
+
+    // Dispatch the skipped/next question
+    await sendNextQuestionPoll(api, session.id, timeLimit);
+    return true;
+  } catch (err) {
+    console.error('Error in resumeQuizSession:', err);
     return false;
   }
 }
@@ -1193,6 +1345,7 @@ export default {
   advanceGroupRoundByPollId,
   finishSession,
   stopSession,
+  resumeQuizSession,
   saveUserMistake,
   getUserMistakesCount,
   getUserMistakesGrouped,

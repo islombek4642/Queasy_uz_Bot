@@ -24,6 +24,14 @@ export function truncateQuestion(prefix, text, max = 300) {
  * Truncates an option string to fit within Telegram limit (100 chars)
  */
 export function truncateOption(opt, max = 100) {
+  if (opt && typeof opt === 'object') {
+    const str = String(opt.text || '').trim();
+    const truncatedText = str.length <= max ? str : `${str.slice(0, max - 3).trim()}...`;
+    return {
+      ...opt,
+      text: truncatedText,
+    };
+  }
   const str = String(opt || '').trim();
   if (str.length <= max) {
     return str;

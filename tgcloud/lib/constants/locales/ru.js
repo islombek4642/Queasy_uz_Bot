@@ -68,6 +68,7 @@ export default {
   ERR_INVALID_COUNT: '⚠️ Неверное число. Введите число от 1 до {total}.',
   ERR_NO_QUIZZES: 'У вас пока нет созданных тестов. Отправьте файл или текст для создания теста!',
   ERR_NOT_FOUND: 'Извините, тест не найден или был удален.',
+  ERR_SECTION_NOT_FOUND: '⚠️ Раздел не найден.',
 
   // Quiz Cards & Management
   QUIZ_INFO_TITLE: '📋 <b>Информация о тесте:</b>\n\n📌 <b>Название:</b> {title}\n📊 <b>Вопросов:</b> {count}\n⏱ <b>Время:</b> {time}\n🔀 <b>Перемешивание:</b> {shuffle}\n\n💬 <b>Запуск в группе:</b> <code>/quiz {id}</code>',
@@ -79,6 +80,7 @@ export default {
   BTN_DELETE_QUIZ: '🗑 Удалить',
   BTN_CLONE_QUIZ: '📥 Сохранить себе',
   BTN_REVIEW_MISTAKES: '❌ Работа над ошибками',
+  BTN_RESUME_QUIZ: '▶️ Продолжить',
   BTN_PREV: '⬅️ Назад',
   BTN_NEXT: '➡️ Вперед',
   QUIZ_DELETED_SUCCESS: '🗑 Тест успешно удален.',
@@ -93,6 +95,7 @@ export default {
 
   // In-Quiz & Results
   QUIZ_STARTING: '🚀 Тест начинается! Будьте внимательны к каждому вопросу.',
+  QUIZ_RESUMING: '▶️ <b>Тест продолжается...</b>\n\n📌 Вопрос: <b>[{current}/{total}]</b>',
   QUIZ_SOLO_FINISHED: '🎉 <b>Тест завершен!</b>\n\n📊 <b>Всего вопросов:</b> {total}\n✅ <b>Правильных ответов:</b> {correct} ({percent}%)\n❌ <b>Ошибок:</b> {wrong}',
   QUIZ_STOPPED: '🛑 <b>Тест остановлен!</b>\n\n📊 <b>Всего вопросов:</b> {total}\n✅ <b>Правильных ответов:</b> {correct} ({percent}%)\n❌ <b>Ошибок:</b> {wrong}',
   MISTAKES_EMPTY: '🎉 Отлично! У вас нет сохраненных ошибок.',

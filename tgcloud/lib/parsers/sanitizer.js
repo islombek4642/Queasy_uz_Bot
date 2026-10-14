@@ -131,6 +131,49 @@ export function cleanInvisibleCharacters(text) {
 }
 
 /**
+ * Automatically restores missing integral symbols and limits lost during OMML parsing.
+ */
+export function repairIntegralFormulas(text) {
+  if (!text || typeof text !== 'string') return text;
+
+  let s = text;
+
+  // 1. Double integrals with limits pattern: e.g. $01dx1 {x}^{2} dy$ or $01dx0xdy$ or $28dy0ydx$
+  s = s.replace(/\$([0-9a-zA-Z\-]+?)\s*([0-9a-zA-Z\-]+?)\s*d([xy])\s*([0-9a-zA-Z\-]+?)\s*([0-9a-zA-Z\-\{\}\^\s]+?)\s*d([xy])\$/g, (match, l1, u1, v1, l2, u2, v2) => {
+    if (match.includes('\\int')) return match;
+    const cleanU2 = u2.trim();
+    return `$\\int_{${l1}}^{${u1}} d${v1} \\int_{${l2}}^{${cleanU2}} d${v2}$`;
+  });
+
+  // 2. Indefinite integrals: e.g. "Aniqmas integralni toping. ${8}^{3x} dx$ ;"
+  if (/aniqmas\s+integral/i.test(s)) {
+    s = s.replace(/\$([^\$]+?)\$/g, (match, inner) => {
+      if (inner.includes('\\int') || inner.includes('∫')) return match;
+      const trimmed = inner.trim();
+      if (/d[xytz](\s*|\s*[\;\.\,])$/.test(trimmed) || /^\\frac\{d[xytz]\}/.test(trimmed) || /d[xytz]/.test(trimmed)) {
+        return `$\\int ${trimmed}$`;
+      }
+      return match;
+    });
+  }
+
+  // 3. Definite integrals: e.g. "Integralni hisoblang. $0 \frac{3π}{4} \frac{1}{{cos}^{2} x} dx$ ;"
+  if (/integralni\s+(hisoblang|toping)/i.test(s) && !/ikki\s+karrali/i.test(s)) {
+    s = s.replace(/\$(0|[0-9a-zA-Z\-]+|\\frac\{[^\}]+\}\{[^\}]+\}|[π])\s+([0-9a-zA-Z\-]+|\\frac\{[^\}]+\}\{[^\}]+\}|[π])\s+([^\$]*?d[xy][^\$]*?)\$/g, (match, l, u, expr) => {
+      if (match.includes('\\int')) return match;
+      return `$\\int_{${l.trim()}}^{${u.trim()}} ${expr.trim()}$`;
+    });
+
+    s = s.replace(/\$([0-9])([0-9])\s*([0-9a-zA-Z\\].*?d[xy][^\$]*?)\$/g, (match, l, u, expr) => {
+      if (match.includes('\\int')) return match;
+      return `$\\int_{${l}}^{${u}} ${expr.trim()}$`;
+    });
+  }
+
+  return s;
+}
+
+/**
  * Universal sanitization for a single question text.
  */
 export function sanitizeQuestionText(text) {
@@ -142,6 +185,7 @@ export function sanitizeQuestionText(text) {
   res = cleanPunctuationAndArtifacts(res, false);
   res = normalizeMathSlashes(res);
   res = cleanInvisibleCharacters(res);
+  res = repairIntegralFormulas(res);
 
   return res.trim();
 }
@@ -153,28 +197,46 @@ export function sanitizeQuestionText(text) {
 export function sanitizeOptionsList(options) {
   if (!Array.isArray(options)) return [];
 
-  // 1. Sanitize individual option texts
+  // 1. Sanitize individual option texts, keeping track of structured wrappers
   const cleaned = options.map((opt) => {
-    let s = String(opt || '');
+    const isObject = opt && typeof opt === 'object';
+    const rawText = isObject ? String(opt.text || '') : String(opt || '');
+
+    let s = rawText;
     s = stripImageTags(s);
     s = decodeHtmlEntities(s);
     s = cleanPunctuationAndArtifacts(s, true);
     s = normalizeMathSlashes(s);
     s = cleanInvisibleCharacters(s);
-    return s.trim();
+
+    const cleanedText = s.trim();
+
+    if (isObject) {
+      return {
+        ...opt,
+        text: cleanedText,
+      };
+    }
+    return cleanedText;
   });
 
+  // Extract texts to check for prefixes
+  const optionTexts = cleaned.map((o) => (typeof o === 'object' ? o.text : o));
+
   // 2. Check if options have letter prefixes: "A) ", "B) ", etc.
-  // Rule A: Parenthesis prefixes like "A)", "b)" are ALWAYS option letters (initials never use closing parenthesis!)
-  const allHaveParenPrefix = cleaned.every((o) => /^[a-zA-Zа-яА-ЯёЁ0-9]\)\s+/.test(o));
+  const allHaveParenPrefix = optionTexts.every((t) => /^[a-zA-Zа-яА-ЯёЁ0-9]\)\s+/.test(t));
   if (allHaveParenPrefix) {
-    return cleaned.map((o) => o.replace(/^[a-zA-Zа-яА-ЯёЁ0-9]\)\s+/, '').trim());
+    return cleaned.map((o) => {
+      if (typeof o === 'object') {
+        return { ...o, text: o.text.replace(/^[a-zA-Zа-яА-ЯёЁ0-9]\)\s+/, '').trim() };
+      }
+      return o.replace(/^[a-zA-Zа-яА-ЯёЁ0-9]\)\s+/, '').trim();
+    });
   }
 
   // Rule B: Dot prefixes like "A. ", "B. ", "C. ", "D. "
-  // Only strip if they follow sequential order A, B, C, D to avoid stripping initials like "М. Скобелев", "А. Кун"
   const dotPrefixPattern = /^([a-zA-Zа-яА-ЯёЁ])\.\s+/;
-  const matches = cleaned.map((o) => dotPrefixPattern.exec(o));
+  const matches = optionTexts.map((t) => dotPrefixPattern.exec(t));
   const allMatchDot = matches.every(Boolean);
 
   if (allMatchDot && cleaned.length >= 2) {
@@ -183,7 +245,12 @@ export function sanitizeOptionsList(options) {
     const isCyrillicSeq = (letters[0] === 'А' && letters[1] === 'Б') || (letters[0] === 'А' && letters[1] === 'В');
 
     if (isLatinSeq || isCyrillicSeq) {
-      return cleaned.map((o) => o.replace(dotPrefixPattern, '').trim());
+      return cleaned.map((o) => {
+        if (typeof o === 'object') {
+          return { ...o, text: o.text.replace(dotPrefixPattern, '').trim() };
+        }
+        return o.replace(dotPrefixPattern, '').trim();
+      });
     }
   }
 

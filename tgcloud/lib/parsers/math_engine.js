@@ -52,6 +52,40 @@ export function ommlToLatex(xml) {
     return reg;
   };
 
+  // 0. N-ary operators (integrals, summations, products): <m:nary>...
+  res = res.replace(/<m:nary[^>]*>([\s\S]*?)<\/m:nary>/gi, (_, body) => {
+    let op = '\\int';
+    const chrMatch = /<m:chr[^>]*m:val="([^"]*)"/i.exec(body);
+    if (chrMatch) {
+      const val = chrMatch[1];
+      if (val === '∑' || val === 'sum') op = '\\sum';
+      else if (val === '∏' || val === 'prod') op = '\\prod';
+      else if (val === '∬') op = '\\iint';
+      else if (val === '∭') op = '\\iiint';
+      else if (val === '∮') op = '\\oint';
+      else op = '\\int';
+    }
+
+    const subMatch = /<m:sub[^>]*>([\s\S]*?)<\/m:sub>/i.exec(body);
+    const supMatch = /<m:sup[^>]*>([\s\S]*?)<\/m:sup>/i.exec(body);
+    const eMatch = /<m:e[^>]*>([\s\S]*?)<\/m:e>/i.exec(body);
+
+    const sub = subMatch ? cleanOmmlText(subMatch[1]).trim() : '';
+    const sup = supMatch ? cleanOmmlText(supMatch[1]).trim() : '';
+    const e = eMatch ? cleanOmmlText(eMatch[1]).trim() : '';
+
+    let resOp = op;
+    if (sub && sup) {
+      resOp = `${op}_{${sub}}^{${sup}}`;
+    } else if (sub) {
+      resOp = `${op}_{${sub}}`;
+    } else if (sup) {
+      resOp = `${op}^{${sup}}`;
+    }
+
+    return e ? `${resOp} ${e}` : resOp;
+  });
+
   // 1. Fractions: <m:f>...<m:num>...</m:num>...<m:den>...</m:den>...</m:f> -> \frac{num}{den}
   res = res.replace(/<m:f[^>]*>[\s\S]*?<m:num[^>]*>([\s\S]*?)<\/m:num>[\s\S]*?<m:den[^>]*>([\s\S]*?)<\/m:den>[\s\S]*?<\/m:f>/gi, (_, num, den) => {
     return `\\frac{${cleanOmmlText(num)}}{${cleanOmmlText(den)}}`;

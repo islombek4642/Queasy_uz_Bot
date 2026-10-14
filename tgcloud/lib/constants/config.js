@@ -4,8 +4,8 @@
 export const CONFIG = {
   // Telegram Bot limits for native polls
   POLL: {
-    MIN_OPTIONS: 2,
-    MAX_OPTIONS: 10,
+    MIN_OPTIONS: 1,
+    MAX_OPTIONS: 12,
     MAX_QUESTION_LENGTH: 300,
     MAX_OPTION_LENGTH: 100,
     MAX_EXPLANATION_LENGTH: 200,
