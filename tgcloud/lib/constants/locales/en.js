@@ -49,6 +49,16 @@ export default {
   PARSER_ERROR_NO_QUESTIONS: 'No questions found in file or text. Please check the format.',
   FILE_PROCESSING: '⏳ Quiz file received, parsing...',
   FILE_PROCESS_ERROR: '⚠️ Unexpected error processing file: {error}',
+  VALIDATOR_ERR_NO_QUESTION_TEXT: 'Question text not found in question #{index}.',
+  VALIDATOR_ERR_MIN_OPTIONS: 'Question #{index} must have at least {min} options. Currently: {current}.',
+  VALIDATOR_ERR_MAX_OPTIONS: 'Number of options in question #{index} must not exceed {max}.',
+  VALIDATOR_ERR_INVALID_CORRECT: 'Correct answer not specified or invalid in question #{index}. Question: "{snippet}..."',
+  VALIDATOR_ERR_MIN_QUIZ_QUESTIONS: 'Quiz must have at least {min} valid question.',
+  VALIDATOR_ERR_NO_VALID_QUESTIONS: 'No valid questions found in quiz.',
+  PARSER_ERR_FORMAT_NOT_MATCHED: 'Could not match question format. Check ABC, GIFT or Table format.',
+  DOCX_ERR_INVALID_FORMAT: 'Invalid Word (.docx) format: word/document.xml not found.',
+  POLL_FALLBACK_OPTION_1: 'Option 1',
+  POLL_FALLBACK_OPTION_2: 'Option 2',
 
   // Quiz Modes & Prompts
   PROMPT_SELECT_MODE: '📚 <b>Select Quiz Mode:</b>\n\n• <b>Full Quiz</b> — Solve all questions sequentially.\n• <b>Range Quiz</b> — Select a specific range of questions (e.g. 1-25).\n• <b>Random Quiz</b> — Solve a random sample of questions.',

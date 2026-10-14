@@ -10,6 +10,7 @@ import { extractLinesFromDocx } from './docx_reader.js';
 import { extractQuestionsFromXlsx } from './xlsx_reader.js';
 import { extractLinesFromPdf } from './pdf_reader.js';
 import { validateQuizQuestions } from './validator.js';
+import { getMessage } from '../constants/messages.js';
 
 export function detectFormatAndParse(lines) {
   if (!lines || lines.length === 0) return [];
@@ -50,7 +51,7 @@ export function detectFormatAndParse(lines) {
  *  - string (raw pasted text)
  *  - Buffer / Uint8Array (file bytes with fileName: .pdf, .docx, .xlsx, .txt)
  */
-export function parseQuizInput(input, fileName = 'test.txt') {
+export function parseQuizInput(input, fileName = 'test.txt', lang = 'UZ') {
   try {
     let rawQuestions = [];
     const lowerName = fileName.toLowerCase();
@@ -80,12 +81,12 @@ export function parseQuizInput(input, fileName = 'test.txt') {
       return {
         success: false,
         questions: [],
-        error: 'Fayl yoki matn ichidan mos formatdagi savollar topilmadi. ABC, GIFT yoki Jadval formatida ekanligini tekshiring.',
+        error: getMessage('PARSER_ERR_FORMAT_NOT_MATCHED', lang),
       };
     }
 
     // Run validator
-    const validation = validateQuizQuestions(rawQuestions);
+    const validation = validateQuizQuestions(rawQuestions, lang);
     if (!validation.isValid) {
       return {
         success: false,

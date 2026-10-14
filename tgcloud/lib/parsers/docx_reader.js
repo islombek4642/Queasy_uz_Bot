@@ -5,6 +5,7 @@
 import { extractFileFromZip } from '../utils/unzip.js';
 import { cleanRawTextLines } from './cleaner.js';
 import { ommlToLatex } from './math_engine.js';
+import { getMessage } from '../constants/messages.js';
 
 /**
  * Checks if run property XML contains highlight, shading, bold, or underline.
@@ -49,7 +50,7 @@ function isHighlightedOrEmphasized(rPrXml) {
 export function extractLinesFromDocx(docxBuffer) {
   const xml = extractFileFromZip(docxBuffer, 'word/document.xml');
   if (!xml) {
-    throw new Error('Noto\'g\'ri Word (.docx) fayl formati: word/document.xml topilmadi.');
+    throw new Error(getMessage('DOCX_ERR_INVALID_FORMAT'));
   }
 
   const lines = [];

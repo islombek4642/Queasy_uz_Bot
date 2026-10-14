@@ -49,6 +49,16 @@ export default {
   PARSER_ERROR_NO_QUESTIONS: 'Fayl yoki matn ichidan bitta ham savol topilmadi. Format to\'g\'riligini tekshiring.',
   FILE_PROCESSING: '⏳ Test fayli qabul qilindi, tahlil qilinmoqda...',
   FILE_PROCESS_ERROR: '⚠️ Faylni qayta ishlashda kutilmagan xatolik yuz berdi: {error}',
+  VALIDATOR_ERR_NO_QUESTION_TEXT: '{index}-savolda savol matni topilmadi.',
+  VALIDATOR_ERR_MIN_OPTIONS: '{index}-savolda kamida {min} ta variant bo\'lishi kerak. Hozirda: {current} ta.',
+  VALIDATOR_ERR_MAX_OPTIONS: '{index}-savolda variantlar soni {max} tadan oshmasligi kerak.',
+  VALIDATOR_ERR_INVALID_CORRECT: '{index}-savolda to\'g\'ri javob belgilanmagan yoki noto\'g\'ri belgilangan. Savol: "{snippet}..."',
+  VALIDATOR_ERR_MIN_QUIZ_QUESTIONS: 'Testda kamida {min} ta to\'g\'ri savol bo\'lishi kerak.',
+  VALIDATOR_ERR_NO_VALID_QUESTIONS: 'Testda birorta ham yaroqli savol topilmadi.',
+  PARSER_ERR_FORMAT_NOT_MATCHED: 'Fayl yoki matn ichidan mos formatdagi savollar topilmadi. ABC, GIFT yoki Jadval formatida ekanligini tekshiring.',
+  DOCX_ERR_INVALID_FORMAT: 'Noto\'g\'ri Word (.docx) fayl formati: word/document.xml topilmadi.',
+  POLL_FALLBACK_OPTION_1: 'Variant 1',
+  POLL_FALLBACK_OPTION_2: 'Variant 2',
 
   // Quiz Modes & Prompts
   PROMPT_SELECT_MODE: '📚 <b>Test rejimini tanlang:</b>\n\n• <b>To\'liq test</b> — Barcha savollarni ketma-ket yechish.\n• <b>Oraliq test</b> — Ma\'lum bir savollar oralig\'ini tanlash (masalan: 1-25).\n• <b>Tasodifiy test</b> — Savollar orasidan tasodifiy sonlisini tanlash.',

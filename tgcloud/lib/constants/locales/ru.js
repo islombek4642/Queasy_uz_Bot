@@ -49,6 +49,16 @@ export default {
   PARSER_ERROR_NO_QUESTIONS: 'В файле или тексте не найдено ни одного вопроса. Проверьте формат.',
   FILE_PROCESSING: '⏳ Файл теста получен, идет обработка...',
   FILE_PROCESS_ERROR: '⚠️ Ошибка при обработке файла: {error}',
+  VALIDATOR_ERR_NO_QUESTION_TEXT: 'В вопросе #{index} не найден текст вопроса.',
+  VALIDATOR_ERR_MIN_OPTIONS: 'В вопросе #{index} должно быть минимум {min} варианта. Сейчас: {current}.',
+  VALIDATOR_ERR_MAX_OPTIONS: 'В вопросе #{index} количество вариантов не должно превышать {max}.',
+  VALIDATOR_ERR_INVALID_CORRECT: 'В вопросе #{index} не указан или указан неверно правильный ответ. Вопрос: "{snippet}..."',
+  VALIDATOR_ERR_MIN_QUIZ_QUESTIONS: 'В тесте должен быть как минимум {min} корректный вопрос.',
+  VALIDATOR_ERR_NO_VALID_QUESTIONS: 'В тесте не найдено ни одного подходящего вопроса.',
+  PARSER_ERR_FORMAT_NOT_MATCHED: 'Не удалось распознать вопросы. Проверьте формат ABC, GIFT или таблицы.',
+  DOCX_ERR_INVALID_FORMAT: 'Неверный формат Word (.docx): word/document.xml не найден.',
+  POLL_FALLBACK_OPTION_1: 'Вариант 1',
+  POLL_FALLBACK_OPTION_2: 'Вариант 2',
 
   // Quiz Modes & Prompts
   PROMPT_SELECT_MODE: '📚 <b>Выберите режим тестирования:</b>\n\n• <b>Полный тест</b> — Все вопросы по очереди.\n• <b>Диапазон</b> — Выбрать определенный отрезок вопросов (например: 1-25).\n• <b>Случайный тест</b> — Выбрать случайное количество вопросов.',

@@ -253,10 +253,13 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
     .map((opt) => truncateOption(opt, CONFIG.POLL.MAX_OPTION_LENGTH))
     .filter(Boolean);
 
-  if (options.length < 2) {
-    options = ['Variant 1', 'Variant 2'];
-  } else if (options.length > 10) {
-    options = options.slice(0, 10);
+  if (options.length < CONFIG.POLL.MIN_OPTIONS) {
+    options = [
+      getMessage('POLL_FALLBACK_OPTION_1', session.lang || 'UZ'),
+      getMessage('POLL_FALLBACK_OPTION_2', session.lang || 'UZ'),
+    ];
+  } else if (options.length > CONFIG.POLL.MAX_OPTIONS) {
+    options = options.slice(0, CONFIG.POLL.MAX_OPTIONS);
   }
 
   const correctOptionId = Math.max(0, Math.min(q.correctOptionId ?? 0, options.length - 1));
