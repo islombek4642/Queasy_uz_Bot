@@ -22,4 +22,30 @@ assert.strictEqual(cleanedStructured[0].text, 'Formula A', 'Structured option te
 assert.deepStrictEqual(cleanedStructured[0].media, { type: 'photo', media: 'file_id_1' }, 'Structured option media preserved');
 console.log('✅ Structured InputPollOption sanitization passed');
 
+import { truncateOption } from '../tgcloud/lib/utils/poll_helpers.js';
+
+// 3. Test truncateOption with object
+const longOpt = { text: 'A'.repeat(120), media: { type: 'photo', media: 'file_id_x' } };
+const truncatedOpt = truncateOption(longOpt, 100);
+assert.strictEqual(truncatedOpt.text.length, 100, 'Option text should truncate to 100');
+assert.strictEqual(truncatedOpt.media.media, 'file_id_x', 'Media should be preserved');
+console.log('✅ truncateOption object truncation passed');
+
+// 4. Test modern poll payload building
+const modernPayload = {
+  chat_id: 12345,
+  question: 'Savol matni',
+  options: [
+    { text: 'Opt 1', media: { type: 'photo', media: 'file_1' } },
+    { text: 'Opt 2' },
+  ],
+  media: { type: 'photo', media: 'header_file_id' },
+  shuffle_options: true,
+  members_only: true,
+};
+assert.strictEqual(modernPayload.shuffle_options, true);
+assert.strictEqual(modernPayload.members_only, true);
+assert.strictEqual(modernPayload.media.media, 'header_file_id');
+console.log('✅ Modern poll payload validation passed');
+
 console.log('\n🎉 ALL POLL TESTS PASSED!');
