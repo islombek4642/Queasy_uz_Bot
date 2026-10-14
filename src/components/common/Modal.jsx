@@ -1,5 +1,6 @@
 // src/components/common/Modal.jsx
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Icon } from '@iconify/react';
 import { Button } from './Button.jsx';
 import { useTelegram } from '../../hooks/useTelegram.js';
@@ -18,7 +19,7 @@ export function Modal({
 }) {
   const { haptic, backButton } = useTelegram();
 
-  // Telegram BackButton integration
+  // Telegram BackButton integration & Body Scroll Lock
   useEffect(() => {
     if (!isOpen) return;
     const handleBack = () => {
@@ -27,19 +28,25 @@ export function Modal({
     };
 
     backButton.show(handleBack);
+
+    // Lock body scroll when modal is active to prevent background scrolling/empty gaps
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     return () => {
       backButton.hide(handleBack);
+      document.body.style.overflow = originalOverflow;
     };
   }, [isOpen, onClose, backButton, haptic]);
 
   if (!isOpen) return null;
 
-  return (
+  const modalNode = (
     <div
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 1000,
+        zIndex: 9999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -179,4 +186,6 @@ export function Modal({
       </div>
     </div>
   );
+
+  return createPortal(modalNode, document.body);
 }
