@@ -33,7 +33,7 @@ export function LanguageProvider({ children }) {
     } catch {}
   }, [lang]);
 
-  const t = (key, params = {}) => {
+  const t = React.useCallback((key, params = {}) => {
     const catalog = translations[lang] || translations.UZ;
     let text = catalog[key] || translations.UZ[key] || key;
 
@@ -44,10 +44,17 @@ export function LanguageProvider({ children }) {
     }
 
     return text;
-  };
+  }, [lang]);
+
+  const value = React.useMemo(() => ({
+    lang,
+    setLang,
+    t,
+    supportedLangs: APP_CONFIG.SUPPORTED_LANGS,
+  }), [lang, t]);
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t, supportedLangs: APP_CONFIG.SUPPORTED_LANGS }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );

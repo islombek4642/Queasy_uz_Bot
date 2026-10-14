@@ -1,39 +1,66 @@
-// src/hooks/useQuizTimer.js
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 export function useQuizTimer(initialTime = 30, onTimeout) {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
   const timerRef = useRef(null);
-
-  const reset = (newTime = initialTime) => {
-    clearInterval(timerRef.current);
-    setTimeLeft(newTime);
-    setIsRunning(true);
-  };
-
-  const pause = () => {
-    clearInterval(timerRef.current);
-    setIsRunning(false);
-  };
+  const onTimeoutRef = useRef(onTimeout);
 
   useEffect(() => {
-    if (!isRunning) return;
+    onTimeoutRef.current = onTimeout;
+  }, [onTimeout]);
+
+  const reset = useCallback((newTime) => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    const t = typeof newTime === 'number' ? newTime : initialTime;
+    setTimeLeft(t);
+    setIsRunning(true);
+  }, [initialTime]);
+
+  const pause = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    setIsRunning(false);
+  }, []);
+
+  useEffect(() => {
+    if (!isRunning) {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      return;
+    }
 
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          clearInterval(timerRef.current);
+          if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+          }
           setIsRunning(false);
-          if (onTimeout) onTimeout();
+          if (onTimeoutRef.current) {
+            onTimeoutRef.current();
+          }
           return 0;
         }
         return prev - 1;
       });
     }, 1000);
 
-    return () => clearInterval(timerRef.current);
-  }, [isRunning, onTimeout]);
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [isRunning]);
 
   return {
     timeLeft,

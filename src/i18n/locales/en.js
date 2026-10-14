@@ -42,6 +42,7 @@ export default {
   BTN_EXIT: 'Leave',
 
   // Result Screen
+  INACTIVITY_TIMEOUT_BANNER: 'Quiz stopped due to inactivity on 3 consecutive questions.',
   RESULT_EXCELLENT: 'Outstanding score! 🎉',
   RESULT_GOOD: 'Great job! 👏',
   RESULT_TRY_AGAIN: 'Keep trying! 💪',

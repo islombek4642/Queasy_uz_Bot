@@ -42,6 +42,7 @@ export default {
   BTN_EXIT: 'Выйти',
 
   // Result Screen
+  INACTIVITY_TIMEOUT_BANNER: 'Тест остановлен: не было ответов на 3 вопроса подряд.',
   RESULT_EXCELLENT: 'Отличный результат! 🎉',
   RESULT_GOOD: 'Хорошая работа! 👏',
   RESULT_TRY_AGAIN: 'Попробуйте еще раз! 💪',

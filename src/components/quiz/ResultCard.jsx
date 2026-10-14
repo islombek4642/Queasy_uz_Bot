@@ -17,6 +17,7 @@ export function ResultCard({
   tournamentShareCode = null,
   liveRoomResult = null,
   liveRoomCode = null,
+  inactivityStopped = false,
   onRetry,
   onBackHome,
 }) {
@@ -90,6 +91,27 @@ export function ResultCard({
             : 'var(--surface-card)',
         }}
       >
+        {inactivityStopped && (
+          <div
+            style={{
+              padding: '10px 14px',
+              borderRadius: '12px',
+              backgroundColor: 'rgba(239, 68, 68, 0.12)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              color: 'var(--color-error, #ef4444)',
+              fontSize: '0.85rem',
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              marginBottom: '16px',
+            }}
+          >
+            <Icon icon="solar:clock-circle-bold" width="18" height="18" />
+            <span>{t('INACTIVITY_TIMEOUT_BANNER')}</span>
+          </div>
+        )}
         <div
           style={{
             width: '64px',

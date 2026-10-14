@@ -42,6 +42,7 @@ export default {
   BTN_EXIT: 'Chiqish',
 
   // Result Screen
+  INACTIVITY_TIMEOUT_BANNER: 'Ketma-ket 3 ta savolga javob berilmagani sababli test to\'xtatildi.',
   RESULT_EXCELLENT: 'Ajoyib natija! 🎉',
   RESULT_GOOD: 'Yaxshi natija! 👏',
   RESULT_TRY_AGAIN: 'Yana harakat qilib ko\'ring! 💪',

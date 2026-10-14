@@ -38,6 +38,7 @@ export function ArenaView({
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const [inactivityStopped, setInactivityStopped] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const [tournamentResult, setTournamentResult] = useState(null);
   const [liveRoomResult, setLiveRoomResult] = useState(null);
@@ -46,6 +47,7 @@ export function ArenaView({
   const [totalTimeSpent, setTotalTimeSpent] = useState(0);
   const correctCountRef = useRef(0);
   const wrongCountRef = useRef(0);
+  const consecutiveMissesRef = useRef(0);
   const failedQuestionsRef = useRef([]);
   const resolvedMistakeIdsRef = useRef([]);
 
@@ -115,7 +117,7 @@ export function ArenaView({
     } finally {
       setLoading(false);
     }
-  }, [quizId, customQuestions, customTitle, mode, range, randomCount, t]);
+  }, [quizId, customQuestions, customTitle, mode, range, randomCount]);
 
   useEffect(() => {
     loadQuiz();
@@ -126,11 +128,11 @@ export function ArenaView({
   const timeLimit = quiz?.timeLimit || 30;
 
   // Next question step
-  const handleAdvance = useCallback(() => {
+  const handleAdvance = useCallback((autoStop = false) => {
     setIsRevealed(false);
     setSelectedOption(null);
 
-    if (currentIndex + 1 < questions.length) {
+    if (!autoStop && currentIndex + 1 < questions.length) {
       setCurrentIndex((prev) => prev + 1);
     } else {
       // Finished
@@ -192,6 +194,7 @@ export function ArenaView({
     setIsRevealed(true);
     wrongCountRef.current += 1;
     setWrongCount((prev) => prev + 1);
+    consecutiveMissesRef.current += 1;
 
     // If solving regular quiz and timed out, count as failed question
     if (!customQuestions && currentQ) {
@@ -204,25 +207,36 @@ export function ArenaView({
       });
     }
 
+    // Auto-stop quiz if user is inactive for 3 consecutive questions
+    if (consecutiveMissesRef.current >= 3) {
+      setInactivityStopped(true);
+      setTimeout(() => {
+        handleAdvance(true);
+      }, 1000);
+      return;
+    }
+
     setTimeout(() => {
-      handleAdvance();
+      handleAdvance(false);
     }, 1200);
   }, [isRevealed, isFinished, haptic, handleAdvance, customQuestions, currentQ, quizId]);
 
   // Timer hook
-  const { timeLeft, reset: resetTimer } = useQuizTimer(timeLimit, handleTimeout);
+  const { timeLeft, reset: resetTimer, pause: pauseTimer } = useQuizTimer(timeLimit, handleTimeout);
 
   // Reset timer on question change
   useEffect(() => {
     if (!loading && !isFinished) {
       resetTimer(timeLimit);
     }
-  }, [currentIndex, loading, isFinished, timeLimit]);
+  }, [currentIndex, loading, isFinished, timeLimit, resetTimer]);
 
   // Option selection handler
   const handleSelectOption = (optIndex) => {
     if (isRevealed) return;
 
+    consecutiveMissesRef.current = 0; // Reset inactive counter on any active answer
+    pauseTimer();
     setSelectedOption(optIndex);
     setIsRevealed(true);
 
@@ -253,7 +267,7 @@ export function ArenaView({
 
     // Delay to let user see correct/wrong feedback, then advance
     setTimeout(() => {
-      handleAdvance();
+      handleAdvance(false);
     }, 1200);
   };
 
@@ -293,10 +307,13 @@ export function ArenaView({
         tournamentShareCode={tournamentShareCode}
         liveRoomResult={liveRoomResult}
         liveRoomCode={liveRoomCode}
+        inactivityStopped={inactivityStopped}
         onRetry={() => {
           setCurrentIndex(0);
           setCorrectCount(0);
           setWrongCount(0);
+          consecutiveMissesRef.current = 0;
+          setInactivityStopped(false);
           setTournamentResult(null);
           setLiveRoomResult(null);
           failedQuestionsRef.current = [];
@@ -309,7 +326,6 @@ export function ArenaView({
         onBackHome={onExit}
       />
     );
-
   }
 
   return (
