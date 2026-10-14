@@ -13,7 +13,9 @@ function inflateRaw(input) {
 
   function getBits(n) {
     while (bitCount < n) {
-      if (inPos >= input.length) return 0;
+      if (inPos >= input.length) {
+        throw new Error('Unexpected end of compressed stream');
+      }
       bitBuf |= input[inPos++] << bitCount;
       bitCount += 8;
     }
@@ -26,6 +28,8 @@ function inflateRaw(input) {
   // Huffman tree decoder builder
   function buildTree(lengths) {
     const maxLen = Math.max(...lengths, 0);
+    if (maxLen === 0) return { tree: {}, maxLen: 0 };
+
     const blCount = new Uint16Array(maxLen + 1);
     for (let i = 0; i < lengths.length; i++) {
       if (lengths[i] > 0) blCount[lengths[i]]++;
@@ -55,6 +59,7 @@ function inflateRaw(input) {
   }
 
   function decodeSymbol(treeObj) {
+    if (!treeObj || treeObj.maxLen === 0) return -1;
     let code = 0;
     for (let len = 1; len <= treeObj.maxLen; len++) {
       code |= getBits(1) << (len - 1);
@@ -109,8 +114,10 @@ function inflateRaw(input) {
       // Uncompressed
       bitBuf = 0;
       bitCount = 0;
+      if (inPos + 4 > input.length) throw new Error('Unexpected end in uncompressed block header');
       const len = input[inPos++] | (input[inPos++] << 8);
       inPos += 2; // skip nlen
+      if (inPos + len > input.length) throw new Error('Unexpected end in uncompressed block data');
       for (let i = 0; i < len; i++) {
         output.push(input[inPos++]);
       }
@@ -135,18 +142,22 @@ function inflateRaw(input) {
         let idx = 0;
         while (idx < totalCodes) {
           const sym = decodeSymbol(clTree);
+          if (sym === -1) {
+            throw new Error('Invalid code length symbol in dynamic Huffman block');
+          }
           if (sym < 16) {
             codeLengths[idx++] = sym;
           } else if (sym === 16) {
+            if (idx === 0) throw new Error('Repeat symbol without previous code length');
             const rep = getBits(2) + 3;
             const prev = codeLengths[idx - 1];
-            for (let r = 0; r < rep; r++) codeLengths[idx++] = prev;
+            for (let r = 0; r < rep && idx < totalCodes; r++) codeLengths[idx++] = prev;
           } else if (sym === 17) {
             const rep = getBits(3) + 3;
-            for (let r = 0; r < rep; r++) codeLengths[idx++] = 0;
+            for (let r = 0; r < rep && idx < totalCodes; r++) codeLengths[idx++] = 0;
           } else if (sym === 18) {
             const rep = getBits(7) + 11;
-            for (let r = 0; r < rep; r++) codeLengths[idx++] = 0;
+            for (let r = 0; r < rep && idx < totalCodes; r++) codeLengths[idx++] = 0;
           }
         }
 
@@ -165,16 +176,30 @@ function inflateRaw(input) {
         } else {
           // Length & distance
           const lenCode = sym - 257;
+          if (lenCode < 0 || lenCode >= lengthBases.length) {
+            throw new Error('Invalid length code in inflate');
+          }
           const length = lengthBases[lenCode] + getBits(lengthExtraBits[lenCode]);
           const distCode = decodeSymbol(distTree);
+          if (distCode < 0 || distCode >= distBases.length) {
+            throw new Error('Invalid distance code in inflate');
+          }
           const distance = distBases[distCode] + getBits(distExtraBits[distCode]);
 
           const start = output.length - distance;
+          if (start < 0) {
+            throw new Error('Invalid backward distance in inflate');
+          }
           for (let l = 0; l < length; l++) {
             output.push(output[start + l]);
           }
         }
+        if (output.length > 50 * 1024 * 1024) {
+          throw new Error('Decompressed output exceeds 50MB limit');
+        }
       }
+    } else {
+      throw new Error(`Reserved or unsupported block type: ${bType}`);
     }
   }
 

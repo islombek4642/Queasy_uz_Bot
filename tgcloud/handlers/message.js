@@ -667,7 +667,7 @@ export default async function (message, ctx) {
 
       try {
         const bytes = await api.getFileContent(doc.file_id);
-        const result = parseQuizInput(bytes, fileName);
+        const result = parseQuizInput(bytes, fileName, lang);
 
         if (progressMsg?.message_id) {
           try {

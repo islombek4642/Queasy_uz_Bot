@@ -8,9 +8,9 @@ export function parseLegacyFormat(lines) {
   let currentCorrect = -1;
 
   function commit() {
-    if (currentQuestion && currentOptions.length >= 2 && currentCorrect !== -1) {
+    if (currentQuestion && currentQuestion.trim() && currentOptions.length >= 2) {
       questions.push({
-        questionText: currentQuestion,
+        questionText: currentQuestion.trim(),
         options: currentOptions,
         correctOptionId: currentCorrect,
       });
@@ -24,22 +24,38 @@ export function parseLegacyFormat(lines) {
     const trimmed = line.trim();
     if (!trimmed) continue;
 
-    if (trimmed.startsWith('?')) {
-      commit();
-      currentQuestion = trimmed.slice(1).trim();
+    if (/^\?+/.test(trimmed)) {
+      const qText = trimmed.replace(/^\?+/, '').trim();
+      if (currentOptions.length > 0) {
+        commit();
+        currentQuestion = qText;
+      } else if (qText.length > 0) {
+        if (currentQuestion === null) {
+          currentQuestion = qText;
+        } else {
+          if (!currentQuestion) currentQuestion = qText;
+          else currentQuestion += ` ${qText}`;
+        }
+      } else {
+        if (currentQuestion === null) {
+          currentQuestion = '';
+        } else {
+          if (!currentQuestion.endsWith('?')) currentQuestion += '?';
+        }
+      }
     } else if (trimmed.startsWith('+')) {
-      if (currentQuestion) {
+      if (currentQuestion !== null) {
         currentOptions.push(trimmed.slice(1).trim());
         currentCorrect = currentOptions.length - 1;
       }
     } else if (trimmed.startsWith('=')) {
-      if (currentQuestion) {
+      if (currentQuestion !== null) {
         currentOptions.push(trimmed.slice(1).trim());
       }
     } else if (currentOptions.length > 0) {
       currentOptions[currentOptions.length - 1] += ` ${trimmed}`;
-    } else if (currentQuestion) {
-      currentQuestion += ` ${trimmed}`;
+    } else if (currentQuestion !== null) {
+      currentQuestion += (currentQuestion ? ' ' : '') + trimmed;
     }
   }
 

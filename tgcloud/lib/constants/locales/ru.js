@@ -55,6 +55,7 @@ export default {
   VALIDATOR_ERR_INVALID_CORRECT: 'В вопросе #{index} не указан или указан неверно правильный ответ. Вопрос: "{snippet}..."',
   VALIDATOR_ERR_MIN_QUIZ_QUESTIONS: 'В тесте должен быть как минимум {min} корректный вопрос.',
   VALIDATOR_ERR_NO_VALID_QUESTIONS: 'В тесте не найдено ни одного подходящего вопроса.',
+  PARSER_ERR_NO_CORRECT_ANSWERS: 'В файле найдено <b>{count} вопросов</b>, но тест не создан, так как в них не указан правильный ответ.\n\n💡 <i>Пожалуйста, отметьте правильный ответ для каждого вопроса (например, поставьте знак <b>+</b> или <b>*</b> перед правильным вариантом, либо укажите ключи ответов в конце файла).</i>',
   PARSER_ERR_FORMAT_NOT_MATCHED: 'Не удалось распознать вопросы. Проверьте формат ABC, GIFT или таблицы.',
   DOCX_ERR_INVALID_FORMAT: 'Неверный формат Word (.docx): word/document.xml не найден.',
   POLL_FALLBACK_OPTION_1: 'Вариант 1',

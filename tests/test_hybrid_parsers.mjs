@@ -153,8 +153,29 @@ B) Variant 2
   `;
   const res = parseQuizInput(invalidText);
   assert.strictEqual(res.success, false);
-  assert(res.error.includes("yaroqli savol topilmadi") || res.error.includes("to'g'ri javob belgilanmagan"));
+  assert(res.error.includes("to'g'ri javob belgilanmagan"));
   console.log('✅ Validator: Successfully caught missing correct answer');
+}
+
+// 10. Legacy format with questions but no correct answer (all = options)
+{
+  const legacyNoAnswerText = `
+?Historic buildings are___________.
+= very old and important buildings
+=very tall buildings
+=places where there are a lot of rich people
+=a place which is very good for something
+
+?Wealthy areas are______________.
+=wide street with trees planted along the sides
+= places where there are a lot of rich people
+= a place which is very good for something
+  `;
+  const res = parseQuizInput(legacyNoAnswerText, 'exam.txt', 'UZ');
+  assert.strictEqual(res.success, false);
+  assert.strictEqual(res.questions.length, 0);
+  assert(res.error.includes('2 ta savol') && res.error.includes("to'g'ri javob belgilanmagan"));
+  console.log('✅ Validator: Successfully caught answerless legacy questions and reported count');
 }
 
 console.log('\n🎉 ALL HYBRID PARSER TESTS PASSED PERFECTLY!\n');

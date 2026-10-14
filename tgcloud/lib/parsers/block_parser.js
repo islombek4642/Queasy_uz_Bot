@@ -28,7 +28,7 @@ export function parseBlockFormat(lines) {
       options.push(optText);
     }
 
-    if (options.length >= 2 && correctId !== -1) {
+    if (options.length >= 2) {
       questions.push({
         questionText,
         options,

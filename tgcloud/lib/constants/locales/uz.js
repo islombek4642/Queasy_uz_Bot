@@ -55,6 +55,7 @@ export default {
   VALIDATOR_ERR_INVALID_CORRECT: '{index}-savolda to\'g\'ri javob belgilanmagan yoki noto\'g\'ri belgilangan. Savol: "{snippet}..."',
   VALIDATOR_ERR_MIN_QUIZ_QUESTIONS: 'Testda kamida {min} ta to\'g\'ri savol bo\'lishi kerak.',
   VALIDATOR_ERR_NO_VALID_QUESTIONS: 'Testda birorta ham yaroqli savol topilmadi.',
+  PARSER_ERR_NO_CORRECT_ANSWERS: 'Faylda <b>{count} ta savol</b> topildi, lekin to\'g\'ri javob belgilanmaganligi sababli test yaratilmadi.\n\n💡 <i>Har bir savolning to\'g\'ri javobini belgilang (masalan, to\'g\'ri javob varianti oldiga <b>+</b> yoki <b>*</b> qo\'ying, yoxud fayl oxiriga javoblar kalitini qo\'shing).</i>',
   PARSER_ERR_FORMAT_NOT_MATCHED: 'Fayl yoki matn ichidan mos formatdagi savollar topilmadi. ABC, GIFT yoki Jadval formatida ekanligini tekshiring.',
   DOCX_ERR_INVALID_FORMAT: 'Noto\'g\'ri Word (.docx) fayl formati: word/document.xml topilmadi.',
   POLL_FALLBACK_OPTION_1: 'Variant 1',

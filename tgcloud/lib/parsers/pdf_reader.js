@@ -169,7 +169,7 @@ export function extractLinesFromPdf(pdfBuffer, lang = 'UZ') {
     }
 
     const streamSlice = rawBytes.subarray(streamStart, streamEnd);
-    searchPos = streamEnd + ENDSTREAM_KW.length;
+    searchPos = Math.max(streamEnd + ENDSTREAM_KW.length, streamStart + 1);
 
     let decompressedStr = '';
     if (isFlate) {

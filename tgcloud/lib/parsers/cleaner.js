@@ -145,7 +145,7 @@ export function cleanRawTextLines(text) {
   const rawLines = preprocessed
     .split(/\r?\n/)
     .map((l) => normalizeUzbekApostrophes(l))
-    .filter((l) => l.length > 0);
+    .filter((l) => l.length > 0 && !/[\x00-\x08\x0B\x0C\x0E-\x1F]/.test(l));
 
   const withoutHeaders = stripExamHeadersAndPageNumbers(rawLines);
   return fixBrokenLineJoins(withoutHeaders);

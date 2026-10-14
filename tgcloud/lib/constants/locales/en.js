@@ -55,6 +55,7 @@ export default {
   VALIDATOR_ERR_INVALID_CORRECT: 'Correct answer not specified or invalid in question #{index}. Question: "{snippet}..."',
   VALIDATOR_ERR_MIN_QUIZ_QUESTIONS: 'Quiz must have at least {min} valid question.',
   VALIDATOR_ERR_NO_VALID_QUESTIONS: 'No valid questions found in quiz.',
+  PARSER_ERR_NO_CORRECT_ANSWERS: 'Found <b>{count} questions</b> in the file, but no quiz was created because no correct answers were marked.\n\n💡 <i>Please mark the correct answer for each question (e.g., place a <b>+</b> or <b>*</b> before the correct option, or add an answer key at the end).</i>',
   PARSER_ERR_FORMAT_NOT_MATCHED: 'Could not match question format. Check ABC, GIFT or Table format.',
   DOCX_ERR_INVALID_FORMAT: 'Invalid Word (.docx) format: word/document.xml not found.',
   POLL_FALLBACK_OPTION_1: 'Option 1',

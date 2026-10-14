@@ -88,6 +88,15 @@ export function validateQuizQuestions(questions, lang = 'UZ') {
     };
   }
 
+  const candidateQuestions = questions.filter(
+    (q) =>
+      q &&
+      typeof q.questionText === 'string' &&
+      q.questionText.trim().length > 0 &&
+      Array.isArray(q.options) &&
+      q.options.length >= MIN_OPTIONS
+  );
+
   const validQuestions = [];
   for (let i = 0; i < questions.length; i++) {
     const res = validateQuestion(questions[i], i + 1, lang);
@@ -95,6 +104,21 @@ export function validateQuizQuestions(questions, lang = 'UZ') {
       res.sanitized.orderIndex = validQuestions.length;
       validQuestions.push(res.sanitized);
     }
+  }
+
+  const totalFound = candidateQuestions.length || questions.length;
+  const isAnswerlessBank =
+    validQuestions.length === 0 ||
+    (totalFound >= 10 && validQuestions.length / totalFound < 0.25);
+
+  if (isAnswerlessBank && totalFound > 0) {
+    return {
+      isValid: false,
+      error: getMessage('PARSER_ERR_NO_CORRECT_ANSWERS', lang, { count: totalFound }),
+      questions: [],
+      foundCount: totalFound,
+      noCorrectAnswers: true,
+    };
   }
 
   if (validQuestions.length === 0) {
@@ -109,6 +133,7 @@ export function validateQuizQuestions(questions, lang = 'UZ') {
     isValid: true,
     error: null,
     questions: validQuestions,
+    foundCount: totalFound,
   };
 }
 
