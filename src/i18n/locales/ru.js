@@ -239,6 +239,12 @@ export default {
   SHARE_MODAL_SUBTITLE: 'Турнир «{title}» создан! Отправьте участникам группы:',
   BTN_TELEGRAM_SHARE_GROUP: 'Отправить в Telegram группу',
   BTN_VIEW_TOURNAMENT_RANKS: 'Посмотреть лидеров турнира',
+  DEFAULT_QUIZ_FALLBACK: 'Викторина',
+  TOURNAMENT_INVITE_TEXT: '🎯 Началась групповая викторина "{title}"!\nВопросов: {count}.\nНажмите кнопку ниже, чтобы занять 1-е место в рейтинге группы:',
+  LIVE_ROOM_INVITE_TEXT: '⚡ Открыта онлайн комната "{title}"!\n🔑 PIN-код: {pin}\n🎮 Ссылка для подключения:',
+  GROUP_HOST_STEP_1_HINT: '— добавьте бота в группу и решайте вопросы прямо в Telegram.',
+  GROUP_HOST_STEP_2_HINT: '— откройте асинхронный турнир и сформируйте общий рейтинг группы.',
+  GROUP_HOST_STEP_3_HINT: '— откройте комнату реального времени и соревнуйтесь синхронно!',
 };
 
 

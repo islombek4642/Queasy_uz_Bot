@@ -202,4 +202,24 @@ export default {
   ERR_MEDIA_CHANNEL_NOT_ADMIN: '⚠️ Bot ko\'rsatilgan kanalda administrator emas yoki xabar yozish huquqiga ega emas! Iltimos, botni kanalga admin qilib tayinlang.',
   STATUS_NOT_CONNECTED: 'Ulanmagan',
   STATUS_CONNECTED: 'Ulangan: {title} ({id})',
+
+  // Lobby and Session
+  GROUP_LOBBY_STARTED: '📝 <b>{title}</b>\n\n👥 Qatnashchilar: <b>{count} nafar</b> tayyor!\n\n🚀 <b>Test boshlandi!</b>',
+
+  // Parser & Reader Messages
+  XLSX_ERR_SHEET_NOT_FOUND: 'Excel jadvalida ma\'lumotlar topilmadi (sheet1.xml yo\'q).',
+  PDF_ERR_EMPTY: 'PDF fayli bo\'sh.',
+  PDF_ERR_INVALID_HEADER: 'Noto\'g\'ri PDF formati: %PDF- sarlavhasi topilmadi.',
+  PDF_ERR_NO_TEXT: 'PDF_NO_TEXT: Ushbu PDF fayldan matn ajratib bo\'lmadi. Fayl faqat rasm yoki skanerlangan bo\'lishi mumkin. Iltimos, matnli PDF yoki Word (.docx) yuklang.',
+  PARSER_ERR_PROCESS_FAILED: 'Testni o\'qishda xatolik: {error}',
+
+  // Default entity names
+  DEFAULT_QUIZ_TITLE: 'Test',
+  DEFAULT_GROUP_TITLE: 'Guruh',
+  DEFAULT_ACTIVE_QUIZ: 'Faol Viktorina',
+  DEFAULT_LIVE_QUIZ: 'Jonli Viktorina',
+  DEFAULT_UNNAMED_QUIZ: 'Nomsiz test',
+  DEFAULT_OTHER_CATEGORY: 'Boshqa',
+  ROLE_HOST: 'Boshlovchi',
+  ROLE_PLAYER: 'O\'yinchi',
 };

@@ -2,26 +2,30 @@
 import { db } from 'sdk';
 import { eq, and } from 'sdk/db';
 import { quizzes, questions } from '../schema.js';
+import { CONFIG } from '../lib/constants/config.js';
+import { ERRORS } from '../lib/constants/errors.js';
+
+const FALLBACK_OPTIONS = ['Option A', 'Option B'];
 
 export default async function (input, ctx) {
   const currentUserId = ctx?.initData?.user?.id;
   if (!currentUserId) {
-    return { success: false, error: 'Avtorizatsiya talab qilinadi' };
+    return { success: false, error: ERRORS.UNAUTHORIZED };
   }
 
   const { quizId, title, description, timeLimit, questions: questionsList } = input || {};
   const qId = Number(quizId);
 
   if (!qId) {
-    return { success: false, error: 'Quiz ID ko\'rsatilmadi' };
+    return { success: false, error: ERRORS.MISSING_QUIZ_ID };
   }
 
   if (!title || typeof title !== 'string' || !title.trim()) {
-    return { success: false, error: 'Sarlavha kiritilishi shart' };
+    return { success: false, error: ERRORS.TITLE_REQUIRED };
   }
 
   if (!Array.isArray(questionsList) || questionsList.length === 0) {
-    return { success: false, error: 'Kamida 1 ta savol bo\'lishi shart' };
+    return { success: false, error: ERRORS.QUESTIONS_REQUIRED };
   }
 
   // 1. Verify ownership
@@ -32,7 +36,7 @@ export default async function (input, ctx) {
     .get();
 
   if (!targetQuiz) {
-    return { success: false, error: 'Test topilmadi yoki sizga tegishli emas' };
+    return { success: false, error: ERRORS.QUIZ_NOT_FOUND_OR_FORBIDDEN };
   }
 
   // 2. Update quiz metadata
@@ -41,7 +45,7 @@ export default async function (input, ctx) {
     .set({
       title: title.trim(),
       description: description?.trim() || '',
-      timeLimit: Number(timeLimit) || 30,
+      timeLimit: Number(timeLimit) || CONFIG.POLL.DEFAULT_TIME_LIMIT,
     })
     .where(eq(quizzes.id, qId))
     .run();
@@ -54,10 +58,10 @@ export default async function (input, ctx) {
 
   for (let i = 0; i < questionsList.length; i++) {
     const q = questionsList[i];
-    const text = q.questionText?.trim() || `Savol #${i + 1}`;
-    const opts = Array.isArray(q.options) && q.options.length >= 2
+    const text = q.questionText?.trim() || `Question #${i + 1}`;
+    const opts = Array.isArray(q.options) && q.options.length >= CONFIG.POLL.MIN_OPTIONS
       ? q.options.map((o) => (typeof o === 'string' ? o.trim() : String(o)))
-      : ['Variant A', 'Variant B'];
+      : FALLBACK_OPTIONS;
 
     const correctId = Number(q.correctOptionId) >= 0 && Number(q.correctOptionId) < opts.length
       ? Number(q.correctOptionId)

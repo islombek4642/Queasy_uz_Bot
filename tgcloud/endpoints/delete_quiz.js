@@ -2,16 +2,17 @@
 import { db } from 'sdk';
 import { eq, and } from 'sdk/db';
 import { quizzes, questions } from '../schema.js';
+import { ERRORS } from '../lib/constants/errors.js';
 
 export default async function (input, ctx) {
   const currentUserId = ctx?.initData?.user?.id;
   if (!currentUserId) {
-    return { success: false, error: 'Avtorizatsiya talab qilinadi' };
+    return { success: false, error: ERRORS.UNAUTHORIZED };
   }
 
   const quizId = Number(input?.quizId);
   if (!quizId) {
-    return { success: false, error: 'Quiz ID ko\'rsatilmadi' };
+    return { success: false, error: ERRORS.MISSING_QUIZ_ID };
   }
 
   // 1. Verify ownership
@@ -22,7 +23,7 @@ export default async function (input, ctx) {
     .get();
 
   if (!targetQuiz) {
-    return { success: false, error: 'Test topilmadi yoki sizga tegishli emas' };
+    return { success: false, error: ERRORS.QUIZ_NOT_FOUND_OR_FORBIDDEN };
   }
 
   // 2. Delete questions

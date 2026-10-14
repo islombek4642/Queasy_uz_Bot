@@ -202,4 +202,24 @@ export default {
   ERR_MEDIA_CHANNEL_NOT_ADMIN: '⚠️ Bot is not an administrator in this channel or lacks permission to post messages!',
   STATUS_NOT_CONNECTED: 'Not connected',
   STATUS_CONNECTED: 'Connected: {title} ({id})',
+
+  // Lobby and Session
+  GROUP_LOBBY_STARTED: '📝 <b>{title}</b>\n\n👥 Participants: <b>{count} ready!</b>\n\n🚀 <b>Quiz started!</b>',
+
+  // Parser & Reader Messages
+  XLSX_ERR_SHEET_NOT_FOUND: 'No data found in Excel sheet (sheet1.xml missing).',
+  PDF_ERR_EMPTY: 'PDF file is empty.',
+  PDF_ERR_INVALID_HEADER: 'Invalid PDF format: %PDF- header not found.',
+  PDF_ERR_NO_TEXT: 'PDF_NO_TEXT: Could not extract text from this PDF. It might be scanned or image-only. Please upload a text-based PDF or Word (.docx).',
+  PARSER_ERR_PROCESS_FAILED: 'Error reading quiz: {error}',
+
+  // Default entity names
+  DEFAULT_QUIZ_TITLE: 'Quiz',
+  DEFAULT_GROUP_TITLE: 'Group',
+  DEFAULT_ACTIVE_QUIZ: 'Active Quiz',
+  DEFAULT_LIVE_QUIZ: 'Live Quiz',
+  DEFAULT_UNNAMED_QUIZ: 'Untitled Quiz',
+  DEFAULT_OTHER_CATEGORY: 'Other',
+  ROLE_HOST: 'Host',
+  ROLE_PLAYER: 'Player',
 };

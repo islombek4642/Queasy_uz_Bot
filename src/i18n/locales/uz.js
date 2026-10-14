@@ -239,6 +239,12 @@ export default {
   SHARE_MODAL_SUBTITLE: '«{title}» guruh turniri yaratildi! Guruhdoshlaringizga yuboring:',
   BTN_TELEGRAM_SHARE_GROUP: 'Telegram Guruhga Yuborish',
   BTN_VIEW_TOURNAMENT_RANKS: 'Turnir Peshqadamlarini Ko\'rish',
+  DEFAULT_QUIZ_FALLBACK: 'Viktorina',
+  TOURNAMENT_INVITE_TEXT: '🎯 "{title}" guruh viktorinasi boshlandi!\nSavollar: {count} ta.\nGuruh reytingida 1-o\'rinni olish uchun quyidagi tugmani bosing:',
+  LIVE_ROOM_INVITE_TEXT: '⚡ "{title}" jonli xonasi ochildi!\n🔑 PIN kod: {pin}\n🎮 Qo\'shilish uchun havola:',
+  GROUP_HOST_STEP_1_HINT: 'orqali botni guruhga qo\'shib, savollarni to\'g\'ridan-to\'g\'ri Telegramda yeching.',
+  GROUP_HOST_STEP_2_HINT: 'orqali asinxron turnir ochib, guruh umumiy reytingini shakllantiring.',
+  GROUP_HOST_STEP_3_HINT: 'orqali Kahoot kabi real-time xona ochib, bir vaqtda test o\'ynang!',
 };
 
 

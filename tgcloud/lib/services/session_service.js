@@ -1086,14 +1086,14 @@ export async function handleLobbyStart(api, lobbyId, callerId) {
     .run();
 
   const quiz = await getQuizById(lobby.quizId);
-  const quizTitle = quiz ? quiz.title : 'Test';
+  const quizTitle = quiz ? quiz.title : getMessage('DEFAULT_QUIZ_TITLE', 'UZ');
 
   if (lobby.messageId) {
     try {
       await api.editMessageText({
         chat_id: lobby.chatId,
         message_id: lobby.messageId,
-        text: `📝 <b>${quizTitle}</b>\n\n👥 Qatnashchilar: <b>${readyUsers.length} nafar</b> tayyor!\n\n🚀 <b>Test boshlandi!</b>`,
+        text: getMessage('GROUP_LOBBY_STARTED', 'UZ', { title: quizTitle, count: readyUsers.length }),
         parse_mode: 'HTML',
       });
     } catch {}

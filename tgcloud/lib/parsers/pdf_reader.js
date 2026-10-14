@@ -4,6 +4,7 @@
 
 import { inflateZlib, inflateRaw } from '../utils/unzip.js';
 import { cleanRawTextLines } from './cleaner.js';
+import { getMessage } from '../constants/messages.js';
 
 const STREAM_KW = new Uint8Array([115, 116, 114, 101, 97, 109]); // 'stream'
 const ENDSTREAM_KW = new Uint8Array([101, 110, 100, 115, 116, 114, 101, 97, 109]); // 'endstream'
@@ -119,9 +120,9 @@ function extractTextFromStreamContent(streamStr) {
  * @returns {string[]} Cleaned text lines ready for question parsing.
  * @throws {Error} If file is not a valid PDF or contains no extractable text.
  */
-export function extractLinesFromPdf(pdfBuffer) {
+export function extractLinesFromPdf(pdfBuffer, lang = 'UZ') {
   if (!pdfBuffer || pdfBuffer.length === 0) {
-    throw new Error('PDF fayli bo\'sh.');
+    throw new Error(getMessage('PDF_ERR_EMPTY', lang));
   }
 
   const rawBytes = pdfBuffer instanceof Uint8Array ? pdfBuffer : new Uint8Array(pdfBuffer);
@@ -129,7 +130,7 @@ export function extractLinesFromPdf(pdfBuffer) {
   const headerCheck = latin1Decoder.decode(rawBytes.subarray(0, 50));
 
   if (!headerCheck.includes('%PDF-')) {
-    throw new Error('Noto\'g\'ri PDF formati: %PDF- sarlavhasi topilmadi.');
+    throw new Error(getMessage('PDF_ERR_INVALID_HEADER', lang));
   }
 
   const allLines = [];
@@ -200,9 +201,7 @@ export function extractLinesFromPdf(pdfBuffer) {
 
   const cleaned = cleanRawTextLines(allLines.join('\n'));
   if (cleaned.length === 0) {
-    throw new Error(
-      'PDF_NO_TEXT: Ushbu PDF fayldan matn ajratib bo\'lmadi. Fayl faqat rasm yoki skanerlangan bo\'lishi mumkin. Iltimos, matnli PDF yoki Word (.docx) yuklang.'
-    );
+    throw new Error(getMessage('PDF_ERR_NO_TEXT', lang));
   }
 
   return cleaned;

@@ -44,10 +44,10 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
 
   const handleShareToTelegram = () => {
     haptic.impact('medium');
-    const quizTitle = data?.quiz?.title || 'Viktorina';
+    const quizTitle = data?.quiz?.title || t('DEFAULT_QUIZ_FALLBACK');
     const qCount = data?.quiz?.questionCount || 0;
     const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=${shareCode}`;
-    const text = `🎯 "${quizTitle}" guruh viktorinasi boshlandi!\nSavollar: ${qCount} ta.\nGuruh reytingida 1-o'rinni olish uchun quyidagi tugmani bosing:`;
+    const text = t('TOURNAMENT_INVITE_TEXT', { title: quizTitle, count: qCount });
     const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(text)}`;
 
     if (window.Telegram?.WebApp?.openTelegramLink) {

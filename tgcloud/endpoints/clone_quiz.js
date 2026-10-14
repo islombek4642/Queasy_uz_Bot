@@ -3,17 +3,18 @@ import { db } from 'sdk';
 import { eq, and } from 'sdk/db';
 import { quizzes } from '../schema.js';
 import { cloneQuiz } from '../lib/services/quiz_service.js';
+import { ERRORS } from '../lib/constants/errors.js';
 
 export default async function (input, ctx) {
   try {
     const currentUserId = ctx?.initData?.user?.id;
     if (!currentUserId) {
-      return { success: false, error: 'Avtorizatsiya talab qilinadi' };
+      return { success: false, error: ERRORS.UNAUTHORIZED };
     }
 
     const quizId = Number(input?.quizId);
     if (!quizId) {
-      return { success: false, error: 'Quiz ID ko\'rsatilmadi' };
+      return { success: false, error: ERRORS.MISSING_QUIZ_ID };
     }
 
     // 1. Fetch original quiz
@@ -24,7 +25,7 @@ export default async function (input, ctx) {
       .get();
 
     if (!original) {
-      return { success: false, error: 'Test topilmadi' };
+      return { success: false, error: ERRORS.QUIZ_NOT_FOUND };
     }
 
     // 2. Check if user already owns this quiz or already cloned it with identical title
@@ -48,7 +49,7 @@ export default async function (input, ctx) {
     const cloned = await cloneQuiz(quizId, currentUserId, lang);
 
     if (!cloned) {
-      return { success: false, error: 'Testni saqlashda xatolik yuz berdi' };
+      return { success: false, error: ERRORS.CLONE_FAILED };
     }
 
     return {
@@ -60,7 +61,7 @@ export default async function (input, ctx) {
     console.error('[clone_quiz error]:', err);
     return {
       success: false,
-      error: `Server xatosi: ${err?.message || 'Noma\'lum xatolik'}`,
+      error: err?.message || ERRORS.SERVER_ERROR,
     };
   }
 }

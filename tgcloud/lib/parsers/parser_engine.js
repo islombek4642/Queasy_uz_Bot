@@ -57,12 +57,12 @@ export function parseQuizInput(input, fileName = 'test.txt', lang = 'UZ') {
     const lowerName = fileName.toLowerCase();
 
     if (lowerName.endsWith('.xlsx')) {
-      rawQuestions = extractQuestionsFromXlsx(input);
+      rawQuestions = extractQuestionsFromXlsx(input, lang);
     } else if (lowerName.endsWith('.docx')) {
       const lines = extractLinesFromDocx(input);
       rawQuestions = detectFormatAndParse(lines);
     } else if (lowerName.endsWith('.pdf')) {
-      const lines = extractLinesFromPdf(input);
+      const lines = extractLinesFromPdf(input, lang);
       rawQuestions = detectFormatAndParse(lines);
     } else {
       // Plain text or .txt
@@ -111,7 +111,7 @@ export function parseQuizInput(input, fileName = 'test.txt', lang = 'UZ') {
     return {
       success: false,
       questions: [],
-      error: `Testni o'qishda xatolik: ${err.message}`,
+      error: getMessage('PARSER_ERR_PROCESS_FAILED', lang, { error: err.message }),
     };
   }
 }

@@ -2,21 +2,25 @@
 import { db } from 'sdk';
 import { eq, desc } from 'sdk/db';
 import { quizzes, questions } from '../schema.js';
+import { CONFIG } from '../lib/constants/config.js';
+import { ERRORS } from '../lib/constants/errors.js';
+
+const FALLBACK_OPTIONS = ['Option A', 'Option B'];
 
 export default async function (input, ctx) {
   const currentUserId = ctx?.initData?.user?.id;
   if (!currentUserId) {
-    return { success: false, error: 'Unauthorized: User ID missing' };
+    return { success: false, error: ERRORS.UNAUTHORIZED };
   }
 
   const { title, description, timeLimit, shuffleOptions, questions: questionsList } = input || {};
 
   if (!title || typeof title !== 'string' || !title.trim()) {
-    return { success: false, error: 'Sarlavha kiritilishi shart' };
+    return { success: false, error: ERRORS.TITLE_REQUIRED };
   }
 
   if (!Array.isArray(questionsList) || questionsList.length === 0) {
-    return { success: false, error: 'Kamida 1 ta savol qo\'shilishi shart' };
+    return { success: false, error: ERRORS.QUESTIONS_REQUIRED };
   }
 
   const isShuffle = shuffleOptions !== undefined ? Boolean(shuffleOptions) : true;
@@ -28,7 +32,7 @@ export default async function (input, ctx) {
       ownerId: currentUserId,
       title: title.trim().slice(0, 200),
       description: description?.trim() || '',
-      timeLimit: Number(timeLimit) || 30,
+      timeLimit: Number(timeLimit) || CONFIG.POLL.DEFAULT_TIME_LIMIT,
       shuffleOptions: isShuffle,
     })
     .run();
@@ -48,10 +52,10 @@ export default async function (input, ctx) {
   // 2. Insert Questions
   for (let i = 0; i < questionsList.length; i++) {
     const q = questionsList[i];
-    const text = q.questionText?.trim() || `Savol #${i + 1}`;
-    const opts = Array.isArray(q.options) && q.options.length >= 2
+    const text = q.questionText?.trim() || `Question #${i + 1}`;
+    const opts = Array.isArray(q.options) && q.options.length >= CONFIG.POLL.MIN_OPTIONS
       ? q.options.map((o) => (typeof o === 'string' ? o.trim() : String(o)))
-      : ['Variant A', 'Variant B'];
+      : FALLBACK_OPTIONS;
 
     const correctId = Number(q.correctOptionId) >= 0 && Number(q.correctOptionId) < opts.length
       ? Number(q.correctOptionId)

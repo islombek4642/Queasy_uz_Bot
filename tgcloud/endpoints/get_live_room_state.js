@@ -2,16 +2,20 @@
 import { db } from 'sdk';
 import { eq, desc, and } from 'sdk/db';
 import { liveRooms, roomPlayers, quizzes, questions } from '../schema.js';
+import { CONFIG } from '../lib/constants/config.js';
+import { ERRORS } from '../lib/constants/errors.js';
+import { getMessage } from '../lib/constants/messages.js';
 
 export default async function (input, ctx) {
   const tgUser = ctx?.initData?.user;
   const currentUserId = tgUser?.id || 0;
-  const rawName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ') || tgUser?.username || 'O\'yinchi';
+  const defaultPlayerName = getMessage('ROLE_PLAYER', 'UZ');
+  const rawName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ') || tgUser?.username || defaultPlayerName;
   const userName = rawName.slice(0, 50);
 
   const roomCode = String(input?.roomCode || '').trim();
   if (!roomCode) {
-    return { success: false, error: 'MISSING_ROOM_CODE' };
+    return { success: false, error: ERRORS.MISSING_ROOM_CODE };
   }
 
   // 1. Fetch room
@@ -30,7 +34,7 @@ export default async function (input, ctx) {
     .get();
 
   if (!room) {
-    return { success: false, error: 'ROOM_NOT_FOUND' };
+    return { success: false, error: ERRORS.ROOM_NOT_FOUND };
   }
 
   const isHost = currentUserId ? room.hostId === currentUserId : false;
@@ -101,8 +105,8 @@ export default async function (input, ctx) {
     },
     quiz: {
       id: quiz?.id || room.quizId,
-      title: quiz?.title || 'Jonli Viktorina',
-      timeLimit: quiz?.timeLimit || 20,
+      title: quiz?.title || getMessage('DEFAULT_LIVE_QUIZ', 'UZ'),
+      timeLimit: quiz?.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT,
       questionCount: Number(qCount || 0),
     },
     players: formattedPlayers,

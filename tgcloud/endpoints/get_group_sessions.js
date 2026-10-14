@@ -2,9 +2,13 @@
 import { db } from 'sdk';
 import { eq, desc, and } from 'sdk/db';
 import { quizSessions, quizzes, questions, groupAnswers, groups } from '../schema.js';
+import { CONFIG } from '../lib/constants/config.js';
+import { getMessage } from '../lib/constants/messages.js';
 
 export default async function (input, ctx) {
   const currentUserId = ctx?.initData?.user?.id || 0;
+  const defaultGroupTitle = getMessage('DEFAULT_GROUP_TITLE', 'UZ');
+  const defaultActiveQuiz = getMessage('DEFAULT_ACTIVE_QUIZ', 'UZ');
 
   // 1. Fetch active group sessions (strictly isGroup = true)
   const rawActiveSessions = await db
@@ -20,7 +24,7 @@ export default async function (input, ctx) {
     .from(quizSessions)
     .where(and(eq(quizSessions.isActive, true), eq(quizSessions.isGroup, true)))
     .orderBy(desc(quizSessions.id))
-    .limit(10)
+    .limit(CONFIG.PAGINATION.GROUPS)
     .all();
 
   // Parallelize session metadata lookups
@@ -37,11 +41,11 @@ export default async function (input, ctx) {
       return {
         sessionId: s.id,
         chatId: s.chatId,
-        chatTitle: groupRow?.title || `Guruh (#${Math.abs(s.chatId).toString().slice(-4)})`,
+        chatTitle: groupRow?.title || `${defaultGroupTitle} (#${Math.abs(s.chatId).toString().slice(-4)})`,
         quizId: s.quizId,
-        quizTitle: quizRow?.title || 'Faol Viktorina',
+        quizTitle: quizRow?.title || defaultActiveQuiz,
         currentIndex: s.currentIndex || 0,
-        totalQuestions: s.totalQuestions || 10,
+        totalQuestions: s.totalQuestions || CONFIG.PAGINATION.USERS,
         participantCount: uniqueParticipants,
         startedAt: s.startedAt,
       };
@@ -95,9 +99,9 @@ export default async function (input, ctx) {
         title: q.title,
         description: q.description || '',
         questionCount: Number(qCount || 0),
-        timeLimit: q.timeLimit || 30,
+        timeLimit: q.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT,
         isPublic: Boolean(q.isPublic),
-        shareLink: `https://t.me/Queasy_uz_Bot?startgroup=quiz_${q.id}`,
+        shareLink: `https://t.me/${CONFIG.BOT.USERNAME}?startgroup=quiz_${q.id}`,
       };
     })
   );

@@ -323,9 +323,9 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
           <span>{t('HOW_TO_PLAY_GROUP')}</span>
         </div>
         <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <div>🤖 1. <b>«{t('BTN_LAUNCH_BOT_POLL')}»</b> orqali botni guruhga qo'shib, savollarni to'g'ridan-to'g'ri Telegramda yeching.</div>
-          <div>🏆 2. <b>«{t('BTN_GROUP_TOURNAMENT')}»</b> orqali asinxron turnir ochib, guruh umumiy reytingini shakllantiring.</div>
-          <div>⚡ 3. <b>«{t('BTN_LIVE_ROOM')}»</b> orqali Kahoot kabi real-time xona ochib, bir vaqtda test o'ynang!</div>
+          <div>🤖 1. <b>«{t('BTN_LAUNCH_BOT_POLL')}»</b> {t('GROUP_HOST_STEP_1_HINT')}</div>
+          <div>🏆 2. <b>«{t('BTN_GROUP_TOURNAMENT')}»</b> {t('GROUP_HOST_STEP_2_HINT')}</div>
+          <div>⚡ 3. <b>«{t('BTN_LIVE_ROOM')}»</b> {t('GROUP_HOST_STEP_3_HINT')}</div>
         </div>
       </Card>
 

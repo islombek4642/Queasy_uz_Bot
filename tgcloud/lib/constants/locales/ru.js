@@ -202,4 +202,24 @@ export default {
   ERR_MEDIA_CHANNEL_NOT_ADMIN: '⚠️ Бот не является администратором в указанном канале или не имеет права отправки сообщений!',
   STATUS_NOT_CONNECTED: 'Не подключен',
   STATUS_CONNECTED: 'Подключен: {title} ({id})',
+
+  // Lobby and Session
+  GROUP_LOBBY_STARTED: '📝 <b>{title}</b>\n\n👥 Участники: <b>{count} чел.</b> готовы!\n\n🚀 <b>Тест начался!</b>',
+
+  // Parser & Reader Messages
+  XLSX_ERR_SHEET_NOT_FOUND: 'В таблице Excel данные не найдены (sheet1.xml отсутствует).',
+  PDF_ERR_EMPTY: 'PDF файл пустой.',
+  PDF_ERR_INVALID_HEADER: 'Неверный формат PDF: заголовок %PDF- не найден.',
+  PDF_ERR_NO_TEXT: 'PDF_NO_TEXT: Не удалось извлечь текст из PDF файла. Возможно, файл отсканирован или состоит из изображений. Пожалуйста, загрузите текстовый PDF или Word (.docx).',
+  PARSER_ERR_PROCESS_FAILED: 'Ошибка чтения теста: {error}',
+
+  // Default entity names
+  DEFAULT_QUIZ_TITLE: 'Тест',
+  DEFAULT_GROUP_TITLE: 'Группа',
+  DEFAULT_ACTIVE_QUIZ: 'Активная Викторина',
+  DEFAULT_LIVE_QUIZ: 'Онлайн Викторина',
+  DEFAULT_UNNAMED_QUIZ: 'Безымянный тест',
+  DEFAULT_OTHER_CATEGORY: 'Другое',
+  ROLE_HOST: 'Ведущий',
+  ROLE_PLAYER: 'Игрок',
 };

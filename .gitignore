@@ -20,3 +20,6 @@ yarn-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+# Script temp state
+scripts/.sanitize_*.json
