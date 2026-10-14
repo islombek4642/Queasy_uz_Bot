@@ -343,7 +343,6 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
           explanation_media: explanationMedia,
           media: pollMedia,
           shuffle_options: shuffleOptions,
-          members_only: isGroup ? true : undefined,
           open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
           reply_markup: nextBtnMarkup,
         });
@@ -397,7 +396,6 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
           explanation,
           explanation_parse_mode: explanation ? 'HTML' : undefined,
           shuffle_options: shuffleOptions,
-          members_only: isGroup ? true : undefined,
           open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
           reply_markup: nextBtnMarkup,
         });
@@ -413,7 +411,6 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
           correct_option_id: correctOptionId,
           explanation,
           shuffle_options: shuffleOptions,
-          members_only: isGroup ? true : undefined,
           open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
           reply_markup: nextBtnMarkup,
         });
