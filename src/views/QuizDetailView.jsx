@@ -11,7 +11,7 @@ import { Button } from '../components/common/Button.jsx';
 import { Pagination } from '../components/common/Pagination.jsx';
 import { MathText } from '../components/quiz/MathText.jsx';
 
-export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
+export function QuizDetailView({ quizId, onBack }) {
   const { t } = useTranslation();
   const { haptic, backButton } = useTelegram();
 
@@ -114,36 +114,6 @@ export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
           <span>{t('BTN_EXIT')}</span>
         </button>
 
-        {/* Quick action buttons */}
-        <div style={{ display: 'flex', gap: '8px' }}>
-          {onEditQuiz && (
-            <Button
-              size="sm"
-              variant="secondary"
-              icon="solar:pen-bold"
-              onClick={() => {
-                haptic.impact('light');
-                onEditQuiz(quizId);
-              }}
-            >
-              {t('EDIT_QUIZ_TITLE')}
-            </Button>
-          )}
-
-          {onStartQuiz && (
-            <Button
-              size="sm"
-              variant="primary"
-              icon="solar:play-bold"
-              onClick={() => {
-                haptic.impact('medium');
-                onStartQuiz(quizId);
-              }}
-            >
-              {t('BTN_START_QUIZ')}
-            </Button>
-          )}
-        </div>
       </div>
 
       {/* Quiz Overview Card */}
@@ -341,33 +311,7 @@ export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
         />
       )}
 
-      {/* Bottom Action Footer */}
-      <div
-        style={{
-          position: 'sticky',
-          bottom: '16px',
-          zIndex: 10,
-          display: 'flex',
-          gap: '10px',
-          marginTop: '8px',
-        }}
-      >
-        {onStartQuiz && (
-          <Button
-            variant="primary"
-            size="lg"
-            fullWidth
-            icon="solar:play-bold"
-            onClick={() => {
-              haptic.impact('medium');
-              onStartQuiz(quizId);
-            }}
-            style={{ boxShadow: 'var(--shadow-lg)' }}
-          >
-            {t('BTN_START_QUIZ')}
-          </Button>
-        )}
-      </div>
+
     </div>
   );
 }
