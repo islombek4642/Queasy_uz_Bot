@@ -12,6 +12,8 @@ import { getMainKeyboard } from '../keyboards/main_keyboard.js';
 import { getStopKeyboard } from '../keyboards/mode_keyboard.js';
 import { truncateQuestion, truncateOption, truncateExplanation, escapeHtml, formatParticipantName } from '../utils/poll_helpers.js';
 import { sanitizeQuestionText, sanitizeOptionsList } from '../parsers/sanitizer.js';
+import { getMediaChannel } from './admin_service.js';
+import { hasMathFormula, renderAndUploadFormula } from '../parsers/math_engine.js';
 
 
 /**
@@ -221,22 +223,50 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
   const qNum = session.currentIndex + 1;
   const total = session.totalQuestions;
 
-  // 1. Agar savolga rasm biriktirilgan bo'lsa, avval rasm yuboriladi
-  if (q.photoFileId) {
+  // 1. Agar savolga rasm biriktirilmagan bo'lsa, lekin formulasi bo'lsa, avtomatik Media kanalga yuklab file_id olamiz
+  let photoToSend = q.photoFileId || null;
+
+  if (!photoToSend && hasMathFormula(q.questionText)) {
+    try {
+      const mediaCh = await getMediaChannel();
+      if (mediaCh && mediaCh.channelId) {
+        photoToSend = await renderAndUploadFormula({
+          api,
+          mediaChannelId: mediaCh.channelId,
+          latexFormula: q.questionText,
+          caption: `📝 Savol #${qNum} (ID: ${q.id || ''})`,
+        });
+
+        // Agar muvaffaqiyatli Telegram file_id qaytgan bo'lsa, kelgusi testlar uchun keshlab qo'yamiz
+        if (photoToSend && q.id) {
+          await db
+            .update(questions)
+            .set({ photoFileId: photoToSend })
+            .where(eq(questions.id, q.id))
+            .run();
+          q.photoFileId = photoToSend;
+        }
+      }
+    } catch (mathErr) {
+      console.error(`[sendNextQuestionPoll] Auto math formula render error for question ${qNum}:`, mathErr?.message);
+    }
+  }
+
+  // 2. Agar rasm mavjud bo'lsa (yoki yangi generatsiya qilingan bo'lsa), yuboriladi
+  if (photoToSend) {
     try {
       await api.sendPhoto({
         chat_id: session.chatId,
-        photo: q.photoFileId,
+        photo: photoToSend,
         caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
         parse_mode: 'HTML',
       });
     } catch (photoErr) {
       console.error(`[sendNextQuestionPoll] Failed to send photo for question ${qNum}:`, photoErr?.message);
-      // Agar caption HTML bo'yicha xato bersa, captionsiz qayta urinish
       try {
         await api.sendPhoto({
           chat_id: session.chatId,
-          photo: q.photoFileId,
+          photo: photoToSend,
         });
       } catch {}
     }

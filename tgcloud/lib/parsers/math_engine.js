@@ -155,10 +155,43 @@ export function normalizeLatex(raw) {
 }
 
 /**
+ * Formats mixed text and math into valid renderable LaTeX for CodeCogs
+ */
+export function formatLatexForRender(text) {
+  if (!text || typeof text !== 'string') return '';
+  let s = text.trim();
+
+  // If text contains $...$ or $$...$$ delimiters, wrap normal text in \text{...}
+  if (s.includes('$')) {
+    const parts = s.split(/(\$\$[\s\S]+?\$\$|\$[^\$]+?\$)/g);
+    const converted = parts.map((part) => {
+      if (part.startsWith('$$') && part.endsWith('$$')) {
+        return normalizeLatex(part.slice(2, -2));
+      } else if (part.startsWith('$') && part.endsWith('$')) {
+        return normalizeLatex(part.slice(1, -1));
+      } else {
+        const trimmed = part.trim();
+        if (!trimmed) return '';
+        // Escape special latex characters in text: \, %, _, &, #, {, }
+        const escaped = part
+          .replace(/\\/g, '\\textbackslash ')
+          .replace(/([%_&#{}])/g, '\\$1');
+        return `\\text{${escaped}}`;
+      }
+    }).filter(Boolean);
+
+    return converted.join(' ').replace(/\s+/g, ' ').trim();
+  }
+
+  // Pure formula without delimiters
+  return normalizeLatex(s);
+}
+
+/**
  * Generates high-resolution 300 DPI PNG image URL using CodeCogs LaTeX service
  */
 export function generateLatexImageUrl(latex, dpi = 300) {
-  const clean = normalizeLatex(latex);
+  const clean = formatLatexForRender(latex);
   // CodeCogs high-res PNG URL with white background and crisp rendering
   const formulaEncoded = encodeURIComponent(clean);
   return `https://latex.codecogs.com/png.image?\\dpi{${dpi}}\\bg{white}${formulaEncoded}`;
@@ -202,6 +235,7 @@ export default {
   hasMathFormula,
   ommlToLatex,
   normalizeLatex,
+  formatLatexForRender,
   generateLatexImageUrl,
   renderAndUploadFormula,
 };
