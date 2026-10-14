@@ -73,11 +73,14 @@ export function ResultCard({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '20px',
-        padding: '20px 16px',
-        maxWidth: '480px',
+        justifyContent: 'center',
+        padding: '12px 14px',
+        maxWidth: '440px',
         margin: '0 auto',
         width: '100%',
+        minHeight: '100dvh',
+        boxSizing: 'border-box',
+        gap: '10px',
       }}
     >
       {/* Diploma Header */}
@@ -85,7 +88,7 @@ export function ResultCard({
         glow={isHighPerformance}
         style={{
           textAlign: 'center',
-          padding: '32px 20px',
+          padding: '16px 14px',
           background: isHighPerformance
             ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(99, 102, 241, 0.15) 100%)'
             : 'var(--surface-card)',
@@ -94,54 +97,76 @@ export function ResultCard({
         {inactivityStopped && (
           <div
             style={{
-              padding: '10px 14px',
-              borderRadius: '12px',
+              padding: '6px 10px',
+              borderRadius: '8px',
               backgroundColor: 'rgba(239, 68, 68, 0.12)',
               border: '1px solid rgba(239, 68, 68, 0.3)',
               color: 'var(--color-error, #ef4444)',
-              fontSize: '0.85rem',
+              fontSize: '0.78rem',
               fontWeight: '600',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '8px',
-              marginBottom: '16px',
+              gap: '6px',
+              marginBottom: '10px',
+              lineHeight: 1.3,
             }}
           >
-            <Icon icon="solar:clock-circle-bold" width="18" height="18" />
+            <Icon icon="solar:clock-circle-bold" width="16" height="16" style={{ flexShrink: 0 }} />
             <span>{t('INACTIVITY_TIMEOUT_BANNER')}</span>
           </div>
         )}
         <div
           style={{
-            width: '64px',
-            height: '64px',
+            width: '48px',
+            height: '48px',
             borderRadius: 'var(--radius-full)',
             background: isHighPerformance ? 'var(--color-success)' : 'var(--accent-gradient)',
             color: '#fff',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            margin: '0 auto 16px',
+            margin: '0 auto 8px',
             boxShadow: 'var(--shadow-md)',
           }}
         >
-          <Icon icon={isHighPerformance ? 'solar:cup-star-bold' : 'solar:medal-star-bold'} width="36" height="36" />
+          <Icon icon={isHighPerformance ? 'solar:cup-star-bold' : 'solar:medal-star-bold'} width="26" height="26" />
         </div>
 
-        <h2 style={{ fontSize: '1.4rem', fontWeight: '800', marginBottom: '6px' }}>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: '800', marginBottom: '2px', lineHeight: 1.2 }}>
           {accuracy >= 80 ? t('RESULT_EXCELLENT') : accuracy >= 50 ? t('RESULT_GOOD') : t('RESULT_TRY_AGAIN')}
         </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', wordBreak: 'break-word', lineHeight: '1.4', margin: '4px 0 0' }}>
+        <p
+          style={{
+            color: 'var(--text-secondary)',
+            fontSize: '0.78rem',
+            lineHeight: '1.3',
+            margin: '2px 0 0',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+          title={quizTitle}
+        >
           {quizTitle}
         </p>
 
         {/* Accuracy Gauge */}
-        <div style={{ marginTop: '24px' }}>
-          <div style={{ fontSize: '3rem', fontWeight: '900', color: isHighPerformance ? 'var(--color-success)' : 'var(--accent-primary)', fontFamily: 'var(--font-family-display)' }}>
+        <div style={{ marginTop: '10px' }}>
+          <div
+            style={{
+              fontSize: '2.4rem',
+              fontWeight: '900',
+              lineHeight: 1,
+              color: isHighPerformance ? 'var(--color-success)' : 'var(--accent-primary)',
+              fontFamily: 'var(--font-family-display)',
+            }}
+          >
             {accuracy}%
           </div>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '600' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '600', marginTop: '2px' }}>
             {t('ACCURACY_LABEL')}
           </div>
         </div>
@@ -151,35 +176,35 @@ export function ResultCard({
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '8px',
-            marginTop: '24px',
-            paddingTop: '20px',
+            gap: '6px',
+            marginTop: '12px',
+            paddingTop: '10px',
             borderTop: '1px solid var(--surface-border)',
           }}
         >
           <div>
-            <div style={{ fontWeight: '800', fontSize: '1.1rem', color: 'var(--color-success)' }}>
+            <div style={{ fontWeight: '800', fontSize: '1rem', color: 'var(--color-success)' }}>
               {correctCount}
             </div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
               {t('CORRECT_COUNT')}
             </div>
           </div>
 
           <div>
-            <div style={{ fontWeight: '800', fontSize: '1.1rem', color: 'var(--color-error)' }}>
+            <div style={{ fontWeight: '800', fontSize: '1rem', color: 'var(--color-error)' }}>
               {wrongCount}
             </div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
               {t('WRONG_COUNT')}
             </div>
           </div>
 
           <div>
-            <div style={{ fontWeight: '800', fontSize: '1.1rem', color: 'var(--accent-primary)' }}>
+            <div style={{ fontWeight: '800', fontSize: '1rem', color: 'var(--accent-primary)' }}>
               {totalTimeSeconds}s
             </div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
               {t('TIME_SPENT')}
             </div>
           </div>
@@ -188,8 +213,8 @@ export function ResultCard({
         {tournamentResult && (
           <div
             style={{
-              marginTop: '16px',
-              padding: '12px 14px',
+              marginTop: '10px',
+              padding: '8px 12px',
               borderRadius: 'var(--radius-md)',
               background: 'rgba(99, 102, 241, 0.12)',
               border: '1px solid var(--accent-glow)',
@@ -199,12 +224,12 @@ export function ResultCard({
             }}
           >
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t('TOURNAMENT_YOUR_RANK')}</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--accent-primary)' }}>
-                #{tournamentResult.rank} <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>/ {tournamentResult.totalParticipants}</span>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{t('TOURNAMENT_YOUR_RANK')}</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: '900', color: 'var(--accent-primary)' }}>
+                #{tournamentResult.rank} <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>/ {tournamentResult.totalParticipants}</span>
               </div>
             </div>
-            <div style={{ fontSize: '1.5rem' }}>
+            <div style={{ fontSize: '1.3rem' }}>
               {tournamentResult.rank === 1 ? '🥇' : tournamentResult.rank === 2 ? '🥈' : tournamentResult.rank === 3 ? '🥉' : '🎯'}
             </div>
           </div>
@@ -213,8 +238,8 @@ export function ResultCard({
         {liveRoomResult && (
           <div
             style={{
-              marginTop: '16px',
-              padding: '12px 14px',
+              marginTop: '10px',
+              padding: '8px 12px',
               borderRadius: 'var(--radius-md)',
               background: 'rgba(16, 185, 129, 0.12)',
               border: '1px solid rgba(16, 185, 129, 0.3)',
@@ -224,30 +249,37 @@ export function ResultCard({
             }}
           >
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{t('LIVE_ROOM_RANK_LABEL')}</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--color-success)' }}>
-                #{liveRoomResult.rank} <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>/ {liveRoomResult.totalPlayers}</span>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{t('LIVE_ROOM_RANK_LABEL')}</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: '900', color: 'var(--color-success)' }}>
+                #{liveRoomResult.rank} <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>/ {liveRoomResult.totalPlayers}</span>
               </div>
             </div>
-            <div style={{ fontSize: '1.5rem' }}>
+            <div style={{ fontSize: '1.3rem' }}>
               {liveRoomResult.rank === 1 ? '🥇' : liveRoomResult.rank === 2 ? '🥈' : liveRoomResult.rank === 3 ? '🥉' : '⚡'}
             </div>
           </div>
         )}
       </Card>
 
+      {/* Action Buttons: 2 rows to fit screen cleanly */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+          <Button variant="primary" size="md" icon="solar:restart-bold" onClick={onRetry} fullWidth>
+            {t('BTN_RETRY')}
+          </Button>
+          <Button variant="secondary" size="md" icon="solar:share-bold" onClick={handleShare} fullWidth>
+            {t('BTN_SHARE')}
+          </Button>
+        </div>
 
-      {/* Action Buttons */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <Button variant="primary" fullWidth size="lg" icon="solar:share-bold" onClick={handleShare}>
-          {t('BTN_SHARE')}
-        </Button>
-
-        <Button variant="secondary" fullWidth icon="solar:restart-bold" onClick={onRetry}>
-          {t('BTN_RETRY')}
-        </Button>
-
-        <Button variant="glass" fullWidth icon={liveRoomCode ? "solar:cup-star-bold" : "solar:home-2-bold"} onClick={onBackHome}>
+        <Button
+          variant="glass"
+          fullWidth
+          size="sm"
+          icon={liveRoomCode ? "solar:cup-star-bold" : "solar:home-2-bold"}
+          onClick={onBackHome}
+          style={{ padding: '10px 16px' }}
+        >
           {liveRoomCode ? t('LIVE_ROOM_VIEW_RESULTS') : t('BTN_BACK_HOME')}
         </Button>
       </div>
