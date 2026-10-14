@@ -41,7 +41,7 @@ export function Modal({
 
   if (!isOpen) return null;
 
-  const modalNode = (
+  const modalContent = (
     <div
       style={{
         position: 'fixed',
@@ -50,7 +50,7 @@ export function Modal({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '16px',
+        padding: '12px',
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
         backdropFilter: 'blur(8px)',
       }}
@@ -66,7 +66,7 @@ export function Modal({
         style={{
           width: '100%',
           maxWidth,
-          maxHeight: 'min(86vh, 640px)',
+          maxHeight: 'min(88vh, 88dvh)',
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: 'var(--bg-secondary)',
@@ -82,17 +82,18 @@ export function Modal({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '12px 16px',
+            padding: '10px 14px',
             borderBottom: '1px solid var(--surface-border)',
             backgroundColor: 'var(--bg-primary)',
+            flexShrink: 0,
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flex: 1, marginRight: '8px' }}>
             {icon && (
               <div
                 style={{
-                  width: '30px',
-                  height: '30px',
+                  width: '28px',
+                  height: '28px',
                   borderRadius: 'var(--radius-sm)',
                   backgroundColor: 'rgba(99, 102, 241, 0.15)',
                   color: 'var(--accent-primary)',
@@ -102,12 +103,12 @@ export function Modal({
                   flexShrink: 0,
                 }}
               >
-                <Icon icon={icon} width="18" height="18" />
+                <Icon icon={icon} width="16" height="16" />
               </div>
             )}
             <h3
               style={{
-                fontSize: '1.02rem',
+                fontSize: '0.98rem',
                 fontWeight: '800',
                 color: 'var(--text-primary)',
                 minWidth: 0,
@@ -128,8 +129,8 @@ export function Modal({
               if (onClose) onClose();
             }}
             style={{
-              width: '30px',
-              height: '30px',
+              width: '28px',
+              height: '28px',
               borderRadius: 'var(--radius-full)',
               backgroundColor: 'var(--surface-border)',
               display: 'flex',
@@ -142,14 +143,14 @@ export function Modal({
             }}
             title="Yopish"
           >
-            <Icon icon="solar:close-circle-bold" width="18" height="18" />
+            <Icon icon="solar:close-circle-bold" width="16" height="16" />
           </button>
         </div>
 
         {/* Scrollable Body */}
         <div
           style={{
-            padding: '14px 16px',
+            padding: '12px 14px',
             overflowY: 'auto',
             flex: 1,
             color: 'var(--text-secondary)',
@@ -166,18 +167,19 @@ export function Modal({
               display: 'flex',
               gap: '8px',
               justifyContent: 'flex-end',
-              padding: '10px 16px',
+              padding: '8px 14px',
               borderTop: '1px solid var(--surface-border)',
               backgroundColor: 'var(--bg-primary)',
+              flexShrink: 0,
             }}
           >
             {cancelText && (
-              <Button variant="secondary" size="sm" onClick={onClose} style={{ flex: 1 }}>
+              <Button variant="secondary" size="sm" onClick={onClose} style={{ flex: 1, padding: '7px 12px', fontSize: '0.82rem' }}>
                 {cancelText}
               </Button>
             )}
             {confirmText && (
-              <Button variant={confirmVariant} size="sm" onClick={onConfirm} style={{ flex: 1 }}>
+              <Button variant={confirmVariant} size="sm" onClick={onConfirm} style={{ flex: 1, padding: '7px 12px', fontSize: '0.82rem' }}>
                 {confirmText}
               </Button>
             )}
@@ -187,5 +189,5 @@ export function Modal({
     </div>
   );
 
-  return createPortal(modalNode, document.body);
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 }
