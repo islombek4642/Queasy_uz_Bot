@@ -77,6 +77,8 @@ export function extractLinesFromDocx(docxBuffer) {
     let rMatch;
     let textParts = [];
     let paragraphHasHighlight = false;
+    let lastRunType = 'normal';
+    let lastPartIdx = -1;
 
     while ((rMatch = rRegex.exec(pContent)) !== null) {
       const rContent = rMatch[1];
@@ -84,6 +86,8 @@ export function extractLinesFromDocx(docxBuffer) {
       // Extract run properties <w:rPr>...</w:rPr>
       const rPrMatch = /<w:rPr>([\s\S]*?)<\/w:rPr>/i.exec(rContent);
       const isRunHighlighted = rPrMatch ? isHighlightedOrEmphasized(rPrMatch[1]) : false;
+      const isSuperscript = /<w:vertAlign\s+[^>]*w:val="superscript"/i.test(rContent);
+      const isSubscript = /<w:vertAlign\s+[^>]*w:val="subscript"/i.test(rContent);
 
       // Extract text nodes <w:t ...>text</w:t> or <m:t ...>math</m:t>
       const tRegex = /<[wm]:t(?:\s[^>]*)?>([^<]*)<\/[wm]:t>/g;
@@ -97,7 +101,26 @@ export function extractLinesFromDocx(docxBuffer) {
         if (isRunHighlighted) {
           paragraphHasHighlight = true;
         }
-        textParts.push(runText);
+
+        const thisRunType = isSuperscript ? 'sup' : isSubscript ? 'sub' : 'normal';
+        if (thisRunType !== 'normal' && thisRunType === lastRunType && lastPartIdx >= 0) {
+          const prev = textParts[lastPartIdx];
+          if (prev.endsWith('}')) {
+            textParts[lastPartIdx] = prev.slice(0, -1) + runText + '}';
+          } else {
+            textParts[lastPartIdx] = prev + runText;
+          }
+        } else {
+          if (isSuperscript) {
+            textParts.push(`^{${runText}}`);
+          } else if (isSubscript) {
+            textParts.push(`_{${runText}}`);
+          } else {
+            textParts.push(runText);
+          }
+          lastRunType = thisRunType;
+          lastPartIdx = textParts.length - 1;
+        }
       }
     }
 

@@ -30,8 +30,23 @@ export function hasMathFormula(text) {
     if (text.includes(cmd)) return true;
   }
 
-  // 4. Superscript / subscript math patterns (e.g. x^2, x_1, a^2 + b^2 = c^2)
+  // 4. Mathematical Unicode symbols & operators (Integrals, roots, derivatives, set theory, Greek)
+  if (/[∫∬∭∮√∂𝛛∇∑∏±×÷≠≤≥≈∞·⋅∙∪∩∅∈∉⊂⊆′″‴\^]/.test(text)) {
+    return true;
+  }
+
+  // 5. Mathematical Alphanumeric block (Italic math letters: U+1D400 - U+1D7FF)
+  if (/[\uD835][\uDC00-\uDFFF]/.test(text)) {
+    return true;
+  }
+
+  // 6. Superscript / subscript math patterns (e.g. x^2, x_1, a^2 + b^2 = c^2)
   if (/[a-zA-Z0-9]\^\{?[0-9a-zA-Z\+\-]+\}?|[a-zA-Z0-9]_\{?[0-9a-zA-Z\+\-]+\}?/.test(text)) {
+    return true;
+  }
+
+  // 7. Calculus derivative / function notation (e.g. f'(x), y'-?, y', f'')
+  if (/[a-zA-Z]\s*['′″]\s*(?:\([a-zA-Z0-9]+\)|-|\?)/.test(text)) {
     return true;
   }
 
@@ -160,6 +175,23 @@ export function normalizeLatex(raw) {
     s = s.slice(2, -2).trim();
   }
 
+  // Normalize Mathematical Alphanumeric Characters (Italics U+1D400 - U+1D7FF) to standard ASCII
+  s = s.replace(/[\uD835][\uDC00-\uDFFF]/g, (match) => {
+    const cp = match.codePointAt(0);
+    // Math Bold/Italic Latin Capital A-Z
+    if (cp >= 0x1D434 && cp <= 0x1D44D) return String.fromCharCode(65 + cp - 0x1D434);
+    if (cp >= 0x1D400 && cp <= 0x1D419) return String.fromCharCode(65 + cp - 0x1D400);
+    // Math Bold/Italic Latin Small a-z
+    if (cp >= 0x1D44E && cp <= 0x1D467) return String.fromCharCode(97 + cp - 0x1D44E);
+    if (cp >= 0x1D41A && cp <= 0x1D433) return String.fromCharCode(97 + cp - 0x1D41A);
+    // Greek Math symbols
+    if (cp === 0x1D70B) return '\\pi ';
+    if (cp === 0x1D711) return '\\varphi ';
+    if (cp === 0x1D6FC) return '\\alpha ';
+    if (cp === 0x1D6DB) return '\\partial ';
+    return match;
+  });
+
   // Replace common unicode math symbols with standard LaTeX commands
   const symbolMap = {
     '×': ' \\times ',
@@ -172,6 +204,25 @@ export function normalizeLatex(raw) {
     '∞': ' \\infty ',
     '√': ' \\sqrt ',
     '·': ' \\cdot ',
+    '⋅': ' \\cdot ',
+    '∙': ' \\cdot ',
+    '∫': ' \\int ',
+    '∬': ' \\iint ',
+    '∭': ' \\iiint ',
+    '∮': ' \\oint ',
+    '∂': ' \\partial ',
+    '𝛛': ' \\partial ',
+    '′': "'",
+    '″': "''",
+    '‴': "'''",
+    '∪': ' \\cup ',
+    '∩': ' \\cap ',
+    '∅': ' \\emptyset ',
+    '∈': ' \\in ',
+    '∉': ' \\notin ',
+    '⊂': ' \\subset ',
+    '⊆': ' \\subseteq ',
+    '−': '-',
     'α': ' \\alpha ',
     'β': ' \\beta ',
     'γ': ' \\gamma ',
@@ -184,6 +235,10 @@ export function normalizeLatex(raw) {
   for (const [sym, rep] of Object.entries(symbolMap)) {
     s = s.replaceAll(sym, rep);
   }
+
+  // Normalize trigonometric / math functions
+  s = s.replace(/\btg\b/g, '\\tan ');
+  s = s.replace(/\bctg\b/g, '\\cot ');
 
   return s.replace(/\s+/g, ' ').trim();
 }

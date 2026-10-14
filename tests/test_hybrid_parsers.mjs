@@ -178,4 +178,22 @@ B) Variant 2
   console.log('✅ Validator: Successfully caught answerless legacy questions and reported count');
 }
 
+// 11. Math engine: Unicode math symbols, integrals, and italic alphanumerics
+{
+  const { hasMathFormula, normalizeLatex } = await import('../tgcloud/lib/parsers/math_engine.js');
+  const sample1 = 'Agar 𝑓(𝑥) = 𝑥^{7} - √𝑥, 𝑓′(𝑥)-?';
+  const sample2 = 'Aniqmas integralni toping. ∫ 8^{3𝑥}𝑑𝑥 ;';
+
+  assert.strictEqual(hasMathFormula(sample1), true);
+  assert.strictEqual(hasMathFormula(sample2), true);
+
+  const norm1 = normalizeLatex(sample1);
+  assert(norm1.includes('f(x)') && norm1.includes('\\sqrt') && norm1.includes("f'(x)"));
+
+  const norm2 = normalizeLatex(sample2);
+  assert(norm2.includes('\\int') && norm2.includes('8^{3x}'));
+
+  console.log('✅ MathEngine: Unicode math symbols, integrals & italics normalization passed');
+}
+
 console.log('\n🎉 ALL HYBRID PARSER TESTS PASSED PERFECTLY!\n');
