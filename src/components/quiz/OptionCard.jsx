@@ -64,6 +64,7 @@ export function OptionCard({
         alignItems: 'center',
         gap: '14px',
         padding: '14px 16px',
+        minHeight: '54px',
         backgroundColor,
         borderColor,
         cursor: disabled ? 'default' : 'pointer',

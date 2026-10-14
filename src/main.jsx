@@ -5,6 +5,7 @@ import App from './App.jsx';
 import { TelegramProvider } from './context/TelegramContext.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import { LanguageProvider } from './i18n/index.jsx';
+import 'katex/dist/katex.min.css';
 import './styles/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

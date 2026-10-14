@@ -25,20 +25,30 @@ export function MathText({ text = '', className = '', style = {} }) {
       .replace(/\\\\([a-zA-Z])/g, '\\$1')
       .trim();
 
-    // Check if contains math indicators ($...$ or $$...$$ or LaTeX tags)
-    if (!cleanText.includes('$') && !cleanText.includes('\\')) {
-      return cleanText;
+    // Auto-wrap raw LaTeX if not wrapped in $ (e.g. \frac{1}{2}, \sqrt{x}, \int...)
+    let preparedText = cleanText;
+    if (!preparedText.includes('$') && /\\(frac|sqrt|int|sum|prod|alpha|beta|gamma|partial|infty|pm|times|div)/.test(preparedText)) {
+      preparedText = `$${preparedText}$`;
     }
 
-    // Split text by $...$ math blocks
-    const parts = cleanText.split(/(\$\$[\s\S]+?\$\$|\$.+?\$)/g);
+    // Normalize negative sign right before dollar: "- $..." -> "$-..."
+    preparedText = preparedText.replace(/(^|\s)-\s*\$([^\$]+)\$/g, '$1$- $2$');
+
+    // Split text by $$...$$ or $...$ math blocks
+    const parts = preparedText.split(/(\$\$[\s\S]+?\$\$|\$[\s\S]+?\$)/g);
 
     return parts.map((part, index) => {
       if (part.startsWith('$$') && part.endsWith('$$')) {
         const math = part.slice(2, -2).trim();
         try {
           const html = katex.renderToString(math, { displayMode: true, throwOnError: false });
-          return <span key={index} dangerouslySetInnerHTML={{ __html: html }} />;
+          return (
+            <div
+              key={index}
+              style={{ margin: '8px 0', overflowX: 'auto', textAlign: 'center' }}
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
+          );
         } catch {
           return <span key={index}>{part}</span>;
         }
@@ -46,7 +56,17 @@ export function MathText({ text = '', className = '', style = {} }) {
         const math = part.slice(1, -1).trim();
         try {
           const html = katex.renderToString(math, { displayMode: false, throwOnError: false });
-          return <span key={index} dangerouslySetInnerHTML={{ __html: html }} />;
+          return (
+            <span
+              key={index}
+              style={{
+                display: 'inline-block',
+                verticalAlign: 'middle',
+                margin: '0 2px',
+              }}
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
+          );
         } catch {
           return <span key={index}>{part}</span>;
         }
