@@ -250,26 +250,17 @@ export function formatLatexForRender(text) {
   if (!text || typeof text !== 'string') return '';
   let s = text.trim();
 
-  // If text contains $...$ or $$...$$ delimiters, wrap normal text in \text{...}
+  // If text contains $...$ or $$...$$ delimiters, extract the actual formulas for crisp mathematical image
   if (s.includes('$')) {
     const parts = s.split(/(\$\$[\s\S]+?\$\$|\$[^\$]+?\$)/g);
-    const converted = parts.map((part) => {
-      if (part.startsWith('$$') && part.endsWith('$$')) {
-        return normalizeLatex(part.slice(2, -2));
-      } else if (part.startsWith('$') && part.endsWith('$')) {
-        return normalizeLatex(part.slice(1, -1));
-      } else {
-        const trimmed = part.trim();
-        if (!trimmed) return '';
-        // Escape special latex characters in text: \, %, _, &, #, {, }
-        const escaped = part
-          .replace(/\\/g, '\\textbackslash ')
-          .replace(/([%_&#{}])/g, '\\$1');
-        return `\\text{${escaped}}`;
-      }
-    }).filter(Boolean);
+    const formulas = parts
+      .filter((p) => (p.startsWith('$$') && p.endsWith('$$')) || (p.startsWith('$') && p.endsWith('$')))
+      .map((p) => normalizeLatex(p.replace(/^\$+|\$+$/g, '').trim()))
+      .filter(Boolean);
 
-    return converted.join(' ').replace(/\s+/g, ' ').trim();
+    if (formulas.length > 0) {
+      return formulas.join(' \\qquad ');
+    }
   }
 
   // Pure formula without delimiters
@@ -282,8 +273,8 @@ export function formatLatexForRender(text) {
 export function generateLatexImageUrl(latex, dpi = 300) {
   const clean = formatLatexForRender(latex);
   // CodeCogs high-res PNG URL with white background and crisp rendering
-  const formulaEncoded = encodeURIComponent(clean);
-  return `https://latex.codecogs.com/png.image?\\dpi{${dpi}}\\bg{white}${formulaEncoded}`;
+  const fullLatex = `\\dpi{${dpi}} \\bg{white} ${clean}`;
+  return `https://latex.codecogs.com/png.image?${encodeURIComponent(fullLatex)}`;
 }
 
 /**

@@ -13,7 +13,7 @@ export async function createQuiz(ownerId, title, rawQuestions, options = {}) {
   const shuffleOptions = options.shuffleOptions !== undefined ? options.shuffleOptions : true;
 
   // 1. Insert Quiz header
-  await db
+  const inserted = await db
     .insert(quizzes)
     .values({
       ownerId,
@@ -22,16 +22,13 @@ export async function createQuiz(ownerId, title, rawQuestions, options = {}) {
       timeLimit,
       shuffleOptions,
     })
-    .run();
+    .returning();
 
-  // Fetch the inserted quiz
-  const insertedQuiz = await db
-    .select()
-    .from(quizzes)
-    .where(eq(quizzes.ownerId, ownerId))
-    .orderBy(desc(quizzes.id))
-    .limit(1)
-    .get();
+  let insertedQuiz = inserted && inserted[0] ? inserted[0] : null;
+  if (!insertedQuiz && inserted?.lastInsertRowid) {
+    const rowId = Number(inserted.lastInsertRowid);
+    insertedQuiz = await db.select().from(quizzes).where(eq(quizzes.id, rowId)).get();
+  }
 
   if (!insertedQuiz) {
     throw new Error(getMessage('ERR_CREATE_QUIZ_FAILED', CONFIG.I18N.DEFAULT_LANG));

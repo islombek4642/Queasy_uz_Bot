@@ -226,10 +226,10 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
   const qNum = session.currentIndex + 1;
   const total = session.totalQuestions;
 
-  // 1. Agar savolga rasm biriktirilmagan bo'lsa, lekin formulasi bo'lsa, avtomatik Media kanalga yuklab file_id olamiz
+  // 1. Agar savolga rasm biriktirilmagan bo'lsa yoki http URL bo'lsa, avtomatik Media kanalga yuklab file_id olamiz
   let photoToSend = q.photoFileId || null;
 
-  if (!photoToSend && hasMathFormula(q.questionText)) {
+  if ((!photoToSend || photoToSend.startsWith('http')) && hasMathFormula(q.questionText)) {
     try {
       const mediaCh = await getMediaChannel();
       if (mediaCh && mediaCh.channelId) {
@@ -241,7 +241,7 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
         });
 
         // Agar muvaffaqiyatli Telegram file_id qaytgan bo'lsa, kelgusi testlar uchun keshlab qo'yamiz
-        if (photoToSend && q.id) {
+        if (photoToSend && q.id && !photoToSend.startsWith('http')) {
           await db
             .update(questions)
             .set({ photoFileId: photoToSend })
@@ -249,7 +249,7 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
             .run();
           q.photoFileId = photoToSend;
         }
-      } else {
+      } else if (!photoToSend) {
         // Agar maxsus media kanal ulanmagan bo'lsa, to'g'ridan-to'g'ri CodeCogs 300 DPI rasm URL'idan foydalanamiz
         photoToSend = generateLatexImageUrl(q.questionText, 300);
       }
