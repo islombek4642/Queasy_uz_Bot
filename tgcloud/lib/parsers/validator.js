@@ -3,6 +3,15 @@
 
 import { CONFIG } from '../constants/config.js';
 import { truncateQuestion, truncateOption, truncateExplanation } from '../utils/poll_helpers.js';
+import { sanitizeQuestionText, sanitizeOptionsList } from './sanitizer.js';
+
+const MIN_OPTIONS = CONFIG.POLL.MIN_OPTIONS;
+const MAX_OPTIONS = CONFIG.POLL.MAX_OPTIONS;
+const MAX_QUESTION_LENGTH = CONFIG.POLL.MAX_QUESTION_LENGTH;
+const MAX_OPTION_LENGTH = CONFIG.POLL.MAX_OPTION_LENGTH;
+const MAX_EXPLANATION_LENGTH = CONFIG.POLL.MAX_EXPLANATION_LENGTH;
+const QUESTION_PREVIEW_LENGTH = 40;
+const MIN_QUIZ_QUESTIONS = 1;
 
 export function validateQuestion(q, index = 1) {
   if (!q.questionText || typeof q.questionText !== 'string' || q.questionText.trim().length === 0) {
@@ -12,21 +21,21 @@ export function validateQuestion(q, index = 1) {
     };
   }
 
-  if (!Array.isArray(q.options) || q.options.length < CONFIG.POLL.MIN_OPTIONS) {
+  if (!Array.isArray(q.options) || q.options.length < MIN_OPTIONS) {
     return {
       isValid: false,
-      error: `${index}-savolda kamida 2 ta variant bo'lishi kerak. Hozirda: ${q.options?.length || 0} ta.`,
+      error: `${index}-savolda kamida ${MIN_OPTIONS} ta variant bo'lishi kerak. Hozirda: ${q.options?.length || 0} ta.`,
     };
   }
 
-  if (q.options.length > CONFIG.POLL.MAX_OPTIONS) {
-    // If correct option is within top 10, clamp to 10
-    if (typeof q.correctOptionId === 'number' && q.correctOptionId < CONFIG.POLL.MAX_OPTIONS) {
-      q.options = q.options.slice(0, CONFIG.POLL.MAX_OPTIONS);
+  if (q.options.length > MAX_OPTIONS) {
+    // If correct option is within top MAX_OPTIONS, clamp to MAX_OPTIONS
+    if (typeof q.correctOptionId === 'number' && q.correctOptionId < MAX_OPTIONS) {
+      q.options = q.options.slice(0, MAX_OPTIONS);
     } else {
       return {
         isValid: false,
-        error: `${index}-savolda variantlar soni ${CONFIG.POLL.MAX_OPTIONS} tadan oshmasligi kerak.`,
+        error: `${index}-savolda variantlar soni ${MAX_OPTIONS} tadan oshmasligi kerak.`,
       };
     }
   }
@@ -38,14 +47,16 @@ export function validateQuestion(q, index = 1) {
   ) {
     return {
       isValid: false,
-      error: `${index}-savolda to'g'ri javob belgilanmagan yoki noto'g'ri belgilangan. Savol: "${q.questionText.slice(0, 40)}..."`,
+      error: `${index}-savolda to'g'ri javob belgilanmagan yoki noto'g'ri belgilangan. Savol: "${q.questionText.slice(0, QUESTION_PREVIEW_LENGTH)}..."`,
     };
   }
 
-  // Telegram character limits: truncate cleanly using poll_helpers
-  const sanitizedText = truncateQuestion('', q.questionText, CONFIG.POLL.MAX_QUESTION_LENGTH);
-  const sanitizedOptions = q.options.map((opt) => truncateOption(opt, CONFIG.POLL.MAX_OPTION_LENGTH));
-  const sanitizedExplanation = truncateExplanation(q.explanation, CONFIG.POLL.MAX_EXPLANATION_LENGTH) || null;
+  // Telegram character limits & formatting: sanitize and truncate cleanly
+  const cleanQText = sanitizeQuestionText(q.questionText);
+  const cleanOptions = sanitizeOptionsList(q.options);
+  const sanitizedText = truncateQuestion('', cleanQText, MAX_QUESTION_LENGTH);
+  const sanitizedOptions = cleanOptions.map((opt) => truncateOption(opt, MAX_OPTION_LENGTH));
+  const sanitizedExplanation = truncateExplanation(q.explanation, MAX_EXPLANATION_LENGTH) || null;
 
   return {
     isValid: true,
@@ -65,7 +76,7 @@ export function validateQuizQuestions(questions) {
   if (!Array.isArray(questions) || questions.length === 0) {
     return {
       isValid: false,
-      error: 'Testda kamida 1 ta to\'g\'ri savol bo\'lishi kerak.',
+      error: `Testda kamida ${MIN_QUIZ_QUESTIONS} ta to'g'ri savol bo'lishi kerak.`,
       questions: [],
     };
   }

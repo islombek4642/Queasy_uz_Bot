@@ -6,13 +6,32 @@ export function MathText({ text = '', className = '', style = {} }) {
   const renderedContent = useMemo(() => {
     if (!text || typeof text !== 'string') return '';
 
+    // Sanitize text: decode HTML entities, strip broken img tags, normalize double backslashes
+    const cleanText = text
+      .replace(/&lt;img[\s\S]*?&gt;/gi, '')
+      .replace(/<img[\s\S]*?>/gi, '')
+      .replaceAll('&apos;', "'")
+      .replaceAll('&#39;', "'")
+      .replaceAll('&quot;', '"')
+      .replaceAll('&#34;', '"')
+      .replaceAll('&nbsp;', ' ')
+      .replaceAll('&amp;', '&')
+      .replaceAll('&lt;', '<')
+      .replaceAll('&gt;', '>')
+      .replaceAll('&laquo;', '«')
+      .replaceAll('&raquo;', '»')
+      .replaceAll('&ndash;', '-')
+      .replaceAll('&mdash;', '-')
+      .replace(/\\\\([a-zA-Z])/g, '\\$1')
+      .trim();
+
     // Check if contains math indicators ($...$ or $$...$$ or LaTeX tags)
-    if (!text.includes('$') && !text.includes('\\')) {
-      return text;
+    if (!cleanText.includes('$') && !cleanText.includes('\\')) {
+      return cleanText;
     }
 
     // Split text by $...$ math blocks
-    const parts = text.split(/(\$\$[\s\S]+?\$\$|\$.+?\$)/g);
+    const parts = cleanText.split(/(\$\$[\s\S]+?\$\$|\$.+?\$)/g);
 
     return parts.map((part, index) => {
       if (part.startsWith('$$') && part.endsWith('$$')) {

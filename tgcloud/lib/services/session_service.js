@@ -11,6 +11,7 @@ import { getMessage } from '../constants/messages.js';
 import { getMainKeyboard } from '../keyboards/main_keyboard.js';
 import { getStopKeyboard } from '../keyboards/mode_keyboard.js';
 import { truncateQuestion, truncateOption, truncateExplanation, escapeHtml, formatParticipantName } from '../utils/poll_helpers.js';
+import { sanitizeQuestionText, sanitizeOptionsList } from '../parsers/sanitizer.js';
 
 
 /**
@@ -243,10 +244,12 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
 
   // 2. Telegram Question header va max 300 belgi limit bo'yicha qisqartirish
   const prefix = `[${qNum}/${total}]`;
-  const questionTitle = truncateQuestion(prefix, q.questionText, CONFIG.POLL.MAX_QUESTION_LENGTH);
+  const cleanText = sanitizeQuestionText(q.questionText);
+  const questionTitle = truncateQuestion(prefix, cleanText, CONFIG.POLL.MAX_QUESTION_LENGTH);
 
-  // 3. Variantlar (max 100 belgi limit)
-  let options = (q.options || [])
+  // 3. Variantlar (tozalangan va max 100 belgi limit)
+  const sanitizedOpts = sanitizeOptionsList(q.options || []);
+  let options = sanitizedOpts
     .map((opt) => truncateOption(opt, CONFIG.POLL.MAX_OPTION_LENGTH))
     .filter(Boolean);
 
