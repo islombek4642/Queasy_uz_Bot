@@ -578,14 +578,6 @@ export default async function (callbackQuery, ctx) {
 
     await answer();
 
-    if (session.lastPollMessageId) {
-      try {
-        await api.stopPoll({
-          chat_id: session.chatId,
-          message_id: session.lastPollMessageId,
-        });
-      } catch {}
-    }
 
     await advanceGroupRound(api, session.id);
     return;

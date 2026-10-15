@@ -244,7 +244,11 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
 
     // Try sending this question
     const sent = await _trySendQuestionPoll(api, sessionId, attemptSession, attemptQ, customTimeLimit);
-    if (sent) return; // success
+    if (sent === true) return; // success
+    if (sent === 'RATE_LIMITED') {
+      console.warn(`[sendNextQuestionPoll] Session ${sessionId} hit rate limit, keeping session active without killing`);
+      return;
+    }
   }
 
   // All attempts failed
@@ -522,6 +526,7 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
           currentIndex: session?.currentIndex,
         });
       }
+      return 'RATE_LIMITED';
     }
     return false;
   }
@@ -725,15 +730,6 @@ export async function advanceGroupRoundByPollId(api, pollId) {
     return;
   }
 
-  // Cleanly close the finished poll in the group so it displays results
-  if (session.lastPollMessageId) {
-    try {
-      await api.stopPoll({
-        chat_id: session.chatId,
-        message_id: session.lastPollMessageId,
-      });
-    } catch {}
-  }
 
   if (nextIndex >= session.totalQuestions) {
     await finishSession(api, session.id);
