@@ -350,18 +350,9 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
 
   const correctOptionId = Math.max(0, Math.min(q.correctOptionId ?? 0, options.length - 1));
   const explanation = truncateExplanation(q.explanation, CONFIG.POLL.MAX_EXPLANATION_LENGTH);
-  const nextBtnMarkup = session.isGroup
-    ? {
-        inline_keyboard: [
-          [
-            {
-              text: getMessage('BTN_NEXT_QUESTION', 'UZ'),
-              callback_data: `${ACTIONS.NEXT_QUESTION_PREFIX}${sessionId}:${session.currentIndex}`,
-            },
-          ],
-        ],
-      }
-    : undefined;
+  // Foydalanuvchilar javob berishini majburiy qilish uchun "Keyingi savol" tugmasi olib tashlandi
+  // Faqat ishtirokchilar javob berganda yoki 30 sek taymer tugaganda navbatdagi savolga o'tadi
+  const nextBtnMarkup = undefined;
 
   const shuffleOptions = quiz ? quiz.shuffleOptions !== false : true;
   const isGroup = Boolean(session.isGroup);
