@@ -2,7 +2,7 @@
 // Solo and Group Quiz Sessions Manager with 4 modes & mistakes tracking
 
 import { db } from 'sdk';
-import { eq, and, or, desc } from 'sdk/db';
+import { eq, and, or, desc, sql } from 'sdk/db';
 import { users, quizSessions, userMistakes, groupAnswers, questions, quizzes, groupLobbies, groups } from '../../schema.js';
 import { getQuizById } from './quiz_service.js';
 import { CONFIG } from '../constants/config.js';
@@ -14,6 +14,22 @@ import { truncateQuestion, truncateOption, truncateExplanation, escapeHtml, form
 import { sanitizeQuestionText, sanitizeOptionsList } from '../parsers/sanitizer.js';
 import { getMediaChannel } from './admin_service.js';
 import { hasMathFormula, renderAndUploadFormula, generateLatexImageUrl } from '../parsers/math_engine.js';
+
+export async function logAppError(source, msg, details = null) {
+  try {
+    await db.run(sql`CREATE TABLE IF NOT EXISTS app_logs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      level TEXT NOT NULL,
+      source TEXT NOT NULL,
+      message TEXT NOT NULL,
+      details TEXT,
+      created_at INTEGER DEFAULT (unixepoch())
+    )`);
+    await db.run(sql`INSERT INTO app_logs (level, source, message, details) VALUES ('error', ${source}, ${String(msg)}, ${details ? JSON.stringify(details) : null})`);
+  } catch (e) {
+    console.error('[logAppError]', e);
+  }
+}
 
 
 /**
@@ -233,6 +249,10 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
 
   // All attempts failed
   console.error(`[sendNextQuestionPoll] All ${MAX_SKIP} attempts failed for session ${sessionId}, finishing session`);
+  await logAppError('sendNextQuestionPoll:ALL_FAILED', `All ${MAX_SKIP} attempts failed for session ${sessionId}`, {
+    sessionId,
+    currentIndex: session?.currentIndex,
+  });
   await finishSession(api, sessionId);
 }
 
@@ -460,6 +480,14 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
   } catch (err) {
     const isRateLimit = err?.message?.includes('429') || err?.message?.includes('Too Many Requests');
     console.error(`[_trySendQuestionPoll] Error sending question index ${session.currentIndex} for session ${sessionId} (isRateLimit=${isRateLimit}):`, err?.message);
+    await logAppError('_trySendQuestionPoll:ERROR', err?.message || String(err), {
+      sessionId,
+      currentIndex: session?.currentIndex,
+      attemptQId: q?.id,
+      isRateLimit,
+      errorCode: err?.error_code,
+      description: err?.description,
+    });
     if (isRateLimit) {
       try {
         const stringOptions = options.map((o) => (typeof o === 'object' ? o.text : String(o)));
@@ -489,10 +517,18 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
         }
       } catch (retryErr) {
         console.error(`[_trySendQuestionPoll] Rate limit retry failed:`, retryErr?.message);
+        await logAppError('_trySendQuestionPoll:RETRY_FAILED', retryErr?.message || String(retryErr), {
+          sessionId,
+          currentIndex: session?.currentIndex,
+        });
       }
     }
     return false;
   }
+  await logAppError('_trySendQuestionPoll:POLL_MSG_NULL', `pollMsg was null for question index ${session.currentIndex}`, {
+    sessionId,
+    currentIndex: session?.currentIndex,
+  });
   return false; // pollMsg was null
 }
 
