@@ -197,6 +197,48 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
 
   if (!session || !session.isActive) return;
 
+  // Auto-skip stuck questions: try up to 3 consecutive questions if sending fails
+  const MAX_SKIP = 3;
+  for (let skipAttempt = 0; skipAttempt < MAX_SKIP; skipAttempt++) {
+    const attemptIndex = session.currentIndex + skipAttempt;
+    let questions = [];
+    try {
+      questions = JSON.parse(session.selectedQuestionsJson);
+    } catch {
+      questions = [];
+    }
+
+    if (attemptIndex >= questions.length) {
+      await finishSession(api, sessionId);
+      return;
+    }
+
+    if (skipAttempt > 0) {
+      // Advance index in DB before retrying
+      console.warn(`[sendNextQuestionPoll] Skipping question index ${attemptIndex - 1} (attempt ${skipAttempt}), trying index ${attemptIndex}`);
+      await db.update(quizSessions).set({ currentIndex: attemptIndex }).where(eq(quizSessions.id, sessionId)).run();
+      // Refresh session from DB
+      const refreshed = await db.select().from(quizSessions).where(eq(quizSessions.id, sessionId)).get();
+      if (!refreshed || !refreshed.isActive) return;
+    }
+
+    const attemptSession = skipAttempt === 0 ? session : await db.select().from(quizSessions).where(eq(quizSessions.id, sessionId)).get();
+    const attemptQ = questions[attemptIndex];
+    if (!attemptQ) { await finishSession(api, sessionId); return; }
+
+    // Try sending this question
+    const sent = await _trySendQuestionPoll(api, sessionId, attemptSession, attemptQ, customTimeLimit);
+    if (sent) return; // success
+  }
+
+  // All attempts failed
+  console.error(`[sendNextQuestionPoll] All ${MAX_SKIP} attempts failed for session ${sessionId}, finishing session`);
+  await finishSession(api, sessionId);
+}
+
+// Internal: attempts to send one question poll. Returns true on success, false on failure.
+async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit = null) {
+
   let timeLimit = customTimeLimit;
   let quiz = null;
   if (session.quizId) {
@@ -209,24 +251,10 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
     timeLimit = CONFIG.POLL.DEFAULT_TIME_LIMIT;
   }
 
-  let questions = [];
-  try {
-    questions = JSON.parse(session.selectedQuestionsJson);
-  } catch {
-    questions = [];
-  }
-
-  if (session.currentIndex >= questions.length) {
-    // Finished
-    await finishSession(api, sessionId);
-    return;
-  }
-
-  const q = questions[session.currentIndex];
   const qNum = session.currentIndex + 1;
   const total = session.totalQuestions;
 
-  // 1. Agar savolga rasm biriktirilmagan bo'lsa yoki http URL bo'lsa, avtomatik Media kanalga yuklab file_id olamiz
+  // 1. Agar savolga rasm biriktirilmagan bo'lsa yoki http URL bo'lsa, Media kanalga yuklab file_id olamiz
   let photoToSend = q.photoFileId || null;
 
   if ((!photoToSend || photoToSend.startsWith('http')) && hasMathFormula(q.questionText)) {
@@ -427,18 +455,13 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
         })
         .where(eq(quizSessions.id, sessionId))
         .run();
+      return true; // success
     }
   } catch (err) {
-    console.error(`Error sending poll for session ${sessionId}:`, err);
-    try {
-      const user = await db.select().from(users).where(eq(users.telegramId, session.userId)).get();
-      const lang = user?.lang || 'UZ';
-      await api.sendMessage({
-        chat_id: session.chatId,
-        text: getMessage('ERR_SENDING_QUESTION', lang, { error: err.message }),
-      });
-    } catch {}
+    console.error(`[_trySendQuestionPoll] Error sending question index ${session.currentIndex} for session ${sessionId}:`, err?.message);
+    return false;
   }
+  return false; // pollMsg was null
 }
 
 export async function handlePollAnswer(api, pollAnswer) {
@@ -624,8 +647,13 @@ export async function advanceGroupRoundByPollId(api, pollId) {
     .where(and(eq(quizSessions.id, session.id), eq(quizSessions.lastPollId, pId)))
     .run();
 
+  // Use nullish coalescing: prefer rowsAffected, fall back to changes
+  const affected = res?.rowsAffected ?? res?.changes ?? -1;
+  console.log(`[advanceGroupRoundByPollId] CAS UPDATE result: affected=${affected}, session=${session.id}, pollId=${pId}`);
+
   // If another concurrent request already updated lastPollId, abort to avoid duplicate question!
-  if (res && (res.rowsAffected === 0 || res.changes === 0)) {
+  if (affected === 0) {
+    console.log(`[advanceGroupRoundByPollId] Duplicate detected (affected=0), aborting for session ${session.id}`);
     return;
   }
 
