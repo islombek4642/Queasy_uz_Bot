@@ -356,7 +356,7 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
           [
             {
               text: getMessage('BTN_NEXT_QUESTION', 'UZ'),
-              callback_data: `${ACTIONS.NEXT_QUESTION_PREFIX}${sessionId}`,
+              callback_data: `${ACTIONS.NEXT_QUESTION_PREFIX}${sessionId}:${session.currentIndex}`,
             },
           ],
         ],
@@ -666,7 +666,7 @@ export async function handlePollAnswer(api, pollAnswer) {
   }
 }
 
-export async function advanceGroupRound(api, sessionIdOrChatId, timeLimit = 30) {
+export async function advanceGroupRound(api, sessionIdOrChatId, timeLimit = 30, fromIndex = null) {
   let session = await db
     .select()
     .from(quizSessions)
@@ -683,17 +683,35 @@ export async function advanceGroupRound(api, sessionIdOrChatId, timeLimit = 30) 
 
   if (!session) return;
 
+  // Agar tugma eskirgan savoldan bosilgan bo'lsa (allaqachon boshqa savolga o'tib bo'lingan bo'lsa), e'tiborsiz qoldiramiz
+  if (fromIndex !== null && session.currentIndex !== fromIndex) {
+    console.log(`[advanceGroupRound] Already advanced (current=${session.currentIndex}, fromIndex=${fromIndex}), aborting`);
+    return;
+  }
+
   const nextIndex = session.currentIndex + 1;
   if (nextIndex >= session.totalQuestions) {
     await finishSession(api, session.id);
   } else {
     const quiz = await getQuizById(session.quizId);
     const roundTimeLimit = quiz?.timeLimit || timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT;
-    await db
+
+    // Atomik CAS: Faqat currentIndex kutilgan holatda bo'lsagina yangilaymiz (orqama-ketin 2 marta bosilsa savol tashlab ketmaydi)
+    const whereCond = fromIndex !== null
+      ? and(eq(quizSessions.id, session.id), eq(quizSessions.currentIndex, fromIndex))
+      : and(eq(quizSessions.id, session.id), eq(quizSessions.currentIndex, session.currentIndex));
+
+    const res = await db
       .update(quizSessions)
       .set({ currentIndex: nextIndex, lastPollId: null })
-      .where(eq(quizSessions.id, session.id))
+      .where(whereCond)
       .run();
+
+    const affected = res?.rowsAffected ?? res?.changes ?? -1;
+    if (affected === 0) {
+      console.log(`[advanceGroupRound] Concurrent advance detected (affected=0), aborting`);
+      return;
+    }
 
     await sendNextQuestionPoll(api, session.id, roundTimeLimit);
   }
@@ -747,13 +765,19 @@ export async function finishSession(api, sessionId, isStopped = false) {
     .where(eq(quizSessions.id, sessionId))
     .get();
 
-  if (!session) return;
+  if (!session || !session.isActive) return;
 
-  await db
+  const res = await db
     .update(quizSessions)
     .set({ isActive: false })
-    .where(eq(quizSessions.id, sessionId))
+    .where(and(eq(quizSessions.id, sessionId), eq(quizSessions.isActive, true)))
     .run();
+
+  const affected = res?.rowsAffected ?? res?.changes ?? -1;
+  if (affected === 0) {
+    console.log(`[finishSession] Session ${sessionId} already finished concurrently`);
+    return;
+  }
 
   // If there is an active poll open, stop it so answers can no longer be clicked
   if (session.lastPollMessageId) {

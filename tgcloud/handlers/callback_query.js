@@ -555,7 +555,11 @@ export default async function (callbackQuery, ctx) {
 
   // 4g. Group Quiz: Force Next Question Button
   if (data.startsWith(ACTIONS.NEXT_QUESTION_PREFIX)) {
-    const sessionId = parseInt(data.replace(ACTIONS.NEXT_QUESTION_PREFIX, ''), 10);
+    const raw = data.replace(ACTIONS.NEXT_QUESTION_PREFIX, '');
+    const [sIdStr, qIndexStr] = raw.split(':');
+    const sessionId = parseInt(sIdStr, 10);
+    const fromIndex = qIndexStr !== undefined && qIndexStr !== '' ? parseInt(qIndexStr, 10) : null;
+
     const session = await db
       .select()
       .from(quizSessions)
@@ -578,8 +582,7 @@ export default async function (callbackQuery, ctx) {
 
     await answer();
 
-
-    await advanceGroupRound(api, session.id);
+    await advanceGroupRound(api, session.id, 30, fromIndex);
     return;
   }
 
