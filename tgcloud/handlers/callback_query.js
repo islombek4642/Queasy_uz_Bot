@@ -81,6 +81,20 @@ function truncateText(str = '', maxLen = 25) {
   return clean;
 }
 
+function formatDateTimeUz(val) {
+  if (!val) return '';
+  const d = val instanceof Date ? val : new Date(typeof val === 'number' && val < 1e11 ? val * 1000 : val);
+  if (isNaN(d.getTime())) return '';
+  // Tashkent time is UTC+5 (5 * 3600 * 1000 ms)
+  const uzDate = new Date(d.getTime() + 5 * 3600 * 1000);
+  const day = String(uzDate.getUTCDate()).padStart(2, '0');
+  const month = String(uzDate.getUTCMonth() + 1).padStart(2, '0');
+  const year = uzDate.getUTCFullYear();
+  const hours = String(uzDate.getUTCHours()).padStart(2, '0');
+  const minutes = String(uzDate.getUTCMinutes()).padStart(2, '0');
+  return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
+
 export default async function (callbackQuery, ctx) {
   if (!callbackQuery || !callbackQuery.from) return;
 
@@ -1129,7 +1143,9 @@ export default async function (callbackQuery, ctx) {
           const displayName = escapeHtml(truncateText(rawName, 25));
           const link = u.username ? `https://t.me/${u.username}` : `tg://user?id=${u.telegramId}`;
           const usernameTag = u.username ? ` (@${escapeHtml(u.username)})` : '';
-          text += `${num}. <a href="${link}">${displayName}</a> (<code>${u.telegramId}</code>)${usernameTag}\n`;
+          const timeFormatted = formatDateTimeUz(u.createdAt);
+          const timeTag = timeFormatted ? `\n   🗓 <code>${timeFormatted}</code>` : '';
+          text += `${num}. <a href="${link}">${displayName}</a> (<code>${u.telegramId}</code>)${usernameTag}${timeTag}\n`;
         }
       }
 

@@ -33,8 +33,6 @@ export async function cleanupStaleSessions(timeoutSeconds = 300) {
 export async function getBotStatistics() {
   await cleanupStaleSessions(300);
 
-  const oneDayAgoSec = Math.floor(Date.now() / 1000) - 86400;
-
   const [
     totalUsers,
     todayUsers,
@@ -46,7 +44,7 @@ export async function getBotStatistics() {
     activePrivateSessions,
   ] = await Promise.all([
     db.$count(users),
-    db.$count(users, sql`${users.createdAt} >= ${oneDayAgoSec}`),
+    db.$count(users, sql`${users.createdAt} >= unixepoch('now', '+5 hours', 'start of day', '-5 hours')`),
     getGroupsCount(),
     db.$count(quizzes),
     db.$count(quizSessions),
@@ -78,7 +76,7 @@ export async function listUsers(page = 0, pageSize = CONFIG.PAGINATION.USERS) {
       createdAt: users.createdAt,
     })
     .from(users)
-    .orderBy(desc(users.createdAt))
+    .orderBy(desc(users.createdAt), desc(users.telegramId))
     .limit(pageSize)
     .offset(offset)
     .all();

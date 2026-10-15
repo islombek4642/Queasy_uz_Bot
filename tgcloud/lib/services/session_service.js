@@ -13,6 +13,7 @@ import { getStopKeyboard } from '../keyboards/mode_keyboard.js';
 import { truncateQuestion, truncateOption, truncateExplanation, escapeHtml, formatParticipantName } from '../utils/poll_helpers.js';
 import { sanitizeQuestionText, sanitizeOptionsList } from '../parsers/sanitizer.js';
 import { getMediaChannel } from './admin_service.js';
+import { getOrCreateUser } from './user_service.js';
 import { hasMathFormula, renderAndUploadFormula, generateLatexImageUrl } from '../parsers/math_engine.js';
 
 export async function logAppError(source, msg, details = null) {
@@ -543,6 +544,13 @@ export async function handlePollAnswer(api, pollAnswer) {
   const selectedOptionId = pollAnswer.option_ids?.[0];
 
   if (selectedOptionId === undefined) return;
+
+  // Ensure user is recorded in users table
+  if (tgUser && tgUser.id) {
+    try {
+      await getOrCreateUser(tgUser);
+    } catch {}
+  }
 
   const session = await db
     .select()
