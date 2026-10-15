@@ -48,12 +48,6 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
       const res = await createTournament(quizId);
       if (res && res.success) {
         setShareModalData(res);
-        const tg = window.Telegram?.WebApp;
-        if (tg && typeof tg.openTelegramLink === 'function') {
-          tg.openTelegramLink(res.telegramShareUrl);
-        } else if (tg && typeof tg.openLink === 'function') {
-          tg.openLink(res.telegramShareUrl);
-        }
       } else {
         alert(res?.error || 'Turnir yaratishda xatolik yuz berdi');
       }
@@ -392,7 +386,7 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
                 }}
               >
                 <Icon icon={copiedModal ? 'solar:check-circle-bold' : 'solar:copy-bold'} width="13" height="13" />
-                <span>{copiedModal ? t('TOAST_LINK_COPIED') : t('LIVE_ROOM_COPY_LINK')}</span>
+                <span>{copiedModal ? t('TOAST_LINK_COPIED') : (t('BTN_COPY_LINK') || 'Nusxalash')}</span>
               </button>
             </div>
 
