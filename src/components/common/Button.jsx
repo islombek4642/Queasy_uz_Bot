@@ -100,7 +100,19 @@ export function Button({
       ) : (
         <>
           {icon && <Icon icon={icon} width={iconSize} height={iconSize} style={{ flexShrink: 0 }} />}
-          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>{children}</span>
+          <span
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: style?.whiteSpace || 'nowrap',
+              maxWidth: '100%',
+              minWidth: 0,
+              textAlign: 'center',
+              lineHeight: style?.lineHeight || 'inherit',
+            }}
+          >
+            {children}
+          </span>
           {iconRight && <Icon icon={iconRight} width={iconSize} height={iconSize} style={{ flexShrink: 0 }} />}
         </>
       )}

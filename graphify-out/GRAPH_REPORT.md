@@ -1,7 +1,7 @@
 # Graph Report - Queasy_uz_Bot  (2026-10-15)
 
 ## Corpus Check
-- 457 files · ~472,424 words
+- 457 files · ~496,578 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 99 file(s) not represented in the graph (top: .ttf 54, .csv 37, .css 4)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0852d80d`
+- Built from commit: `b0b333c9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -1246,7 +1246,7 @@ Nodes (3): mockSessions, nowSec, ranked
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Review Focus` connect `Review Focus` to `ArenaView.jsx`, `quizService.js`?**
-  _High betweenness centrality (0.100) - this node is a cross-community bridge._
+  _High betweenness centrality (0.101) - this node is a cross-community bridge._
 - **Are the 4 inferred relationships involving `getMessage()` (e.g. with `Global Constraints` and `3.2 Handlers (`tgcloud/handlers/`)`) actually correct?**
   _`getMessage()` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `RFC-6455`, `RFC-1951`, `RFC-1950` to the rest of the system?**

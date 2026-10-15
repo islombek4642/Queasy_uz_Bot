@@ -51,6 +51,7 @@ export function Modal({
         alignItems: 'center',
         justifyContent: 'center',
         padding: '12px',
+        boxSizing: 'border-box',
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
         backdropFilter: 'blur(8px)',
       }}
@@ -66,6 +67,8 @@ export function Modal({
         style={{
           width: '100%',
           maxWidth,
+          minWidth: 0,
+          boxSizing: 'border-box',
           maxHeight: 'min(88vh, 88dvh)',
           display: 'flex',
           flexDirection: 'column',
@@ -152,6 +155,11 @@ export function Modal({
           style={{
             padding: '12px 14px',
             overflowY: 'auto',
+            overflowX: 'hidden',
+            minWidth: 0,
+            wordBreak: 'break-word',
+            overflowWrap: 'anywhere',
+            boxSizing: 'border-box',
             flex: 1,
             color: 'var(--text-secondary)',
             overscrollBehavior: 'contain',
