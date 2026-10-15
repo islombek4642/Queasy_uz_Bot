@@ -7,7 +7,6 @@ import { fetchGroupSessions, createTournament, createLiveRoom } from '../service
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
-import { Modal } from '../components/common/Modal.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
 
 export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
@@ -18,8 +17,6 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
   const [creatingId, setCreatingId] = useState(null);
   const [creatingLiveId, setCreatingLiveId] = useState(null);
   const [expandedQuizId, setExpandedQuizId] = useState(null);
-  const [shareModalData, setShareModalData] = useState(null);
-  const [copiedModal, setCopiedModal] = useState(false);
 
   const loadSessions = () => {
     setLoading(true);
@@ -47,7 +44,9 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
     try {
       const res = await createTournament(quizId);
       if (res && res.success) {
-        setShareModalData(res);
+        if (onOpenTournament && res.shareCode) {
+          onOpenTournament(res.shareCode);
+        }
       } else {
         alert(res?.error || 'Turnir yaratishda xatolik yuz berdi');
       }
@@ -322,151 +321,6 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
           <div>⚡ 3. <b>«{t('BTN_LIVE_ROOM')}»</b> {t('GROUP_HOST_STEP_3_HINT')}</div>
         </div>
       </Card>
-
-      {/* Share Tournament Modal */}
-      {shareModalData && (
-        <Modal
-          isOpen={Boolean(shareModalData)}
-          title={t('SHARE_MODAL_TITLE')}
-          icon="solar:share-bold"
-          maxWidth="400px"
-          onClose={() => setShareModalData(null)}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-              textAlign: 'center',
-              width: '100%',
-              minWidth: 0,
-              boxSizing: 'border-box',
-            }}
-          >
-            <div
-              style={{
-                fontSize: '0.84rem',
-                color: 'var(--text-secondary)',
-                lineHeight: '1.45',
-                margin: 0,
-                wordBreak: 'break-word',
-                overflowWrap: 'anywhere',
-                maxHeight: '140px',
-                overflowY: 'auto',
-                padding: '2px 4px',
-              }}
-            >
-              {t('SHARE_MODAL_SUBTITLE', { title: shareModalData.title })}
-            </div>
-
-            {/* Compact Link & Copy Bar */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                background: 'rgba(99, 102, 241, 0.08)',
-                border: '1px solid var(--accent-glow)',
-                borderRadius: 'var(--radius-md)',
-                padding: '5px 8px 5px 10px',
-                gap: '8px',
-                width: '100%',
-                minWidth: 0,
-                boxSizing: 'border-box',
-              }}
-            >
-              <span
-                style={{
-                  flex: 1,
-                  minWidth: 0,
-                  fontSize: '0.76rem',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  color: 'var(--accent-primary)',
-                  fontWeight: '600',
-                  textAlign: 'left',
-                }}
-                title={shareModalData.shareLink}
-              >
-                {shareModalData.shareLink}
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  haptic.selection();
-                  navigator.clipboard?.writeText(shareModalData.shareLink);
-                  setCopiedModal(true);
-                  setTimeout(() => setCopiedModal(false), 2000);
-                }}
-                className="glass-pill"
-                style={{
-                  padding: '5px 10px',
-                  fontSize: '0.74rem',
-                  fontWeight: '700',
-                  color: copiedModal ? 'var(--color-success)' : 'var(--text-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  flexShrink: 0,
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                <Icon icon={copiedModal ? 'solar:check-circle-bold' : 'solar:copy-bold'} width="14" height="14" />
-                <span>{copiedModal ? t('TOAST_LINK_COPIED') : (t('BTN_COPY_LINK') || 'Nusxalash')}</span>
-              </button>
-            </div>
-
-            {/* Action Buttons: 2 sleek buttons */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '2px', width: '100%', minWidth: 0 }}>
-              <Button
-                variant="primary"
-                fullWidth
-                size="sm"
-                icon="solar:share-bold"
-                style={{
-                  padding: '10px 12px',
-                  fontSize: '0.86rem',
-                  whiteSpace: 'normal',
-                  height: 'auto',
-                  lineHeight: '1.25',
-                }}
-                onClick={() => {
-                  haptic.impact('medium');
-                  const tg = window.Telegram?.WebApp;
-                  if (tg?.openTelegramLink) tg.openTelegramLink(shareModalData.telegramShareUrl);
-                  else if (tg?.openLink) tg.openLink(shareModalData.telegramShareUrl);
-                  else window.open(shareModalData.telegramShareUrl, '_blank');
-                }}
-              >
-                {t('BTN_TELEGRAM_SHARE_GROUP')}
-              </Button>
-
-              <Button
-                variant="glass"
-                fullWidth
-                size="sm"
-                icon="solar:cup-star-bold"
-                style={{
-                  padding: '9px 12px',
-                  fontSize: '0.84rem',
-                  whiteSpace: 'normal',
-                  height: 'auto',
-                  lineHeight: '1.25',
-                }}
-                onClick={() => {
-                  haptic.selection();
-                  const code = shareModalData.shareCode;
-                  setShareModalData(null);
-                  if (onOpenTournament) onOpenTournament(code);
-                }}
-              >
-                {t('BTN_VIEW_TOURNAMENT_RANKS')}
-              </Button>
-            </div>
-          </div>
-        </Modal>
-      )}
     </div>
   );
 }

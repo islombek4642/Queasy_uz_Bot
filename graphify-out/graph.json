@@ -610,18 +610,6 @@
       "source_location": "L19"
     },
     {
-      "id": "src_services_quizservice_clonequiz",
-      "label": "cloneQuiz()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "quizService.js",
-      "file_type": "code",
-      "norm_label": "clonequiz()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L67"
-    },
-    {
       "id": "src_services_quizservice_deletequiz",
       "label": "deleteQuiz()",
       "_callable": true,
@@ -2482,6 +2470,18 @@
       "source_location": "L4"
     },
     {
+      "id": "src_services_quizservice_clonequiz",
+      "label": "cloneQuiz()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 191,
+      "community_name": "GroupHostView.jsx",
+      "file_type": "code",
+      "norm_label": "clonequiz()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L67"
+    },
+    {
       "id": "src_services_quizservice_createliveroom",
       "label": "createLiveRoom()",
       "_callable": true,
@@ -2518,16 +2518,16 @@
       "source_location": "L43"
     },
     {
-      "id": "src_services_quizservice_savecustomquiz",
-      "label": "saveCustomQuiz()",
+      "id": "src_services_quizservice_fetchkiutcatalog",
+      "label": "fetchKiutCatalog()",
       "_callable": true,
       "_origin": "ast",
       "community": 191,
       "community_name": "GroupHostView.jsx",
       "file_type": "code",
-      "norm_label": "savecustomquiz()",
+      "norm_label": "fetchkiutcatalog()",
       "source_file": "src/services/quizService.js",
-      "source_location": "L47"
+      "source_location": "L63"
     },
     {
       "id": "src_views_grouphostview_grouphostview",
@@ -2539,19 +2539,19 @@
       "file_type": "code",
       "norm_label": "grouphostview()",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L13"
+      "source_location": "L12"
     },
     {
-      "id": "src_views_quizcreatorview_quizcreatorview",
-      "label": "QuizCreatorView()",
+      "id": "src_views_kiutview_kiutview",
+      "label": "KiutView()",
       "_callable": true,
       "_origin": "ast",
       "community": 191,
       "community_name": "GroupHostView.jsx",
       "file_type": "code",
-      "norm_label": "quizcreatorview()",
-      "source_file": "src/views/QuizCreatorView.jsx",
-      "source_location": "L12"
+      "norm_label": "kiutview()",
+      "source_file": "src/views/KiutView.jsx",
+      "source_location": "L11"
     },
     {
       "id": "agents_skills_ui_ux_pro_max_scripts_design_system_palette_is_dark",
@@ -6166,18 +6166,6 @@
       "source_location": "L5"
     },
     {
-      "id": "src_services_quizservice_fetchkiutcatalog",
-      "label": "fetchKiutCatalog()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 45,
-      "community_name": "useTelegram",
-      "file_type": "code",
-      "norm_label": "fetchkiutcatalog()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L63"
-    },
-    {
       "id": "src_services_quizservice_fetchquizdetail",
       "label": "fetchQuizDetail()",
       "_callable": true,
@@ -6190,16 +6178,16 @@
       "source_location": "L31"
     },
     {
-      "id": "src_views_kiutview_kiutview",
-      "label": "KiutView()",
+      "id": "src_services_quizservice_savecustomquiz",
+      "label": "saveCustomQuiz()",
       "_callable": true,
       "_origin": "ast",
       "community": 45,
       "community_name": "useTelegram",
       "file_type": "code",
-      "norm_label": "kiutview()",
-      "source_file": "src/views/KiutView.jsx",
-      "source_location": "L11"
+      "norm_label": "savecustomquiz()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L47"
     },
     {
       "id": "src_views_mistakesview_mistakesview",
@@ -6223,6 +6211,18 @@
       "file_type": "code",
       "norm_label": "myquizzesview()",
       "source_file": "src/views/MyQuizzesView.jsx",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_views_quizcreatorview_quizcreatorview",
+      "label": "QuizCreatorView()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "useTelegram",
+      "file_type": "code",
+      "norm_label": "quizcreatorview()",
+      "source_file": "src/views/QuizCreatorView.jsx",
       "source_location": "L12"
     },
     {
@@ -49608,7 +49608,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L126",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -49620,7 +49620,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -49632,7 +49632,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L140",
+      "source_location": "L139",
       "weight": 1.0
     },
     {
@@ -49644,7 +49644,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -49656,7 +49656,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L165",
+      "source_location": "L164",
       "weight": 1.0
     },
     {
@@ -49668,7 +49668,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L187",
+      "source_location": "L186",
       "weight": 1.0
     },
     {
@@ -49680,19 +49680,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L26",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_grouphostview_grouphostview",
-      "target": "src_components_common_modal_modal",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L328",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -49704,7 +49692,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L48",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -49716,7 +49704,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L66",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
@@ -55899,18 +55887,6 @@
     },
     {
       "source": "src_views_grouphostview",
-      "target": "src_components_common_modal_modal",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_grouphostview",
       "target": "src_components_quiz_progressbar_progressbar",
       "relation": "imports",
       "_origin": "ast",
@@ -55918,7 +55894,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L11",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -63148,18 +63124,6 @@
     },
     {
       "source": "src_views_grouphostview",
-      "target": "src_components_common_modal",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L10",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_grouphostview",
       "target": "src_components_quiz_progressbar",
       "relation": "imports_from",
       "_origin": "ast",
@@ -63167,7 +63131,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L11",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -94732,7 +94696,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -103672,5 +103636,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b0b333c9cfe363efc08b7efca5ebad54fa37bf5b"
+  "built_at_commit": "e3cbbc9fa62f3a90214d35b665a48fd01e7c5b3e"
 }

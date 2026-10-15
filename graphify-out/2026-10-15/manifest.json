@@ -348,9 +348,9 @@
     "semantic_hash": ""
   },
   "src/components/common/Button.jsx": {
-    "mtime": 1792078599.5994785,
-    "seen": 1792080792.05109,
-    "ast_hash": "c95a621cbe348aaacd8f5962ac8a9f4d",
+    "mtime": 1792081709.4201536,
+    "seen": 1792081824.287745,
+    "ast_hash": "3331a826f20a25124ae67c6977bcc8f5",
     "semantic_hash": ""
   },
   "src/components/common/Card.jsx": {
@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "src/components/common/Modal.jsx": {
-    "mtime": 1792072178.83236,
-    "seen": 1792080792.051098,
-    "ast_hash": "568ce3c306c46314f107ca8038b8ce95",
+    "mtime": 1792081603.8337648,
+    "seen": 1792081824.2877543,
+    "ast_hash": "97336c0ea4b87bff333440145d64ae99",
     "semantic_hash": ""
   },
   "src/components/navigation/BottomNav.jsx": {
@@ -516,9 +516,9 @@
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
-    "mtime": 1792079121.6645138,
-    "seen": 1792080792.051185,
-    "ast_hash": "f3dd3933ab8572b7fbc0a9578e0306b0",
+    "mtime": 1792081666.0714478,
+    "seen": 1792081824.287851,
+    "ast_hash": "c71566a4d8870ff6fb0c1e8e1d9ad0e3",
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
@@ -2961,6 +2961,18 @@
     "mtime": 1792072178.83236,
     "seen": 1792080792.0523112,
     "ast_hash": "429e75b38d2b27fd107811e94608276f",
+    "semantic_hash": ""
+  },
+  "public/queasy_cover_640x360.jpg": {
+    "mtime": 1792080996.447714,
+    "seen": 1792081824.2896192,
+    "ast_hash": "2878d90755d45f56bff57fe442e5cd57",
+    "semantic_hash": ""
+  },
+  "public/queasy_cover_640x360.png": {
+    "mtime": 1792080996.443318,
+    "seen": 1792081824.289622,
+    "ast_hash": "8507ac3959198f836cd511b7ef071bf3",
     "semantic_hash": ""
   }
 }
