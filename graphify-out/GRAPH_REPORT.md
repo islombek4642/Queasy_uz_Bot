@@ -1,17 +1,17 @@
 # Graph Report - Queasy_uz_Bot  (2026-10-15)
 
 ## Corpus Check
-- 457 files · ~496,596 words
+- 457 files · ~496,914 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 99 file(s) not represented in the graph (top: .ttf 54, .csv 37, .css 4)
 
 ## Summary
-- 3567 nodes · 5298 edges · 335 communities (217 shown, 118 thin omitted)
+- 3567 nodes · 5300 edges · 335 communities (217 shown, 118 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 268 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b1db753c`
+- Built from commit: `0059a407`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -323,7 +323,7 @@
 - server-parallel-fetching.md
 - server-serialization.md
 - vercel-react-best-practices/rules/_template.md
-- Review Focus
+- GroupHostView.jsx
 - channel_service.js
 - Prisma Postgres setup
 - Icons
@@ -400,8 +400,8 @@ Cohesion: 0.18
 Nodes (8): cmdBotDirected, cmdCreate, cmdOther, cmdQuiz, cmdQuizHelp, cmdQuizId, cmdQuizStats, cmdStop
 
 ### Community 10 - "quizService.js"
-Cohesion: 0.10
-Nodes (43): 8. Mini App Frontendining Katta Hajmi (666.6 kB bitta faylda), 2. Frontend Services & Constants, Task 5: Guruh Turniri Ko'rinishi va Natijalar Ekranini yaratish (`TournamentView.jsx`), Task 5: LiveRoomView Complete Lifecycle (Lobby, Active, and Podium / Leaderboard), 3.4. Frontend: `src/views/HomeView.jsx` va `src/App.jsx`, 2.3.2 `src/App.jsx` (Code Splitting & Bundle Size Optimization), ProgressBar(), EP_CLONE_QUIZ (+35 more)
+Cohesion: 0.11
+Nodes (40): 8. Mini App Frontendining Katta Hajmi (666.6 kB bitta faylda), 2. Frontend Services & Constants, Task 5: Guruh Turniri Ko'rinishi va Natijalar Ekranini yaratish (`TournamentView.jsx`), Task 5: LiveRoomView Complete Lifecycle (Lobby, Active, and Podium / Leaderboard), 3.4. Frontend: `src/views/HomeView.jsx` va `src/App.jsx`, 2.3.2 `src/App.jsx` (Code Splitting & Bundle Size Optimization), EP_CLONE_QUIZ, EP_CREATE_LIVE_ROOM (+32 more)
 
 ### Community 11 - "Queasy Telegram Mini App (Web App) Arxitektura va Dizayn Spetsifikatsiyasi"
 Cohesion: 0.12
@@ -536,8 +536,8 @@ Cohesion: 0.10
 Nodes (19): Advanced v4 Patterns, Best Practices, Container Queries, Custom Utilities with `@utility`, Do's, Don'ts, Namespace Overrides, Pattern 5: Native CSS Animations (v4) (+11 more)
 
 ### Community 45 - "useTelegram"
-Cohesion: 0.27
-Nodes (24): Component Selection, @iconify/react, react, Badge(), Button(), Card(), Modal(), Pagination() (+16 more)
+Cohesion: 0.28
+Nodes (22): Component Selection, @iconify/react, react, Badge(), Button(), Card(), Modal(), Pagination() (+14 more)
 
 ### Community 46 - "admin_service.js"
 Cohesion: 0.17
@@ -1203,9 +1203,9 @@ Nodes (4): Pattern, Reference, Skill Types, Technique
 Cohesion: 0.50
 Nodes (4): Example: TDD Skill Bulletproofing, Initial Test (Failed), Iteration 1 - Add Counter, Iteration 2 - Add Foundational Principle
 
-### Community 329 - "Review Focus"
-Cohesion: 0.22
-Nodes (8): Global Constraints, Review Focus, Task 1: Backend Endpoints for Live Room Score & Completion, Task 2: Backend Enhancements for State & Catalog Availability, Task 3: Frontend Constants, Services & Localization, Task 6: GroupHostView & TournamentView Enhancements, Task 7: Verification, Knowledge Graph Sync & Final Validation, WebApp Group Host, Tournament & Live Room Fixes Implementation Plan
+### Community 329 - "GroupHostView.jsx"
+Cohesion: 0.17
+Nodes (13): Global Constraints, Review Focus, Task 1: Backend Endpoints for Live Room Score & Completion, Task 2: Backend Enhancements for State & Catalog Availability, Task 3: Frontend Constants, Services & Localization, Task 6: GroupHostView & TournamentView Enhancements, Task 7: Verification, Knowledge Graph Sync & Final Validation, WebApp Group Host, Tournament & Live Room Fixes Implementation Plan (+5 more)
 
 ### Community 330 - "channel_service.js"
 Cohesion: 0.40
@@ -1235,16 +1235,16 @@ Nodes (3): mockSessions, nowSec, ranked
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Review Focus` connect `Review Focus` to `ArenaView.jsx`, `quizService.js`?**
-  _High betweenness centrality (0.101) - this node is a cross-community bridge._
+- **Why does `Review Focus` connect `GroupHostView.jsx` to `ArenaView.jsx`, `quizService.js`?**
+  _High betweenness centrality (0.100) - this node is a cross-community bridge._
 - **Are the 4 inferred relationships involving `getMessage()` (e.g. with `Global Constraints` and `3.2 Handlers (`tgcloud/handlers/`)`) actually correct?**
   _`getMessage()` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `RFC-6455`, `RFC-1951`, `RFC-1950` to the rest of the system?**
   _3 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `test_keyboards_i18n.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.125 - nodes in this community are weakly interconnected._
-- **Why does `Task 1: Backend Endpoints for Live Room Score & Completion` connect `Review Focus` to `BM25`?**
-  _High betweenness centrality (0.100) - this node is a cross-community bridge._
+- **Why does `Task 1: Backend Endpoints for Live Room Score & Completion` connect `GroupHostView.jsx` to `BM25`?**
+  _High betweenness centrality (0.099) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `search()` (e.g. with ``search` — Search registries` and `Muse Tool Mapping`) actually correct?**
   _`search()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **Should `Database (`db`)` be split into smaller, more focused modules?**

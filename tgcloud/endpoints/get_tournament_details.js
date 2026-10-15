@@ -1,7 +1,7 @@
 // tgcloud/endpoints/get_tournament_details.js
 import { db } from 'sdk';
 import { eq, desc, asc } from 'sdk/db';
-import { groupTournaments, tournamentParticipants, quizzes, questions, users } from '../schema.js';
+import { groupTournaments, tournamentParticipants, quizzes, questions, users, botSettings } from '../schema.js';
 
 export default async function (input, ctx) {
   const tgUser = ctx?.initData?.user;
@@ -75,6 +75,29 @@ export default async function (input, ctx) {
 
   const userParticipation = formattedLeaderboard.find((p) => p.isCurrentUser) || null;
 
+  // Fetch host's modeConfig if set (e.g. range, randomCount, mode)
+  let modeConfig = null;
+  let actualQCount = Number(qCount || 0);
+
+  const cfgSetting = await db
+    .select({ value: botSettings.value })
+    .from(botSettings)
+    .where(eq(botSettings.key, `tournament_cfg:${shareCode}`))
+    .get();
+
+  if (cfgSetting?.value) {
+    try {
+      modeConfig = JSON.parse(cfgSetting.value);
+      if (modeConfig?.mode === 'random' && modeConfig.randomCount) {
+        actualQCount = Math.min(actualQCount, Math.max(1, Number(modeConfig.randomCount) || 10));
+      } else if (modeConfig?.mode === 'range' && Array.isArray(modeConfig.range) && modeConfig.range.length === 2) {
+        const s = Math.max(1, Math.min(Number(modeConfig.range[0]) || 1, actualQCount));
+        const e = Math.max(s, Math.min(Number(modeConfig.range[1]) || actualQCount, actualQCount));
+        actualQCount = e - s + 1;
+      }
+    } catch {}
+  }
+
   return {
     success: true,
     tournament: {
@@ -88,10 +111,11 @@ export default async function (input, ctx) {
       title: quiz.title,
       description: quiz.description,
       timeLimit: quiz.timeLimit || 30,
-      questionCount: Number(qCount || 0),
+      questionCount: actualQCount,
     },
     leaderboard: formattedLeaderboard,
     totalParticipants: formattedLeaderboard.length,
     userParticipation,
+    modeConfig,
   };
 }

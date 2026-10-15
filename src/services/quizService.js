@@ -68,8 +68,8 @@ export async function cloneQuiz(quizId) {
   return await callEndpoint(EP_CLONE_QUIZ, { quizId });
 }
 
-export async function createTournament(quizId) {
-  return await callEndpoint(EP_CREATE_TOURNAMENT, { quizId });
+export async function createTournament(quizId, modeConfig = null) {
+  return await callEndpoint(EP_CREATE_TOURNAMENT, { quizId, modeConfig });
 }
 
 export async function fetchTournamentDetails(shareCode) {

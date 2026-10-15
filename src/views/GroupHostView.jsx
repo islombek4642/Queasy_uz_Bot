@@ -8,6 +8,7 @@ import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
+import { QuizModeModal } from '../components/quiz/QuizModeModal.jsx';
 
 export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
   const { t } = useTranslation();
@@ -17,6 +18,7 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
   const [creatingId, setCreatingId] = useState(null);
   const [creatingLiveId, setCreatingLiveId] = useState(null);
   const [expandedQuizId, setExpandedQuizId] = useState(null);
+  const [modeModalQuizId, setModeModalQuizId] = useState(null);
 
   const loadSessions = () => {
     setLoading(true);
@@ -38,11 +40,20 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
     return () => clearInterval(interval);
   }, []);
 
-  const handleShareTournament = async (quizId) => {
+  const handleOpenTournamentModeSelector = (quizId) => {
+    haptic.impact('medium');
+    setModeModalQuizId(quizId);
+  };
+
+  const handleConfirmTournamentMode = async (modeConfig) => {
+    const quizId = modeModalQuizId;
+    setModeModalQuizId(null);
+    if (!quizId) return;
+
     haptic.impact('medium');
     setCreatingId(quizId);
     try {
-      const res = await createTournament(quizId);
+      const res = await createTournament(quizId, modeConfig);
       if (res && res.success) {
         if (onOpenTournament && res.shareCode) {
           onOpenTournament(res.shareCode);
@@ -281,7 +292,7 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
                         size="sm"
                         fullWidth
                         loading={creatingId === q.id}
-                        onClick={() => handleShareTournament(q.id)}
+                        onClick={() => handleOpenTournamentModeSelector(q.id)}
                         icon="solar:cup-star-bold"
                         style={{ padding: '8px 12px', fontSize: '0.84rem' }}
                       >
@@ -321,6 +332,14 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
           <div>⚡ 3. <b>«{t('BTN_LIVE_ROOM')}»</b> {t('GROUP_HOST_STEP_3_HINT')}</div>
         </div>
       </Card>
+
+      {/* Quiz Mode Selector Modal for Host to configure questions count & mode */}
+      <QuizModeModal
+        isOpen={Boolean(modeModalQuizId)}
+        quizId={modeModalQuizId}
+        onClose={() => setModeModalQuizId(null)}
+        onConfirmMode={handleConfirmTournamentMode}
+      />
     </div>
   );
 }

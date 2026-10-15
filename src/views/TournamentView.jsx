@@ -8,7 +8,6 @@ import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { Spinner } from '../components/common/Spinner.jsx';
-import { QuizModeModal } from '../components/quiz/QuizModeModal.jsx';
 import { APP_CONFIG } from '../constants/config.js';
 
 export function TournamentView({ shareCode, onStartTournament, onBack }) {
@@ -19,7 +18,6 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
-  const [showModeModal, setShowModeModal] = useState(false);
 
   const loadData = () => {
     setLoading(true);
@@ -41,11 +39,10 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
       });
   };
 
-  const handleConfirmMode = (modeConfig) => {
-    setShowModeModal(false);
+  const handleStartTournamentGame = () => {
     haptic.impact('heavy');
-    if (quiz) {
-      onStartTournament(quiz.id, shareCode, modeConfig);
+    if (data?.quiz) {
+      onStartTournament(data.quiz.id, shareCode, data?.modeConfig || { mode: 'full' });
     }
   };
 
@@ -201,10 +198,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
             size="md"
             icon="solar:play-circle-bold"
             style={{ height: '44px', fontSize: '0.94rem', fontWeight: '800' }}
-            onClick={() => {
-              haptic.impact('medium');
-              setShowModeModal(true);
-            }}
+            onClick={handleStartTournamentGame}
           >
             {userParticipation ? t('BTN_RETRY') : t('BTN_JOIN_TOURNAMENT')}
           </Button>
@@ -314,14 +308,6 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
           </div>
         )}
       </div>
-
-      {/* Quiz Mode Selector Modal for Tournament Participant */}
-      <QuizModeModal
-        isOpen={showModeModal}
-        quizId={quiz?.id}
-        onClose={() => setShowModeModal(false)}
-        onConfirmMode={handleConfirmMode}
-      />
     </div>
   );
 }

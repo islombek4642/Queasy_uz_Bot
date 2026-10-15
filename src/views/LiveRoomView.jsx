@@ -312,66 +312,87 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
         </Badge>
       </div>
 
-      {/* Room Code Showcase Card */}
+      {/* Streamlined Room Code & Info Card */}
       <Card
         glow
         style={{
-          padding: '24px 16px',
-          textAlign: 'center',
-          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.2) 100%)',
+          padding: '14px 16px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px',
+          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.15) 100%)',
           border: '1px solid var(--accent-glow)',
         }}
       >
-        <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '700' }}>
-          {t('LIVE_ROOM_PIN_LABEL')}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '4px' }}>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '700' }}>
+              {t('LIVE_ROOM_TITLE')}
+            </span>
+            <Badge variant="warning" size="sm">
+              {quiz.questionCount || 0} {t('QUESTIONS_COUNT')}
+            </Badge>
+          </div>
+          <h2 style={{ fontSize: '1.05rem', fontWeight: '800', wordBreak: 'break-word', overflowWrap: 'anywhere', lineHeight: '1.3' }}>
+            {quiz.title}
+          </h2>
         </div>
+
+        {/* Compact PIN Badge with copy button */}
         <div
           style={{
-            fontSize: '3rem',
-            fontWeight: '900',
-            color: 'var(--accent-primary)',
-            letterSpacing: '6px',
-            fontFamily: 'var(--font-family-display)',
-            margin: '8px 0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: 'rgba(255, 255, 255, 0.05)',
+            padding: '8px 12px',
+            borderRadius: '12px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
           }}
         >
-          {roomCode}
-        </div>
-        <p
-          style={{
-            fontSize: '0.88rem',
-            fontWeight: '700',
-            color: 'var(--text-primary)',
-            marginBottom: '16px',
-            wordBreak: 'break-word',
-            overflowWrap: 'anywhere',
-            lineHeight: '1.35',
-          }}
-        >
-          {quiz.title}
-        </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: '700', color: 'var(--text-muted)' }}>PIN:</span>
+            <span
+              style={{
+                fontSize: '1.4rem',
+                fontWeight: '900',
+                color: 'var(--accent-primary)',
+                letterSpacing: '3px',
+                fontFamily: 'var(--font-family-display)',
+              }}
+            >
+              {roomCode}
+            </span>
+          </div>
 
-        {/* Share buttons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
-          <Button
-            variant="primary"
-            size="sm"
-            fullWidth
-            icon="solar:share-bold"
-            onClick={handleShareToTelegram}
-          >
-            {t('LIVE_ROOM_INVITE_GROUP')}
-          </Button>
-          <Button
-            variant="glass"
-            size="sm"
-            fullWidth
-            icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'}
+          <button
             onClick={handleCopyLink}
+            className="glass-pill"
+            style={{
+              padding: '4px 10px',
+              fontSize: '0.74rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              cursor: 'pointer',
+            }}
           >
-            {copied ? t('TOAST_LINK_COPIED') : t('LIVE_ROOM_COPY_LINK')}
-          </Button>
+            <Icon icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'} width="13" height="13" />
+            <span>{copied ? t('TOAST_LINK_COPIED') : (t('BTN_COPY_LINK') || 'Nusxa')}</span>
+          </button>
         </div>
+
+        {/* Share Button to invite group members */}
+        <Button
+          variant="primary"
+          size="md"
+          fullWidth
+          icon="solar:share-bold"
+          onClick={handleShareToTelegram}
+          style={{ height: '40px', fontSize: '0.88rem', fontWeight: '700' }}
+        >
+          {t('LIVE_ROOM_INVITE_GROUP')}
+        </Button>
       </Card>
 
       {/* Lobby / Players Waiting Area */}

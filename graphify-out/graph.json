@@ -586,18 +586,6 @@
       "source_location": "L10"
     },
     {
-      "id": "src_components_quiz_progressbar_progressbar",
-      "label": "ProgressBar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "quizService.js",
-      "file_type": "code",
-      "norm_label": "progressbar()",
-      "source_file": "src/components/quiz/ProgressBar.jsx",
-      "source_location": "L4"
-    },
-    {
       "id": "src_services_api_callendpoint",
       "label": "callEndpoint()",
       "_callable": true,
@@ -634,30 +622,6 @@
       "source_location": "L67"
     },
     {
-      "id": "src_services_quizservice_createliveroom",
-      "label": "createLiveRoom()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "quizService.js",
-      "file_type": "code",
-      "norm_label": "createliveroom()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L83"
-    },
-    {
-      "id": "src_services_quizservice_createtournament",
-      "label": "createTournament()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "quizService.js",
-      "file_type": "code",
-      "norm_label": "createtournament()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L71"
-    },
-    {
       "id": "src_services_quizservice_deletequiz",
       "label": "deleteQuiz()",
       "_callable": true,
@@ -668,18 +632,6 @@
       "norm_label": "deletequiz()",
       "source_file": "src/services/quizService.js",
       "source_location": "L51"
-    },
-    {
-      "id": "src_services_quizservice_fetchgroupsessions",
-      "label": "fetchGroupSessions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "quizService.js",
-      "file_type": "code",
-      "norm_label": "fetchgroupsessions()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L43"
     },
     {
       "id": "src_services_quizservice_fetchkiutcatalog",
@@ -742,6 +694,18 @@
       "source_location": "L99"
     },
     {
+      "id": "src_services_quizservice_savecustomquiz",
+      "label": "saveCustomQuiz()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "savecustomquiz()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L47"
+    },
+    {
       "id": "src_services_quizservice_startliveroom",
       "label": "startLiveRoom()",
       "_callable": true,
@@ -766,18 +730,6 @@
       "source_location": "L55"
     },
     {
-      "id": "src_views_grouphostview_grouphostview",
-      "label": "GroupHostView()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "quizService.js",
-      "file_type": "code",
-      "norm_label": "grouphostview()",
-      "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L12"
-    },
-    {
       "id": "src_views_kiutview_kiutview",
       "label": "KiutView()",
       "_callable": true,
@@ -800,6 +752,18 @@
       "norm_label": "liveroomview()",
       "source_file": "src/views/LiveRoomView.jsx",
       "source_location": "L14"
+    },
+    {
+      "id": "src_views_quizcreatorview_quizcreatorview",
+      "label": "QuizCreatorView()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "quizService.js",
+      "file_type": "code",
+      "norm_label": "quizcreatorview()",
+      "source_file": "src/views/QuizCreatorView.jsx",
+      "source_location": "L12"
     },
     {
       "id": "agents_skills_systematic_debugging_condition_based_waiting_example_waitforevent",
@@ -5242,6 +5206,66 @@
       "source_location": "L71"
     },
     {
+      "id": "src_components_quiz_progressbar_progressbar",
+      "label": "ProgressBar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 329,
+      "community_name": "GroupHostView.jsx",
+      "file_type": "code",
+      "norm_label": "progressbar()",
+      "source_file": "src/components/quiz/ProgressBar.jsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_services_quizservice_createliveroom",
+      "label": "createLiveRoom()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 329,
+      "community_name": "GroupHostView.jsx",
+      "file_type": "code",
+      "norm_label": "createliveroom()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L83"
+    },
+    {
+      "id": "src_services_quizservice_createtournament",
+      "label": "createTournament()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 329,
+      "community_name": "GroupHostView.jsx",
+      "file_type": "code",
+      "norm_label": "createtournament()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L71"
+    },
+    {
+      "id": "src_services_quizservice_fetchgroupsessions",
+      "label": "fetchGroupSessions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 329,
+      "community_name": "GroupHostView.jsx",
+      "file_type": "code",
+      "norm_label": "fetchgroupsessions()",
+      "source_file": "src/services/quizService.js",
+      "source_location": "L43"
+    },
+    {
+      "id": "src_views_grouphostview_grouphostview",
+      "label": "GroupHostView()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 329,
+      "community_name": "GroupHostView.jsx",
+      "file_type": "code",
+      "norm_label": "grouphostview()",
+      "source_file": "src/views/GroupHostView.jsx",
+      "source_location": "L13"
+    },
+    {
       "id": "tgcloud_lib_services_channel_service_addrequiredchannel",
       "label": "addRequiredChannel()",
       "_callable": true,
@@ -6202,18 +6226,6 @@
       "source_location": "L31"
     },
     {
-      "id": "src_services_quizservice_savecustomquiz",
-      "label": "saveCustomQuiz()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 45,
-      "community_name": "useTelegram",
-      "file_type": "code",
-      "norm_label": "savecustomquiz()",
-      "source_file": "src/services/quizService.js",
-      "source_location": "L47"
-    },
-    {
       "id": "src_views_mistakesview_mistakesview",
       "label": "MistakesView()",
       "_callable": true,
@@ -6238,18 +6250,6 @@
       "source_location": "L12"
     },
     {
-      "id": "src_views_quizcreatorview_quizcreatorview",
-      "label": "QuizCreatorView()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 45,
-      "community_name": "useTelegram",
-      "file_type": "code",
-      "norm_label": "quizcreatorview()",
-      "source_file": "src/views/QuizCreatorView.jsx",
-      "source_location": "L12"
-    },
-    {
       "id": "src_views_quizdetailview_quizdetailview",
       "label": "QuizDetailView()",
       "_callable": true,
@@ -6271,7 +6271,7 @@
       "file_type": "code",
       "norm_label": "tournamentview()",
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L14"
+      "source_location": "L13"
     },
     {
       "id": "tgcloud_lib_services_admin_service_broadcastmessage",
@@ -8147,17 +8147,6 @@
       "source_location": "L10"
     },
     {
-      "id": "src_components_quiz_progressbar",
-      "label": "ProgressBar.jsx",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "quizService.js",
-      "file_type": "code",
-      "norm_label": "progressbar.jsx",
-      "source_file": "src/components/quiz/ProgressBar.jsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_constants_endpoints",
       "label": "endpoints.js",
       "_origin": "ast",
@@ -8397,17 +8386,6 @@
       "file_type": "code",
       "norm_label": "quizservice.js",
       "source_file": "src/services/quizService.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_views_grouphostview",
-      "label": "GroupHostView.jsx",
-      "_origin": "ast",
-      "community": 10,
-      "community_name": "quizService.js",
-      "file_type": "code",
-      "norm_label": "grouphostview.jsx",
-      "source_file": "src/views/GroupHostView.jsx",
       "source_location": "L1"
     },
     {
@@ -27795,11 +27773,33 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_quiz_progressbar",
+      "label": "ProgressBar.jsx",
+      "_origin": "ast",
+      "community": 329,
+      "community_name": "GroupHostView.jsx",
+      "file_type": "code",
+      "norm_label": "progressbar.jsx",
+      "source_file": "src/components/quiz/ProgressBar.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_views_grouphostview",
+      "label": "GroupHostView.jsx",
+      "_origin": "ast",
+      "community": 329,
+      "community_name": "GroupHostView.jsx",
+      "file_type": "code",
+      "norm_label": "grouphostview.jsx",
+      "source_file": "src/views/GroupHostView.jsx",
+      "source_location": "L1"
+    },
+    {
       "id": "docs_superpowers_plans_2026_10_13_group_host_fixes",
       "label": "2026-10-13-group-host-fixes.md",
       "_origin": "ast",
       "community": 329,
-      "community_name": "Review Focus",
+      "community_name": "GroupHostView.jsx",
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "2026-10-13-group-host-fixes.md",
@@ -27811,7 +27811,7 @@
       "label": "Global Constraints",
       "_origin": "ast",
       "community": 329,
-      "community_name": "Review Focus",
+      "community_name": "GroupHostView.jsx",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "global constraints",
@@ -27823,7 +27823,7 @@
       "label": "Review Focus",
       "_origin": "ast",
       "community": 329,
-      "community_name": "Review Focus",
+      "community_name": "GroupHostView.jsx",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "review focus",
@@ -27835,7 +27835,7 @@
       "label": "Task 1: Backend Endpoints for Live Room Score & Completion",
       "_origin": "ast",
       "community": 329,
-      "community_name": "Review Focus",
+      "community_name": "GroupHostView.jsx",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "task 1: backend endpoints for live room score & completion",
@@ -27847,7 +27847,7 @@
       "label": "Task 2: Backend Enhancements for State & Catalog Availability",
       "_origin": "ast",
       "community": 329,
-      "community_name": "Review Focus",
+      "community_name": "GroupHostView.jsx",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "task 2: backend enhancements for state & catalog availability",
@@ -27859,7 +27859,7 @@
       "label": "Task 3: Frontend Constants, Services & Localization",
       "_origin": "ast",
       "community": 329,
-      "community_name": "Review Focus",
+      "community_name": "GroupHostView.jsx",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "task 3: frontend constants, services & localization",
@@ -27871,7 +27871,7 @@
       "label": "Task 6: GroupHostView & TournamentView Enhancements",
       "_origin": "ast",
       "community": 329,
-      "community_name": "Review Focus",
+      "community_name": "GroupHostView.jsx",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "task 6: grouphostview & tournamentview enhancements",
@@ -27883,7 +27883,7 @@
       "label": "Task 7: Verification, Knowledge Graph Sync & Final Validation",
       "_origin": "ast",
       "community": 329,
-      "community_name": "Review Focus",
+      "community_name": "GroupHostView.jsx",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "task 7: verification, knowledge graph sync & final validation",
@@ -27895,7 +27895,7 @@
       "label": "WebApp Group Host, Tournament & Live Room Fixes Implementation Plan",
       "_origin": "ast",
       "community": 329,
-      "community_name": "Review Focus",
+      "community_name": "GroupHostView.jsx",
       "file_type": "document",
       "node_kind": "heading",
       "norm_label": "webapp group host, tournament & live room fixes implementation plan",
@@ -49608,7 +49608,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L125",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -49620,19 +49620,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L13",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_grouphostview_grouphostview",
-      "target": "src_components_common_badge_badge",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L139",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -49644,7 +49632,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L14",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_grouphostview_grouphostview",
+      "target": "src_components_common_badge_badge",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/GroupHostView.jsx",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -49656,7 +49656,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L164",
+      "source_location": "L175",
       "weight": 1.0
     },
     {
@@ -49668,7 +49668,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L186",
+      "source_location": "L197",
       "weight": 1.0
     },
     {
@@ -49680,7 +49680,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L23",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_grouphostview_grouphostview",
+      "target": "src_components_quiz_quizmodemodal_quizmodemodal",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/GroupHostView.jsx",
+      "source_location": "L337",
       "weight": 1.0
     },
     {
@@ -49692,7 +49704,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L45",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -49704,7 +49716,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L65",
+      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -50040,7 +50052,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L519",
+      "source_location": "L540",
       "weight": 1.0
     },
     {
@@ -50525,18 +50537,6 @@
     },
     {
       "source": "src_views_tournamentview_tournamentview",
-      "target": "src_components_common_button_button",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L100",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_tournamentview_tournamentview",
       "target": "src_components_common_badge_badge",
       "relation": "calls",
       "_origin": "ast",
@@ -50544,7 +50544,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L126",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -50556,7 +50556,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -50568,7 +50568,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L16",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -50580,19 +50580,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L27",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_tournamentview_tournamentview",
-      "target": "src_components_quiz_quizmodemodal_quizmodemodal",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L319",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -50604,7 +50592,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L83",
+      "source_location": "L80",
       "weight": 1.0
     },
     {
@@ -50616,7 +50604,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L92",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_tournamentview_tournamentview",
+      "target": "src_components_common_button_button",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/TournamentView.jsx",
+      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -55923,6 +55923,18 @@
     },
     {
       "source": "src_views_grouphostview",
+      "target": "src_components_quiz_quizmodemodal_quizmodemodal",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/GroupHostView.jsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_grouphostview",
       "target": "src_hooks_usetranslation_usetranslation",
       "relation": "imports",
       "_origin": "ast",
@@ -56919,18 +56931,6 @@
     },
     {
       "source": "src_views_tournamentview",
-      "target": "src_components_quiz_quizmodemodal_quizmodemodal",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_tournamentview",
       "target": "src_constants_config_app_config",
       "relation": "imports",
       "_origin": "ast",
@@ -56938,7 +56938,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
@@ -57579,6 +57579,18 @@
     },
     {
       "source": "tgcloud_endpoints_create_tournament",
+      "target": "tgcloud_schema_botsettings",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/create_tournament.js",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_create_tournament",
       "target": "tgcloud_schema_grouptournaments",
       "relation": "imports",
       "_origin": "ast",
@@ -58018,6 +58030,18 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_quiz_detail.js",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_get_tournament_details",
+      "target": "tgcloud_schema_botsettings",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/get_tournament_details.js",
       "source_location": "L4",
       "weight": 1.0
     },
@@ -63208,6 +63232,18 @@
     },
     {
       "source": "src_views_grouphostview",
+      "target": "src_components_quiz_quizmodemodal",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/views/GroupHostView.jsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_grouphostview",
       "target": "ref_react",
       "relation": "imports_from",
       "_origin": "ast",
@@ -64336,18 +64372,6 @@
     },
     {
       "source": "src_views_tournamentview",
-      "target": "src_components_quiz_quizmodemodal",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L11",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_tournamentview",
       "target": "src_constants_config",
       "relation": "imports_from",
       "_origin": "ast",
@@ -64355,7 +64379,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0
     },
     {
@@ -94792,7 +94816,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L12",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -94913,7 +94937,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/views/TournamentView.jsx",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -103732,5 +103756,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b1db753c3e304d2f8d3cab603aebfe2f1992a80a"
+  "built_at_commit": "0059a407d054019dcaf944d24cef079c9ee53dcc"
 }

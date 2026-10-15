@@ -1,17 +1,17 @@
 # Graph Report - Queasy_uz_Bot  (2026-10-15)
 
 ## Corpus Check
-- 457 files · ~496,392 words
+- 457 files · ~496,596 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 99 file(s) not represented in the graph (top: .ttf 54, .csv 37, .css 4)
 
 ## Summary
-- 3567 nodes · 5290 edges · 335 communities (219 shown, 116 thin omitted)
+- 3567 nodes · 5298 edges · 335 communities (217 shown, 118 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 268 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `904b4b40`
+- Built from commit: `b1db753c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -34,8 +34,8 @@
 - Proposed Changes
 - test_cleaner_syntax.mjs
 - test_messages_parity.mjs
-- format_ascii_box
-- csv
+- design_system.py
+- test_data_contracts.py
 - Proposed Changes
 - parser_engine.js
 - pdf_reader.js
@@ -52,7 +52,7 @@
 - test_poll_modernization.mjs
 - server.cjs
 - Upgrade to Prisma ORM 7
-- test_core.py
+- BM25
 - DesignSystemGenerator
 - Relation Queries
 - Removed Features
@@ -62,13 +62,13 @@
 - Advanced v4 Patterns
 - useTelegram
 - admin_service.js
-- Prisma ORM 7 CLI reference
+- .generate
 - Raw Queries
 - Client Methods
 - Filter Conditions and Operators
 - Query Options
 - Prisma Client API Reference
-- design_system.py
+- csv
 - Visual Companion Guide
 - Step 2: Choose a Deploy Method
 - prisma db push
@@ -203,9 +203,7 @@
 - detect_framework
 - detect_framework
 - Prisma Client Setup
-- .generate
-- GroupHostView.jsx
-- _palette_is_dark
+- TestGeneratedCatalogContract
 - 3.3. View Refactoring
 - using-superpowers/SKILL.md
 - Sections
@@ -359,11 +357,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (335 total, 116 thin omitted)
+## Communities (335 total, 118 thin omitted)
 
 ### Community 0 - "schema.js"
 Cohesion: 0.15
-Nodes (16): FALLBACK_OPTIONS, FALLBACK_OPTIONS, CONFIG, ERRORS, isUserAdmin(), categories, groupLobbies, groupTournaments (+8 more)
+Nodes (17): FALLBACK_OPTIONS, FALLBACK_OPTIONS, CONFIG, ERRORS, isUserAdmin(), botSettings, categories, groupLobbies (+9 more)
 
 ### Community 1 - "test_keyboards_i18n.mjs"
 Cohesion: 0.12
@@ -402,8 +400,8 @@ Cohesion: 0.18
 Nodes (8): cmdBotDirected, cmdCreate, cmdOther, cmdQuiz, cmdQuizHelp, cmdQuizId, cmdQuizStats, cmdStop
 
 ### Community 10 - "quizService.js"
-Cohesion: 0.13
-Nodes (33): 2. Frontend Services & Constants, Task 5: Guruh Turniri Ko'rinishi va Natijalar Ekranini yaratish (`TournamentView.jsx`), Task 5: LiveRoomView Complete Lifecycle (Lobby, Active, and Podium / Leaderboard), 3.4. Frontend: `src/views/HomeView.jsx` va `src/App.jsx`, EP_CLONE_QUIZ, EP_CREATE_LIVE_ROOM, EP_CREATE_TOURNAMENT, EP_DELETE_QUIZ (+25 more)
+Cohesion: 0.10
+Nodes (43): 8. Mini App Frontendining Katta Hajmi (666.6 kB bitta faylda), 2. Frontend Services & Constants, Task 5: Guruh Turniri Ko'rinishi va Natijalar Ekranini yaratish (`TournamentView.jsx`), Task 5: LiveRoomView Complete Lifecycle (Lobby, Active, and Podium / Leaderboard), 3.4. Frontend: `src/views/HomeView.jsx` va `src/App.jsx`, 2.3.2 `src/App.jsx` (Code Splitting & Bundle Size Optimization), ProgressBar(), EP_CLONE_QUIZ (+35 more)
 
 ### Community 11 - "Queasy Telegram Mini App (Web App) Arxitektura va Dizayn Spetsifikatsiyasi"
 Cohesion: 0.12
@@ -419,7 +417,7 @@ Nodes (14): Global Constraints, Queasy Mini App (Phase 1: MVP Foundation & Solo 
 
 ### Community 15 - "test_design_system_mode.py"
 Cohesion: 0.08
-Nodes (12): _button_outline_text_color(), _contrast_ratio(), _derive_dark_palette(), _filter_anti_patterns_for_mode(), format_master_md(), _query_wants_dark(), _resolve_color_mode(), _select_palette_for_mode() (+4 more)
+Nodes (11): _filter_anti_patterns_for_mode(), _palette_is_dark(), _query_wants_dark(), _relative_luminance(), _resolve_color_mode(), _select_palette_for_mode(), _style_is_dark_primary(), TestAntiPatternGating (+3 more)
 
 ### Community 16 - "Proposed Changes"
 Cohesion: 0.29
@@ -433,13 +431,13 @@ Nodes (15): Task 4: Hybrid Parser Engine with Smart Validation, abcLines, abcRes
 Cohesion: 0.14
 Nodes (13): enKeys, feEnKeys, feMissingInEn, feMissingInRu, feRuKeys, feUzKeys, interpolated, missingInEn (+5 more)
 
-### Community 19 - "format_ascii_box"
-Cohesion: 0.10
-Nodes (11): ansi_ljust(), format_ascii_box(), add_wrapped(), wrap_text(), format_markdown(), generate_design_system(), hex_to_ansi(), _mode_support_labels() (+3 more)
+### Community 19 - "design_system.py"
+Cohesion: 0.05
+Nodes (21): ansi_ljust(), _button_outline_text_color(), _contrast_ratio(), _derive_dark_palette(), _detect_page_type(), format_ascii_box(), add_wrapped(), wrap_text() (+13 more)
 
-### Community 20 - "csv"
+### Community 20 - "test_data_contracts.py"
 Cohesion: 0.06
-Nodes (9): TestFixtureValidation, TestMetricMath, resolve(), shipped_invocations(), SkillScriptPathsTest, read_rows(), read_rows(), TestTextLayoutDataContracts (+1 more)
+Nodes (12): _write_persisted_file(), apply_decision_rules(), _object_without_duplicates(), parse_decision_rules(), _validate_action(), TestDiagnosticsContracts, TestFixtureValidation, TestMetricMath (+4 more)
 
 ### Community 21 - "Proposed Changes"
 Cohesion: 0.29
@@ -470,8 +468,8 @@ Cohesion: 0.07
 Nodes (23): _contains_phrase(), _domain_keywords(), _exact_match_diagnostic(), _exact_row_identity(), _file_signature(), _legacy_successor_guidance(), _load_csv(), _load_csv_snapshot() (+15 more)
 
 ### Community 28 - "search"
-Cohesion: 0.08
-Nodes (10): search(), _style_search_destination(), TestDiagnosticsContracts, TestSearchDomains, TestStyleTaxonomy, Instructions file, Muse Tool Mapping, Skill invocation (+2 more)
+Cohesion: 0.09
+Nodes (9): search(), _style_search_destination(), TestSearchDomains, TestStyleTaxonomy, Instructions file, Muse Tool Mapping, Skill invocation, Subagent dispatch (+1 more)
 
 ### Community 29 - "search_stack"
 Cohesion: 0.09
@@ -505,9 +503,13 @@ Nodes (27): brandMarkup(), clients, CONTENT_DIR, crypto, debounceTimers, escapeH
 Cohesion: 0.08
 Nodes (25): 1. Update package.json for ESM-first projects, 2. Update tsconfig.json, 3. Update schema.prisma, 4. Create prisma.config.ts, 5. Install a driver adapter (SQL providers only), 6. Update client instantiation, 7. Replace Prisma.validator with satisfies, 8. Run migrations and generate (+17 more)
 
-### Community 37 - "test_core.py"
-Cohesion: 0.12
+### Community 37 - "BM25"
+Cohesion: 0.13
 Nodes (5): BM25, _get_bm25(), _suggest_identities(), TestBm25CoreBehavior, TestTokenizer
+
+### Community 38 - "DesignSystemGenerator"
+Cohesion: 0.18
+Nodes (3): DesignSystemGenerator, TestReasoningMatch, TestEndToEndCoherence
 
 ### Community 39 - "Relation Queries"
 Cohesion: 0.08
@@ -538,12 +540,12 @@ Cohesion: 0.27
 Nodes (24): Component Selection, @iconify/react, react, Badge(), Button(), Card(), Modal(), Pagination() (+16 more)
 
 ### Community 46 - "admin_service.js"
-Cohesion: 0.16
-Nodes (15): broadcastMessage(), cleanupStaleSessions(), getBotStatistics(), getUsersCount(), listUsers(), removeMediaChannel(), setMediaChannel(), setUserBlocked() (+7 more)
+Cohesion: 0.17
+Nodes (14): broadcastMessage(), cleanupStaleSessions(), getBotStatistics(), getUsersCount(), listUsers(), removeMediaChannel(), setMediaChannel(), setUserBlocked() (+6 more)
 
-### Community 47 - "Prisma ORM 7 CLI reference"
-Cohesion: 0.15
-Nodes (12): AI Safety Checkpoint, Boundary: Platform and Compute, Command Categories, Current Command Behavior, Current Prisma CLI Setup, Environment Variables, How to Use, New Configuration File (+4 more)
+### Community 47 - ".generate"
+Cohesion: 0.11
+Nodes (13): AI Safety Checkpoint, Boundary: Platform and Compute, Command Categories, Current Command Behavior, Current Prisma CLI Setup, Environment Variables, How to Use, New Configuration File (+5 more)
 
 ### Community 48 - "Raw Queries"
 Cohesion: 0.09
@@ -565,9 +567,9 @@ Nodes (20): cursor, distinct, Filtered include, include, Include relation count,
 Cohesion: 0.10
 Nodes (19): Client Instantiation, Client Methods, Create records, Delete records, Filter Operators, Find records, How to Use, Model Query Methods (+11 more)
 
-### Community 53 - "design_system.py"
-Cohesion: 0.08
-Nodes (12): _detect_page_type(), format_page_override_md(), _generate_intelligent_overrides(), persist_design_system(), safe_slug(), _write_persisted_file(), apply_decision_rules(), _object_without_duplicates() (+4 more)
+### Community 53 - "csv"
+Cohesion: 0.16
+Nodes (4): read_rows(), read_rows(), TestTextLayoutDataContracts, TestTextLayoutRetrieval
 
 ### Community 54 - "Visual Companion Guide"
 Cohesion: 0.10
@@ -957,10 +959,6 @@ Nodes (3): Edge connections, Node.js connections, Prisma Postgres with Prisma OR
 Cohesion: 0.22
 Nodes (9): Address Schemes, Build and Verify, GitHub Registries, Include, Item Definitions, Mental Model, Registry Authoring and Addresses, Registry Dependencies (+1 more)
 
-### Community 154 - "read_rows"
-Cohesion: 0.24
-Nodes (3): read_rows(), TestGeneratedCatalogContract, TestReasoningContract
-
 ### Community 155 - "Tailwind Design System (v4)"
 Cohesion: 0.22
 Nodes (8): 1. Design Token Hierarchy, 2. Component Architecture, Core Concepts, Detailed patterns and worked examples, Key v4 Changes, Quick Start, Tailwind Design System (v4), When to Use This Skill
@@ -1084,14 +1082,6 @@ Nodes (4): browserLauncherForPlatform(), companionUrl(), maybeOpenBrowser(), url
 ### Community 189 - "Prisma Client Setup"
 Cohesion: 0.33
 Nodes (6): 1. Install dependencies, 2. Add generator block, 3. Generate Prisma Client, 4. Instantiate Prisma Client, 5. Use a single instance, Prisma Client Setup
-
-### Community 191 - "GroupHostView.jsx"
-Cohesion: 0.26
-Nodes (10): 8. Mini App Frontendining Katta Hajmi (666.6 kB bitta faylda), 2.3.2 `src/App.jsx` (Code Splitting & Bundle Size Optimization), ProgressBar(), cloneQuiz(), createLiveRoom(), createTournament(), fetchGroupSessions(), fetchKiutCatalog() (+2 more)
-
-### Community 192 - "_palette_is_dark"
-Cohesion: 0.18
-Nodes (4): _palette_is_dark(), _relative_luminance(), TestEndToEndCoherence, TestLuminance
 
 ### Community 193 - "3.3. View Refactoring"
 Cohesion: 0.10
@@ -1240,7 +1230,7 @@ Nodes (3): mockSessions, nowSec, ranked
 ## Knowledge Gaps
 - **3 isolated node(s):** `RFC-6455`, `RFC-1951`, `RFC-1950`
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2195 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **116 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **118 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -1253,7 +1243,7 @@ _Questions this graph is uniquely positioned to answer:_
   _3 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `test_keyboards_i18n.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.125 - nodes in this community are weakly interconnected._
-- **Why does `Task 1: Backend Endpoints for Live Room Score & Completion` connect `Review Focus` to `test_core.py`?**
+- **Why does `Task 1: Backend Endpoints for Live Room Score & Completion` connect `Review Focus` to `BM25`?**
   _High betweenness centrality (0.100) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `search()` (e.g. with ``search` — Search registries` and `Muse Tool Mapping`) actually correct?**
   _`search()` has 2 INFERRED edges - model-reasoned connections that need verification._
