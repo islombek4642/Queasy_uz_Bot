@@ -57,7 +57,7 @@ export default async function (input, ctx) {
   }
 
   const botUsername = CONFIG.BOT.USERNAME;
-  const shareLink = `https://t.me/${botUsername}/app?startapp=room_${roomCode}`;
+  const shareLink = `https://t.me/${botUsername}?start=room_${roomCode}`;
   const shareText = getMessage('LIVE_ROOM_INVITE_TEXT', 'UZ', { title: quiz.title, pin: roomCode });
   const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(shareText)}`;
 

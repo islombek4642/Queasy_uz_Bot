@@ -49,7 +49,7 @@ export default async function (input, ctx) {
   const tournamentId = insertRes?.lastInsertRowid;
 
   const botUsername = CONFIG.BOT.USERNAME;
-  const shareLink = `https://t.me/${botUsername}/app?startapp=${shareCode}`;
+  const shareLink = `https://t.me/${botUsername}?start=${shareCode}`;
   const shareText = getMessage('TOURNAMENT_INVITE_TEXT', 'UZ', { title: quiz.title, count: qCount });
   const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(shareText)}`;
 

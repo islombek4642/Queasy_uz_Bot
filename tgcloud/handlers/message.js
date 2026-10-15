@@ -3,7 +3,7 @@
 
 import { api, db } from 'sdk';
 import { eq, and } from 'sdk/db';
-import { quizSessions, groupAnswers } from '../schema.js';
+import { quizSessions, groupAnswers, groupTournaments, liveRooms, quizzes, questions } from '../schema.js';
 import { CONFIG } from '../lib/constants/config.js';
 import { ACTIONS, STATES } from '../lib/constants/actions.js';
 import { getMessage, isButtonMatch } from '../lib/constants/messages.js';
@@ -735,6 +735,76 @@ export default async function (message, ctx) {
           quizId,
           isGroup: false,
           mode: ACTIONS.MODE_MISTAKES,
+        });
+        return;
+      }
+    }
+
+    if (param && param.startsWith('gt_')) {
+      const tournament = await db
+        .select()
+        .from(groupTournaments)
+        .where(eq(groupTournaments.shareCode, param))
+        .get();
+
+      if (tournament) {
+        const quiz = await db
+          .select()
+          .from(quizzes)
+          .where(eq(quizzes.id, tournament.quizId))
+          .get();
+
+        const qCount = quiz ? await db.$count(questions, eq(questions.quizId, quiz.id)) : 0;
+        const webappUrl = `${CONFIG.BOT.WEBAPP_URL || 'https://app8869835041.tgcloud.ai/'}?startapp=${param}`;
+
+        await api.sendMessage({
+          chat_id: chatId,
+          text: `🎯 <b>${tournament.title}</b> guruh viktorinasi!\n\n` +
+                `❓ Savollar soni: <b>${qCount} ta</b>\n` +
+                `⏱ Vaqt: <b>${quiz?.timeLimit || 30}s</b> har bir savolga\n\n` +
+                `🏆 Turnirda qatnashish va guruh reytingida 1-o'rinni olish uchun quyidagi tugmani bosing:`,
+          parse_mode: 'HTML',
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: '▶️ Turnirda qatnashish',
+                  web_app: { url: webappUrl },
+                },
+              ],
+            ],
+          },
+        });
+        return;
+      }
+    }
+
+    if (param && param.startsWith('room_')) {
+      const roomCode = param.replace('room_', '');
+      const room = await db
+        .select()
+        .from(liveRooms)
+        .where(eq(liveRooms.roomCode, roomCode))
+        .get();
+
+      if (room) {
+        const webappUrl = `${CONFIG.BOT.WEBAPP_URL || 'https://app8869835041.tgcloud.ai/'}?startapp=${param}`;
+        await api.sendMessage({
+          chat_id: chatId,
+          text: `⚡ <b>Jonli Xona (Live Room)</b> ga taklif qilindingiz!\n\n` +
+                `🔑 Xona PIN kodi: <code>${roomCode}</code>\n\n` +
+                `Qo'shilish uchun quyidagi tugmani bosing:`,
+          parse_mode: 'HTML',
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: '🚀 Xonaga kirish',
+                  web_app: { url: webappUrl },
+                },
+              ],
+            ],
+          },
         });
         return;
       }
