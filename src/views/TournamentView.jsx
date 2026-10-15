@@ -183,14 +183,14 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
           </div>
         )}
 
-        {/* Action Buttons: Row 1 = Primary, Row 2 = Share & Copy side-by-side */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+        {/* Action Buttons: Full-width vertical stack ensures comfortable fit on all mobile screens */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
           <Button
             variant="primary"
             fullWidth
             size="md"
             icon="solar:play-circle-bold"
-            style={{ padding: '9px 14px', fontSize: '0.88rem' }}
+            style={{ height: '44px', fontSize: '0.94rem', fontWeight: '800' }}
             onClick={() => {
               haptic.impact('heavy');
               onStartTournament(quiz.id, shareCode);
@@ -199,28 +199,27 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
             {userParticipation ? t('BTN_RETRY') : t('BTN_JOIN_TOURNAMENT')}
           </Button>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
-            <Button
-              variant="secondary"
-              fullWidth
-              size="sm"
-              icon="solar:share-bold"
-              style={{ padding: '7px 8px', fontSize: '0.78rem' }}
-              onClick={handleShareToTelegram}
-            >
-              {t('BTN_SHARE_TO_GROUP')}
-            </Button>
-            <Button
-              variant="glass"
-              fullWidth
-              size="sm"
-              icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'}
-              style={{ padding: '7px 8px', fontSize: '0.78rem' }}
-              onClick={handleCopyLink}
-            >
-              {copied ? t('TOAST_LINK_COPIED') : t('LIVE_ROOM_COPY_LINK')}
-            </Button>
-          </div>
+          <Button
+            variant="secondary"
+            fullWidth
+            size="md"
+            icon="solar:share-bold"
+            style={{ height: '40px', fontSize: '0.88rem' }}
+            onClick={handleShareToTelegram}
+          >
+            {t('BTN_SHARE_TO_GROUP')}
+          </Button>
+
+          <Button
+            variant="glass"
+            fullWidth
+            size="md"
+            icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'}
+            style={{ height: '38px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}
+            onClick={handleCopyLink}
+          >
+            {copied ? t('TOAST_LINK_COPIED') : (t('BTN_COPY_LINK') || 'Havolani nusxalash')}
+          </Button>
         </div>
       </Card>
 

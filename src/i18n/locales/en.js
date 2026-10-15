@@ -205,6 +205,7 @@ export default {
   TOURNAMENT_SHARE_CAPTION: '🏆 I achieved rank #{rank} in the «{title}» quiz with {score}/{total} points! Try your skills: {link}',
   TOAST_TOURNAMENT_CREATED: 'Group tournament created! Choose a group...',
   TOAST_LINK_COPIED: 'Link copied!',
+  BTN_COPY_LINK: 'Copy Link',
   LIVE_ROOM_COMING_SOON: 'Live Room mode is coming soon!',
   BTN_LAUNCH_BOT_POLL: 'Launch via Bot',
   BTN_GROUP_TOURNAMENT: 'Group Tournament',

@@ -208,6 +208,7 @@ export default {
   TOURNAMENT_SHARE_CAPTION: '🏆 Я занял(а) {rank}-е место в викторине «{title}» с результатом {score}/{total}! Попробуй и ты: {link}',
   TOAST_TOURNAMENT_CREATED: 'Турнир создан! Выберите группу...',
   TOAST_LINK_COPIED: 'Ссылка скопирована!',
+  BTN_COPY_LINK: 'Скопировать ссылку',
 
   // Live Room Translations
   LIVE_ROOM_TITLE: 'Комната Онлайн (Live)',

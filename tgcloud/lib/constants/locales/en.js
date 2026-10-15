@@ -226,4 +226,7 @@ export default {
   DEFAULT_OTHER_CATEGORY: 'Other',
   ROLE_HOST: 'Host',
   ROLE_PLAYER: 'Player',
+
+  // Tournament invite
+  TOURNAMENT_INVITE_TEXT: '🎯 Group tournament "{title}" has started!\nQuestions: {count}.\nTap the button below to take 1st place on the leaderboard:',
 };

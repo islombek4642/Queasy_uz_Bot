@@ -226,4 +226,7 @@ export default {
   DEFAULT_OTHER_CATEGORY: 'Boshqa',
   ROLE_HOST: 'Boshlovchi',
   ROLE_PLAYER: 'O\'yinchi',
+
+  // Tournament invite
+  TOURNAMENT_INVITE_TEXT: '🎯 "{title}" guruh viktorinasi boshlandi!\nSavollar: {count} ta.\nGuruh reytingida 1-o\'rinni olish uchun quyidagi tugmani bosing:',
 };

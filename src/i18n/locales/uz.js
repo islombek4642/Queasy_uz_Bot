@@ -208,6 +208,7 @@ export default {
   TOURNAMENT_SHARE_CAPTION: '🏆 Men «{title}» guruh viktorinasida {score}/{total} ball bilan {rank}-o\'rinni oldim! Siz ham o\'zingizni sinab ko\'ring: {link}',
   TOAST_TOURNAMENT_CREATED: 'Guruh turniri yaratildi! Guruhni tanlang...',
   TOAST_LINK_COPIED: 'Havola nusxalandi!',
+  BTN_COPY_LINK: 'Havolani nusxalash',
   
   // Live Room Translations
   LIVE_ROOM_TITLE: 'Jonli Xona (Live)',

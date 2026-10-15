@@ -226,4 +226,7 @@ export default {
   DEFAULT_OTHER_CATEGORY: 'Другое',
   ROLE_HOST: 'Ведущий',
   ROLE_PLAYER: 'Игрок',
+
+  // Tournament invite
+  TOURNAMENT_INVITE_TEXT: '🎯 Началась групповая викторина "{title}"!\nВопросов: {count}.\nНажмите кнопку ниже, чтобы занять 1-е место в рейтинге группы:',
 };
