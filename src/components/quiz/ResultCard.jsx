@@ -41,7 +41,7 @@ export function ResultCard({
   const handleShare = () => {
     let shareUrl;
     if (tournamentResult && tournamentShareCode) {
-      const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}?start=${tournamentShareCode}`;
+      const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=${tournamentShareCode}`;
       const text = encodeURIComponent(
         t('TOURNAMENT_SHARE_CAPTION', {
           title: quizTitle || 'Viktorina',

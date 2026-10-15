@@ -1,17 +1,17 @@
 # Graph Report - Queasy_uz_Bot  (2026-10-15)
 
 ## Corpus Check
-- 457 files · ~472,614 words
+- 457 files · ~472,424 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 99 file(s) not represented in the graph (top: .ttf 54, .csv 37, .css 4)
 
 ## Summary
-- 3567 nodes · 5297 edges · 335 communities (219 shown, 116 thin omitted)
+- 3567 nodes · 5293 edges · 335 communities (219 shown, 116 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 268 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `33838d21`
+- Built from commit: `0852d80d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -19,7 +19,7 @@
 - schema.js
 - test_keyboards_i18n.mjs
 - Database (`db`)
-- ref_node_assert
+- session_service.js
 - test_pdf_reader.mjs
 - Telegram Serverless QuizBot (Queasy_uz_Bot) - Yakuniy To'liq Spetsifikatsiya (Spec v4)
 - Centralized Constants & Zero-Hardcode i18n Design Specification
@@ -34,8 +34,8 @@
 - Proposed Changes
 - test_cleaner_syntax.mjs
 - test_messages_parity.mjs
-- session_service.js
 - format_ascii_box
+- csv
 - Proposed Changes
 - parser_engine.js
 - pdf_reader.js
@@ -49,11 +49,11 @@
 - Critical Rules
 - Model Queries
 - Driver Adapters
-- Review Focus
+- test_poll_modernization.mjs
 - server.cjs
 - Upgrade to Prisma ORM 7
 - test_core.py
-- read_rows
+- DesignSystemGenerator
 - Relation Queries
 - Removed Features
 - split_values
@@ -135,7 +135,7 @@
 - SQL Server Setup
 - Tools
 - Defense-in-Depth Validation
-- DesignSystemGenerator
+- Review Focus
 - 6. Rendering Performance
 - Writing Plans
 - [Analysis Title]
@@ -147,7 +147,7 @@
 - React Composition Patterns
 - 3. Server-Side Performance
 - Returns: "OK" or lists conflicts
-- test_poll_modernization.mjs
+- ref_node_assert
 - canvas-design/SKILL.md
 - prisma format
 - prisma migrate resolve
@@ -168,7 +168,7 @@
 - Prisma Compute
 - prisma-orm-setup/SKILL.md
 - Registry Authoring and Addresses
-- TestLandingAndStackContract
+- read_rows
 - Tailwind Design System (v4)
 - codex-tools.md
 - Skill authoring best practices
@@ -199,13 +199,13 @@
 - 2. Bundle Size Optimization
 - REFACTOR Phase: Close Loopholes (Stay Green)
 - Proposed Changes
-- Review Focus
+- maybeOpenBrowser
 - detect_framework
 - detect_framework
 - Prisma Client Setup
-- channel_service.js
-- docx_reader.js
-- maybeOpenBrowser
+- .generate
+- GroupHostView.jsx
+- _palette_is_dark
 - 3.3. View Refactoring
 - using-superpowers/SKILL.md
 - Sections
@@ -213,12 +213,12 @@
 - Skill Discovery Optimization (SDO)
 - Bulletproofing Skills Against Rationalization
 - Review Focus
-- csv
+- CatalogSummaryLineEndingsTest
 - Pressure Test 1: Emergency Production Fix
 - Pressure Test 2: Sunk Cost + Exhaustion
 - Pressure Test 3: Authority + Social Pressure
 - TestStackFlagWithDesignSystem
-- Icons
+- TestLandingAndStackContract
 - render-graphs.js
 - 8. Advanced Patterns
 - Web Interface Guidelines
@@ -230,7 +230,7 @@
 - hitl-loop.template.sh
 - GitHub issues
 - AI safety checkpoint for destructive commands
-- _palette_is_dark
+- docx_reader.js
 - Pi Tool Mapping
 - async-cheap-condition-before-await.md
 - Prefer Statically Analyzable Paths
@@ -325,11 +325,11 @@
 - server-parallel-fetching.md
 - server-serialization.md
 - vercel-react-best-practices/rules/_template.md
-- CatalogSummaryLineEndingsTest
-- GroupHostView.jsx
-- .generate
-- main.jsx
+- Review Focus
+- channel_service.js
 - Prisma Postgres setup
+- Icons
+- main.jsx
 - test_leaderboard.mjs
 
 ## God Nodes (most connected - your core abstractions)
@@ -373,9 +373,9 @@ Nodes (15): bcastKbdEn, bcastKbdRu, bcastKbdUz, chKbdEn, chKbdRu, chKbdUz, delKb
 Cohesion: 0.06
 Nodes (30): Database — the rules that bite, Deploy & migrate workflow, Endpoints — the Mini App's server side, Layout, Mini App front-end, Module system — the rules that bite, Platform SDK (`import … from 'sdk'`), What this project is (+22 more)
 
-### Community 3 - "ref_node_assert"
-Cohesion: 0.10
-Nodes (9): current, setRes, settingsStore, groupSessionsContent, liveStateContent, finishContent, submitContent, mistakesEndpointCode (+1 more)
+### Community 3 - "session_service.js"
+Cohesion: 0.18
+Nodes (24): getStopKeyboard(), getMediaChannel(), getQuizById(), advanceGroupRound(), advanceGroupRoundByPollId(), announceGroupLobby(), clearUserMistakes(), finishSession() (+16 more)
 
 ### Community 4 - "test_pdf_reader.mjs"
 Cohesion: 0.15
@@ -433,13 +433,13 @@ Nodes (15): Task 4: Hybrid Parser Engine with Smart Validation, abcLines, abcRes
 Cohesion: 0.14
 Nodes (13): enKeys, feEnKeys, feMissingInEn, feMissingInRu, feRuKeys, feUzKeys, interpolated, missingInEn (+5 more)
 
-### Community 19 - "session_service.js"
-Cohesion: 0.18
-Nodes (24): getStopKeyboard(), getMediaChannel(), getQuizById(), advanceGroupRound(), advanceGroupRoundByPollId(), announceGroupLobby(), clearUserMistakes(), finishSession() (+16 more)
-
-### Community 20 - "format_ascii_box"
+### Community 19 - "format_ascii_box"
 Cohesion: 0.10
 Nodes (11): ansi_ljust(), format_ascii_box(), add_wrapped(), wrap_text(), format_markdown(), generate_design_system(), hex_to_ansi(), _mode_support_labels() (+3 more)
+
+### Community 20 - "csv"
+Cohesion: 0.06
+Nodes (9): TestFixtureValidation, TestMetricMath, resolve(), shipped_invocations(), SkillScriptPathsTest, read_rows(), read_rows(), TestTextLayoutDataContracts (+1 more)
 
 ### Community 21 - "Proposed Changes"
 Cohesion: 0.29
@@ -493,9 +493,9 @@ Nodes (27): aggregate, Aggregation Operations, Atomic operations, count, create,
 Cohesion: 0.07
 Nodes (27): Accept self-signed certificates, After (v7), Available Adapters, Before (v6), Configuration, Connection Pool Configuration, Driver Adapters, Installation (+19 more)
 
-### Community 34 - "Review Focus"
-Cohesion: 0.22
-Nodes (8): Global Constraints, Review Focus, Task 1: Backend Endpoints for Live Room Score & Completion, Task 2: Backend Enhancements for State & Catalog Availability, Task 3: Frontend Constants, Services & Localization, Task 6: GroupHostView & TournamentView Enhancements, Task 7: Verification, Knowledge Graph Sync & Final Validation, WebApp Group Host, Tournament & Live Room Fixes Implementation Plan
+### Community 34 - "test_poll_modernization.mjs"
+Cohesion: 0.12
+Nodes (22): formatted, pureFormatted, cleanedStrings, cleanedStructured, generatedModernOptions, generatedPlain, letters, longOpt (+14 more)
 
 ### Community 35 - "server.cjs"
 Cohesion: 0.08
@@ -508,10 +508,6 @@ Nodes (25): 1. Update package.json for ESM-first projects, 2. Update tsconfig.js
 ### Community 37 - "test_core.py"
 Cohesion: 0.12
 Nodes (5): BM25, _get_bm25(), _suggest_identities(), TestBm25CoreBehavior, TestTokenizer
-
-### Community 38 - "read_rows"
-Cohesion: 0.24
-Nodes (3): read_rows(), TestGeneratedCatalogContract, TestReasoningContract
 
 ### Community 39 - "Relation Queries"
 Cohesion: 0.08
@@ -829,6 +825,10 @@ Nodes (11): Configuring Registries, Setup, `shadcn:get_add_command_for_items`, `
 Cohesion: 0.17
 Nodes (11): Applying the Pattern, Defense-in-Depth Validation, Example from Session, Key Insight, Layer 1: Entry Point Validation, Layer 2: Business Logic Validation, Layer 3: Environment Guards, Layer 4: Debug Instrumentation (+3 more)
 
+### Community 121 - "Review Focus"
+Cohesion: 0.13
+Nodes (13): Global Constraints, Review Focus, Task 1: Enhance Option Sanitization for Structured InputPollOption, Task 2: Implement Modernized `sendPoll` Dispatcher with Resilient Fallback, Task 3: Comprehensive Verification and Deployment, Telegram Poll Modernization Implementation Plan, 1. Overview & Goals, 2. Architecture & Data Flow (+5 more)
+
 ### Community 122 - "6. Rendering Performance"
 Cohesion: 0.17
 Nodes (12): 6.10 Use React DOM Resource Hints, 6.11 Use useTransition Over Manual Loading States, 6.1 Animate SVG Wrapper Instead of SVG Element, 6.2 CSS content-visibility for Long Lists, 6.3 Hoist Static JSX Elements, 6.4 Optimize SVG Precision, 6.5 Prevent Hydration Mismatch Without Flickering, 6.6 Suppress Expected Hydration Mismatches (+4 more)
@@ -873,9 +873,9 @@ Nodes (10): 3.10 Use after() for Non-Blocking Operations, 3.1 Authenticate Serve
 Cohesion: 0.18
 Nodes (11): Avoid assuming tools are installed, Create verifiable intermediate outputs, MCP tool references, Next steps, Package dependencies, Returns: "OK" or lists conflicts, Runtime environment, Technical notes (+3 more)
 
-### Community 133 - "test_poll_modernization.mjs"
-Cohesion: 0.12
-Nodes (22): formatted, pureFormatted, cleanedStrings, cleanedStructured, generatedModernOptions, generatedPlain, letters, longOpt (+14 more)
+### Community 133 - "ref_node_assert"
+Cohesion: 0.10
+Nodes (9): current, setRes, settingsStore, groupSessionsContent, liveStateContent, finishContent, submitContent, mistakesEndpointCode (+1 more)
 
 ### Community 134 - "canvas-design/SKILL.md"
 Cohesion: 0.20
@@ -956,6 +956,10 @@ Nodes (3): Edge connections, Node.js connections, Prisma Postgres with Prisma OR
 ### Community 153 - "Registry Authoring and Addresses"
 Cohesion: 0.22
 Nodes (9): Address Schemes, Build and Verify, GitHub Registries, Include, Item Definitions, Mental Model, Registry Authoring and Addresses, Registry Dependencies (+1 more)
+
+### Community 154 - "read_rows"
+Cohesion: 0.24
+Nodes (3): read_rows(), TestGeneratedCatalogContract, TestReasoningContract
 
 ### Community 155 - "Tailwind Design System (v4)"
 Cohesion: 0.22
@@ -1073,25 +1077,21 @@ Nodes (7): 1. Explicit Negation in Rules, 2. Entry in Rationalization Table, 3. 
 Cohesion: 0.29
 Nodes (6): 1. Backend Serverless Endpoints (`tgcloud/endpoints/`), 3. Frontend Views & Components, 4. i18n & Zero Hardcoding, 5. Verification & Deployment, Phase 3: Quiz Studio & Advanced Management, Proposed Changes
 
-### Community 186 - "Review Focus"
-Cohesion: 0.13
-Nodes (13): Global Constraints, Review Focus, Task 1: Enhance Option Sanitization for Structured InputPollOption, Task 2: Implement Modernized `sendPoll` Dispatcher with Resilient Fallback, Task 3: Comprehensive Verification and Deployment, Telegram Poll Modernization Implementation Plan, 1. Overview & Goals, 2. Architecture & Data Flow (+5 more)
+### Community 186 - "maybeOpenBrowser"
+Cohesion: 0.40
+Nodes (4): browserLauncherForPlatform(), companionUrl(), maybeOpenBrowser(), urlHostForHttp()
 
 ### Community 189 - "Prisma Client Setup"
 Cohesion: 0.33
 Nodes (6): 1. Install dependencies, 2. Add generator block, 3. Generate Prisma Client, 4. Instantiate Prisma Client, 5. Use a single instance, Prisma Client Setup
 
-### Community 190 - "channel_service.js"
-Cohesion: 0.40
-Nodes (5): addRequiredChannel(), checkUserSubscribed(), deleteRequiredChannel(), getRequiredChannels(), requiredChannels
+### Community 191 - "GroupHostView.jsx"
+Cohesion: 0.29
+Nodes (9): 8. Mini App Frontendining Katta Hajmi (666.6 kB bitta faylda), 2.3.2 `src/App.jsx` (Code Splitting & Bundle Size Optimization), ProgressBar(), createLiveRoom(), createTournament(), fetchGroupSessions(), saveCustomQuiz(), GroupHostView() (+1 more)
 
-### Community 191 - "docx_reader.js"
-Cohesion: 0.24
-Nodes (9): RFC-1950, RFC-1951, extractLinesFromDocx(), isHighlightedOrEmphasized(), cleanOmmlText(), ommlToLatex(), HEADER_ANSWER_KEYWORDS, HEADER_QUESTION_KEYWORDS (+1 more)
-
-### Community 192 - "maybeOpenBrowser"
-Cohesion: 0.40
-Nodes (4): browserLauncherForPlatform(), companionUrl(), maybeOpenBrowser(), urlHostForHttp()
+### Community 192 - "_palette_is_dark"
+Cohesion: 0.18
+Nodes (4): _palette_is_dark(), _relative_luminance(), TestEndToEndCoherence, TestLuminance
 
 ### Community 193 - "3.3. View Refactoring"
 Cohesion: 0.10
@@ -1121,10 +1121,6 @@ Nodes (6): Address "Spirit vs Letter" Arguments, Build Rationalization Table, Bu
 Cohesion: 0.20
 Nodes (9): Global Constraints, Review Focus, Task 1: Ma'lumotlar bazasi sxemasini kengaytirish (`tgcloud/schema.js`), Task 2: Backend API endpointlarini yaratish (`tgcloud/endpoints/`), Task 3: Lokalizatsiya matnlarini qo'shish (`uz.js`, `ru.js`), Task 4: Frontend API xizmatlari va Deep-Link Routerni ulash (`quizService.js`, `App.jsx`), Task 6: `GroupHostView.jsx` sahifasini yangilash, Task 7: Build, Sinov va Serverless Sinxronizatsiya (+1 more)
 
-### Community 200 - "csv"
-Cohesion: 0.06
-Nodes (9): TestFixtureValidation, TestMetricMath, resolve(), shipped_invocations(), SkillScriptPathsTest, read_rows(), read_rows(), TestTextLayoutDataContracts (+1 more)
-
 ### Community 201 - "Pressure Test 1: Emergency Production Fix"
 Cohesion: 0.40
 Nodes (4): Choose A, B, or C, Pressure Test 1: Emergency Production Fix, Scenario, Your Options
@@ -1136,10 +1132,6 @@ Nodes (4): Choose A, B, or C, Pressure Test 2: Sunk Cost + Exhaustion, Scenario,
 ### Community 203 - "Pressure Test 3: Authority + Social Pressure"
 Cohesion: 0.40
 Nodes (4): Choose A, B, or C, Pressure Test 3: Authority + Social Pressure, Scenario, Your Options
-
-### Community 205 - "Icons"
-Cohesion: 0.40
-Nodes (4): Icons, Icons in Button use data-icon attribute, No sizing classes on icons inside components, Pass icons as component objects, not string keys
 
 ### Community 206 - "render-graphs.js"
 Cohesion: 0.60
@@ -1185,9 +1177,9 @@ Nodes (3): File, GitHub issues, Search
 Cohesion: 0.50
 Nodes (3): AI safety checkpoint for destructive commands, Reference, Required workflow
 
-### Community 217 - "_palette_is_dark"
-Cohesion: 0.18
-Nodes (4): _palette_is_dark(), _relative_luminance(), TestEndToEndCoherence, TestLuminance
+### Community 217 - "docx_reader.js"
+Cohesion: 0.24
+Nodes (9): RFC-1950, RFC-1951, extractLinesFromDocx(), isHighlightedOrEmphasized(), cleanOmmlText(), ommlToLatex(), HEADER_ANSWER_KEYWORDS, HEADER_QUESTION_KEYWORDS (+1 more)
 
 ### Community 218 - "Pi Tool Mapping"
 Cohesion: 0.50
@@ -1221,17 +1213,25 @@ Nodes (4): Pattern, Reference, Skill Types, Technique
 Cohesion: 0.50
 Nodes (4): Example: TDD Skill Bulletproofing, Initial Test (Failed), Iteration 1 - Add Counter, Iteration 2 - Add Foundational Principle
 
-### Community 332 - "GroupHostView.jsx"
-Cohesion: 0.29
-Nodes (9): 8. Mini App Frontendining Katta Hajmi (666.6 kB bitta faylda), 2.3.2 `src/App.jsx` (Code Splitting & Bundle Size Optimization), ProgressBar(), createLiveRoom(), createTournament(), fetchGroupSessions(), saveCustomQuiz(), GroupHostView() (+1 more)
+### Community 329 - "Review Focus"
+Cohesion: 0.22
+Nodes (8): Global Constraints, Review Focus, Task 1: Backend Endpoints for Live Room Score & Completion, Task 2: Backend Enhancements for State & Catalog Availability, Task 3: Frontend Constants, Services & Localization, Task 6: GroupHostView & TournamentView Enhancements, Task 7: Verification, Knowledge Graph Sync & Final Validation, WebApp Group Host, Tournament & Live Room Fixes Implementation Plan
+
+### Community 330 - "channel_service.js"
+Cohesion: 0.40
+Nodes (5): addRequiredChannel(), checkUserSubscribed(), deleteRequiredChannel(), getRequiredChannels(), requiredChannels
+
+### Community 331 - "Prisma Postgres setup"
+Cohesion: 0.40
+Nodes (5): 1. Inspect the project, 2. Reuse or obtain a database, 3. Connect the application, 4. Configure the ORM and verify, Prisma Postgres setup
+
+### Community 332 - "Icons"
+Cohesion: 0.40
+Nodes (4): Icons, Icons in Button use data-icon attribute, No sizing classes on icons inside components, Pass icons as component objects, not string keys
 
 ### Community 334 - "main.jsx"
 Cohesion: 0.15
 Nodes (8): Pattern 4: Responsive Grid System, katex, TelegramContext, TelegramProvider(), ThemeProvider(), LanguageContext, LanguageProvider(), translations
-
-### Community 335 - "Prisma Postgres setup"
-Cohesion: 0.40
-Nodes (5): 1. Inspect the project, 2. Reuse or obtain a database, 3. Connect the application, 4. Configure the ORM and verify, Prisma Postgres setup
 
 ### Community 336 - "test_leaderboard.mjs"
 Cohesion: 0.33
@@ -1254,7 +1254,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `test_keyboards_i18n.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.125 - nodes in this community are weakly interconnected._
 - **Why does `Task 1: Backend Endpoints for Live Room Score & Completion` connect `Review Focus` to `test_core.py`?**
-  _High betweenness centrality (0.099) - this node is a cross-community bridge._
+  _High betweenness centrality (0.100) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `search()` (e.g. with ``search` — Search registries` and `Muse Tool Mapping`) actually correct?**
   _`search()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **Should `Database (`db`)` be split into smaller, more focused modules?**

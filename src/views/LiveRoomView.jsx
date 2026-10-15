@@ -87,7 +87,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
   const handleShareToTelegram = () => {
     haptic.impact('medium');
     const quizTitle = roomData?.quiz?.title || t('DEFAULT_QUIZ_FALLBACK');
-    const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}?start=room_${roomCode}`;
+    const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=room_${roomCode}`;
     const text = t('LIVE_ROOM_INVITE_TEXT', { title: quizTitle, pin: roomCode });
     const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(text)}`;
 
@@ -100,7 +100,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
 
   const handleCopyLink = () => {
     haptic.selection();
-    const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}?start=room_${roomCode}`;
+    const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=room_${roomCode}`;
     navigator.clipboard?.writeText(shareLink).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
