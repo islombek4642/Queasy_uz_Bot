@@ -229,6 +229,7 @@ export default {
   LIVE_ROOM_NOT_FOUND: 'Комната не найдена или закрыта',
   LIVE_ROOM_RANK_LABEL: 'Ваш результат',
   LIVE_ROOM_VIEW_RESULTS: 'Вернуться к результатам',
+  LIVE_ROOM_JOIN_ACTIVE_GAME: 'Войти в тест (Игра идёт)',
 
   // Group Host Launcher & Empty states
   GROUP_LAUNCH_POLL_HINT: 'Добавьте бота в группу и запускайте вопросы как опрос',

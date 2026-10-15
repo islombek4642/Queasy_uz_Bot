@@ -1,7 +1,7 @@
 // tgcloud/endpoints/get_live_room_state.js
 import { db } from 'sdk';
 import { eq, desc, and } from 'sdk/db';
-import { liveRooms, roomPlayers, quizzes, questions } from '../schema.js';
+import { liveRooms, roomPlayers, quizzes, questions, botSettings } from '../schema.js';
 import { CONFIG } from '../lib/constants/config.js';
 import { ERRORS } from '../lib/constants/errors.js';
 import { getMessage } from '../lib/constants/messages.js';
@@ -94,6 +94,20 @@ export default async function (input, ctx) {
   const currentPlayer = formattedPlayers.find((p) => p.isCurrentUser);
   const hasFinished = Boolean(currentPlayer?.hasFinished || room.status === 'finished');
 
+  // Fetch host's modeConfig if set (e.g. range, randomCount, mode)
+  let modeConfig = null;
+  const cfgSetting = await db
+    .select({ value: botSettings.value })
+    .from(botSettings)
+    .where(eq(botSettings.key, `live_room_cfg:${roomCode}`))
+    .get();
+
+  if (cfgSetting?.value) {
+    try {
+      modeConfig = JSON.parse(cfgSetting.value);
+    } catch {}
+  }
+
   return {
     success: true,
     room: {
@@ -111,6 +125,7 @@ export default async function (input, ctx) {
     },
     players: formattedPlayers,
     hasFinished,
+    modeConfig,
     totalPlayers: formattedPlayers.length,
   };
 }

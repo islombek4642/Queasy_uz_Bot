@@ -88,8 +88,8 @@ export async function fetchLiveRoomState(roomCode) {
   return await callEndpoint(EP_GET_LIVE_ROOM_STATE, { roomCode });
 }
 
-export async function startLiveRoom(roomCode) {
-  return await callEndpoint(EP_START_LIVE_ROOM, { roomCode });
+export async function startLiveRoom(roomCode, modeConfig = null) {
+  return await callEndpoint(EP_START_LIVE_ROOM, { roomCode, modeConfig });
 }
 
 export async function submitLiveRoomResult(payload) {

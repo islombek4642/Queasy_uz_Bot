@@ -228,6 +228,7 @@ export default {
   LIVE_ROOM_NOT_FOUND: 'Room not found or closed',
   LIVE_ROOM_RANK_LABEL: 'Your Result',
   LIVE_ROOM_VIEW_RESULTS: 'Back to Results',
+  LIVE_ROOM_JOIN_ACTIVE_GAME: 'Enter Quiz (Game in progress)',
   GROUP_LAUNCH_POLL_HINT: 'Add bot to group and conduct questions directly as Telegram polls',
   GROUP_CHOOSE_CATALOG: 'Choose from KIUT Catalog',
   GROUP_CREATE_NEW_QUIZ: 'Create New Quiz',

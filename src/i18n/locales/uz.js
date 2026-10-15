@@ -229,6 +229,7 @@ export default {
   LIVE_ROOM_NOT_FOUND: 'Xona topilmadi yoki yopilgan',
   LIVE_ROOM_RANK_LABEL: 'Sizning natijangiz',
   LIVE_ROOM_VIEW_RESULTS: 'Jonli Xona Natijalariga Qaytish',
+  LIVE_ROOM_JOIN_ACTIVE_GAME: 'Testga kirish (O\'yin ketmoqda)',
 
   // Group Host Launcher & Empty states
   GROUP_LAUNCH_POLL_HINT: 'Telegram botini guruhingizga qo\'shing va savollarni bot orqali o\'tkazing',

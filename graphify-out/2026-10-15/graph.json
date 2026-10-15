@@ -48384,7 +48384,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L151",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -48396,7 +48396,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L168",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -48408,7 +48408,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L187",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -48420,7 +48420,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L205",
+      "source_location": "L210",
       "weight": 1.0
     },
     {
@@ -48432,7 +48432,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L216",
+      "source_location": "L221",
       "weight": 1.0
     },
     {
@@ -48444,7 +48444,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L228",
+      "source_location": "L233",
       "weight": 1.0
     },
     {
@@ -48456,7 +48456,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L241",
+      "source_location": "L246",
       "weight": 1.0
     },
     {
@@ -48468,7 +48468,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L259",
+      "source_location": "L264",
       "weight": 1.0
     },
     {
@@ -48480,7 +48480,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L270",
+      "source_location": "L275",
       "weight": 1.0
     },
     {
@@ -48492,7 +48492,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L280",
+      "source_location": "L285",
       "weight": 1.0
     },
     {
@@ -48504,7 +48504,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L282",
+      "source_location": "L287",
       "weight": 1.0
     },
     {
@@ -48516,7 +48516,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L286",
+      "source_location": "L291",
       "weight": 1.0
     },
     {
@@ -48528,7 +48528,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L308",
+      "source_location": "L313",
       "weight": 1.0
     },
     {
@@ -48540,7 +48540,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L310",
+      "source_location": "L315",
       "weight": 1.0
     },
     {
@@ -48552,7 +48552,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L314",
+      "source_location": "L319",
       "weight": 1.0
     },
     {
@@ -48564,7 +48564,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L322",
+      "source_location": "L327",
       "weight": 1.0
     },
     {
@@ -48576,7 +48576,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/App.jsx",
-      "source_location": "L334",
+      "source_location": "L339",
       "weight": 1.0
     },
     {
@@ -49500,7 +49500,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/ArenaView.jsx",
-      "source_location": "L300",
+      "source_location": "L305",
       "weight": 1.0
     },
     {
@@ -49512,7 +49512,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/ArenaView.jsx",
-      "source_location": "L352",
+      "source_location": "L380",
       "weight": 1.0
     },
     {
@@ -49524,7 +49524,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/ArenaView.jsx",
-      "source_location": "L355",
+      "source_location": "L383",
       "weight": 1.0
     },
     {
@@ -49536,7 +49536,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/ArenaView.jsx",
-      "source_location": "L359",
+      "source_location": "L387",
       "weight": 1.0
     },
     {
@@ -49548,7 +49548,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/ArenaView.jsx",
-      "source_location": "L370",
+      "source_location": "L398",
       "weight": 1.0
     },
     {
@@ -49560,7 +49560,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/ArenaView.jsx",
-      "source_location": "L382",
+      "source_location": "L410",
       "weight": 1.0
     },
     {
@@ -49572,7 +49572,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/ArenaView.jsx",
-      "source_location": "L417",
+      "source_location": "L445",
       "weight": 1.0
     },
     {
@@ -49956,7 +49956,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L113",
+      "source_location": "L110",
       "weight": 1.0
     },
     {
@@ -49968,7 +49968,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L122",
+      "source_location": "L119",
       "weight": 1.0
     },
     {
@@ -49980,7 +49980,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L124",
+      "source_location": "L121",
       "weight": 1.0
     },
     {
@@ -50016,7 +50016,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L157",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -50040,7 +50040,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L61",
+      "source_location": "L58",
       "weight": 1.0
     },
     {
@@ -50052,7 +50052,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L76",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -103636,5 +103636,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e3cbbc9fa62f3a90214d35b665a48fd01e7c5b3e"
+  "built_at_commit": "904b4b40653a42454fec0a0ff17559124c74317b"
 }

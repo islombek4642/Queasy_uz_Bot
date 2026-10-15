@@ -117,18 +117,13 @@ export default function App() {
     setActiveQuizRandomCount(null);
   };
 
-  const handleExitArena = (quitMidGame = false) => {
+  const handleExitArena = () => {
     setActiveQuizId(null);
     setActiveCustomQuestions(null);
     setActiveCustomTitle(null);
     setActiveQuizMode('full');
     setActiveQuizRange(null);
     setActiveQuizRandomCount(null);
-    if (quitMidGame) {
-      setActiveRoomCode(null);
-      setActiveLiveRoomCode(null);
-      setActiveTournamentCode(null);
-    }
     refreshData();
   };
 
@@ -172,11 +167,11 @@ export default function App() {
       return (
         <LiveRoomView
           roomCode={activeRoomCode}
-          onStartGame={(quizId, roomCode) => {
+          onStartGame={(quizId, roomCode, modeConfig = {}) => {
             setActiveQuizId(quizId);
-            setActiveQuizMode('full');
-            setActiveQuizRange(null);
-            setActiveQuizRandomCount(null);
+            setActiveQuizMode(modeConfig?.mode || 'full');
+            setActiveQuizRange(modeConfig?.range || null);
+            setActiveQuizRandomCount(modeConfig?.randomCount || null);
             setActiveLiveRoomCode(roomCode || activeRoomCode);
           }}
           onBack={() => {
@@ -191,11 +186,11 @@ export default function App() {
       return (
         <TournamentView
           shareCode={activeTournamentCode}
-          onStartTournament={(quizId, code) => {
+          onStartTournament={(quizId, code, modeConfig = {}) => {
             setActiveQuizId(quizId);
-            setActiveQuizMode('full');
-            setActiveQuizRange(null);
-            setActiveQuizRandomCount(null);
+            setActiveQuizMode(modeConfig?.mode || 'full');
+            setActiveQuizRange(modeConfig?.range || null);
+            setActiveQuizRandomCount(modeConfig?.randomCount || null);
             setActiveTournamentCode(code);
           }}
           onBack={() => {

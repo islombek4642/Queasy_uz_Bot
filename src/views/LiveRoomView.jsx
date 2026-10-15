@@ -8,6 +8,7 @@ import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { Spinner } from '../components/common/Spinner.jsx';
+import { QuizModeModal } from '../components/quiz/QuizModeModal.jsx';
 import { APP_CONFIG } from '../constants/config.js';
 
 export function LiveRoomView({ roomCode, onStartGame, onBack }) {
@@ -19,6 +20,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
   const [starting, setStarting] = useState(false);
   const [finishing, setFinishing] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showModeModal, setShowModeModal] = useState(false);
   const prevStatusRef = useRef(null);
 
   const loadState = async () => {
@@ -34,7 +36,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
         ) {
           prevStatusRef.current = 'active';
           haptic.notification('success');
-          onStartGame(res.quiz.id, roomCode);
+          onStartGame(res.quiz.id, roomCode, res.modeConfig);
         }
         prevStatusRef.current = res.room?.status;
       }
@@ -51,13 +53,19 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
     return () => clearInterval(interval);
   }, [roomCode]);
 
-  const handleStart = async () => {
+  const handleStart = () => {
+    haptic.impact('medium');
+    setShowModeModal(true);
+  };
+
+  const handleConfirmStartMode = async (modeConfig) => {
+    setShowModeModal(false);
     haptic.impact('heavy');
     setStarting(true);
     try {
-      const res = await startLiveRoom(roomCode);
+      const res = await startLiveRoom(roomCode, modeConfig);
       if (res && res.success) {
-        onStartGame(roomData.quiz.id, roomCode);
+        onStartGame(roomData.quiz.id, roomCode, modeConfig);
       }
     } catch (err) {
       console.error('Failed to start room:', err);
@@ -447,10 +455,10 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
               size="lg"
               fullWidth
               icon="solar:play-bold"
-              onClick={() => onStartGame(quiz.id, roomCode)}
+              onClick={() => onStartGame(quiz.id, roomCode, roomData?.modeConfig)}
               style={{ fontSize: '1rem', fontWeight: '800', padding: '14px' }}
             >
-              🚀 Testga kirish (O'yin ketmoqda)
+              🚀 {t('LIVE_ROOM_JOIN_ACTIVE_GAME')}
             </Button>
             {isHost && (
               <Button
@@ -505,6 +513,16 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
           </Card>
         )}
       </div>
+
+      {/* Quiz Mode Selector Modal for Host */}
+      {isHost && (
+        <QuizModeModal
+          isOpen={showModeModal}
+          quizId={quiz?.id}
+          onClose={() => setShowModeModal(false)}
+          onConfirmMode={handleConfirmStartMode}
+        />
+      )}
     </div>
   );
 }
