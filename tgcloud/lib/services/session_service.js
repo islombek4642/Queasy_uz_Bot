@@ -371,7 +371,9 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
           explanation_media: explanationMedia,
           media: pollMedia,
           shuffle_options: shuffleOptions,
-          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+          // Serverless: guruh rejimida open_period o'rnatilmaydi — poll ochiq qoladi,
+          // faqat barcha ishtirokchilar javob berganda yoki admin "Keyingi savol" bosganda davom etadi
+          open_period: isGroup ? undefined : Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
           reply_markup: nextBtnMarkup,
         });
       } catch (mediaPollErr) {
@@ -424,7 +426,7 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
           explanation,
           explanation_parse_mode: explanation ? 'HTML' : undefined,
           shuffle_options: shuffleOptions,
-          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+          open_period: isGroup ? undefined : Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
           reply_markup: nextBtnMarkup,
         });
       } catch (htmlErr) {
@@ -439,7 +441,7 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
           correct_option_id: correctOptionId,
           explanation,
           shuffle_options: shuffleOptions,
-          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+          open_period: isGroup ? undefined : Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
           reply_markup: nextBtnMarkup,
         });
       }
