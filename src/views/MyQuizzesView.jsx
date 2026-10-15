@@ -144,8 +144,7 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                 <div
                   style={{
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
+                    flexDirection: 'column',
                     paddingTop: '6px',
                     borderTop: '1px solid var(--surface-border)',
                     marginTop: '2px',
@@ -218,13 +217,14 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                       onStartQuiz(quiz.id);
                     }}
                     icon="solar:play-bold"
-                    style={{ width: '100%', marginTop: '2px' }}
+                    style={{ width: '100%' }}
                   >
                     {t('BTN_START_QUIZ')}
                   </Button>
                 </div>
               </Card>
             );
+
 
           })}
 

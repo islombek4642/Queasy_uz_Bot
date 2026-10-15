@@ -200,13 +200,21 @@ export function LeaderboardView() {
                     backgroundColor: isMe ? 'rgba(99, 102, 241, 0.12)' : 'var(--surface-card)',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontWeight: '800', width: '22px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
+                    <span style={{ fontWeight: '800', width: '22px', flexShrink: 0, color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                       #{u.rank}
                     </span>
                     <Avatar user={u} size={36} showRing={false} />
-                    <div>
-                      <div style={{ fontWeight: '700', fontSize: '0.9rem', color: isMe ? 'var(--accent-primary)' : 'var(--text-primary)' }}>
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <div style={{
+                        fontWeight: '700',
+                        fontSize: '0.9rem',
+                        color: isMe ? 'var(--accent-primary)' : 'var(--text-primary)',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '160px',
+                      }}>
                         {u.name} {isMe && '⭐'}
                       </div>
                       <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
@@ -260,13 +268,20 @@ export function LeaderboardView() {
                 backgroundColor: 'rgba(15, 23, 42, 0.95)',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontWeight: '800', fontSize: '1rem', color: 'var(--accent-primary)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flex: 1 }}>
+                <span style={{ fontWeight: '800', fontSize: '1rem', color: 'var(--accent-primary)', flexShrink: 0 }}>
                   #{currentUser.rank}
                 </span>
                 <Avatar user={currentUser} size={36} showRing={true} />
-                <div>
-                  <div style={{ fontWeight: '800', fontSize: '0.88rem' }}>{t('YOU_ARE_RANKED', { rank: currentUser.rank })}</div>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div style={{
+                    fontWeight: '800',
+                    fontSize: '0.88rem',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '160px',
+                  }}>{t('YOU_ARE_RANKED', { rank: currentUser.rank })}</div>
                   <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>{currentUser.xp || 0} XP</div>
                 </div>
               </div>
