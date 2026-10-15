@@ -261,24 +261,37 @@ export function ResultCard({
         )}
       </Card>
 
-      {/* Action Buttons: 2 rows to fit screen cleanly */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-          <Button variant="primary" size="md" icon="solar:restart-bold" onClick={onRetry} fullWidth>
-            {t('BTN_RETRY')}
-          </Button>
-          <Button variant="secondary" size="md" icon="solar:share-bold" onClick={handleShare} fullWidth>
-            {t('BTN_SHARE')}
-          </Button>
-        </div>
+      {/* Action Buttons: Full-width vertical stack ensures comfortable fit on all mobile screens */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', width: '100%', marginTop: '4px' }}>
+        <Button
+          variant="primary"
+          size="md"
+          icon="solar:restart-bold"
+          onClick={onRetry}
+          fullWidth
+          style={{ height: '46px', fontSize: '0.98rem', fontWeight: '800' }}
+        >
+          {t('BTN_RETRY')}
+        </Button>
+
+        <Button
+          variant="secondary"
+          size="md"
+          icon="solar:share-bold"
+          onClick={handleShare}
+          fullWidth
+          style={{ height: '44px', fontSize: '0.92rem' }}
+        >
+          {t('BTN_SHARE')}
+        </Button>
 
         <Button
           variant="glass"
           fullWidth
-          size="sm"
+          size="md"
           icon={liveRoomCode ? "solar:cup-star-bold" : "solar:home-2-bold"}
           onClick={onBackHome}
-          style={{ padding: '10px 16px' }}
+          style={{ height: '42px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}
         >
           {liveRoomCode ? t('LIVE_ROOM_VIEW_RESULTS') : t('BTN_BACK_HOME')}
         </Button>

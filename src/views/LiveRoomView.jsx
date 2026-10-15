@@ -7,6 +7,7 @@ import { fetchLiveRoomState, startLiveRoom, finishLiveRoom } from '../services/q
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
+import { Spinner } from '../components/common/Spinner.jsx';
 import { APP_CONFIG } from '../constants/config.js';
 
 export function LiveRoomView({ roomCode, onStartGame, onBack }) {
@@ -109,7 +110,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
   if (loading && !roomData) {
     return (
       <div style={{ padding: '36px 16px', textAlign: 'center' }} className="animate-fade-in">
-        <Icon icon="solar:restart-bold" width="36" height="36" className="animate-spin" style={{ color: 'var(--accent-primary)', margin: '0 auto 12px' }} />
+        <Spinner size={36} style={{ margin: '0 auto 12px' }} />
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{t('LIVE_ROOM_LOADING')}</p>
       </div>
     );
@@ -464,7 +465,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-              <Icon icon="solar:restart-bold" width="18" height="18" className="animate-spin" style={{ color: 'var(--accent-primary)' }} />
+              <Spinner size={18} />
               <span style={{ fontSize: '0.9rem', fontWeight: '700', color: 'var(--text-primary)' }}>
                 {t('LIVE_ROOM_WAITING_CARD_TITLE')}
               </span>

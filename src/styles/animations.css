@@ -34,5 +34,7 @@
 }
 
 .animate-spin {
-  animation: spin 1s linear infinite;
+  animation: spin 0.85s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
 }

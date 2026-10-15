@@ -7,6 +7,7 @@ import { fetchTournamentDetails } from '../services/quizService.js';
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
+import { Spinner } from '../components/common/Spinner.jsx';
 import { APP_CONFIG } from '../constants/config.js';
 
 export function TournamentView({ shareCode, onStartTournament, onBack }) {
@@ -69,7 +70,7 @@ export function TournamentView({ shareCode, onStartTournament, onBack }) {
   if (loading) {
     return (
       <div style={{ padding: '32px 16px', textAlign: 'center' }} className="animate-fade-in">
-        <Icon icon="solar:restart-bold" width="36" height="36" className="animate-spin" style={{ color: 'var(--accent-primary)', margin: '0 auto 12px' }} />
+        <Spinner size={36} style={{ margin: '0 auto 12px' }} />
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{t('LOADING') || 'Yuklanmoqda...'}</p>
       </div>
     );

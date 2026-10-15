@@ -2,6 +2,7 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { useTelegram } from '../../hooks/useTelegram.js';
+import { Spinner } from './Spinner.jsx';
 
 export function Button({
   children,
@@ -92,7 +93,7 @@ export function Button({
       {...restProps}
     >
       {loading ? (
-        <Icon icon="line-md:loading-loop" width={iconSize} height={iconSize} style={{ flexShrink: 0 }} />
+        <Spinner size={iconSize} color="currentColor" />
       ) : (
         <>
           {icon && <Icon icon={icon} width={iconSize} height={iconSize} style={{ flexShrink: 0 }} />}

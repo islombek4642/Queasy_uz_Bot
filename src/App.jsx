@@ -8,6 +8,7 @@ import { HomeView } from './views/HomeView.jsx';
 import { ProfileView } from './views/ProfileView.jsx';
 import { QuizModeModal } from './components/quiz/QuizModeModal.jsx';
 import { ErrorBoundary } from './components/common/ErrorBoundary.jsx';
+import { Spinner } from './components/common/Spinner.jsx';
 
 // Code-split heavy secondary views
 const MyQuizzesView = React.lazy(() => import('./views/MyQuizzesView.jsx').then(m => ({ default: m.MyQuizzesView })));
@@ -310,7 +311,7 @@ export default function App() {
           <React.Suspense
             fallback={
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '40vh' }} className="animate-fade-in">
-                <Icon icon="solar:restart-bold" width="36" height="36" className="animate-spin" style={{ color: 'var(--accent-primary)' }} />
+                <Spinner size={38} />
               </div>
             }
           >
