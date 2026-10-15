@@ -214,6 +214,8 @@ export async function sendNextQuestionPoll(api, sessionId, customTimeLimit = nul
     }
 
     if (skipAttempt > 0) {
+      // Wait 800ms before skip retry to prevent flood limit
+      await new Promise((resolve) => setTimeout(resolve, 800));
       // Advance index in DB before retrying
       console.warn(`[sendNextQuestionPoll] Skipping question index ${attemptIndex - 1} (attempt ${skipAttempt}), trying index ${attemptIndex}`);
       await db.update(quizSessions).set({ currentIndex: attemptIndex }).where(eq(quizSessions.id, sessionId)).run();
@@ -460,7 +462,42 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
       return true; // success
     }
   } catch (err) {
-    console.error(`[_trySendQuestionPoll] Error sending question index ${session.currentIndex} for session ${sessionId}:`, err?.message);
+    const isRateLimit = err?.message?.includes('429') || err?.message?.includes('Too Many Requests');
+    console.error(`[_trySendQuestionPoll] Error sending question index ${session.currentIndex} for session ${sessionId} (isRateLimit=${isRateLimit}):`, err?.message);
+    if (isRateLimit) {
+      // Telegram rate limit encountered: wait 1500ms and retry sending the same question once
+      console.warn(`[_trySendQuestionPoll] Waiting 1500ms to recover from 429 rate limit...`);
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      try {
+        const stringOptions = options.map((o) => (typeof o === 'object' ? o.text : String(o)));
+        const retryPollMsg = await api.sendPoll({
+          chat_id: session.chatId,
+          question: questionTitle,
+          options: stringOptions,
+          is_anonymous: false,
+          type: 'quiz',
+          correct_option_id: correctOptionId,
+          explanation,
+          shuffle_options: shuffleOptions,
+          open_period: isGroup ? undefined : Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+          reply_markup: nextBtnMarkup,
+        });
+        if (retryPollMsg && retryPollMsg.poll) {
+          await db
+            .update(quizSessions)
+            .set({
+              lastPollId: retryPollMsg.poll.id,
+              lastPollMessageId: retryPollMsg.message_id,
+              lastPollSentAt: Math.floor(Date.now() / 1000),
+            })
+            .where(eq(quizSessions.id, sessionId))
+            .run();
+          return true; // success on retry
+        }
+      } catch (retryErr) {
+        console.error(`[_trySendQuestionPoll] Rate limit retry failed:`, retryErr?.message);
+      }
+    }
     return false;
   }
   return false; // pollMsg was null
@@ -616,6 +653,9 @@ export async function advanceGroupRound(api, sessionIdOrChatId, timeLimit = 30) 
   if (nextIndex >= session.totalQuestions) {
     await finishSession(api, session.id);
   } else {
+    if (session.isGroup) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
     const quiz = await getQuizById(session.quizId);
     const roundTimeLimit = quiz?.timeLimit || timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT;
     await db
@@ -672,6 +712,8 @@ export async function advanceGroupRoundByPollId(api, pollId) {
   if (nextIndex >= session.totalQuestions) {
     await finishSession(api, session.id);
   } else {
+    // Guruh rejimida Telegram 1 msg/sec cheklovini buzmaslik va natijani ko'rish uchun 1s xavfsiz kutish
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     const quiz = await getQuizById(session.quizId);
     const timeLimit = quiz?.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT;
     await sendNextQuestionPoll(api, session.id, timeLimit);
