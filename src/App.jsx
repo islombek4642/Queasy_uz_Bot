@@ -117,13 +117,18 @@ export default function App() {
     setActiveQuizRandomCount(null);
   };
 
-  const handleExitArena = () => {
+  const handleExitArena = (quitMidGame = false) => {
     setActiveQuizId(null);
     setActiveCustomQuestions(null);
     setActiveCustomTitle(null);
     setActiveQuizMode('full');
     setActiveQuizRange(null);
     setActiveQuizRandomCount(null);
+    if (quitMidGame) {
+      setActiveRoomCode(null);
+      setActiveLiveRoomCode(null);
+      setActiveTournamentCode(null);
+    }
     refreshData();
   };
 

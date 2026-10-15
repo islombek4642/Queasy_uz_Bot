@@ -26,14 +26,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
       const res = await fetchLiveRoomState(roomCode);
       if (res && res.success) {
         setRoomData(res);
-        // Only trigger onStartGame if:
-        // 1. Room is active
-        // 2. The player has NOT yet finished (!res.hasFinished)
-        // 3. Status transitioned to active
+        // Only trigger onStartGame when room status transitions from 'waiting' to 'active'
         if (
           res.room?.status === 'active' &&
           !res.hasFinished &&
-          prevStatusRef.current !== 'active'
+          prevStatusRef.current === 'waiting'
         ) {
           prevStatusRef.current = 'active';
           haptic.notification('success');
@@ -443,7 +440,39 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
 
       {/* Host Controls or Player Waiting Banner */}
       <div style={{ marginTop: '10px' }}>
-        {isHost ? (
+        {room.status === 'active' ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Button
+              variant="success"
+              size="lg"
+              fullWidth
+              icon="solar:play-bold"
+              onClick={() => onStartGame(quiz.id, roomCode)}
+              style={{ fontSize: '1rem', fontWeight: '800', padding: '14px' }}
+            >
+              🚀 Testga kirish (O'yin ketmoqda)
+            </Button>
+            {isHost && (
+              <Button
+                variant="warning"
+                fullWidth
+                loading={finishing}
+                icon="solar:stop-circle-bold"
+                onClick={handleFinishRoom}
+              >
+                {t('LIVE_ROOM_FINISH_BTN')}
+              </Button>
+            )}
+            <Button
+              variant="glass"
+              fullWidth
+              icon="solar:arrow-left-bold"
+              onClick={onBack}
+            >
+              {t('LIVE_ROOM_EXIT')}
+            </Button>
+          </div>
+        ) : isHost ? (
           <Button
             variant="success"
             size="lg"

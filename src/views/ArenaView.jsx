@@ -271,11 +271,16 @@ export function ArenaView({
     }, 1200);
   };
 
+  const handleConfirmExit = () => {
+    setShowExitModal(false);
+    onExit(true);
+  };
+
   // Telegram BackButton integration
   useEffect(() => {
     const handleBack = () => {
       if (isFinished) {
-        onExit();
+        onExit(false);
       } else {
         setShowExitModal(true);
       }
@@ -323,7 +328,7 @@ export function ArenaView({
           setSelectedOption(null);
           startTimeRef.current = Date.now();
         }}
-        onBackHome={onExit}
+        onBackHome={() => onExit(false)}
       />
     );
   }
@@ -342,9 +347,32 @@ export function ArenaView({
       }}
       className="animate-fade-in"
     >
-      {/* Top Bar: Progress and Timer */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      {/* Top Bar: Progress, Timer, and Exit Button */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+        <button
+          type="button"
+          onClick={() => {
+            haptic.impact('light');
+            setShowExitModal(true);
+          }}
+          className="glass-pill"
+          style={{
+            width: '36px',
+            height: '36px',
+            padding: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            color: 'var(--text-secondary)',
+            cursor: 'pointer',
+          }}
+          title={t('BTN_EXIT') || 'Chiqish'}
+        >
+          <Icon icon="solar:close-circle-bold" width="22" height="22" />
+        </button>
+
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px', minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-secondary)' }}>
             <span>{t('QUESTION_PROGRESS', { current: currentIndex + 1, total: questions.length })}</span>
             <span style={{ color: 'var(--color-success)' }}>{correctCount} ✓</span>
@@ -421,7 +449,7 @@ export function ArenaView({
         confirmText={t('BTN_EXIT')}
         confirmVariant="danger"
         cancelText={t('BTN_CONTINUE')}
-        onConfirm={onExit}
+        onConfirm={handleConfirmExit}
         onClose={() => setShowExitModal(false)}
       >
         {t('CONFIRM_EXIT_DESC')}
