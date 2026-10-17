@@ -53,7 +53,7 @@ const generatedModernOptions = sanitizedMath.map((opt, idx) => {
 assert.strictEqual(generatedModernOptions.length, 4);
 assert.strictEqual(generatedModernOptions[0].text, 'A) 6x-6y');
 assert.ok(generatedModernOptions[0].media.media.includes('latex.codecogs.com'), 'Should have CodeCogs 300 DPI URL');
-assert.ok(generatedModernOptions[0].media.media.includes('dpi{300}'), 'Should specify 300 DPI');
+assert.ok(decodeURIComponent(generatedModernOptions[0].media.media).includes('dpi{300}'), 'Should specify 300 DPI');
 assert.strictEqual(generatedModernOptions[1].text, 'B) 6x+6y');
 console.log('✅ Math options formula image generation passed');
 
