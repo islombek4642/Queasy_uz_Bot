@@ -2,11 +2,126 @@
 import { db } from 'sdk';
 import { eq, like, desc, and, or, sql } from 'sdk/db';
 import { quizzes, questions } from '../schema.js';
+import { CONFIG } from '../lib/constants/config.js';
+import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
   try {
     const search = input?.search?.trim();
     const categoryPath = input?.categoryPath?.trim();
+
+    if (CONFIG.TURSO?.ENABLED) {
+      // 1. Search Mode via Turso
+      if (search && search.length >= 2) {
+        const searchPattern = `%${search.toLowerCase()}%`;
+        const matched = await turso.all(`
+          SELECT q.id, q.title, q.category, q.time_limit as timeLimit, count(qst.id) as questionCount
+          FROM quizzes q
+          LEFT JOIN questions qst ON qst.quiz_id = q.id
+          WHERE q.is_public = 1 AND (lower(q.title) LIKE ? OR lower(q.category) LIKE ?)
+          GROUP BY q.id
+          LIMIT 30
+        `, [searchPattern, searchPattern]);
+
+        return {
+          mode: 'search',
+          search,
+          quizzes: (matched || []).map(q => ({
+            id: q.id,
+            title: q.title,
+            category: q.category || '',
+            timeLimit: q.timeLimit || 30,
+            questionCount: Number(q.questionCount || 0),
+          })),
+        };
+      }
+
+      // 2. Fetch by Category Path via Turso
+      if (categoryPath) {
+        const prefix = `${categoryPath} / `;
+        const matchingQuizzes = await turso.all(`
+          SELECT q.id, q.title, q.category, q.time_limit as timeLimit, count(qst.id) as questionCount
+          FROM quizzes q
+          LEFT JOIN questions qst ON qst.quiz_id = q.id
+          WHERE q.is_public = 1 AND (q.category = ? OR q.category LIKE ?)
+          GROUP BY q.id
+        `, [categoryPath, `${prefix}%`]);
+
+        const subcategoriesMap = new Map();
+        const directQuizzes = [];
+
+        for (const q of matchingQuizzes || []) {
+          const cat = q.category || '';
+          if (cat === categoryPath) {
+            directQuizzes.push(q);
+          } else if (cat.startsWith(prefix)) {
+            const remainder = cat.slice(prefix.length).trim();
+            const nextSegment = remainder.split(' / ')[0].trim();
+            if (nextSegment) {
+              subcategoriesMap.set(nextSegment, (subcategoriesMap.get(nextSegment) || 0) + 1);
+            }
+          }
+        }
+
+        const subcategories = Array.from(subcategoriesMap.entries())
+          .map(([name, count]) => ({
+            name,
+            fullPath: `${categoryPath} / ${name}`,
+            count,
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
+
+        const sortedDirectQuizzes = [...directQuizzes].sort((a, b) =>
+          a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' })
+        );
+
+        const formattedQuizzes = sortedDirectQuizzes.slice(0, 100).map(q => ({
+          id: q.id,
+          title: q.title,
+          category: q.category || '',
+          timeLimit: q.timeLimit || 30,
+          questionCount: Number(q.questionCount || 0),
+        }));
+
+        return {
+          mode: 'category',
+          categoryPath,
+          subcategories,
+          quizzes: formattedQuizzes,
+        };
+      }
+
+      // 3. Top-Level Categories Overview via Turso
+      const allPublic = await turso.all('SELECT category FROM quizzes WHERE is_public = 1');
+      const topMap = new Map([
+        ["KUNDUZGI TA'LIM", 0],
+        ["SIRTQI TA'LIM", 0],
+        ["KECHKI TA'LIM", 0],
+        ["MASOFAVIY TA'LIM", 0],
+        ["FANLAR FARQI", 0],
+        ["KUNDUZGI TA'LIM (TIBBIYOT)", 0],
+      ]);
+
+      for (const row of allPublic || []) {
+        const topCat = (row.category || '').split(' / ')[0].trim();
+        if (topCat) {
+          topMap.set(topCat, (topMap.get(topCat) || 0) + 1);
+        }
+      }
+
+      const categories = Array.from(topMap.entries()).map(([name, count]) => ({
+        name,
+        fullPath: name,
+        count,
+      }));
+
+      return {
+        mode: 'root',
+        categories,
+        totalQuizzes: (allPublic || []).length,
+      };
+    }
+
 
     // 1. Search Mode
     if (search && search.length >= 2) {

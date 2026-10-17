@@ -23,3 +23,15 @@ Thumbs.db
 
 # Script temp state
 scripts/.sanitize_*.json
+
+# SQLite databases
+*.sqlite
+*.sqlite3
+*.db
+
+# Temporary scratch folder
+scratch/
+
+# Secrets
+tgcloud/lib/constants/secrets.js
+

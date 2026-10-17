@@ -6,6 +6,8 @@ import { CONFIG } from '../lib/constants/config.js';
 import { ERRORS } from '../lib/constants/errors.js';
 import { getMessage } from '../lib/constants/messages.js';
 
+import turso from '../lib/turso_client.js';
+
 export default async function (input, ctx) {
   const tgUser = ctx?.initData?.user;
   const currentUserId = tgUser?.id || 0;
@@ -16,19 +18,38 @@ export default async function (input, ctx) {
   }
 
   // 1. Fetch quiz
-  const quiz = await db.select({
-    id: quizzes.id,
-    title: quizzes.title,
-    description: quizzes.description,
-    timeLimit: quizzes.timeLimit,
-  }).from(quizzes).where(eq(quizzes.id, quizId)).get();
+  let quiz = null;
+  let qCount = 0;
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      quiz = await turso.get('SELECT id, title, description, time_limit as timeLimit FROM quizzes WHERE id = ?', [quizId]);
+      if (quiz) {
+        const cRow = await turso.get('SELECT count(*) as count FROM questions WHERE quiz_id = ?', [quizId]);
+        qCount = Number(cRow?.count || 0);
+      }
+    } catch (err) {
+      console.warn('[create_tournament] Turso fetch fallback:', err.message);
+    }
+  }
+
+  if (!quiz) {
+    quiz = await db.select({
+      id: quizzes.id,
+      title: quizzes.title,
+      description: quizzes.description,
+      timeLimit: quizzes.timeLimit,
+    }).from(quizzes).where(eq(quizzes.id, quizId)).get();
+
+    if (quiz) {
+      qCount = await db.$count(questions, eq(questions.quizId, quizId));
+    }
+  }
 
   if (!quiz) {
     return { success: false, error: ERRORS.QUIZ_NOT_FOUND };
   }
 
-  // Count questions
-  const qCount = await db.$count(questions, eq(questions.quizId, quizId));
   if (!qCount || qCount === 0) {
     return { success: false, error: ERRORS.QUIZ_HAS_NO_QUESTIONS };
   }
@@ -49,29 +70,58 @@ export default async function (input, ctx) {
       actualQCount = e - s + 1;
     }
 
-    await db
-      .insert(botSettings)
-      .values({
-        key: `tournament_cfg:${shareCode}`,
-        value: JSON.stringify(modeConfig),
-      })
-      .onConflictDoUpdate({
-        target: botSettings.key,
-        set: { value: JSON.stringify(modeConfig) },
-      })
-      .run();
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        await turso.run(
+          'INSERT INTO bot_settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
+          [`tournament_cfg:${shareCode}`, JSON.stringify(modeConfig)]
+        );
+      } catch (err) {
+        console.warn('[create_tournament] Turso botSettings insert fallback:', err.message);
+      }
+    }
+
+    try {
+      await db
+        .insert(botSettings)
+        .values({
+          key: `tournament_cfg:${shareCode}`,
+          value: JSON.stringify(modeConfig),
+        })
+        .onConflictDoUpdate({
+          target: botSettings.key,
+          set: { value: JSON.stringify(modeConfig) },
+        })
+        .run();
+    } catch {}
   }
 
-  // 4. Insert into groupTournaments
-  const insertRes = await db.insert(groupTournaments).values({
-    quizId,
-    creatorId: currentUserId,
-    title: quiz.title,
-    shareCode,
-    isActive: true,
-  }).run();
+  // 4. Insert into groupTournaments (Turso & local db)
+  let tursoTourId = null;
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      const insRes = await turso.run(
+        'INSERT INTO group_tournaments (quiz_id, creator_id, title, share_code, is_active, created_at) VALUES (?, ?, ?, ?, 1, unixepoch())',
+        [quizId, currentUserId, quiz.title, shareCode]
+      );
+      tursoTourId = insRes?.lastInsertRowid || null;
+    } catch (err) {
+      console.warn('[create_tournament] Turso groupTournaments insert fallback:', err.message);
+    }
+  }
 
-  const tournamentId = insertRes?.lastInsertRowid;
+  let insertRes = null;
+  try {
+    insertRes = await db.insert(groupTournaments).values({
+      quizId,
+      creatorId: currentUserId,
+      title: quiz.title,
+      shareCode,
+      isActive: true,
+    }).run();
+  } catch {}
+
+  const tournamentId = tursoTourId || (insertRes?.lastInsertRowid ? Number(insertRes.lastInsertRowid) : null);
 
   const botUsername = CONFIG.BOT.USERNAME;
   const shareLink = `https://t.me/${botUsername}/app?startapp=${shareCode}`;

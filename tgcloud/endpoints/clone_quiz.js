@@ -3,6 +3,8 @@ import { db } from 'sdk';
 import { eq, and } from 'sdk/db';
 import { quizzes } from '../schema.js';
 import { cloneQuiz } from '../lib/services/quiz_service.js';
+import { CONFIG } from '../lib/constants/config.js';
+import turso from '../lib/turso_client.js';
 import { ERRORS } from '../lib/constants/errors.js';
 
 export default async function (input, ctx) {
@@ -18,22 +20,45 @@ export default async function (input, ctx) {
     }
 
     // 1. Fetch original quiz
-    const original = await db
-      .select()
-      .from(quizzes)
-      .where(eq(quizzes.id, quizId))
-      .get();
+    let original = null;
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        original = await turso.get('SELECT id, title, owner_id FROM quizzes WHERE id = ?', [quizId]);
+      } catch (err) {
+        console.warn('[clone_quiz] Turso original lookup fallback:', err.message);
+      }
+    }
+    if (!original) {
+      original = await db
+        .select()
+        .from(quizzes)
+        .where(eq(quizzes.id, quizId))
+        .get();
+    }
 
     if (!original) {
       return { success: false, error: ERRORS.QUIZ_NOT_FOUND };
     }
 
     // 2. Check if user already owns this quiz or already cloned it with identical title
-    const existing = await db
-      .select()
-      .from(quizzes)
-      .where(and(eq(quizzes.ownerId, currentUserId), eq(quizzes.title, original.title)))
-      .get();
+    let existing = null;
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        existing = await turso.get(
+          'SELECT id, title FROM quizzes WHERE owner_id = ? AND title = ?',
+          [currentUserId, original.title]
+        );
+      } catch (err) {
+        console.warn('[clone_quiz] Turso existing lookup fallback:', err.message);
+      }
+    }
+    if (!existing) {
+      existing = await db
+        .select()
+        .from(quizzes)
+        .where(and(eq(quizzes.ownerId, currentUserId), eq(quizzes.title, original.title)))
+        .get();
+    }
 
     if (existing) {
       return {

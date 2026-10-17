@@ -1,7 +1,5 @@
 // tgcloud/endpoints/save_custom_quiz.js
-import { db } from 'sdk';
-import { eq, desc } from 'sdk/db';
-import { quizzes, questions } from '../schema.js';
+import { createQuiz } from '../lib/services/quiz_service.js';
 import { CONFIG } from '../lib/constants/config.js';
 import { ERRORS } from '../lib/constants/errors.js';
 
@@ -25,33 +23,7 @@ export default async function (input, ctx) {
 
   const isShuffle = shuffleOptions !== undefined ? Boolean(shuffleOptions) : true;
 
-  // 1. Insert Quiz
-  const insertQuizResult = await db
-    .insert(quizzes)
-    .values({
-      ownerId: currentUserId,
-      title: title.trim().slice(0, 200),
-      description: description?.trim() || '',
-      timeLimit: Number(timeLimit) || CONFIG.POLL.DEFAULT_TIME_LIMIT,
-      shuffleOptions: isShuffle,
-    })
-    .run();
-
-  let newQuizId = insertQuizResult?.lastInsertRowid ? Number(insertQuizResult.lastInsertRowid) : null;
-  if (!newQuizId) {
-    const latest = await db
-      .select({ id: quizzes.id })
-      .from(quizzes)
-      .where(eq(quizzes.ownerId, currentUserId))
-      .orderBy(desc(quizzes.id))
-      .limit(1)
-      .get();
-    newQuizId = latest?.id ? Number(latest.id) : null;
-  }
-
-  // 2. Insert Questions
-  for (let i = 0; i < questionsList.length; i++) {
-    const q = questionsList[i];
+  const formattedQuestions = questionsList.map((q, i) => {
     const text = q.questionText?.trim() || `Question #${i + 1}`;
     const opts = Array.isArray(q.options) && q.options.length >= CONFIG.POLL.MIN_OPTIONS
       ? q.options.map((o) => (typeof o === 'string' ? o.trim() : String(o)))
@@ -61,22 +33,23 @@ export default async function (input, ctx) {
       ? Number(q.correctOptionId)
       : 0;
 
-    await db
-      .insert(questions)
-      .values({
-        quizId: newQuizId,
-        orderIndex: i,
-        questionText: text,
-        optionsJson: JSON.stringify(opts),
-        correctOptionId: correctId,
-        explanation: q.explanation?.trim() || null,
-      })
-      .run();
-  }
+    return {
+      questionText: text,
+      options: opts,
+      correctOptionId: correctId,
+      explanation: q.explanation?.trim() || null,
+    };
+  });
+
+  const created = await createQuiz(currentUserId, title.trim(), formattedQuestions, {
+    description: description?.trim() || '',
+    timeLimit: Number(timeLimit) || CONFIG.POLL.DEFAULT_TIME_LIMIT,
+    shuffleOptions: isShuffle,
+  });
 
   return {
     success: true,
-    quizId: newQuizId,
-    questionCount: questionsList.length,
+    quizId: created.id,
+    questionCount: formattedQuestions.length,
   };
 }

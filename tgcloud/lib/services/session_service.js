@@ -15,6 +15,7 @@ import { sanitizeQuestionText, sanitizeOptionsList } from '../parsers/sanitizer.
 import { getMediaChannel } from './admin_service.js';
 import { getOrCreateUser } from './user_service.js';
 import { hasMathFormula, renderAndUploadFormula, generateLatexImageUrl } from '../parsers/math_engine.js';
+import turso from '../turso_client.js';
 
 export async function logAppError(source, msg, details = null) {
   try {
@@ -1084,59 +1085,144 @@ export async function resumeQuizSession(api, sessionId, userId = null) {
 
 export async function saveUserMistake(userId, question, originalQuizId = null) {
   const origNum = question.originalNum || (question.orderIndex !== undefined ? question.orderIndex + 1 : null);
+  const uid = Number(userId);
 
-  // Prevent duplicate mistake entries for same user and question
-  const existing = await db
-    .select()
-    .from(userMistakes)
-    .where(
-      and(
-        eq(userMistakes.userId, userId),
-        eq(userMistakes.questionText, question.questionText)
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      const existing = await turso.get(
+        'SELECT id FROM user_mistakes WHERE user_id = ? AND question_text = ?',
+        [uid, question.questionText]
+      );
+      if (!existing) {
+        await turso.run(
+          'INSERT INTO user_mistakes (user_id, question_text, options_json, correct_option_id, explanation, photo_file_id, original_quiz_id, original_num, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, unixepoch())',
+          [
+            uid,
+            question.questionText,
+            JSON.stringify(question.options || []),
+            Number(question.correctOptionId) || 0,
+            question.explanation || null,
+            question.photoFileId || null,
+            originalQuizId,
+            origNum,
+          ]
+        );
+      }
+    } catch (err) {
+      console.warn('[session_service] Turso saveUserMistake fallback to local db:', err.message);
+    }
+  }
+
+  // Prevent duplicate mistake entries for same user and question (local db backup)
+  try {
+    const existing = await db
+      .select()
+      .from(userMistakes)
+      .where(
+        and(
+          eq(userMistakes.userId, uid),
+          eq(userMistakes.questionText, question.questionText)
+        )
       )
-    )
-    .get();
+      .get();
 
-  if (existing) return;
+    if (existing) return;
 
-  await db
-    .insert(userMistakes)
-    .values({
-      userId,
-      questionText: question.questionText,
-      optionsJson: JSON.stringify(question.options),
-      correctOptionId: question.correctOptionId,
-      explanation: question.explanation || null,
-      photoFileId: question.photoFileId || null,
-      photoCaption: question.photoCaption || null,
-      originalQuizId,
-      originalNum: origNum,
-    })
-    .run();
+    await db
+      .insert(userMistakes)
+      .values({
+        userId: uid,
+        questionText: question.questionText,
+        optionsJson: JSON.stringify(question.options),
+        correctOptionId: question.correctOptionId,
+        explanation: question.explanation || null,
+        photoFileId: question.photoFileId || null,
+        photoCaption: question.photoCaption || null,
+        originalQuizId,
+        originalNum: origNum,
+      })
+      .run();
+  } catch {}
 }
 
 export async function getUserMistakesCount(userId, quizId = null) {
+  const uid = Number(userId);
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      if (quizId && Number(quizId) > 0) {
+        const row = await turso.get(
+          'SELECT count(*) as count FROM user_mistakes WHERE user_id = ? AND original_quiz_id = ?',
+          [uid, Number(quizId)]
+        );
+        return Number(row?.count || 0);
+      }
+      const row = await turso.get(
+        'SELECT count(*) as count FROM user_mistakes WHERE user_id = ?',
+        [uid]
+      );
+      return Number(row?.count || 0);
+    } catch (err) {
+      console.warn('[session_service] Turso getUserMistakesCount fallback:', err.message);
+    }
+  }
+
   if (quizId && Number(quizId) > 0) {
     return await db.$count(
       userMistakes,
-      and(eq(userMistakes.userId, userId), eq(userMistakes.originalQuizId, Number(quizId)))
+      and(eq(userMistakes.userId, uid), eq(userMistakes.originalQuizId, Number(quizId)))
     );
   }
-  return await db.$count(userMistakes, eq(userMistakes.userId, userId));
+  return await db.$count(userMistakes, eq(userMistakes.userId, uid));
 }
 
 export async function clearUserMistakes(userId) {
-  await db
-    .delete(userMistakes)
-    .where(eq(userMistakes.userId, userId))
-    .run();
+  const uid = Number(userId);
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      await turso.run('DELETE FROM user_mistakes WHERE user_id = ?', [uid]);
+    } catch (err) {
+      console.warn('[session_service] Turso clearUserMistakes fallback:', err.message);
+    }
+  }
+
+  try {
+    await db
+      .delete(userMistakes)
+      .where(eq(userMistakes.userId, uid))
+      .run();
+  } catch {}
 }
 
 export async function getUserMistakesGrouped(userId) {
+  const uid = Number(userId);
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      const rows = await turso.all(
+        `SELECT m.original_quiz_id as quizId, q.title as title, count(*) as count
+         FROM user_mistakes m
+         LEFT JOIN quizzes q ON m.original_quiz_id = q.id
+         WHERE m.user_id = ? AND m.original_quiz_id IS NOT NULL AND m.original_quiz_id > 0
+         GROUP BY m.original_quiz_id, q.title
+         HAVING count > 0`,
+        [uid]
+      );
+      return rows.map(r => ({
+        quizId: Number(r.quizId),
+        title: r.title || `Test #${r.quizId}`,
+        count: Number(r.count),
+      }));
+    } catch (err) {
+      console.warn('[session_service] Turso getUserMistakesGrouped fallback:', err.message);
+    }
+  }
+
   const mistakes = await db
     .select()
     .from(userMistakes)
-    .where(eq(userMistakes.userId, userId))
+    .where(eq(userMistakes.userId, uid))
     .all();
 
   if (mistakes.length === 0) return [];

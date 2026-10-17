@@ -6,11 +6,13 @@ import { eq, desc, sql, and } from 'sdk/db';
 import { users, quizzes, quizSessions, botSettings } from '../../schema.js';
 import { getGroupsCount } from './group_service.js';
 import { CONFIG } from '../constants/config.js';
+import turso from '../turso_client.js';
 
 export function isUserAdmin(userId) {
   if (!userId) return false;
   return CONFIG.ADMINS.includes(Number(userId));
 }
+
 
 export async function cleanupStaleSessions(timeoutSeconds = 300) {
   try {
@@ -67,6 +69,19 @@ export async function getBotStatistics() {
 
 export async function listUsers(page = 0, pageSize = CONFIG.PAGINATION.USERS) {
   const offset = Math.max(0, page * pageSize);
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      const list = await turso.all(
+        'SELECT telegram_id as telegramId, first_name as firstName, last_name as lastName, username, created_at as createdAt FROM users ORDER BY created_at DESC, telegram_id DESC LIMIT ? OFFSET ?',
+        [pageSize, offset]
+      );
+      return list || [];
+    } catch (err) {
+      console.warn('[admin_service] Turso listUsers fallback to local db:', err.message);
+    }
+  }
+
   return await db
     .select({
       telegramId: users.telegramId,
@@ -83,23 +98,56 @@ export async function listUsers(page = 0, pageSize = CONFIG.PAGINATION.USERS) {
 }
 
 export async function getUsersCount() {
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      const row = await turso.get('SELECT count(*) as count FROM users');
+      return Number(row?.count || 0);
+    } catch (err) {
+      console.warn('[admin_service] Turso getUsersCount fallback to local db:', err.message);
+    }
+  }
+
   return await db.$count(users);
 }
 
 export async function setUserBlocked(userId, isBlocked = true) {
+  const uid = Number(userId);
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      await turso.run('UPDATE users SET is_blocked = ? WHERE telegram_id = ?', [isBlocked ? 1 : 0, uid]);
+      return;
+    } catch (err) {
+      console.warn('[admin_service] Turso setUserBlocked fallback to local db:', err.message);
+    }
+  }
+
   await db
     .update(users)
     .set({ isBlocked })
-    .where(eq(users.telegramId, userId))
+    .where(eq(users.telegramId, uid))
     .run();
 }
 
 export async function broadcastMessage(api, payload) {
-  const allUsers = await db
-    .select({ id: users.telegramId })
-    .from(users)
-    .where(eq(users.isBlocked, false))
-    .all();
+  let allUsers = [];
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      allUsers = await turso.all('SELECT telegram_id as id FROM users WHERE is_blocked = 0');
+    } catch (err) {
+      console.warn('[admin_service] Turso broadcastMessage fallback to local db:', err.message);
+      allUsers = [];
+    }
+  }
+
+  if (!allUsers || allUsers.length === 0) {
+    allUsers = await db
+      .select({ id: users.telegramId })
+      .from(users)
+      .where(eq(users.isBlocked, false))
+      .all();
+  }
 
   let success = 0;
   let fail = 0;
@@ -135,6 +183,20 @@ export async function broadcastMessage(api, payload) {
 }
 
 export async function getMediaChannel() {
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      const idRow = await turso.get('SELECT value FROM bot_settings WHERE key = ?', ['media_channel_id']);
+      const titleRow = await turso.get('SELECT value FROM bot_settings WHERE key = ?', ['media_channel_title']);
+      if (!idRow || !idRow.value || idRow.value === '[object Object]') return null;
+      return {
+        channelId: idRow.value,
+        title: titleRow && titleRow.value !== '[object Object]' ? titleRow.value : '',
+      };
+    } catch (err) {
+      console.warn('[admin_service] Turso getMediaChannel fallback to local db:', err.message);
+    }
+  }
+
   try {
     const idRow = await db.select().from(botSettings).where(eq(botSettings.key, 'media_channel_id')).get();
     const titleRow = await db.select().from(botSettings).where(eq(botSettings.key, 'media_channel_title')).get();
@@ -150,15 +212,31 @@ export async function getMediaChannel() {
 }
 
 export async function setMediaChannel(channelIdOrObj, titleParam = '') {
-  try {
-    let channelId = channelIdOrObj;
-    let title = titleParam;
+  let channelId = channelIdOrObj;
+  let title = titleParam;
 
-    if (typeof channelIdOrObj === 'object' && channelIdOrObj !== null) {
-      channelId = channelIdOrObj.channelId || channelIdOrObj.id;
-      title = channelIdOrObj.title || '';
+  if (typeof channelIdOrObj === 'object' && channelIdOrObj !== null) {
+    channelId = channelIdOrObj.channelId || channelIdOrObj.id;
+    title = channelIdOrObj.title || '';
+  }
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      await turso.run(
+        'INSERT OR REPLACE INTO bot_settings (key, value, updated_at) VALUES (?, ?, unixepoch())',
+        ['media_channel_id', String(channelId)]
+      );
+      await turso.run(
+        'INSERT OR REPLACE INTO bot_settings (key, value, updated_at) VALUES (?, ?, unixepoch())',
+        ['media_channel_title', String(title || '')]
+      );
+      return true;
+    } catch (err) {
+      console.warn('[admin_service] Turso setMediaChannel fallback to local db:', err.message);
     }
+  }
 
+  try {
     await db
       .insert(botSettings)
       .values({ key: 'media_channel_id', value: String(channelId) })
@@ -185,6 +263,16 @@ export async function setMediaChannel(channelIdOrObj, titleParam = '') {
 }
 
 export async function removeMediaChannel() {
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      await turso.run('DELETE FROM bot_settings WHERE key = ?', ['media_channel_id']);
+      await turso.run('DELETE FROM bot_settings WHERE key = ?', ['media_channel_title']);
+      return true;
+    } catch (err) {
+      console.warn('[admin_service] Turso removeMediaChannel fallback to local db:', err.message);
+    }
+  }
+
   try {
     await db.delete(botSettings).where(eq(botSettings.key, 'media_channel_id')).run();
     await db.delete(botSettings).where(eq(botSettings.key, 'media_channel_title')).run();

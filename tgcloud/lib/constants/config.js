@@ -1,5 +1,4 @@
-// tgcloud/lib/constants/config.js
-// Global project configuration and Telegram limits
+import { TURSO_TOKEN } from './secrets.js';
 
 export const CONFIG = {
   // Telegram Bot limits for native polls
@@ -48,6 +47,15 @@ export const CONFIG = {
     CHUNK_SIZE: 25,
     DELAY_MS: 50,
   },
+
+  // Turso Cloud Database Configuration
+  TURSO: {
+    URL: 'https://queasy-db-xamidullayev-i.aws-eu-north-1.turso.io',
+    TOKEN: TURSO_TOKEN || '',
+    ENABLED: Boolean(TURSO_TOKEN),
+  },
 };
+
+
 
 export default CONFIG;

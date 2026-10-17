@@ -2,10 +2,12 @@
 import { db } from 'sdk';
 import { eq, desc, and } from 'sdk/db';
 import { users, quizzes, questions, quizSessions } from '../schema.js';
+import { CONFIG } from '../lib/constants/config.js';
+import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
   const tgUser = ctx?.initData?.user;
-  const userId = tgUser?.id;
+  const userId = tgUser?.id ? Number(tgUser.id) : 0;
 
   if (!userId) {
     return {
@@ -15,8 +17,78 @@ export default async function (input, ctx) {
     };
   }
 
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      let userRow = await turso.get('SELECT * FROM users WHERE telegram_id = ?', [userId]);
+      if (!userRow) {
+        await turso.run(
+          'INSERT INTO users (telegram_id, first_name, last_name, username, lang, is_blocked, created_at, last_active_at) VALUES (?, ?, ?, ?, ?, 0, unixepoch(), unixepoch())',
+          [userId, tgUser.first_name || 'Foydalanuvchi', tgUser.last_name || null, tgUser.username || null, tgUser.language_code?.toUpperCase()?.includes('RU') ? 'RU' : 'UZ']
+        );
+        userRow = await turso.get('SELECT * FROM users WHERE telegram_id = ?', [userId]);
+      }
+
+      const rawQuizzes = await turso.all(`
+        SELECT q.id, q.title, q.description, q.time_limit, q.shuffle_options, count(qst.id) as question_count
+        FROM quizzes q
+        LEFT JOIN questions qst ON qst.quiz_id = q.id
+        WHERE q.owner_id = ?
+        GROUP BY q.id
+        ORDER BY q.id DESC
+        LIMIT 20
+      `, [userId]);
+
+      const myQuizzes = (rawQuizzes || []).map(q => ({
+        id: q.id,
+        title: q.title,
+        description: q.description || '',
+        timeLimit: q.time_limit || 30,
+        questionCount: Number(q.question_count || 0),
+        shuffleOptions: Boolean(q.shuffle_options),
+      }));
+
+      const rawSessions = await turso.all(
+        'SELECT id, correct_count, wrong_count FROM quiz_sessions WHERE user_id = ? AND is_active = 0 LIMIT 100',
+        [userId]
+      );
+
+      let totalCorrect = 0;
+      let totalAnswered = 0;
+      (rawSessions || []).forEach(s => {
+        totalCorrect += Number(s.correct_count || 0);
+        totalAnswered += Number(s.correct_count || 0) + Number(s.wrong_count || 0);
+      });
+
+      const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+      const xp = totalCorrect * 10;
+      const level = Math.floor(xp / 100) + 1;
+      const fullName = [userRow?.first_name, userRow?.last_name].filter(Boolean).join(' ') || tgUser?.first_name || 'Foydalanuvchi';
+
+      return {
+        user: {
+          id: userId,
+          name: fullName,
+          username: userRow?.username || tgUser.username,
+          photo_url: tgUser?.photo_url || (userRow?.username ? `https://t.me/i/userpic/320/${userRow.username}.jpg` : null),
+          level,
+          xp,
+          lang: userRow?.lang || 'UZ',
+        },
+        myQuizzes,
+        stats: {
+          totalSolved: (rawSessions || []).length,
+          accuracy,
+          globalRank: (rawSessions || []).length > 0 ? 1 : '-',
+        },
+      };
+    } catch (err) {
+      console.warn('[get_initial_data] Turso fallback to local db:', err.message);
+    }
+  }
+
   // 1. Fetch or ensure user
   let userRow = await db.select().from(users).where(eq(users.telegramId, userId)).get();
+
   if (!userRow) {
     await db.insert(users).values({
       telegramId: userId,

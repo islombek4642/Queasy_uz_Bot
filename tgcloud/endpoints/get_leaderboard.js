@@ -2,22 +2,187 @@
 import { db } from 'sdk';
 import { eq, and, sql, desc, inArray } from 'sdk/db';
 import { users, quizSessions } from '../schema.js';
+import { CONFIG } from '../lib/constants/config.js';
+import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
   try {
-    const currentUserId = ctx?.initData?.user?.id || 0;
+    const currentUserId = ctx?.initData?.user?.id ? Number(ctx.initData.user.id) : 0;
     const timeframe = input?.timeframe || 'all';
 
     // 1. Calculate timeframe cutoff timestamp
     const nowSec = Math.floor(Date.now() / 1000);
     let thresholdSec = 0;
-    if (timeframe === 'today') {
+    if (timeframe === 'today' || timeframe === 'daily') {
       thresholdSec = nowSec - 86400;
-    } else if (timeframe === 'week') {
+    } else if (timeframe === 'week' || timeframe === 'weekly') {
       thresholdSec = nowSec - 7 * 86400;
-    } else if (timeframe === 'month') {
+    } else if (timeframe === 'month' || timeframe === 'monthly') {
       thresholdSec = nowSec - 30 * 86400;
     }
+
+    if (CONFIG.TURSO?.ENABLED) {
+      let sessionsQuery = 'SELECT user_id as userId, correct_count as correctCount, wrong_count as wrongCount FROM quiz_sessions WHERE is_active = 0';
+      const params = [];
+      if (thresholdSec > 0) {
+        sessionsQuery += ' AND started_at >= ?';
+        params.push(thresholdSec);
+      }
+      sessionsQuery += ' LIMIT 1000';
+
+      let finishedSessions = (await turso.all(sessionsQuery, params)) || [];
+
+      // If weekly/monthly has no data yet, gracefully fallback to all-time so leaderboard is never blank
+      if (finishedSessions.length === 0 && thresholdSec > 0) {
+        finishedSessions = (await turso.all('SELECT user_id as userId, correct_count as correctCount, wrong_count as wrongCount FROM quiz_sessions WHERE is_active = 0 LIMIT 1000')) || [];
+      }
+
+      const userStatsMap = new Map();
+      for (const s of finishedSessions) {
+        const uid = Number(s.userId);
+        if (!uid) continue;
+
+        if (!userStatsMap.has(uid)) {
+          userStatsMap.set(uid, {
+            userId: uid,
+            totalCorrect: 0,
+            totalAnswered: 0,
+            quizzesCount: 0,
+          });
+        }
+        const cur = userStatsMap.get(uid);
+        const correct = Number(s.correctCount) || 0;
+        const wrong = Number(s.wrongCount) || 0;
+        cur.totalCorrect += correct;
+        cur.totalAnswered += correct + wrong;
+        cur.quizzesCount += 1;
+      }
+
+      // Also aggregate group tournament answers
+      try {
+        let groupQuery = 'SELECT user_id as userId, is_correct as isCorrect FROM group_answers';
+        const groupParams = [];
+        if (thresholdSec > 0 && finishedSessions.length > 0) {
+          groupQuery += ' WHERE answered_at >= ?';
+          groupParams.push(thresholdSec);
+        }
+        groupQuery += ' LIMIT 2000';
+        const groupAnswersRows = (await turso.all(groupQuery, groupParams)) || [];
+        for (const g of groupAnswersRows) {
+          const uid = Number(g.userId);
+          if (!uid) continue;
+          if (!userStatsMap.has(uid)) {
+            userStatsMap.set(uid, {
+              userId: uid,
+              totalCorrect: 0,
+              totalAnswered: 0,
+              quizzesCount: 0,
+            });
+          }
+          const cur = userStatsMap.get(uid);
+          const isCorrect = Number(g.isCorrect) === 1;
+          if (isCorrect) cur.totalCorrect += 1;
+          cur.totalAnswered += 1;
+        }
+      } catch (gErr) {
+        console.warn('[get_leaderboard] group answers aggregation warn:', gErr?.message);
+      }
+
+
+      const sortedStats = Array.from(userStatsMap.values()).map((s) => ({
+        id: s.userId,
+        xp: s.totalCorrect * 10,
+        level: Math.floor((s.totalCorrect * 10) / 100) + 1,
+        accuracy: s.totalAnswered > 0 ? Math.round((s.totalCorrect / s.totalAnswered) * 100) : 0,
+        quizzesSolved: s.quizzesCount,
+      }));
+
+      sortedStats.sort((a, b) => b.xp - a.xp);
+
+      const top10Stats = sortedStats.slice(0, 10);
+      const neededUserIds = new Set(top10Stats.map((s) => s.id));
+      if (currentUserId) neededUserIds.add(currentUserId);
+
+      const userProfileMap = new Map();
+      if (neededUserIds.size > 0) {
+        try {
+          const placeholders = Array.from(neededUserIds).map(() => '?').join(', ');
+          const userRows = await turso.all(
+            `SELECT telegram_id as telegramId, first_name as firstName, last_name as lastName, username FROM users WHERE telegram_id IN (${placeholders})`,
+            Array.from(neededUserIds)
+          );
+          for (const u of userRows || []) {
+            userProfileMap.set(Number(u.telegramId), u);
+          }
+        } catch (uErr) {
+          console.error('[get_leaderboard] turso user profiles lookup error:', uErr);
+        }
+      }
+
+      const topUsers = top10Stats.map((stat, idx) => {
+        const profile = userProfileMap.get(stat.id);
+        const rawName = [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') || profile?.username || `Foydalanuvchi #${stat.id}`;
+
+        return {
+          rank: idx + 1,
+          id: stat.id,
+          name: rawName,
+          username: profile?.username || '',
+          xp: stat.xp,
+          level: stat.level,
+          accuracy: stat.accuracy,
+          quizzesSolved: stat.quizzesSolved,
+          isCurrentUser: currentUserId ? stat.id === currentUserId : false,
+          photo_url: profile?.username ? `https://t.me/i/userpic/320/${profile.username}.jpg` : null,
+        };
+      });
+
+      let currentUserRank = topUsers.find((u) => u.isCurrentUser);
+      if (!currentUserRank) {
+        const userIndex = sortedStats.findIndex((s) => s.id === currentUserId);
+        const profile = userProfileMap.get(currentUserId);
+        const rawName = [profile?.firstName, profile?.lastName].filter(Boolean).join(' ') || profile?.username || ctx?.initData?.user?.first_name || 'Siz';
+
+        if (userIndex !== -1) {
+          const stat = sortedStats[userIndex];
+          currentUserRank = {
+            rank: userIndex + 1,
+            id: currentUserId,
+            name: rawName,
+            username: profile?.username || ctx?.initData?.user?.username || '',
+            xp: stat.xp,
+            level: stat.level,
+            accuracy: stat.accuracy,
+            quizzesSolved: stat.quizzesSolved,
+            isCurrentUser: true,
+            photo_url: profile?.username ? `https://t.me/i/userpic/320/${profile.username}.jpg` : null,
+          };
+        } else {
+          currentUserRank = {
+            rank: sortedStats.length + 1,
+            id: currentUserId,
+            name: rawName,
+            username: profile?.username || ctx?.initData?.user?.username || '',
+            xp: 0,
+            level: 1,
+            accuracy: 0,
+            quizzesSolved: 0,
+            isCurrentUser: true,
+            photo_url: profile?.username ? `https://t.me/i/userpic/320/${profile.username}.jpg` : null,
+          };
+        }
+      }
+
+      const totalUsersRow = await turso.get('SELECT count(*) as count FROM users');
+
+      return {
+        timeframe,
+        topUsers,
+        currentUserRank,
+        totalUsers: Math.max(Number(totalUsersRow?.count || 0), sortedStats.length),
+      };
+    }
+
 
     // 2. Query finished sessions
     const sessionsQuery = thresholdSec > 0

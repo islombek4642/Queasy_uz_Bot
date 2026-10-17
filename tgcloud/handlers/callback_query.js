@@ -7,6 +7,7 @@ import { quizSessions, quizzes as quizzesTable, categories as categoriesTable } 
 import { CONFIG } from '../lib/constants/config.js';
 import { ACTIONS, STATES } from '../lib/constants/actions.js';
 import { getMessage } from '../lib/constants/messages.js';
+import turso from '../lib/turso_client.js';
 
 import {
   getUser,
@@ -225,7 +226,13 @@ export default async function (callbackQuery, ctx) {
       catId = parseInt(data.replace('kiut_c:', ''), 10) || 0;
     } else {
       const legacyPath = data.replace('kiut_cat:', '').trim();
-      const rec = await db.select().from(categoriesTable).where(eq(categoriesTable.path, legacyPath)).get();
+      let rec = null;
+      if (CONFIG.TURSO?.ENABLED) {
+        try { rec = await turso.get('SELECT id FROM categories WHERE path = ?', [legacyPath]); } catch {}
+      }
+      if (!rec) {
+        rec = await db.select().from(categoriesTable).where(eq(categoriesTable.path, legacyPath)).get();
+      }
       catId = rec?.id || 0;
     }
 
@@ -271,7 +278,13 @@ export default async function (callbackQuery, ctx) {
       return;
     }
 
-    const currentCat = await db.select().from(categoriesTable).where(eq(categoriesTable.id, catId)).get();
+    let currentCat = null;
+    if (CONFIG.TURSO?.ENABLED) {
+      try { currentCat = await turso.get('SELECT * FROM categories WHERE id = ?', [catId]); } catch {}
+    }
+    if (!currentCat) {
+      currentCat = await db.select().from(categoriesTable).where(eq(categoriesTable.id, catId)).get();
+    }
     const catPath = currentCat?.path || '';
 
     if (!catPath) {
@@ -281,11 +294,19 @@ export default async function (callbackQuery, ctx) {
 
     // Find direct subcategories using categories table
     const prefix = `${catPath} /`;
-    const allChildCats = await db
-      .select()
-      .from(categoriesTable)
-      .where(like(categoriesTable.path, `${prefix}%`))
-      .all();
+    let allChildCats = [];
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        allChildCats = await turso.all('SELECT id, path FROM categories WHERE path LIKE ?', [`${prefix}%`]);
+      } catch {}
+    }
+    if (!allChildCats || allChildCats.length === 0) {
+      allChildCats = await db
+        .select()
+        .from(categoriesTable)
+        .where(like(categoriesTable.path, `${prefix}%`))
+        .all();
+    }
 
     const subMap = new Map();
     for (const row of allChildCats) {
@@ -306,12 +327,23 @@ export default async function (callbackQuery, ctx) {
     );
 
     // Find direct quizzes directly under catPath
-    const directQuizzes = await db
-      .select({ id: quizzesTable.id, title: quizzesTable.title })
-      .from(quizzesTable)
-      .where(and(eq(quizzesTable.isPublic, true), eq(quizzesTable.category, catPath)))
-      .limit(60)
-      .all();
+    let directQuizzes = [];
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        directQuizzes = await turso.all(
+          'SELECT id, title FROM quizzes WHERE is_public = 1 AND category = ? LIMIT 60',
+          [catPath]
+        );
+      } catch {}
+    }
+    if (!directQuizzes || directQuizzes.length === 0) {
+      directQuizzes = await db
+        .select({ id: quizzesTable.id, title: quizzesTable.title })
+        .from(quizzesTable)
+        .where(and(eq(quizzesTable.isPublic, true), eq(quizzesTable.category, catPath)))
+        .limit(60)
+        .all();
+    }
 
     // Naturally sort direct quizzes
     directQuizzes.sort((a, b) =>
@@ -347,7 +379,13 @@ export default async function (callbackQuery, ctx) {
 
     let parentId = 0;
     if (parentPath) {
-      const parentRec = await db.select().from(categoriesTable).where(eq(categoriesTable.path, parentPath)).get();
+      let parentRec = null;
+      if (CONFIG.TURSO?.ENABLED) {
+        try { parentRec = await turso.get('SELECT id FROM categories WHERE path = ?', [parentPath]); } catch {}
+      }
+      if (!parentRec) {
+        parentRec = await db.select().from(categoriesTable).where(eq(categoriesTable.path, parentPath)).get();
+      }
       parentId = parentRec?.id || 0;
     }
 

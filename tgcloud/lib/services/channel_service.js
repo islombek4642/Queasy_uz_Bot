@@ -4,8 +4,26 @@
 import { db } from 'sdk';
 import { eq } from 'sdk/db';
 import { requiredChannels } from '../../schema.js';
+import { CONFIG } from '../constants/config.js';
+import turso from '../turso_client.js';
 
 export async function getRequiredChannels() {
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      const rows = await turso.all('SELECT * FROM required_channels WHERE is_active = 1');
+      return (rows || []).map(r => ({
+        id: r.id,
+        channelId: r.channel_id,
+        channelUsername: r.channel_username,
+        title: r.title,
+        inviteLink: r.invite_link,
+        isActive: Boolean(r.is_active),
+      }));
+    } catch (err) {
+      console.warn('[channel_service] Turso fallback to local db:', err.message);
+    }
+  }
+
   return await db
     .select()
     .from(requiredChannels)
@@ -14,6 +32,18 @@ export async function getRequiredChannels() {
 }
 
 export async function addRequiredChannel({ channelId, channelUsername, title, inviteLink }) {
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      await turso.run(
+        'INSERT INTO required_channels (channel_id, channel_username, title, invite_link, is_active, created_at) VALUES (?, ?, ?, ?, 1, unixepoch())',
+        [channelId, channelUsername || null, title || 'Kanal', inviteLink || `https://t.me/${channelUsername.replace('@', '')}`]
+      );
+      return;
+    } catch (err) {
+      console.warn('[channel_service] Turso addRequiredChannel fallback to local db:', err.message);
+    }
+  }
+
   await db
     .insert(requiredChannels)
     .values({
@@ -27,6 +57,15 @@ export async function addRequiredChannel({ channelId, channelUsername, title, in
 }
 
 export async function deleteRequiredChannel(id) {
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      await turso.run('DELETE FROM required_channels WHERE id = ?', [Number(id)]);
+      return;
+    } catch (err) {
+      console.warn('[channel_service] Turso deleteRequiredChannel fallback to local db:', err.message);
+    }
+  }
+
   await db
     .delete(requiredChannels)
     .where(eq(requiredChannels.id, id))
