@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "tgcloud/handlers/callback_query.js": {
-    "mtime": 1792260156.865795,
-    "seen": 1792260572.3280628,
-    "ast_hash": "31752276b7479c0a169fe2002008a05a",
+    "mtime": 1792264152.8302052,
+    "seen": 1792264269.6541336,
+    "ast_hash": "1ca7a21c4b94246ccee987749402ce79",
     "semantic_hash": ""
   },
   "tgcloud/handlers/inline_query.js": {
@@ -54,9 +54,9 @@
     "semantic_hash": ""
   },
   "tgcloud/handlers/message.js": {
-    "mtime": 1792080732.8627148,
-    "seen": 1792080792.051353,
-    "ast_hash": "ad86ab6b46399ac461e600beb2aa9e0a",
+    "mtime": 1792264088.7829208,
+    "seen": 1792264269.6541388,
+    "ast_hash": "45c8494bc162dd5aab2a59c85861a642",
     "semantic_hash": ""
   },
   "tgcloud/handlers/my_chat_member.js": {
@@ -78,15 +78,15 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/actions.js": {
-    "mtime": 1791988315.0704443,
-    "seen": 1791988399.8210125,
-    "ast_hash": "e6fdee72cc71c8397a4e468be78adde5",
+    "mtime": 1792264036.3002708,
+    "seen": 1792264269.6541498,
+    "ast_hash": "b9cfadcf32a9d5966197e27fe57c4521",
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/config.js": {
-    "mtime": 1792260540.8924737,
-    "seen": 1792260572.3290203,
-    "ast_hash": "6808361a763b335fa770072ece8bd997",
+    "mtime": 1792264018.4325671,
+    "seen": 1792264269.6541524,
+    "ast_hash": "d85020b4d55086f400d2018df8d78111",
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/messages.js": {
@@ -114,9 +114,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/keyboards/quiz_keyboard.js": {
-    "mtime": 1791903836.4645438,
-    "seen": 1791903905.0704224,
-    "ast_hash": "1435661881cae82e91723caa193430c3",
+    "mtime": 1792264058.9058104,
+    "seen": 1792264269.6541765,
+    "ast_hash": "28aab445cf42a8fde77deef2a222928a",
     "semantic_hash": ""
   },
   "tgcloud/lib/keyboards/subscribe_keyboard.js": {
@@ -2946,9 +2946,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_app_logs.js": {
-    "mtime": 1792262680.6036465,
-    "seen": 1792262806.035122,
-    "ast_hash": "2f703d9364b0a7b1be8efb54bc38dd1a",
+    "mtime": 1792263550.740664,
+    "seen": 1792264269.6540806,
+    "ast_hash": "e88deb6351bc6419674921b2932fef9e",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-10-14-telegram-poll-features.md": {
@@ -2973,204 +2973,6 @@
     "mtime": 1792080996.443318,
     "seen": 1792081824.289622,
     "ast_hash": "8507ac3959198f836cd511b7ef071bf3",
-    "semantic_hash": ""
-  },
-  "scratch/check_all_tables_count.mjs": {
-    "mtime": 1792252293.485614,
-    "seen": 1792260572.3109045,
-    "ast_hash": "cd31449aadd1aae5a9bdf27221ac9f68",
-    "semantic_hash": ""
-  },
-  "scratch/check_cli_src.mjs": {
-    "mtime": 1792178245.7216754,
-    "seen": 1792260572.3109093,
-    "ast_hash": "88952a6920f70c2c840e0656a8c5512b",
-    "semantic_hash": ""
-  },
-  "scratch/check_cloud_api.mjs": {
-    "mtime": 1792178196.2416215,
-    "seen": 1792260572.3109126,
-    "ast_hash": "69c9048eb1d32819e56f363634a451a4",
-    "semantic_hash": ""
-  },
-  "scratch/check_cols.mjs": {
-    "mtime": 1792254022.089315,
-    "seen": 1792260572.310915,
-    "ast_hash": "744a88710e458ae3bb740dc697744415",
-    "semantic_hash": ""
-  },
-  "scratch/check_final_counts.mjs": {
-    "mtime": 1792254200.4022293,
-    "seen": 1792260572.3109174,
-    "ast_hash": "2abafe628dbd2a3ace3b4e3c93490e72",
-    "semantic_hash": ""
-  },
-  "scratch/check_q_details.mjs": {
-    "mtime": 1792252893.9491787,
-    "seen": 1792260572.3109198,
-    "ast_hash": "ded7252b5af482e7d77163eace8188d3",
-    "semantic_hash": ""
-  },
-  "scratch/dump_remaining.mjs": {
-    "mtime": 1792253330.8352964,
-    "seen": 1792260572.3109224,
-    "ast_hash": "4c4deaac49a8fc1a50504a075d9d1493",
-    "semantic_hash": ""
-  },
-  "scratch/find_cli_api.mjs": {
-    "mtime": 1792178775.6595564,
-    "seen": 1792260572.3109248,
-    "ast_hash": "0d60665653f961ec892c1b116dbf3d0b",
-    "semantic_hash": ""
-  },
-  "scratch/find_migrate.mjs": {
-    "mtime": 1792178350.6909976,
-    "seen": 1792260572.3109274,
-    "ast_hash": "e8881e7e10cba3a14fbd33a8f72f6df5",
-    "semantic_hash": ""
-  },
-  "scratch/read_cli_endpoints.mjs": {
-    "mtime": 1792178810.136592,
-    "seen": 1792260572.3109298,
-    "ast_hash": "b5d5547f21066d19395ced07b1d62a1b",
-    "semantic_hash": ""
-  },
-  "scratch/run_cloud_module.mjs": {
-    "mtime": 1792178737.3833027,
-    "seen": 1792260572.310932,
-    "ast_hash": "d1d248d943268d0fda08840646e8adef",
-    "semantic_hash": ""
-  },
-  "scratch/test_all_turso_integrations.mjs": {
-    "mtime": 1792258933.0411022,
-    "seen": 1792260572.310934,
-    "ast_hash": "1afd6f2cc144f16a707d91ff053c006b",
-    "semantic_hash": ""
-  },
-  "scratch/test_batch_tx.mjs": {
-    "mtime": 1792256548.0222032,
-    "seen": 1792260572.3109367,
-    "ast_hash": "f79c380d77cc78a1939f74d7f2f702f3",
-    "semantic_hash": ""
-  },
-  "scratch/test_counts.mjs": {
-    "mtime": 1792252064.232083,
-    "seen": 1792260572.3109388,
-    "ast_hash": "2a8cfa56bfe24d6b7836edca1e99b117",
-    "semantic_hash": ""
-  },
-  "scratch/test_dual_engine.mjs": {
-    "mtime": 1792258517.7987716,
-    "seen": 1792260572.3109412,
-    "ast_hash": "ae14b7c87ff5273569d7e622a05e310d",
-    "semantic_hash": ""
-  },
-  "scratch/test_fast_insert.mjs": {
-    "mtime": 1792256286.766019,
-    "seen": 1792260572.3109436,
-    "ast_hash": "1547a1bd0c5bc2aaa9786df8156f2ef7",
-    "semantic_hash": ""
-  },
-  "scratch/test_fetch_tx.mjs": {
-    "mtime": 1792256638.3753884,
-    "seen": 1792260572.3109457,
-    "ast_hash": "10235422581be216763af64a6626ed66",
-    "semantic_hash": ""
-  },
-  "scratch/test_full_system_lifecycle.mjs": {
-    "mtime": 1792260213.2132933,
-    "seen": 1792260572.310948,
-    "ast_hash": "7331fb71040069f5cafbd4edc8a92a50",
-    "semantic_hash": ""
-  },
-  "scratch/test_manage_endpoints.mjs": {
-    "mtime": 1792180146.5321229,
-    "seen": 1792260572.31095,
-    "ast_hash": "5f65fdf8c7ffa19f59d64766bf36ea60",
-    "semantic_hash": ""
-  },
-  "scratch/test_probe_migration.mjs": {
-    "mtime": 1792180099.2492914,
-    "seen": 1792260572.3109527,
-    "ast_hash": "9c207b151ea82f05831599ac27f5e1b9",
-    "semantic_hash": ""
-  },
-  "scratch/test_sqlite_syntax.mjs": {
-    "mtime": 1792178315.4020457,
-    "seen": 1792260572.310955,
-    "ast_hash": "e877a0788e9dba258135cdd1729ae62b",
-    "semantic_hash": ""
-  },
-  "scratch/test_turso_client.mjs": {
-    "mtime": 1792256865.4401896,
-    "seen": 1792260572.3109572,
-    "ast_hash": "bd9efa129793d8ae3f03a4f67ef779a2",
-    "semantic_hash": ""
-  },
-  "scratch/test_turso_progress.mjs": {
-    "mtime": 1792256501.5370066,
-    "seen": 1792260572.3109596,
-    "ast_hash": "28791adb2523dc613ab2d95d23ef27c9",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/botSettings.json": {
-    "mtime": 1792253286.0879085,
-    "seen": 1792260572.310962,
-    "ast_hash": "238c6024343f7045c1cf681a3226d8b6",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/categories.json": {
-    "mtime": 1792253218.5003624,
-    "seen": 1792260572.310964,
-    "ast_hash": "7c76be4f13c8ca9a93695b12827be25a",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/groupAnswers.json": {
-    "mtime": 1792253242.0139563,
-    "seen": 1792260572.3109663,
-    "ast_hash": "8ad3eef895eac1474c7a0e4beefa9d03",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/groupLobbies.json": {
-    "mtime": 1792253274.4921122,
-    "seen": 1792260572.3109686,
-    "ast_hash": "bafed7a71d20c3011560749ebdaf4a09",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/groupTournaments.json": {
-    "mtime": 1792253248.4594686,
-    "seen": 1792260572.3109708,
-    "ast_hash": "719bbc59105e9b2ea1c8aa1e9b349dc0",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/groups.json": {
-    "mtime": 1792253183.4734876,
-    "seen": 1792260572.3109732,
-    "ast_hash": "50ce0d9c74f6ab0805894c26369ba177",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/liveRooms.json": {
-    "mtime": 1792253261.483955,
-    "seen": 1792260572.3109753,
-    "ast_hash": "d655024e716367dba70132129b7be07a",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/roomPlayers.json": {
-    "mtime": 1792253268.350763,
-    "seen": 1792260572.3109772,
-    "ast_hash": "9ed5ae1538d3d54f36aa2beeb6aa9bb1",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/userMistakes.json": {
-    "mtime": 1792253226.2004046,
-    "seen": 1792260572.3109798,
-    "ast_hash": "ce26f3b48cad4a1eb287bab87accb13c",
-    "semantic_hash": ""
-  },
-  "scratch/tg_dump/users.json": {
-    "mtime": 1792253160.4039984,
-    "seen": 1792260572.310982,
-    "ast_hash": "77e235094155cb57214aea3a118500ba",
     "semantic_hash": ""
   },
   "scripts/build_full_database.mjs": {
@@ -3198,33 +3000,33 @@
     "semantic_hash": ""
   },
   "scripts/migrate_all_to_turso.mjs": {
-    "mtime": 1792255925.4230661,
-    "seen": 1792260572.3114934,
-    "ast_hash": "965b6152666e75e51f8207e31f792e7e",
+    "mtime": 1792263506.500851,
+    "seen": 1792264269.6538315,
+    "ast_hash": "427827d7fac03bd6630911cf02b21d11",
     "semantic_hash": ""
   },
   "scripts/migrate_questions_multithread.mjs": {
-    "mtime": 1792257550.3060641,
-    "seen": 1792260572.3114958,
-    "ast_hash": "5e1d62356fd758d54b6f56fee41f1f5a",
+    "mtime": 1792263496.8338754,
+    "seen": 1792264269.6538348,
+    "ast_hash": "0b77d940c6daa1b5499cd120eecf801a",
     "semantic_hash": ""
   },
   "scripts/migrate_questions_turbo.mjs": {
-    "mtime": 1792256688.9553394,
-    "seen": 1792260572.3114977,
-    "ast_hash": "ddaca66bd439ce4858e514ec8995e58c",
+    "mtime": 1792263487.1368263,
+    "seen": 1792264269.6538377,
+    "ast_hash": "a77249bd3c5ea3bcbdde77d05b4d8315",
     "semantic_hash": ""
   },
   "scripts/turbo_migrate_all.mjs": {
-    "mtime": 1792256585.2644815,
-    "seen": 1792260572.3118222,
-    "ast_hash": "c1ab543a4013797860df19e74a159235",
+    "mtime": 1792263477.8242395,
+    "seen": 1792264269.6538491,
+    "ast_hash": "4384fe94a29979e023a23ab3240d531a",
     "semantic_hash": ""
   },
   "scripts/verify_turso_connection.mjs": {
-    "mtime": 1792255845.843134,
-    "seen": 1792260572.3118243,
-    "ast_hash": "75ebfe162623880d6de229b4cce9bc36",
+    "mtime": 1792263468.6105227,
+    "seen": 1792264269.6538517,
+    "ast_hash": "5594ad9f2cf90186d9607f92f883991f",
     "semantic_hash": ""
   },
   "tgcloud/lib/turso_client.js": {
@@ -3243,18 +3045,6 @@
     "mtime": 1792252476.139209,
     "seen": 1792260572.3869555,
     "ast_hash": "05bb3a4f2061fc87697360be3dcf571e",
-    "semantic_hash": ""
-  },
-  "scratch/sync_to_turso.mjs": {
-    "mtime": 1792262389.1518817,
-    "seen": 1792262806.0134373,
-    "ast_hash": "419fbd022ba8e75e4643dc36ac2f743e",
-    "semantic_hash": ""
-  },
-  "scratch/test_turso_direct.mjs": {
-    "mtime": 1792262346.1393003,
-    "seen": 1792262806.0151184,
-    "ast_hash": "9989479b20439a333d7224f8d3bbb366",
     "semantic_hash": ""
   }
 }

@@ -3,7 +3,8 @@
 
 import { db } from 'sdk';
 import { eq, desc, sql } from 'sdk/db';
-import { quizzes, questions } from '../../schema.js';
+import { quizzes, questions, userMistakes } from '../../schema.js';
+
 import { CONFIG } from '../constants/config.js';
 import { getMessage } from '../constants/messages.js';
 import { hasMathFormula, generateLatexImageUrl } from '../parsers/math_engine.js';
@@ -246,6 +247,7 @@ export async function deleteQuiz(quizId, ownerId) {
         return false;
       }
       await turso.run('DELETE FROM questions WHERE quiz_id = ?', [qId]);
+      await turso.run('DELETE FROM user_mistakes WHERE original_quiz_id = ?', [qId]);
       await turso.run('DELETE FROM quizzes WHERE id = ?', [qId]);
       return true;
     } catch (err) {
@@ -263,10 +265,15 @@ export async function deleteQuiz(quizId, ownerId) {
     return false;
   }
 
-  // Delete questions first
+  // Delete questions and mistakes first
   await db
     .delete(questions)
     .where(eq(questions.quizId, qId))
+    .run();
+
+  await db
+    .delete(userMistakes)
+    .where(eq(userMistakes.originalQuizId, qId))
     .run();
 
   // Delete quiz
@@ -274,6 +281,7 @@ export async function deleteQuiz(quizId, ownerId) {
     .delete(quizzes)
     .where(eq(quizzes.id, qId))
     .run();
+
 
   return true;
 }

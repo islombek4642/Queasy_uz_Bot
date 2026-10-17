@@ -1158,7 +1158,7 @@ export async function getUserMistakesCount(userId, quizId = null) {
         return Number(row?.count || 0);
       }
       const row = await turso.get(
-        'SELECT count(*) as count FROM user_mistakes WHERE user_id = ?',
+        'SELECT count(*) as count FROM user_mistakes m INNER JOIN quizzes q ON m.original_quiz_id = q.id WHERE m.user_id = ?',
         [uid]
       );
       return Number(row?.count || 0);
@@ -1203,7 +1203,7 @@ export async function getUserMistakesGrouped(userId) {
       const rows = await turso.all(
         `SELECT m.original_quiz_id as quizId, q.title as title, count(*) as count
          FROM user_mistakes m
-         LEFT JOIN quizzes q ON m.original_quiz_id = q.id
+         INNER JOIN quizzes q ON m.original_quiz_id = q.id
          WHERE m.user_id = ? AND m.original_quiz_id IS NOT NULL AND m.original_quiz_id > 0
          GROUP BY m.original_quiz_id, q.title
          HAVING count > 0`,
@@ -1211,13 +1211,14 @@ export async function getUserMistakesGrouped(userId) {
       );
       return rows.map(r => ({
         quizId: Number(r.quizId),
-        title: r.title || `Test #${r.quizId}`,
+        title: r.title,
         count: Number(r.count),
       }));
     } catch (err) {
       console.warn('[session_service] Turso getUserMistakesGrouped fallback:', err.message);
     }
   }
+
 
   const mistakes = await db
     .select()
