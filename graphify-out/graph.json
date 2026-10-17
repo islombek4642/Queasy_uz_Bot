@@ -1715,6 +1715,18 @@
       "source_location": "L284"
     },
     {
+      "id": "tgcloud_lib_services_quiz_service_createquiz",
+      "label": "createQuiz()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 176,
+      "community_name": "math_engine.js",
+      "file_type": "code",
+      "norm_label": "createquiz()",
+      "source_file": "tgcloud/lib/services/quiz_service.js",
+      "source_location": "L13"
+    },
+    {
       "id": "tests_test_group_commands_parsegroupcmd",
       "label": "parseGroupCmd()",
       "_callable": true,
@@ -1737,18 +1749,6 @@
       "norm_label": "clonequiz()",
       "source_file": "tgcloud/lib/services/quiz_service.js",
       "source_location": "L317"
-    },
-    {
-      "id": "tgcloud_lib_services_quiz_service_createquiz",
-      "label": "createQuiz()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 186,
-      "community_name": "quiz_service.js",
-      "file_type": "code",
-      "norm_label": "createquiz()",
-      "source_file": "tgcloud/lib/services/quiz_service.js",
-      "source_location": "L13"
     },
     {
       "id": "tgcloud_lib_services_quiz_service_deletequiz",
@@ -4280,7 +4280,7 @@
       "file_type": "code",
       "norm_label": "advancegroupround()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L678"
+      "source_location": "L635"
     },
     {
       "id": "tgcloud_lib_services_session_service_advancegrouproundbypollid",
@@ -4292,7 +4292,7 @@
       "file_type": "code",
       "norm_label": "advancegrouproundbypollid()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L729"
+      "source_location": "L686"
     },
     {
       "id": "tgcloud_lib_services_session_service_announcegrouplobby",
@@ -4304,19 +4304,7 @@
       "file_type": "code",
       "norm_label": "announcegrouplobby()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1278"
-    },
-    {
-      "id": "tgcloud_lib_services_session_service_clearusermistakes",
-      "label": "clearUserMistakes()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "session_service.js",
-      "file_type": "code",
-      "norm_label": "clearusermistakes()",
-      "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1179"
+      "source_location": "L1234"
     },
     {
       "id": "tgcloud_lib_services_session_service_finishsession",
@@ -4328,7 +4316,7 @@
       "file_type": "code",
       "norm_label": "finishsession()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L770"
+      "source_location": "L727"
     },
     {
       "id": "tgcloud_lib_services_session_service_getusermistakescount",
@@ -4340,19 +4328,19 @@
       "file_type": "code",
       "norm_label": "getusermistakescount()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1148"
+      "source_location": "L1105"
     },
     {
-      "id": "tgcloud_lib_services_session_service_getusermistakesgrouped",
-      "label": "getUserMistakesGrouped()",
+      "id": "tgcloud_lib_services_session_service_handlelobbycancel",
+      "label": "handleLobbyCancel()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "session_service.js",
       "file_type": "code",
-      "norm_label": "getusermistakesgrouped()",
+      "norm_label": "handlelobbycancel()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1198"
+      "source_location": "L1466"
     },
     {
       "id": "tgcloud_lib_services_session_service_handlelobbyjoin",
@@ -4364,7 +4352,19 @@
       "file_type": "code",
       "norm_label": "handlelobbyjoin()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1365"
+      "source_location": "L1321"
+    },
+    {
+      "id": "tgcloud_lib_services_session_service_handlelobbystart",
+      "label": "handleLobbyStart()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "session_service.js",
+      "file_type": "code",
+      "norm_label": "handlelobbystart()",
+      "source_file": "tgcloud/lib/services/session_service.js",
+      "source_location": "L1399"
     },
     {
       "id": "tgcloud_lib_services_session_service_handlepollanswer",
@@ -4376,7 +4376,19 @@
       "file_type": "code",
       "norm_label": "handlepollanswer()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L542"
+      "source_location": "L499"
+    },
+    {
+      "id": "tgcloud_lib_services_session_service_ischatadmin",
+      "label": "isChatAdmin()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "session_service.js",
+      "file_type": "code",
+      "norm_label": "ischatadmin()",
+      "source_file": "tgcloud/lib/services/session_service.js",
+      "source_location": "L1216"
     },
     {
       "id": "tgcloud_lib_services_session_service_logapperror",
@@ -4400,7 +4412,7 @@
       "file_type": "code",
       "norm_label": "resumequizsession()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1026"
+      "source_location": "L983"
     },
     {
       "id": "tgcloud_lib_services_session_service_saveusermistake",
@@ -4412,7 +4424,7 @@
       "file_type": "code",
       "norm_label": "saveusermistake()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1086"
+      "source_location": "L1043"
     },
     {
       "id": "tgcloud_lib_services_session_service_sendnextquestionpoll",
@@ -4460,7 +4472,43 @@
       "file_type": "code",
       "norm_label": "stopsession()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L980"
+      "source_location": "L937"
+    },
+    {
+      "id": "tgcloud_lib_services_user_service_getorcreateuser",
+      "label": "getOrCreateUser()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "session_service.js",
+      "file_type": "code",
+      "norm_label": "getorcreateuser()",
+      "source_file": "tgcloud/lib/services/user_service.js",
+      "source_location": "L26"
+    },
+    {
+      "id": "tgcloud_lib_utils_poll_helpers_escapehtml",
+      "label": "escapeHtml()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "session_service.js",
+      "file_type": "code",
+      "norm_label": "escapehtml()",
+      "source_file": "tgcloud/lib/utils/poll_helpers.js",
+      "source_location": "L58"
+    },
+    {
+      "id": "tgcloud_lib_utils_poll_helpers_formatparticipantname",
+      "label": "formatParticipantName()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "session_service.js",
+      "file_type": "code",
+      "norm_label": "formatparticipantname()",
+      "source_file": "tgcloud/lib/utils/poll_helpers.js",
+      "source_location": "L71"
     },
     {
       "id": "src_components_quiz_progressbar_progressbar",
@@ -4655,54 +4703,6 @@
       "source_location": "L7"
     },
     {
-      "id": "tgcloud_lib_services_channel_service_addrequiredchannel",
-      "label": "addRequiredChannel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 337,
-      "community_name": "channel_service.js",
-      "file_type": "code",
-      "norm_label": "addrequiredchannel()",
-      "source_file": "tgcloud/lib/services/channel_service.js",
-      "source_location": "L34"
-    },
-    {
-      "id": "tgcloud_lib_services_channel_service_checkusersubscribed",
-      "label": "checkUserSubscribed()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 337,
-      "community_name": "channel_service.js",
-      "file_type": "code",
-      "norm_label": "checkusersubscribed()",
-      "source_file": "tgcloud/lib/services/channel_service.js",
-      "source_location": "L75"
-    },
-    {
-      "id": "tgcloud_lib_services_channel_service_deleterequiredchannel",
-      "label": "deleteRequiredChannel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 337,
-      "community_name": "channel_service.js",
-      "file_type": "code",
-      "norm_label": "deleterequiredchannel()",
-      "source_file": "tgcloud/lib/services/channel_service.js",
-      "source_location": "L59"
-    },
-    {
-      "id": "tgcloud_lib_services_channel_service_getrequiredchannels",
-      "label": "getRequiredChannels()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 337,
-      "community_name": "channel_service.js",
-      "file_type": "code",
-      "norm_label": "getrequiredchannels()",
-      "source_file": "tgcloud/lib/services/channel_service.js",
-      "source_location": "L10"
-    },
-    {
       "id": "scripts_build_full_sqlite_db_init_schema",
       "label": "init_schema()",
       "_callable": true,
@@ -4845,30 +4845,6 @@
       "norm_label": "_trysendquestionpoll()",
       "source_file": "tgcloud/lib/services/session_service.js",
       "source_location": "L266"
-    },
-    {
-      "id": "tgcloud_lib_utils_poll_helpers_escapehtml",
-      "label": "escapeHtml()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "sanitizeOptionsList",
-      "file_type": "code",
-      "norm_label": "escapehtml()",
-      "source_file": "tgcloud/lib/utils/poll_helpers.js",
-      "source_location": "L58"
-    },
-    {
-      "id": "tgcloud_lib_utils_poll_helpers_formatparticipantname",
-      "label": "formatParticipantName()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "sanitizeOptionsList",
-      "file_type": "code",
-      "norm_label": "formatparticipantname()",
-      "source_file": "tgcloud/lib/utils/poll_helpers.js",
-      "source_location": "L71"
     },
     {
       "id": "tgcloud_lib_utils_poll_helpers_truncateexplanation",
@@ -6668,7 +6644,7 @@
       "file_type": "code",
       "norm_label": "deactivategroup()",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L111"
+      "source_location": "L113"
     },
     {
       "id": "tgcloud_lib_services_group_service_deduplicategroups",
@@ -6680,7 +6656,7 @@
       "file_type": "code",
       "norm_label": "deduplicategroups()",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L135"
+      "source_location": "L137"
     },
     {
       "id": "tgcloud_lib_services_group_service_getgroup",
@@ -6692,7 +6668,7 @@
       "file_type": "code",
       "norm_label": "getgroup()",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L82"
+      "source_location": "L83"
     },
     {
       "id": "tgcloud_lib_services_group_service_getgroupscount",
@@ -6704,7 +6680,7 @@
       "file_type": "code",
       "norm_label": "getgroupscount()",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L158"
+      "source_location": "L160"
     },
     {
       "id": "tgcloud_lib_services_group_service_listgroups",
@@ -6716,7 +6692,7 @@
       "file_type": "code",
       "norm_label": "listgroups()",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L177"
+      "source_location": "L179"
     },
     {
       "id": "tgcloud_lib_services_group_service_upsertgroup",
@@ -7064,7 +7040,7 @@
       "file_type": "code",
       "norm_label": "homeview()",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L129"
+      "source_location": "L133"
     },
     {
       "id": "src_views_homeview_minilinechart",
@@ -7367,40 +7343,76 @@
       "source_location": "L7"
     },
     {
-      "id": "tgcloud_lib_services_session_service_handlelobbycancel",
-      "label": "handleLobbyCancel()",
+      "id": "tgcloud_lib_services_channel_service_addrequiredchannel",
+      "label": "addRequiredChannel()",
       "_callable": true,
       "_origin": "ast",
       "community": 7,
       "community_name": "callback_query.js",
       "file_type": "code",
-      "norm_label": "handlelobbycancel()",
-      "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1510"
+      "norm_label": "addrequiredchannel()",
+      "source_file": "tgcloud/lib/services/channel_service.js",
+      "source_location": "L34"
     },
     {
-      "id": "tgcloud_lib_services_session_service_handlelobbystart",
-      "label": "handleLobbyStart()",
+      "id": "tgcloud_lib_services_channel_service_checkusersubscribed",
+      "label": "checkUserSubscribed()",
       "_callable": true,
       "_origin": "ast",
       "community": 7,
       "community_name": "callback_query.js",
       "file_type": "code",
-      "norm_label": "handlelobbystart()",
-      "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1443"
+      "norm_label": "checkusersubscribed()",
+      "source_file": "tgcloud/lib/services/channel_service.js",
+      "source_location": "L75"
     },
     {
-      "id": "tgcloud_lib_services_session_service_ischatadmin",
-      "label": "isChatAdmin()",
+      "id": "tgcloud_lib_services_channel_service_deleterequiredchannel",
+      "label": "deleteRequiredChannel()",
       "_callable": true,
       "_origin": "ast",
       "community": 7,
       "community_name": "callback_query.js",
       "file_type": "code",
-      "norm_label": "ischatadmin()",
+      "norm_label": "deleterequiredchannel()",
+      "source_file": "tgcloud/lib/services/channel_service.js",
+      "source_location": "L59"
+    },
+    {
+      "id": "tgcloud_lib_services_channel_service_getrequiredchannels",
+      "label": "getRequiredChannels()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "getrequiredchannels()",
+      "source_file": "tgcloud/lib/services/channel_service.js",
+      "source_location": "L10"
+    },
+    {
+      "id": "tgcloud_lib_services_session_service_clearusermistakes",
+      "label": "clearUserMistakes()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "clearusermistakes()",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1259"
+      "source_location": "L1136"
+    },
+    {
+      "id": "tgcloud_lib_services_session_service_getusermistakesgrouped",
+      "label": "getUserMistakesGrouped()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "callback_query.js",
+      "file_type": "code",
+      "norm_label": "getusermistakesgrouped()",
+      "source_file": "tgcloud/lib/services/session_service.js",
+      "source_location": "L1155"
     },
     {
       "id": "tgcloud_lib_services_user_service_clearuserstate",
@@ -7413,18 +7425,6 @@
       "norm_label": "clearuserstate()",
       "source_file": "tgcloud/lib/services/user_service.js",
       "source_location": "L255"
-    },
-    {
-      "id": "tgcloud_lib_services_user_service_getorcreateuser",
-      "label": "getOrCreateUser()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 7,
-      "community_name": "callback_query.js",
-      "file_type": "code",
-      "norm_label": "getorcreateuser()",
-      "source_file": "tgcloud/lib/services/user_service.js",
-      "source_location": "L26"
     },
     {
       "id": "tgcloud_lib_services_user_service_getuser",
@@ -8120,6 +8120,39 @@
       "source_location": "L1"
     },
     {
+      "id": "tgcloud_endpoints_save_custom_quiz",
+      "label": "save_custom_quiz.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "schema.js",
+      "file_type": "code",
+      "norm_label": "save_custom_quiz.js",
+      "source_file": "tgcloud/endpoints/save_custom_quiz.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "tgcloud_endpoints_save_custom_quiz_fallback_options",
+      "label": "FALLBACK_OPTIONS",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "schema.js",
+      "file_type": "code",
+      "norm_label": "fallback_options",
+      "source_file": "tgcloud/endpoints/save_custom_quiz.js",
+      "source_location": "L6"
+    },
+    {
+      "id": "tgcloud_endpoints_save_quiz",
+      "label": "save_quiz.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "schema.js",
+      "file_type": "code",
+      "norm_label": "save_quiz.js",
+      "source_file": "tgcloud/endpoints/save_quiz.js",
+      "source_location": "L1"
+    },
+    {
       "id": "tgcloud_endpoints_start_live_room",
       "label": "start_live_room.js",
       "_origin": "ast",
@@ -8230,6 +8263,17 @@
       "source_location": "L4"
     },
     {
+      "id": "tgcloud_lib_services_channel_service",
+      "label": "channel_service.js",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "schema.js",
+      "file_type": "code",
+      "norm_label": "channel_service.js",
+      "source_file": "tgcloud/lib/services/channel_service.js",
+      "source_location": "L1"
+    },
+    {
       "id": "tgcloud_lib_turso_client",
       "label": "turso_client.js",
       "_origin": "ast",
@@ -8271,7 +8315,7 @@
       "file_type": "code",
       "norm_label": "botsettings",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L136"
+      "source_location": "L137"
     },
     {
       "id": "tgcloud_schema_grouptournaments",
@@ -8282,7 +8326,7 @@
       "file_type": "code",
       "norm_label": "grouptournaments",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L161"
+      "source_location": "L162"
     },
     {
       "id": "tgcloud_schema_liverooms",
@@ -8293,7 +8337,7 @@
       "file_type": "code",
       "norm_label": "liverooms",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L185"
+      "source_location": "L186"
     },
     {
       "id": "tgcloud_schema_questions",
@@ -8304,7 +8348,7 @@
       "file_type": "code",
       "norm_label": "questions",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L50"
+      "source_location": "L51"
     },
     {
       "id": "tgcloud_schema_quizsessions",
@@ -8315,7 +8359,7 @@
       "file_type": "code",
       "norm_label": "quizsessions",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L81"
+      "source_location": "L82"
     },
     {
       "id": "tgcloud_schema_quizzes",
@@ -8326,7 +8370,18 @@
       "file_type": "code",
       "norm_label": "quizzes",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L33"
+      "source_location": "L34"
+    },
+    {
+      "id": "tgcloud_schema_requiredchannels",
+      "label": "requiredChannels",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "schema.js",
+      "file_type": "code",
+      "norm_label": "requiredchannels",
+      "source_file": "tgcloud/schema.js",
+      "source_location": "L118"
     },
     {
       "id": "tgcloud_schema_roomplayers",
@@ -8337,7 +8392,7 @@
       "file_type": "code",
       "norm_label": "roomplayers",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L196"
+      "source_location": "L197"
     },
     {
       "id": "tgcloud_schema_tournamentparticipants",
@@ -8348,7 +8403,7 @@
       "file_type": "code",
       "norm_label": "tournamentparticipants",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L172"
+      "source_location": "L173"
     },
     {
       "id": "tgcloud_schema_usermistakes",
@@ -8359,7 +8414,7 @@
       "file_type": "code",
       "norm_label": "usermistakes",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L65"
+      "source_location": "L66"
     },
     {
       "id": "tgcloud_schema_users",
@@ -19015,6 +19070,17 @@
       "source_location": "L39"
     },
     {
+      "id": "tests_test_poll_modernization_generatedplain",
+      "label": "generatedPlain",
+      "_origin": "ast",
+      "community": 176,
+      "community_name": "math_engine.js",
+      "file_type": "code",
+      "norm_label": "generatedplain",
+      "source_file": "tests/test_poll_modernization.mjs",
+      "source_location": "L68"
+    },
+    {
       "id": "tgcloud_lib_parsers_math_engine",
       "label": "math_engine.js",
       "_origin": "ast",
@@ -20010,36 +20076,14 @@
       "source_location": "L1"
     },
     {
-      "id": "tgcloud_endpoints_save_custom_quiz",
-      "label": "save_custom_quiz.js",
+      "id": "tgcloud_endpoints_export_quiz_data",
+      "label": "export_quiz_data.js",
       "_origin": "ast",
       "community": 186,
       "community_name": "quiz_service.js",
       "file_type": "code",
-      "norm_label": "save_custom_quiz.js",
-      "source_file": "tgcloud/endpoints/save_custom_quiz.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "tgcloud_endpoints_save_custom_quiz_fallback_options",
-      "label": "FALLBACK_OPTIONS",
-      "_origin": "ast",
-      "community": 186,
-      "community_name": "quiz_service.js",
-      "file_type": "code",
-      "norm_label": "fallback_options",
-      "source_file": "tgcloud/endpoints/save_custom_quiz.js",
-      "source_location": "L6"
-    },
-    {
-      "id": "tgcloud_endpoints_save_quiz",
-      "label": "save_quiz.js",
-      "_origin": "ast",
-      "community": 186,
-      "community_name": "quiz_service.js",
-      "file_type": "code",
-      "norm_label": "save_quiz.js",
-      "source_file": "tgcloud/endpoints/save_quiz.js",
+      "norm_label": "export_quiz_data.js",
+      "source_file": "tgcloud/endpoints/export_quiz_data.js",
       "source_location": "L1"
     },
     {
@@ -26609,17 +26653,6 @@
       "source_location": "L8"
     },
     {
-      "id": "tgcloud_endpoints_export_quiz_data",
-      "label": "export_quiz_data.js",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "session_service.js",
-      "file_type": "code",
-      "norm_label": "export_quiz_data.js",
-      "source_file": "tgcloud/endpoints/export_quiz_data.js",
-      "source_location": "L1"
-    },
-    {
       "id": "tgcloud_handlers_poll",
       "label": "poll.js",
       "_origin": "ast",
@@ -26661,7 +26694,7 @@
       "file_type": "code",
       "norm_label": "groupanswers",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L104"
+      "source_location": "L105"
     },
     {
       "id": "tgcloud_schema_grouplobbies",
@@ -26672,7 +26705,7 @@
       "file_type": "code",
       "norm_label": "grouplobbies",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L143"
+      "source_location": "L144"
     },
     {
       "id": "agents_skills_test_driven_development_skill",
@@ -29186,28 +29219,6 @@
       "norm_label": "ranked",
       "source_file": "tests/test_leaderboard.mjs",
       "source_location": "L60"
-    },
-    {
-      "id": "tgcloud_lib_services_channel_service",
-      "label": "channel_service.js",
-      "_origin": "ast",
-      "community": 337,
-      "community_name": "channel_service.js",
-      "file_type": "code",
-      "norm_label": "channel_service.js",
-      "source_file": "tgcloud/lib/services/channel_service.js",
-      "source_location": "L1"
-    },
-    {
-      "id": "tgcloud_schema_requiredchannels",
-      "label": "requiredChannels",
-      "_origin": "ast",
-      "community": 337,
-      "community_name": "channel_service.js",
-      "file_type": "code",
-      "norm_label": "requiredchannels",
-      "source_file": "tgcloud/schema.js",
-      "source_location": "L117"
     },
     {
       "id": "scripts_build_full_sqlite_db",
@@ -37872,7 +37883,7 @@
       "file_type": "code",
       "norm_label": "categories",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L155"
+      "source_location": "L156"
     },
     {
       "id": "tgcloud_schema_userstates",
@@ -37883,7 +37894,7 @@
       "file_type": "code",
       "norm_label": "userstates",
       "source_file": "tgcloud/schema.js",
-      "source_location": "L128"
+      "source_location": "L129"
     },
     {
       "id": "agents_skills_vercel_react_best_practices_rules_server_parallel_nested_fetching",
@@ -41790,17 +41801,6 @@
       "norm_label": "cleanedstructured",
       "source_file": "tests/test_poll_modernization.mjs",
       "source_location": "L21"
-    },
-    {
-      "id": "tests_test_poll_modernization_generatedplain",
-      "label": "generatedPlain",
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "test_poll_modernization.mjs",
-      "file_type": "code",
-      "norm_label": "generatedplain",
-      "source_file": "tests/test_poll_modernization.mjs",
-      "source_location": "L68"
     },
     {
       "id": "tests_test_poll_modernization_letters",
@@ -50927,7 +50927,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L138",
+      "source_location": "L142",
       "weight": 1.0
     },
     {
@@ -50939,7 +50939,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L139",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -50951,7 +50951,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L141",
+      "source_location": "L145",
       "weight": 1.0
     },
     {
@@ -50963,7 +50963,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L146",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -50975,7 +50975,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L150",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -50987,7 +50987,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L163",
+      "source_location": "L167",
       "weight": 1.0
     },
     {
@@ -50999,7 +50999,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L168",
+      "source_location": "L172",
       "weight": 1.0
     },
     {
@@ -51011,7 +51011,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L177",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -51023,7 +51023,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L510",
+      "source_location": "L514",
       "weight": 1.0
     },
     {
@@ -51035,7 +51035,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/HomeView.jsx",
-      "source_location": "L515",
+      "source_location": "L519",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_homeview_minilinechart",
+      "target": "src_hooks_usetranslation_usetranslation",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/HomeView.jsx",
+      "source_location": "L14",
       "weight": 1.0
     },
     {
@@ -52943,7 +52955,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L162",
+      "source_location": "L164",
       "weight": 1.0
     },
     {
@@ -52955,7 +52967,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L191",
+      "source_location": "L194",
       "weight": 1.0
     },
     {
@@ -53015,7 +53027,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L703",
+      "source_location": "L660",
       "weight": 1.0
     },
     {
@@ -53027,7 +53039,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L705",
+      "source_location": "L662",
       "weight": 1.0
     },
     {
@@ -53039,7 +53051,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L725",
+      "source_location": "L682",
       "weight": 1.0
     },
     {
@@ -53051,7 +53063,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L762",
+      "source_location": "L719",
       "weight": 1.0
     },
     {
@@ -53063,7 +53075,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L764",
+      "source_location": "L721",
       "weight": 1.0
     },
     {
@@ -53075,7 +53087,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L766",
+      "source_location": "L723",
       "weight": 1.0
     },
     {
@@ -53087,7 +53099,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1286",
+      "source_location": "L1242",
       "weight": 1.0
     },
     {
@@ -53099,7 +53111,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1288",
+      "source_location": "L1244",
       "weight": 1.0
     },
     {
@@ -53111,7 +53123,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L834",
+      "source_location": "L791",
       "weight": 1.0
     },
     {
@@ -53123,7 +53135,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L843",
+      "source_location": "L800",
       "weight": 1.0
     },
     {
@@ -53135,7 +53147,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L844",
+      "source_location": "L801",
       "weight": 1.0
     },
     {
@@ -53147,7 +53159,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L855",
+      "source_location": "L812",
       "weight": 1.0
     },
     {
@@ -53159,7 +53171,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L899",
+      "source_location": "L856",
       "weight": 1.0
     },
     {
@@ -53171,72 +53183,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L952",
+      "source_location": "L909",
       "weight": 1.0
     },
     {
       "source": "tgcloud_lib_services_session_service_handlelobbycancel",
       "target": "tgcloud_lib_services_session_service_ischatadmin",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1522",
-      "weight": 1.0
-    },
-    {
-      "source": "tgcloud_lib_services_session_service_handlelobbycancel",
-      "target": "tgcloud_lib_constants_messages_getmessage",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1539",
-      "weight": 1.0
-    },
-    {
-      "source": "tgcloud_lib_services_session_service_handlelobbyjoin",
-      "target": "tgcloud_lib_services_quiz_service_getquizbyid",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1387",
-      "weight": 1.0
-    },
-    {
-      "source": "tgcloud_lib_services_session_service_handlelobbyjoin",
-      "target": "tgcloud_lib_constants_messages_getmessage",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1390",
-      "weight": 1.0
-    },
-    {
-      "source": "tgcloud_lib_services_session_service_handlelobbystart",
-      "target": "tgcloud_lib_services_session_service_ischatadmin",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1455",
-      "weight": 1.0
-    },
-    {
-      "source": "tgcloud_lib_services_session_service_handlelobbystart",
-      "target": "tgcloud_lib_services_quiz_service_getquizbyid",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -53247,6 +53199,66 @@
       "weight": 1.0
     },
     {
+      "source": "tgcloud_lib_services_session_service_handlelobbycancel",
+      "target": "tgcloud_lib_constants_messages_getmessage",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tgcloud/lib/services/session_service.js",
+      "source_location": "L1495",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_lib_services_session_service_handlelobbyjoin",
+      "target": "tgcloud_lib_services_quiz_service_getquizbyid",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tgcloud/lib/services/session_service.js",
+      "source_location": "L1343",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_lib_services_session_service_handlelobbyjoin",
+      "target": "tgcloud_lib_constants_messages_getmessage",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tgcloud/lib/services/session_service.js",
+      "source_location": "L1346",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_lib_services_session_service_handlelobbystart",
+      "target": "tgcloud_lib_services_session_service_ischatadmin",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tgcloud/lib/services/session_service.js",
+      "source_location": "L1411",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_lib_services_session_service_handlelobbystart",
+      "target": "tgcloud_lib_services_quiz_service_getquizbyid",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tgcloud/lib/services/session_service.js",
+      "source_location": "L1434",
+      "weight": 1.0
+    },
+    {
       "source": "tgcloud_lib_services_session_service_handlelobbystart",
       "target": "tgcloud_lib_constants_messages_getmessage",
       "relation": "calls",
@@ -53255,7 +53267,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1479",
+      "source_location": "L1435",
       "weight": 1.0
     },
     {
@@ -53267,7 +53279,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1493",
+      "source_location": "L1449",
       "weight": 1.0
     },
     {
@@ -53279,7 +53291,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L552",
+      "source_location": "L509",
       "weight": 1.0
     },
     {
@@ -53291,7 +53303,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L614",
+      "source_location": "L571",
       "weight": 1.0
     },
     {
@@ -53303,7 +53315,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L645",
+      "source_location": "L602",
       "weight": 1.0
     },
     {
@@ -53315,7 +53327,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L674",
+      "source_location": "L631",
       "weight": 1.0
     },
     {
@@ -53327,7 +53339,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1066",
+      "source_location": "L1023",
       "weight": 1.0
     },
     {
@@ -53339,7 +53351,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1071",
+      "source_location": "L1028",
       "weight": 1.0
     },
     {
@@ -53351,7 +53363,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1074",
+      "source_location": "L1031",
       "weight": 1.0
     },
     {
@@ -53363,7 +53375,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1078",
+      "source_location": "L1035",
       "weight": 1.0
     },
     {
@@ -53471,7 +53483,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1018",
+      "source_location": "L975",
       "weight": 1.0
     },
     {
@@ -53615,7 +53627,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L489",
+      "source_location": "L447",
       "weight": 1.0
     },
     {
@@ -59413,6 +59425,30 @@
       "weight": 1.0
     },
     {
+      "source": "tgcloud_endpoints_finish_live_room",
+      "target": "tgcloud_lib_constants_config_config",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/finish_live_room.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_finish_live_room",
+      "target": "tgcloud_lib_turso_client_turso",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/finish_live_room.js",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
       "source": "tgcloud_endpoints_get_app_logs",
       "target": "tgcloud_lib_turso_client_turso",
       "relation": "imports",
@@ -59433,7 +59469,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_group_sessions.js",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -59445,7 +59481,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_group_sessions.js",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -59457,7 +59493,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_group_sessions.js",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -59469,7 +59505,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_group_sessions.js",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -59481,7 +59517,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_group_sessions.js",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -59493,12 +59529,24 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_group_sessions.js",
-      "source_location": "L5",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
       "source": "tgcloud_endpoints_get_group_sessions",
       "target": "tgcloud_lib_constants_messages_getmessage",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/get_group_sessions.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_get_group_sessions",
+      "target": "tgcloud_lib_turso_client_turso",
       "relation": "imports",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -60193,6 +60241,30 @@
       "weight": 1.0
     },
     {
+      "source": "tgcloud_endpoints_start_live_room",
+      "target": "tgcloud_lib_constants_config_config",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/start_live_room.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_start_live_room",
+      "target": "tgcloud_lib_turso_client_turso",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/start_live_room.js",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
       "source": "tgcloud_endpoints_submit_live_room_result",
       "target": "tgcloud_schema_liverooms",
       "relation": "imports",
@@ -60214,6 +60286,30 @@
       "context": "import",
       "source_file": "tgcloud/endpoints/submit_live_room_result.js",
       "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_submit_live_room_result",
+      "target": "tgcloud_lib_constants_config_config",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/submit_live_room_result.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_submit_live_room_result",
+      "target": "tgcloud_lib_turso_client_turso",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/submit_live_room_result.js",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -60286,6 +60382,30 @@
       "context": "import",
       "source_file": "tgcloud/endpoints/submit_tournament_result.js",
       "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_submit_tournament_result",
+      "target": "tgcloud_lib_constants_config_config",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/submit_tournament_result.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_submit_tournament_result",
+      "target": "tgcloud_lib_turso_client_turso",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/submit_tournament_result.js",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -67682,6 +67802,30 @@
       "weight": 1.0
     },
     {
+      "source": "tgcloud_endpoints_finish_live_room",
+      "target": "tgcloud_lib_constants_config",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/finish_live_room.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_finish_live_room",
+      "target": "tgcloud_lib_turso_client",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/finish_live_room.js",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
       "source": "tgcloud_endpoints_get_app_logs",
       "target": "ref_sdk",
       "relation": "imports_from",
@@ -67714,7 +67858,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_group_sessions.js",
-      "source_location": "L3",
+      "source_location": "L2",
       "weight": 1.0
     },
     {
@@ -67726,7 +67870,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_group_sessions.js",
-      "source_location": "L4",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -67738,12 +67882,24 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tgcloud/endpoints/get_group_sessions.js",
-      "source_location": "L5",
+      "source_location": "L4",
       "weight": 1.0
     },
     {
       "source": "tgcloud_endpoints_get_group_sessions",
       "target": "tgcloud_lib_constants_messages",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/get_group_sessions.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_get_group_sessions",
+      "target": "tgcloud_lib_turso_client",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -68318,6 +68474,30 @@
       "weight": 1.0
     },
     {
+      "source": "tgcloud_endpoints_start_live_room",
+      "target": "tgcloud_lib_constants_config",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/start_live_room.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_start_live_room",
+      "target": "tgcloud_lib_turso_client",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/start_live_room.js",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
       "source": "tgcloud_endpoints_submit_live_room_result",
       "target": "ref_sdk",
       "relation": "imports_from",
@@ -68339,6 +68519,30 @@
       "context": "import",
       "source_file": "tgcloud/endpoints/submit_live_room_result.js",
       "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_submit_live_room_result",
+      "target": "tgcloud_lib_constants_config",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/submit_live_room_result.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_submit_live_room_result",
+      "target": "tgcloud_lib_turso_client",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/submit_live_room_result.js",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -68411,6 +68615,30 @@
       "context": "import",
       "source_file": "tgcloud/endpoints/submit_tournament_result.js",
       "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_submit_tournament_result",
+      "target": "tgcloud_lib_constants_config",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/submit_tournament_result.js",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_endpoints_submit_tournament_result",
+      "target": "tgcloud_lib_turso_client",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tgcloud/endpoints/submit_tournament_result.js",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -98049,17 +98277,6 @@
     },
     {
       "source": "src_views_homeview",
-      "target": "src_views_homeview_homeview",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/views/HomeView.jsx",
-      "source_location": "L129",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_homeview",
       "target": "src_views_homeview_minilinechart",
       "relation": "contains",
       "_origin": "ast",
@@ -98067,6 +98284,17 @@
       "confidence_score": 1.0,
       "source_file": "src/views/HomeView.jsx",
       "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_homeview",
+      "target": "src_views_homeview_homeview",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/views/HomeView.jsx",
+      "source_location": "L133",
       "weight": 1.0
     },
     {
@@ -99463,7 +99691,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L135",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -99639,7 +99867,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L104",
+      "source_location": "L105",
       "weight": 1.0
     },
     {
@@ -99650,7 +99878,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L117",
+      "source_location": "L118",
       "weight": 1.0
     },
     {
@@ -99661,7 +99889,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L128",
+      "source_location": "L129",
       "weight": 1.0
     },
     {
@@ -99672,7 +99900,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L136",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -99683,7 +99911,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L143",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -99694,7 +99922,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L155",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -99705,7 +99933,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L161",
+      "source_location": "L162",
       "weight": 1.0
     },
     {
@@ -99716,7 +99944,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L172",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -99727,7 +99955,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L185",
+      "source_location": "L186",
       "weight": 1.0
     },
     {
@@ -99738,7 +99966,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L196",
+      "source_location": "L197",
       "weight": 1.0
     },
     {
@@ -99760,7 +99988,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -99771,7 +99999,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L50",
+      "source_location": "L51",
       "weight": 1.0
     },
     {
@@ -99782,7 +100010,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L65",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -99804,7 +100032,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tgcloud/schema.js",
-      "source_location": "L81",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -105209,7 +105437,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L210",
+      "source_location": "L213",
       "weight": 1.0
     },
     {
@@ -105221,7 +105449,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L211",
+      "source_location": "L214",
       "weight": 1.0
     },
     {
@@ -105233,7 +105461,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L212",
+      "source_location": "L215",
       "weight": 1.0
     },
     {
@@ -105245,7 +105473,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L213",
+      "source_location": "L216",
       "weight": 1.0
     },
     {
@@ -105257,7 +105485,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/group_service.js",
-      "source_location": "L214",
+      "source_location": "L217",
       "weight": 1.0
     },
     {
@@ -105353,7 +105581,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1549",
+      "source_location": "L1505",
       "weight": 1.0
     },
     {
@@ -105365,7 +105593,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1550",
+      "source_location": "L1506",
       "weight": 1.0
     },
     {
@@ -105377,7 +105605,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1551",
+      "source_location": "L1507",
       "weight": 1.0
     },
     {
@@ -105389,7 +105617,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1552",
+      "source_location": "L1508",
       "weight": 1.0
     },
     {
@@ -105401,7 +105629,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1553",
+      "source_location": "L1509",
       "weight": 1.0
     },
     {
@@ -105413,7 +105641,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1554",
+      "source_location": "L1510",
       "weight": 1.0
     },
     {
@@ -105425,7 +105653,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1555",
+      "source_location": "L1511",
       "weight": 1.0
     },
     {
@@ -105437,7 +105665,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1556",
+      "source_location": "L1512",
       "weight": 1.0
     },
     {
@@ -105449,7 +105677,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1557",
+      "source_location": "L1513",
       "weight": 1.0
     },
     {
@@ -105461,7 +105689,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1558",
+      "source_location": "L1514",
       "weight": 1.0
     },
     {
@@ -105473,7 +105701,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1559",
+      "source_location": "L1515",
       "weight": 1.0
     },
     {
@@ -105485,7 +105713,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1560",
+      "source_location": "L1516",
       "weight": 1.0
     },
     {
@@ -105497,7 +105725,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1561",
+      "source_location": "L1517",
       "weight": 1.0
     },
     {
@@ -105509,7 +105737,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1562",
+      "source_location": "L1518",
       "weight": 1.0
     },
     {
@@ -105521,7 +105749,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1563",
+      "source_location": "L1519",
       "weight": 1.0
     },
     {
@@ -105533,7 +105761,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1564",
+      "source_location": "L1520",
       "weight": 1.0
     },
     {
@@ -105545,7 +105773,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/services/session_service.js",
-      "source_location": "L1565",
+      "source_location": "L1521",
       "weight": 1.0
     },
     {
@@ -107164,5 +107392,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "88c1bb621b38a4d18a6c0fe52a6efb4654e6de8f"
+  "built_at_commit": "f2e817b2876a8d5ea91689b91bc7bc5f5ab8216c"
 }

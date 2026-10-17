@@ -138,15 +138,30 @@ export default async function (input, ctx) {
   let modeConfig = null;
   let actualQCount = Number(qCount || 0);
 
-  const cfgSetting = await db
-    .select({ value: botSettings.value })
-    .from(botSettings)
-    .where(eq(botSettings.key, `tournament_cfg:${shareCode}`))
-    .get();
-
-  if (cfgSetting?.value) {
+  let rawCfg = null;
+  if (CONFIG.TURSO?.ENABLED) {
     try {
-      modeConfig = JSON.parse(cfgSetting.value);
+      const row = await turso.get('SELECT value FROM bot_settings WHERE key = ?', [`tournament_cfg:${shareCode}`]);
+      if (row?.value) {
+        rawCfg = row.value;
+      }
+    } catch {}
+  }
+
+  if (!rawCfg) {
+    const cfgSetting = await db
+      .select({ value: botSettings.value })
+      .from(botSettings)
+      .where(eq(botSettings.key, `tournament_cfg:${shareCode}`))
+      .get();
+    if (cfgSetting?.value) {
+      rawCfg = cfgSetting.value;
+    }
+  }
+
+  if (rawCfg) {
+    try {
+      modeConfig = JSON.parse(rawCfg);
       if (modeConfig?.mode === 'random' && modeConfig.randomCount) {
         actualQCount = Math.min(actualQCount, Math.max(1, Number(modeConfig.randomCount) || 10));
       } else if (modeConfig?.mode === 'range' && Array.isArray(modeConfig.range) && modeConfig.range.length === 2) {

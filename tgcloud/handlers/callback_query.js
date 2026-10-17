@@ -474,10 +474,15 @@ export default async function (callbackQuery, ctx) {
     const inline_keyboard = [];
     let hasAdminGroups = false;
 
-    // Offer connected groups where user is administrator
+    // Offer connected groups where user is administrator or added the bot
     for (const g of allGroups) {
-      const isAdminInGroup = await isChatAdmin(api, g.groupId, userId);
-      if (isAdminInGroup) {
+      let isAllowed = false;
+      if (g.addedBy && Number(g.addedBy) === Number(userId)) {
+        isAllowed = true;
+      } else {
+        isAllowed = await isChatAdmin(api, g.groupId, userId, null, false);
+      }
+      if (isAllowed) {
         hasAdminGroups = true;
         inline_keyboard.push([
           {

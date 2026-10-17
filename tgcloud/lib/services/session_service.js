@@ -381,94 +381,52 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
     let pollMsg = null;
     let fallbackPhotoSent = false;
 
-    // A. Bot API 10.0+ formati: agar poll media yoki variant rasmlari bo'lsa
-    if (useModernPoll) {
+    // 1. If question has a photo, send photo first
+    if (photoToSend) {
       try {
-        pollMsg = await api.sendPoll({
+        await api.sendPhoto({
           chat_id: session.chatId,
-          question: questionTitle,
-          question_parse_mode: 'HTML',
-          options,
-          is_anonymous: false,
-          type: 'quiz',
-          correct_option_id: correctOptionId,
-          explanation,
-          explanation_parse_mode: explanation ? 'HTML' : undefined,
-          explanation_media: explanationMedia,
-          media: pollMedia,
-          shuffle_options: shuffleOptions,
-          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
-          reply_markup: nextBtnMarkup,
+          photo: photoToSend,
+          caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
+          parse_mode: 'HTML',
         });
-      } catch (mediaPollErr) {
-        // Agar Telegram platformasi modern poll formatini qabul qilmasa, an'anaviy sendPhoto va oddiy matnli variantlarga fallback qilamiz
-        console.warn(`[sendNextQuestionPoll] Modern sendPoll not accepted, falling back to standard format:`, mediaPollErr?.message);
-        if (photoToSend) {
-          try {
-            await api.sendPhoto({
-              chat_id: session.chatId,
-              photo: photoToSend,
-              caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
-              parse_mode: 'HTML',
-            });
-            fallbackPhotoSent = true;
-          } catch (photoErr) {
-            console.error(`[sendNextQuestionPoll] Failed to send fallback photo:`, photoErr?.message);
-          }
-        }
+        fallbackPhotoSent = true;
+      } catch (photoErr) {
+        console.error(`[sendNextQuestionPoll] Photo send error:`, photoErr?.message);
       }
     }
 
-    // B. Agar embedded media ishlamagan bo'lsa (yoki rasm bo'lmasa)
-    if (!pollMsg) {
-      // Agar rasm bor bo'lsa-yu, hali yuborilmagan bo'lsa
-      if (photoToSend && !fallbackPhotoSent) {
-        try {
-          await api.sendPhoto({
-            chat_id: session.chatId,
-            photo: photoToSend,
-            caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
-            parse_mode: 'HTML',
-          });
-        } catch (photoErr) {
-          console.error(`[sendNextQuestionPoll] Standalone photo send error:`, photoErr?.message);
-        }
-      }
+    // Convert any structured options to clean strings for sendPoll
+    const stringOptions = options.map((o) => (typeof o === 'object' ? (o.text || String(o)) : String(o)));
 
-      // Convert any structured options to plain strings for standard sendPoll
-      const stringOptions = options.map((o) => (typeof o === 'object' ? o.text : String(o)));
-
-      try {
-        pollMsg = await api.sendPoll({
-          chat_id: session.chatId,
-          question: questionTitle,
-          question_parse_mode: 'HTML',
-          options: stringOptions,
-          is_anonymous: false,
-          type: 'quiz',
-          correct_option_id: correctOptionId,
-          explanation,
-          explanation_parse_mode: explanation ? 'HTML' : undefined,
-          shuffle_options: shuffleOptions,
-          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
-          reply_markup: nextBtnMarkup,
-        });
-      } catch (htmlErr) {
-        // HTML parse fallback without parse_mode
-        console.warn(`[sendNextQuestionPoll] HTML parse mode failed, falling back to plain text:`, htmlErr?.message);
-        pollMsg = await api.sendPoll({
-          chat_id: session.chatId,
-          question: questionTitle,
-          options: stringOptions,
-          is_anonymous: false,
-          type: 'quiz',
-          correct_option_id: correctOptionId,
-          explanation,
-          shuffle_options: shuffleOptions,
-          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
-          reply_markup: nextBtnMarkup,
-        });
-      }
+    try {
+      pollMsg = await api.sendPoll({
+        chat_id: session.chatId,
+        question: questionTitle,
+        question_parse_mode: 'HTML',
+        options: stringOptions,
+        is_anonymous: false,
+        type: 'quiz',
+        correct_option_id: correctOptionId,
+        explanation,
+        explanation_parse_mode: explanation ? 'HTML' : undefined,
+        open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+        reply_markup: nextBtnMarkup,
+      });
+    } catch (htmlErr) {
+      // HTML parse fallback without parse_mode
+      console.warn(`[sendNextQuestionPoll] HTML parse mode failed, falling back to plain text:`, htmlErr?.message);
+      pollMsg = await api.sendPoll({
+        chat_id: session.chatId,
+        question: questionTitle,
+        options: stringOptions,
+        is_anonymous: false,
+        type: 'quiz',
+        correct_option_id: correctOptionId,
+        explanation,
+        open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+        reply_markup: nextBtnMarkup,
+      });
     }
 
     if (pollMsg && pollMsg.poll) {
@@ -496,7 +454,7 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
     });
     if (isRateLimit) {
       try {
-        const stringOptions = options.map((o) => (typeof o === 'object' ? o.text : String(o)));
+        const stringOptions = options.map((o) => (typeof o === 'object' ? (o.text || String(o)) : String(o)));
         const retryPollMsg = await api.sendPoll({
           chat_id: session.chatId,
           question: questionTitle,
@@ -505,7 +463,6 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
           type: 'quiz',
           correct_option_id: correctOptionId,
           explanation,
-          shuffle_options: shuffleOptions,
           open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
           reply_markup: nextBtnMarkup,
         });
@@ -1256,10 +1213,10 @@ export async function getUserMistakesGrouped(userId) {
   return result;
 }
 
-export async function isChatAdmin(api, chatId, userId, senderChatId = null) {
+export async function isChatAdmin(api, chatId, userId, senderChatId = null, bypassSuperAdmin = true) {
   if (senderChatId && Number(senderChatId) === Number(chatId)) return true;
   if (Number(userId) === 1087968824) return true; // Telegram Anonymous Group Admin
-  if (CONFIG.ADMINS.includes(Number(userId))) return true;
+  if (bypassSuperAdmin && CONFIG.ADMINS.includes(Number(userId))) return true;
   try {
     const member = await api.getChatMember({ chat_id: chatId, user_id: userId });
     return ['creator', 'administrator'].includes(member.status);
@@ -1270,7 +1227,6 @@ export async function isChatAdmin(api, chatId, userId, senderChatId = null) {
         await db.update(groups).set({ isActive: false }).where(eq(groups.groupId, chatId)).run();
       } catch {}
     }
-    console.error(`Error checking chat member admin (${chatId}):`, err);
     return false;
   }
 }

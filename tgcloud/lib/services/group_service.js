@@ -7,15 +7,16 @@ import { groups } from '../../schema.js';
 import { CONFIG } from '../constants/config.js';
 import turso from '../turso_client.js';
 
-export async function upsertGroup(groupId, title, username = null) {
+export async function upsertGroup(groupId, title, username = null, addedBy = null) {
   if (!groupId) return;
   const numId = Number(groupId);
+  const numAddedBy = addedBy ? Number(addedBy) : null;
 
   if (CONFIG.TURSO?.ENABLED) {
     try {
       await turso.run(
-        'INSERT INTO "groups" (group_id, title, username, is_active, created_at) VALUES (?, ?, ?, 1, unixepoch()) ON CONFLICT(group_id) DO UPDATE SET title = excluded.title, username = excluded.username, is_active = 1',
-        [numId, title, username]
+        'INSERT INTO "groups" (group_id, title, username, added_by, is_active, created_at) VALUES (?, ?, ?, ?, 1, unixepoch()) ON CONFLICT(group_id) DO UPDATE SET title = excluded.title, username = excluded.username, is_active = 1, added_by = COALESCE(excluded.added_by, "groups".added_by)',
+        [numId, title, username, numAddedBy]
       );
       return;
     } catch (err) {
@@ -28,7 +29,6 @@ export async function upsertGroup(groupId, title, username = null) {
     .from(groups)
     .where(eq(groups.groupId, numId))
     .get();
-
 
   if (existing) {
     await db
@@ -47,6 +47,7 @@ export async function upsertGroup(groupId, title, username = null) {
         groupId: numId,
         title,
         username,
+        addedBy: numAddedBy,
         isActive: true,
       })
       .run();
@@ -91,6 +92,7 @@ export async function getGroup(groupId) {
           groupId: Number(g.group_id),
           title: g.title,
           username: g.username,
+          addedBy: g.added_by ? Number(g.added_by) : null,
           isActive: Boolean(g.is_active),
           createdAt: g.created_at,
         };
@@ -180,11 +182,12 @@ export async function listGroups(page = 0, pageSize = CONFIG.PAGINATION.GROUPS |
 
   if (CONFIG.TURSO?.ENABLED) {
     try {
-      const allActive = await turso.all('SELECT group_id, title, username, is_active, created_at FROM "groups" WHERE is_active = 1 ORDER BY created_at DESC');
+      const allActive = await turso.all('SELECT group_id, title, username, added_by, is_active, created_at FROM "groups" WHERE is_active = 1 ORDER BY created_at DESC');
       const formatted = (allActive || []).map(g => ({
         groupId: Number(g.group_id),
         title: g.title,
         username: g.username,
+        addedBy: g.added_by ? Number(g.added_by) : null,
         isActive: Boolean(g.is_active),
         createdAt: g.created_at,
       }));

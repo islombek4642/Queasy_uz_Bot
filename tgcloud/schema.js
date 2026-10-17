@@ -22,6 +22,7 @@ export const groups = table('groups', {
   groupId:   integer('group_id').primaryKey(),
   title:     text('title').notNull(),
   username:  text('username'),
+  addedBy:   integer('added_by'),
   isActive:  integer('is_active', { mode: 'boolean' }).notNull().default(true),
   createdAt: integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
 }, (t) => ({

@@ -1,17 +1,17 @@
 # Graph Report - Queasy_uz_Bot  (2026-10-18)
 
 ## Corpus Check
-- 470 files · ~512,568 words
+- 470 files · ~513,603 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 99 file(s) not represented in the graph (top: .ttf 54, .csv 37, .css 4)
 
 ## Summary
-- 3651 nodes · 5507 edges · 340 communities (226 shown, 114 thin omitted)
+- 3651 nodes · 5526 edges · 339 communities (225 shown, 114 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 272 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `88c1bb62`
+- Built from commit: `f2e817b2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -334,15 +334,14 @@
 - main.jsx
 - Turso Cloud (LibSQL) Migration Implementation Plan
 - test_leaderboard.mjs
-- channel_service.js
 - test
 
 ## God Nodes (most connected - your core abstractions)
 1. `getMessage()` - 61 edges
 2. `useTelegram()` - 50 edges
 3. `search()` - 45 edges
-4. `react` - 42 edges
-5. `useTranslation()` - 42 edges
+4. `useTranslation()` - 43 edges
+5. `react` - 42 edges
 6. `Button()` - 40 edges
 7. `DesignSystemGenerator` - 38 edges
 8. `search_stack()` - 35 edges
@@ -364,11 +363,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (340 total, 114 thin omitted)
+## Communities (339 total, 114 thin omitted)
 
 ### Community 0 - "schema.js"
-Cohesion: 0.21
-Nodes (14): FALLBACK_OPTIONS, CONFIG, ERRORS, turso, botSettings, groupTournaments, liveRooms, questions (+6 more)
+Cohesion: 0.20
+Nodes (16): FALLBACK_OPTIONS, FALLBACK_OPTIONS, CONFIG, ERRORS, turso, botSettings, groupTournaments, liveRooms (+8 more)
 
 ### Community 1 - "test_keyboards_i18n.mjs"
 Cohesion: 0.12
@@ -379,8 +378,8 @@ Cohesion: 0.05
 Nodes (33): Database — the rules that bite, Deploy & migrate workflow, Endpoints — the Mini App's server side, Layout, Mini App front-end, Module system — the rules that bite, Platform SDK (`import … from 'sdk'`), What this project is (+25 more)
 
 ### Community 3 - "session_service.js"
-Cohesion: 0.18
-Nodes (20): getStopKeyboard(), getQuizById(), advanceGroupRound(), advanceGroupRoundByPollId(), announceGroupLobby(), clearUserMistakes(), finishSession(), getUserMistakesCount() (+12 more)
+Cohesion: 0.17
+Nodes (24): getStopKeyboard(), getQuizById(), advanceGroupRound(), advanceGroupRoundByPollId(), announceGroupLobby(), finishSession(), getUserMistakesCount(), handleLobbyCancel() (+16 more)
 
 ### Community 4 - "test_pdf_reader.mjs"
 Cohesion: 0.15
@@ -395,16 +394,16 @@ Cohesion: 0.12
 Nodes (16): 1.1 Mavjud Muammolar, 1.2 Qat'iy Cheklovlar & Talablar, 1. Muammo va Talablar, 2.1 Yangi Kalitlar Ro'yxati (`tgcloud/lib/constants/messages.js`), 2. Konstantalar Arxitekturasi va Yangi Kalitlar Katalogi, 3.1 Klaviaturalar (`tgcloud/lib/keyboards/`), 3.2 Handlers (`tgcloud/handlers/`), 3.3 Services (`tgcloud/lib/services/`) (+8 more)
 
 ### Community 7 - "callback_query.js"
-Cohesion: 0.11
-Nodes (36): Parallel Nested Data Fetching, Task 2: Refactor Keyboards to Zero-Hardcode and Multi-Language, ACTIONS, STATES, getMessage(), isButtonMatch(), getAdminChannelsKeyboard(), getAdminConfirmBroadcastKeyboard() (+28 more)
+Cohesion: 0.10
+Nodes (38): Parallel Nested Data Fetching, Task 2: Refactor Keyboards to Zero-Hardcode and Multi-Language, ACTIONS, STATES, getMessage(), isButtonMatch(), getAdminChannelsKeyboard(), getAdminConfirmBroadcastKeyboard() (+30 more)
 
 ### Community 8 - "package.json"
 Cohesion: 0.08
 Nodes (24): dependencies, canvas-confetti, @iconify/react, katex, react, react-dom, devDependencies, vite (+16 more)
 
 ### Community 9 - "test_poll_modernization.mjs"
-Cohesion: 0.13
-Nodes (14): cleanedStrings, cleanedStructured, generatedPlain, letters, longOpt, mathOptionsRaw, modernPayload, plainOptionsRaw (+6 more)
+Cohesion: 0.14
+Nodes (13): cleanedStrings, cleanedStructured, letters, longOpt, mathOptionsRaw, modernPayload, plainOptionsRaw, plainSanitized (+5 more)
 
 ### Community 10 - "quizService.js"
 Cohesion: 0.13
@@ -499,8 +498,8 @@ Cohesion: 0.07
 Nodes (27): Accept self-signed certificates, After (v7), Available Adapters, Before (v6), Configuration, Connection Pool Configuration, Driver Adapters, Installation (+19 more)
 
 ### Community 34 - "sanitizeOptionsList"
-Cohesion: 0.23
-Nodes (17): cleanInvisibleCharacters(), cleanPunctuationAndArtifacts(), decodeHtmlEntities(), HTML_ENTITIES, normalizeMathSlashes(), repairIntegralFormulas(), sanitizeOptionsList(), sanitizeQuestionText() (+9 more)
+Cohesion: 0.25
+Nodes (15): cleanInvisibleCharacters(), cleanPunctuationAndArtifacts(), decodeHtmlEntities(), HTML_ENTITIES, normalizeMathSlashes(), repairIntegralFormulas(), sanitizeOptionsList(), sanitizeQuestionText() (+7 more)
 
 ### Community 35 - "server.cjs"
 Cohesion: 0.05
@@ -1055,8 +1054,8 @@ Cohesion: 0.29
 Nodes (7): 1. Detect the starting point, 2. Handle requested major upgrades separately, 3. Bootstrap a new Prisma 8 application, 4. Load the installed Prisma 8 guidance, 5. Set up or repair an earlier version, 6. Connect and verify, Prisma ORM setup
 
 ### Community 176 - "math_engine.js"
-Cohesion: 0.31
-Nodes (10): formatted, pureFormatted, generatedModernOptions, cleanOmmlText(), formatLatexForRender(), generateLatexImageUrl(), hasMathFormula(), normalizeLatex() (+2 more)
+Cohesion: 0.26
+Nodes (12): formatted, pureFormatted, generatedModernOptions, generatedPlain, cleanOmmlText(), formatLatexForRender(), generateLatexImageUrl(), hasMathFormula() (+4 more)
 
 ### Community 177 - "Review Focus"
 Cohesion: 0.22
@@ -1095,8 +1094,8 @@ Cohesion: 0.29
 Nodes (6): 1. Backend Serverless Endpoints (`tgcloud/endpoints/`), 3. Frontend Views & Components, 4. i18n & Zero Hardcoding, 5. Verification & Deployment, Phase 3: Quiz Studio & Advanced Management, Proposed Changes
 
 ### Community 186 - "quiz_service.js"
-Cohesion: 0.21
-Nodes (7): FALLBACK_OPTIONS, cloneQuiz(), createQuiz(), deleteQuiz(), getUserQuizzes(), getUserQuizzesCount(), updateQuizSettings()
+Cohesion: 0.28
+Nodes (5): cloneQuiz(), deleteQuiz(), getUserQuizzes(), getUserQuizzesCount(), updateQuizSettings()
 
 ### Community 189 - "Prisma Client Setup"
 Cohesion: 0.33
@@ -1266,10 +1265,6 @@ Nodes (5): Task 1: Generate Complete SQLite Database File (`queasy_ready.sqlite`
 Cohesion: 0.33
 Nodes (3): mockSessions, nowSec, ranked
 
-### Community 337 - "channel_service.js"
-Cohesion: 0.40
-Nodes (5): addRequiredChannel(), checkUserSubscribed(), deleteRequiredChannel(), getRequiredChannels(), requiredChannels
-
 ## Knowledge Gaps
 - **3 isolated node(s):** `RFC-6455`, `RFC-1951`, `RFC-1950`
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2231 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
@@ -1279,7 +1274,7 @@ Nodes (5): addRequiredChannel(), checkUserSubscribed(), deleteRequiredChannel(),
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Review Focus` connect `GroupHostView.jsx` to `ArenaView.jsx`, `quizService.js`?**
-  _High betweenness centrality (0.113) - this node is a cross-community bridge._
+  _High betweenness centrality (0.114) - this node is a cross-community bridge._
 - **Are the 4 inferred relationships involving `getMessage()` (e.g. with `Global Constraints` and `3.2 Handlers (`tgcloud/handlers/`)`) actually correct?**
   _`getMessage()` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `RFC-6455`, `RFC-1951`, `RFC-1950` to the rest of the system?**
@@ -1287,7 +1282,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `test_keyboards_i18n.mjs` be split into smaller, more focused modules?**
   _Cohesion score 0.125 - nodes in this community are weakly interconnected._
 - **Why does `Task 1: Backend Endpoints for Live Room Score & Completion` connect `GroupHostView.jsx` to `BM25`?**
-  _High betweenness centrality (0.112) - this node is a cross-community bridge._
+  _High betweenness centrality (0.113) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `search()` (e.g. with ``search` — Search registries` and `Muse Tool Mapping`) actually correct?**
   _`search()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **Should `Database (`db`)` be split into smaller, more focused modules?**

@@ -474,21 +474,21 @@
     "semantic_hash": ""
   },
   "src/i18n/locales/en.js": {
-    "mtime": 1792083112.7579956,
-    "seen": 1792083890.186876,
-    "ast_hash": "a271ac544e2389532724d3504b162a2a",
+    "mtime": 1792265786.8875642,
+    "seen": 1792265893.1192973,
+    "ast_hash": "21e5ce218639c644c7b19048f2997e39",
     "semantic_hash": ""
   },
   "src/i18n/locales/ru.js": {
-    "mtime": 1792083079.132617,
-    "seen": 1792083890.1868784,
-    "ast_hash": "cd8538b413a8d33b1c77ee132c554680",
+    "mtime": 1792265779.5879438,
+    "seen": 1792265893.1193006,
+    "ast_hash": "3daf51ff56ffe7e6a20f122ac501467e",
     "semantic_hash": ""
   },
   "src/i18n/locales/uz.js": {
-    "mtime": 1792083053.1864681,
-    "seen": 1792083890.1868804,
-    "ast_hash": "bb61a69e920e1f5aa894101ee56ceee5",
+    "mtime": 1792265772.075261,
+    "seen": 1792265893.1193032,
+    "ast_hash": "7429826ca39e478ab2994c50d85af5e0",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -522,9 +522,9 @@
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
-    "mtime": 1792265059.7739468,
-    "seen": 1792265138.3174927,
-    "ast_hash": "f850242cc103964ee75668fde5f5a4ab",
+    "mtime": 1792265846.956614,
+    "seen": 1792265893.1193278,
+    "ast_hash": "4bcf1da41ceebf79bbbf3f096646de4c",
     "semantic_hash": ""
   },
   "src/views/LeaderboardView.jsx": {
@@ -546,9 +546,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_initial_data.js": {
-    "mtime": 1792258154.7355425,
-    "seen": 1792260572.3269157,
-    "ast_hash": "88863f970212d2a6e7d9cb7a199638ee",
+    "mtime": 1792265808.9571948,
+    "seen": 1792265893.119435,
+    "ast_hash": "1512f274b42690b8603c996b104aa9b0",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_quiz_detail.js": {

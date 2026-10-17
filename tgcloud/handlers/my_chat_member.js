@@ -16,8 +16,9 @@ export default async function (myChatMember, ctx) {
   const newStatus = myChatMember.new_chat_member?.status;
 
   if (['member', 'administrator', 'creator'].includes(newStatus)) {
-    // Record group in database silently
-    await upsertGroup(chat.id, chat.title || 'Guruh', chat.username || null);
+    // Record group in database silently with the user who added/promoted the bot
+    const addedBy = myChatMember.from?.id || null;
+    await upsertGroup(chat.id, chat.title || 'Guruh', chat.username || null, addedBy);
   } else if (['left', 'kicked'].includes(newStatus)) {
     // Bot removed from group
     await deactivateGroup(chat.id);

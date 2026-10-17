@@ -171,16 +171,27 @@ export default async function (input, ctx) {
 
   // Fetch host's modeConfig if set (e.g. range, randomCount, mode)
   let modeConfig = null;
-  const cfgSetting = await db
-    .select({ value: botSettings.value })
-    .from(botSettings)
-    .where(eq(botSettings.key, `live_room_cfg:${roomCode}`))
-    .get();
-
-  if (cfgSetting?.value) {
+  if (CONFIG.TURSO?.ENABLED) {
     try {
-      modeConfig = JSON.parse(cfgSetting.value);
+      const row = await turso.get('SELECT value FROM bot_settings WHERE key = ?', [`live_room_cfg:${roomCode}`]);
+      if (row?.value) {
+        modeConfig = JSON.parse(row.value);
+      }
     } catch {}
+  }
+
+  if (!modeConfig) {
+    const cfgSetting = await db
+      .select({ value: botSettings.value })
+      .from(botSettings)
+      .where(eq(botSettings.key, `live_room_cfg:${roomCode}`))
+      .get();
+
+    if (cfgSetting?.value) {
+      try {
+        modeConfig = JSON.parse(cfgSetting.value);
+      } catch {}
+    }
   }
 
   return {
