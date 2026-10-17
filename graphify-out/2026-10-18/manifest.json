@@ -198,15 +198,15 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/services/quiz_service.js": {
-    "mtime": 1792258114.9205878,
-    "seen": 1792260572.332584,
-    "ast_hash": "e7ed4d5de78d123f590a3240e7e03170",
+    "mtime": 1792264611.3486576,
+    "seen": 1792265138.31776,
+    "ast_hash": "b390af2c57c61ae3faf1ed1413ad7a7e",
     "semantic_hash": ""
   },
   "tgcloud/lib/services/session_service.js": {
-    "mtime": 1792260305.0739725,
-    "seen": 1792260572.3325868,
-    "ast_hash": "71edbe35a4f746bea2c73e6bd7a2347a",
+    "mtime": 1792264576.8497515,
+    "seen": 1792265138.3177621,
+    "ast_hash": "acea1251ab4d38a0501b57b5a0f34765",
     "semantic_hash": ""
   },
   "tgcloud/lib/services/user_service.js": {
@@ -336,9 +336,9 @@
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1792083837.479137,
-    "seen": 1792083890.186787,
-    "ast_hash": "a08e9703ca71274e386f9dce5bf1a6aa",
+    "mtime": 1792265010.016709,
+    "seen": 1792265138.3173637,
+    "ast_hash": "f80107c9da45e86558bbb42a86613193",
     "semantic_hash": ""
   },
   "src/components/common/Badge.jsx": {
@@ -522,15 +522,15 @@
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
-    "mtime": 1791903732.655094,
-    "seen": 1791903905.0702827,
-    "ast_hash": "c1ba90bfdcae3e881d81c22f78486baa",
+    "mtime": 1792265059.7739468,
+    "seen": 1792265138.3174927,
+    "ast_hash": "f850242cc103964ee75668fde5f5a4ab",
     "semantic_hash": ""
   },
   "src/views/LeaderboardView.jsx": {
-    "mtime": 1792072178.8383212,
-    "seen": 1792080792.0511916,
-    "ast_hash": "b30c1acf367668816ecd28d666231f93",
+    "mtime": 1792265040.255178,
+    "seen": 1792265138.3175056,
+    "ast_hash": "5124550c9853f26d004ed7d680516f17",
     "semantic_hash": ""
   },
   "src/views/MyQuizzesView.jsx": {
@@ -732,9 +732,9 @@
     "semantic_hash": ""
   },
   "src/views/KiutView.jsx": {
-    "mtime": 1791822237.5100017,
-    "seen": 1791822333.7264652,
-    "ast_hash": "ad5b3e13437af77290696990f1a344b8",
+    "mtime": 1792265024.430544,
+    "seen": 1792265138.3175032,
+    "ast_hash": "f363a330a61900b265258aea2a6b0e80",
     "semantic_hash": ""
   },
   ".agents/skills/brainstorming/scripts/helper.js": {
@@ -2946,9 +2946,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_app_logs.js": {
-    "mtime": 1792263550.740664,
-    "seen": 1792264269.6540806,
-    "ast_hash": "e88deb6351bc6419674921b2932fef9e",
+    "mtime": 1792264546.2176254,
+    "seen": 1792265138.3176222,
+    "ast_hash": "af82031a7014a605a80d61fd9173f057",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-10-14-telegram-poll-features.md": {
@@ -3045,6 +3045,12 @@
     "mtime": 1792252476.139209,
     "seen": 1792260572.3869555,
     "ast_hash": "05bb3a4f2061fc87697360be3dcf571e",
+    "semantic_hash": ""
+  },
+  "src/utils/cacheManager.js": {
+    "mtime": 1792264876.704381,
+    "seen": 1792265138.317479,
+    "ast_hash": "94db51496ee4680f7158af161adc0e7d",
     "semantic_hash": ""
   }
 }

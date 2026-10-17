@@ -82,10 +82,13 @@ export default async function (input, ctx) {
       const nowSec = Math.floor(Date.now() / 1000);
       const days = [];
       const dayNames = ['Yak', 'Du', 'Se', 'Chor', 'Pay', 'Jum', 'Shan'];
+      const dayKeys = ['DAY_SUN', 'DAY_MON', 'DAY_TUE', 'DAY_WED', 'DAY_THU', 'DAY_FRI', 'DAY_SAT'];
       for (let i = 6; i >= 0; i--) {
         const d = new Date((nowSec - i * 86400) * 1000);
+        const dayIdx = d.getDay();
         days.push({
-          day: dayNames[d.getDay()],
+          day: dayNames[dayIdx],
+          dayKey: dayKeys[dayIdx],
           dateKey: d.toISOString().slice(0, 10),
           correct: 0,
         });
@@ -101,7 +104,7 @@ export default async function (input, ctx) {
         }
       });
 
-      const weeklyActivity = days.map(d => ({ label: d.day, value: d.correct }));
+      const weeklyActivity = days.map(d => ({ label: d.day, dayKey: d.dayKey, value: d.correct }));
 
       return {
         user: {

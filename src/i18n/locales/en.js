@@ -247,6 +247,15 @@ export default {
   GROUP_HOST_STEP_1_HINT: '— add bot to group and solve questions directly in Telegram.',
   GROUP_HOST_STEP_2_HINT: '— launch an asynchronous tournament and build the group leaderboard.',
   GROUP_HOST_STEP_3_HINT: '— open a real-time room and play the quiz simultaneously!',
+  WEEKLY_ACTIVITY_TITLE: 'Weekly Activity',
+  CORRECT_ANSWERS_LABEL: 'correct answers',
+  DAY_SUN: 'Sun',
+  DAY_MON: 'Mon',
+  DAY_TUE: 'Tue',
+  DAY_WED: 'Wed',
+  DAY_THU: 'Thu',
+  DAY_FRI: 'Fri',
+  DAY_SAT: 'Sat',
 };
 
 

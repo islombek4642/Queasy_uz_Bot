@@ -250,6 +250,15 @@ export default {
   GROUP_HOST_STEP_1_HINT: 'orqali botni guruhga qo\'shib, savollarni to\'g\'ridan-to\'g\'ri Telegramda yeching.',
   GROUP_HOST_STEP_2_HINT: 'orqali asinxron turnir ochib, guruh umumiy reytingini shakllantiring.',
   GROUP_HOST_STEP_3_HINT: 'orqali Kahoot kabi real-time xona ochib, bir vaqtda test o\'ynang!',
+  WEEKLY_ACTIVITY_TITLE: 'Haftalik faollik',
+  CORRECT_ANSWERS_LABEL: 'to\'g\'ri javob',
+  DAY_SUN: 'Yak',
+  DAY_MON: 'Du',
+  DAY_TUE: 'Se',
+  DAY_WED: 'Chor',
+  DAY_THU: 'Pay',
+  DAY_FRI: 'Jum',
+  DAY_SAT: 'Shan',
 };
 
 

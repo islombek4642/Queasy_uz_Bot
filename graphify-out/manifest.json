@@ -522,9 +522,9 @@
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
-    "mtime": 1792265059.7739468,
-    "seen": 1792265138.3174927,
-    "ast_hash": "f850242cc103964ee75668fde5f5a4ab",
+    "mtime": 1792265616.6956725,
+    "seen": 1792265678.0922694,
+    "ast_hash": "cb85bda62147d7a34d11d3ba490af2f0",
     "semantic_hash": ""
   },
   "src/views/LeaderboardView.jsx": {
@@ -546,9 +546,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_initial_data.js": {
-    "mtime": 1792258154.7355425,
-    "seen": 1792260572.3269157,
-    "ast_hash": "88863f970212d2a6e7d9cb7a199638ee",
+    "mtime": 1792265572.7370572,
+    "seen": 1792265678.0923762,
+    "ast_hash": "2c01975d3bac346f3996edc625e2ac81",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_quiz_detail.js": {

@@ -250,6 +250,15 @@ export default {
   GROUP_HOST_STEP_1_HINT: '— добавьте бота в группу и решайте вопросы прямо в Telegram.',
   GROUP_HOST_STEP_2_HINT: '— откройте асинхронный турнир и сформируйте общий рейтинг группы.',
   GROUP_HOST_STEP_3_HINT: '— откройте комнату реального времени и соревнуйтесь синхронно!',
+  WEEKLY_ACTIVITY_TITLE: 'Недельная активность',
+  CORRECT_ANSWERS_LABEL: 'прав. ответов',
+  DAY_SUN: 'Вс',
+  DAY_MON: 'Пн',
+  DAY_TUE: 'Вт',
+  DAY_WED: 'Ср',
+  DAY_THU: 'Чт',
+  DAY_FRI: 'Пт',
+  DAY_SAT: 'Сб',
 };
 
 

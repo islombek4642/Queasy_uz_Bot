@@ -11,14 +11,16 @@ import { NAV_MY_QUIZZES } from '../constants/routes.js';
 import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/cacheManager.js';
 
 function MiniLineChart({ data = [] }) {
+  const { t } = useTranslation();
+
   const points = (data && data.length >= 2) ? data : [
-    { label: 'Du', value: 0 },
-    { label: 'Se', value: 0 },
-    { label: 'Chor', value: 0 },
-    { label: 'Pay', value: 0 },
-    { label: 'Jum', value: 0 },
-    { label: 'Shan', value: 0 },
-    { label: 'Yak', value: 0 },
+    { label: 'Du', dayKey: 'DAY_MON', value: 0 },
+    { label: 'Se', dayKey: 'DAY_TUE', value: 0 },
+    { label: 'Chor', dayKey: 'DAY_WED', value: 0 },
+    { label: 'Pay', dayKey: 'DAY_THU', value: 0 },
+    { label: 'Jum', dayKey: 'DAY_FRI', value: 0 },
+    { label: 'Shan', dayKey: 'DAY_SAT', value: 0 },
+    { label: 'Yak', dayKey: 'DAY_SUN', value: 0 },
   ];
 
   const values = points.map(p => Number(p.value) || 0);
@@ -55,14 +57,16 @@ function MiniLineChart({ data = [] }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <Icon icon="solar:chart-square-bold-duotone" width="18" height="18" style={{ color: 'var(--accent-primary)' }} />
           <span style={{ fontSize: '0.88rem', fontWeight: '800', color: 'var(--text-primary)' }}>
-            Haftalik faollik
+            {t('WEEKLY_ACTIVITY_TITLE')}
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <span style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--accent-primary)' }}>
             +{totalWeekly}
           </span>
-          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>to'g'ri javob</span>
+          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+            {t('CORRECT_ANSWERS_LABEL')}
+          </span>
         </div>
       </div>
 
@@ -118,7 +122,7 @@ function MiniLineChart({ data = [] }) {
               fontWeight: i === coords.length - 1 ? '700' : '500',
             }}
           >
-            {c.label}
+            {c.dayKey ? t(c.dayKey) : c.label}
           </span>
         ))}
       </div>
