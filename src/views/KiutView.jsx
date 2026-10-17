@@ -7,6 +7,7 @@ import { fetchKiutCatalog, cloneQuiz } from '../services/quizService.js';
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
+import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/cacheManager.js';
 
 export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
   const { t } = useTranslation();
@@ -14,18 +15,28 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
 
   const [currentPath, setCurrentPath] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [data, setData] = useState({ categories: [], subcategories: [], quizzes: [], totalQuizzes: 0 });
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(() => {
+    return getCachedData(CACHE_KEYS.KIUT_ROOT) || { categories: [], subcategories: [], quizzes: [], totalQuizzes: 0 };
+  });
+  const [loading, setLoading] = useState(() => !getCachedData(CACHE_KEYS.KIUT_ROOT));
   const [expandedQuizId, setExpandedQuizId] = useState(null);
   const [savingQuizId, setSavingQuizId] = useState(null);
   const [savedQuizIds, setSavedQuizIds] = useState(new Set());
   const [toastMessage, setToastMessage] = useState(null);
 
   const loadCatalog = (path = '', search = '') => {
-    setLoading(true);
+    // Only show full spinner if we have no data at all
+    if ((path !== '' || search !== '') || (!data.categories?.length && !data.quizzes?.length)) {
+      setLoading(true);
+    }
     fetchKiutCatalog(path, search)
       .then((res) => {
-        if (res) setData(res);
+        if (res) {
+          setData(res);
+          if (!path && !search && res.categories?.length) {
+            setCachedData(CACHE_KEYS.KIUT_ROOT, res);
+          }
+        }
       })
       .catch((err) => {
         console.error('Failed to load KIUT catalog:', err);

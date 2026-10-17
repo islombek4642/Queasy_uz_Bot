@@ -29,9 +29,10 @@ import {
   NAV_PROFILE,
   VIEW_ARENA,
 } from './constants/routes.js';
+import { getCachedData, setCachedData, CACHE_KEYS } from './utils/cacheManager.js';
 
 export default function App() {
-  const [initialData, setInitialData] = useState(null);
+  const [initialData, setInitialData] = useState(() => getCachedData(CACHE_KEYS.INITIAL_DATA));
   const [activeTab, setActiveTab] = useState(NAV_HOME);
   const [showKiutView, setShowKiutView] = useState(false);
   const [showMistakesView, setShowMistakesView] = useState(false);
@@ -44,9 +45,7 @@ export default function App() {
   const [activeTournamentCode, setActiveTournamentCode] = useState(null);
   const [activeRoomCode, setActiveRoomCode] = useState(null);
   const [activeLiveRoomCode, setActiveLiveRoomCode] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-
+  const [loading, setLoading] = useState(() => !getCachedData(CACHE_KEYS.INITIAL_DATA));
 
   // Quiz Mode Modal state
   const [modeModalQuizId, setModeModalQuizId] = useState(null);
@@ -57,12 +56,16 @@ export default function App() {
   const refreshData = () => {
     fetchInitialData()
       .then((data) => {
-        setInitialData(data);
+        if (data && data.user) {
+          setInitialData(data);
+          setCachedData(CACHE_KEYS.INITIAL_DATA, data);
+        }
       })
       .catch((err) => {
         console.error('Failed to load initial data:', err);
       });
   };
+
 
   useEffect(() => {
     // 1. Check deep-link start parameter (e.g. gt_12_abc123)
@@ -83,7 +86,12 @@ export default function App() {
     // 2. Fetch initial app data
     fetchInitialData()
       .then((data) => {
-        setInitialData(data);
+        if (data) {
+          setInitialData(data);
+          if (data.user) {
+            setCachedData(CACHE_KEYS.INITIAL_DATA, data);
+          }
+        }
       })
       .catch((err) => {
         console.error('Failed to load initial data:', err);

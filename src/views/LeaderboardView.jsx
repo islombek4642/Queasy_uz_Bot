@@ -7,21 +7,22 @@ import { fetchLeaderboard } from '../services/quizService.js';
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Avatar } from '../components/common/Avatar.jsx';
-
-// Persistent module-level cache for instantaneous 0ms display per timeframe
-const CACHED_LEADERBOARD = {};
+import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/cacheManager.js';
 
 export function LeaderboardView() {
   const { t } = useTranslation();
   const { haptic } = useTelegram();
   const [timeframe, setTimeframe] = useState('all');
-  const [leaderboardData, setLeaderboardData] = useState(() => CACHED_LEADERBOARD['all'] || { topUsers: [], currentUserRank: null });
-  const [loading, setLoading] = useState(() => !CACHED_LEADERBOARD['all']);
+  const [leaderboardData, setLeaderboardData] = useState(() => {
+    return getCachedData(CACHE_KEYS.LEADERBOARD_PREFIX + 'all') || { topUsers: [], currentUserRank: null };
+  });
+  const [loading, setLoading] = useState(() => !getCachedData(CACHE_KEYS.LEADERBOARD_PREFIX + 'all'));
 
   useEffect(() => {
     let isMounted = true;
-    if (CACHED_LEADERBOARD[timeframe]) {
-      setLeaderboardData(CACHED_LEADERBOARD[timeframe]);
+    const cached = getCachedData(CACHE_KEYS.LEADERBOARD_PREFIX + timeframe);
+    if (cached) {
+      setLeaderboardData(cached);
       setLoading(false);
     } else {
       setLoading(true);
@@ -29,7 +30,7 @@ export function LeaderboardView() {
     fetchLeaderboard(timeframe)
       .then((data) => {
         if (isMounted && data) {
-          CACHED_LEADERBOARD[timeframe] = data;
+          setCachedData(CACHE_KEYS.LEADERBOARD_PREFIX + timeframe, data);
           setLeaderboardData(data);
         }
       })

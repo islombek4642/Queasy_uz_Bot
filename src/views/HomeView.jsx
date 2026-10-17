@@ -8,6 +8,7 @@ import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { calculateLevelProgress } from '../utils/gamification.js';
 import { NAV_MY_QUIZZES } from '../constants/routes.js';
+import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/cacheManager.js';
 
 export function HomeView({
   initialData,
@@ -20,7 +21,9 @@ export function HomeView({
 }) {
   const { t } = useTranslation();
   const { user, haptic } = useTelegram();
-  const [mistakesData, setMistakesData] = useState({ mistakes: [], count: 0 });
+  const [mistakesData, setMistakesData] = useState(() => {
+    return getCachedData(CACHE_KEYS.MISTAKES) || { mistakes: [], count: 0 };
+  });
   const [expandedQuizId, setExpandedQuizId] = useState(null);
 
   useEffect(() => {
@@ -28,12 +31,13 @@ export function HomeView({
       .then((res) => {
         if (res && typeof res.count === 'number') {
           setMistakesData(res);
+          setCachedData(CACHE_KEYS.MISTAKES, res);
         } else {
           setMistakesData({ mistakes: [], count: 0 });
         }
       })
       .catch(() => {
-        setMistakesData({ mistakes: [], count: 0 });
+        // Keep cached if network failed
       });
   }, [initialData]);
 
