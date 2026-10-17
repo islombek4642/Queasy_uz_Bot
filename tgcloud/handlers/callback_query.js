@@ -35,6 +35,7 @@ import {
 import {
   startQuizSession,
   getUserMistakesCount,
+  getUserMistakesGrouped,
   clearUserMistakes,
   announceGroupLobby,
   handleLobbyJoin,
@@ -55,6 +56,7 @@ import {
   getMyQuizzesPageKeyboard,
   getTimeLimitKeyboard,
   getConfirmDeleteKeyboard,
+  getMistakesPageKeyboard,
 } from '../lib/keyboards/quiz_keyboard.js';
 import {
   getAdminDashboardKeyboard,
@@ -857,6 +859,29 @@ export default async function (callbackQuery, ctx) {
       chat_id: chatId,
       message_id: messageId,
       reply_markup: getMyQuizzesPageKeyboard(quizzesList, page, count, lang),
+    });
+    return;
+  }
+
+  // 11b. Pagination for My Mistakes
+  if (data.startsWith(ACTIONS.MISTAKES_PAGE_PREFIX)) {
+    const page = parseInt(data.replace(ACTIONS.MISTAKES_PAGE_PREFIX, ''), 10) || 0;
+    const grouped = await getUserMistakesGrouped(userId);
+
+    await answer();
+    if (grouped.length === 0) {
+      await api.editMessageText({
+        chat_id: chatId,
+        message_id: messageId,
+        text: getMessage('MISTAKES_EMPTY', lang),
+      });
+      return;
+    }
+
+    await api.editMessageReplyMarkup({
+      chat_id: chatId,
+      message_id: messageId,
+      reply_markup: getMistakesPageKeyboard(grouped, page, lang),
     });
     return;
   }

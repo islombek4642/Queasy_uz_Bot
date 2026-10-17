@@ -45,7 +45,8 @@ import { isUserAdmin, getBotStatistics, setMediaChannel } from '../lib/services/
 
 import { getMainKeyboard, getCancelKeyboard, getLanguageReplyKeyboard } from '../lib/keyboards/main_keyboard.js';
 import { getInlineModeKeyboard } from '../lib/keyboards/mode_keyboard.js';
-import { getQuizCardKeyboard, getMyQuizzesPageKeyboard } from '../lib/keyboards/quiz_keyboard.js';
+import { getQuizCardKeyboard, getMyQuizzesPageKeyboard, getMistakesPageKeyboard } from '../lib/keyboards/quiz_keyboard.js';
+
 import { getAdminDashboardKeyboard, getAdminConfirmBroadcastKeyboard } from '../lib/keyboards/admin_keyboard.js';
 import { getSubscribeKeyboard, getLanguageKeyboard } from '../lib/keyboards/subscribe_keyboard.js';
 import { parseQuizInput } from '../lib/parsers/parser_engine.js';
@@ -850,26 +851,16 @@ export default async function (message, ctx) {
     }
 
     const totalMistakes = grouped.reduce((sum, g) => sum + g.count, 0);
-    const inline_keyboard = [];
-
-    // Har bir fanni alohida inline tugmada ko'rsatamiz
-    for (const g of grouped) {
-      inline_keyboard.push([
-        {
-          text: getMessage('MISTAKES_SUBJECT_BTN', lang, { title: g.title, count: g.count }),
-          callback_data: `${ACTIONS.REVIEW_MISTAKES_PREFIX}${g.quizId}`,
-        },
-      ]);
-    }
 
     await api.sendMessage({
       chat_id: chatId,
       text: getMessage('MISTAKES_CHOOSE_SUBJECT', lang, { count: totalMistakes }),
       parse_mode: 'HTML',
-      reply_markup: { inline_keyboard },
+      reply_markup: getMistakesPageKeyboard(grouped, 0, lang),
     });
     return;
   }
+
 
   if (isButtonMatch(text, 'BTN_UPLOAD_TEST')) {
     await api.sendMessage({

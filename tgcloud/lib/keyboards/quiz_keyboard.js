@@ -150,9 +150,62 @@ export function getConfirmDeleteKeyboard(quizId, lang = 'UZ') {
   };
 }
 
+export function getMistakesPageKeyboard(grouped, page = 0, lang = 'UZ') {
+  const PAGE_SIZE = CONFIG.PAGINATION?.MISTAKES || 8;
+  const totalItems = grouped.length;
+  const totalPages = Math.ceil(totalItems / PAGE_SIZE) || 1;
+  const currentPage = Math.max(0, Math.min(page, totalPages - 1));
+
+  const start = currentPage * PAGE_SIZE;
+  const end = Math.min(start + PAGE_SIZE, totalItems);
+  const currentChunk = grouped.slice(start, end);
+
+  const inline_keyboard = [];
+
+  for (const g of currentChunk) {
+    const rawTitle = g.title || `Test #${g.quizId}`;
+    const title = rawTitle.length > 34 ? rawTitle.slice(0, 31) + '...' : rawTitle;
+    inline_keyboard.push([
+      {
+        text: getMessage('MISTAKES_SUBJECT_BTN', lang, { title, count: g.count }),
+        callback_data: `${ACTIONS.REVIEW_MISTAKES_PREFIX}${g.quizId}`,
+      },
+    ]);
+  }
+
+  // Navigation row if multiple pages
+  if (totalPages > 1) {
+    const navRow = [];
+    if (currentPage > 0) {
+      navRow.push({
+        text: getMessage('BTN_PREV', lang),
+        callback_data: `${ACTIONS.MISTAKES_PAGE_PREFIX}${currentPage - 1}`,
+      });
+    }
+
+    navRow.push({
+      text: `📄 ${currentPage + 1}/${totalPages}`,
+      callback_data: 'noop',
+    });
+
+    if (currentPage < totalPages - 1) {
+      navRow.push({
+        text: getMessage('BTN_NEXT', lang),
+        callback_data: `${ACTIONS.MISTAKES_PAGE_PREFIX}${currentPage + 1}`,
+      });
+    }
+
+    inline_keyboard.push(navRow);
+  }
+
+  return { inline_keyboard };
+}
+
 export default {
   getQuizCardKeyboard,
   getMyQuizzesPageKeyboard,
   getTimeLimitKeyboard,
   getConfirmDeleteKeyboard,
+  getMistakesPageKeyboard,
 };
+

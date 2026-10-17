@@ -32,8 +32,10 @@ export const ACTIONS = {
 
   // Navigation & Pagination
   MY_QUIZZES_PAGE_PREFIX: 'quizzes_page:',
+  MISTAKES_PAGE_PREFIX: 'mistakes_page:',
   USERS_PAGE_PREFIX: 'users_page:',
   GROUPS_PAGE_PREFIX: 'groups_page:',
+
   BACK_TO_MENU: 'nav_main_menu',
   CANCEL_CURRENT: 'nav_cancel',
 

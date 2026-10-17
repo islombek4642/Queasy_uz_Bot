@@ -20,7 +20,9 @@ export const CONFIG = {
     USERS: 10,
     GROUPS: 10,
     LEADERBOARD: 10,
+    MISTAKES: 8,
   },
+
 
   // Bot profile
   BOT: {
