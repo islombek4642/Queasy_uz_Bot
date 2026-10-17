@@ -10,6 +10,122 @@ import { calculateLevelProgress } from '../utils/gamification.js';
 import { NAV_MY_QUIZZES } from '../constants/routes.js';
 import { getCachedData, setCachedData, CACHE_KEYS } from '../utils/cacheManager.js';
 
+function MiniLineChart({ data = [] }) {
+  const points = (data && data.length >= 2) ? data : [
+    { label: 'Du', value: 0 },
+    { label: 'Se', value: 0 },
+    { label: 'Chor', value: 0 },
+    { label: 'Pay', value: 0 },
+    { label: 'Jum', value: 0 },
+    { label: 'Shan', value: 0 },
+    { label: 'Yak', value: 0 },
+  ];
+
+  const values = points.map(p => Number(p.value) || 0);
+  const maxVal = Math.max(...values, 5);
+  const minVal = 0;
+  const range = maxVal - minVal || 1;
+
+  const width = 300;
+  const height = 50;
+  const paddingX = 12;
+  const paddingY = 6;
+  const chartW = width - paddingX * 2;
+  const chartH = height - paddingY * 2;
+
+  const coords = points.map((p, idx) => {
+    const x = paddingX + (idx / (points.length - 1)) * chartW;
+    const y = height - paddingY - ((Number(p.value) || 0) / range) * chartH;
+    return { x, y, ...p };
+  });
+
+  const pathD = coords.reduce((acc, curr, i, arr) => {
+    if (i === 0) return `M ${curr.x} ${curr.y}`;
+    const prev = arr[i - 1];
+    const cpX = (prev.x + curr.x) / 2;
+    return `${acc} C ${cpX} ${prev.y}, ${cpX} ${curr.y}, ${curr.x} ${curr.y}`;
+  }, '');
+
+  const areaD = `${pathD} L ${coords[coords.length - 1].x} ${height} L ${coords[0].x} ${height} Z`;
+  const totalWeekly = values.reduce((a, b) => a + b, 0);
+
+  return (
+    <div style={{ width: '100%' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Icon icon="solar:chart-square-bold-duotone" width="18" height="18" style={{ color: 'var(--accent-primary)' }} />
+          <span style={{ fontSize: '0.88rem', fontWeight: '800', color: 'var(--text-primary)' }}>
+            Haftalik faollik
+          </span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <span style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--accent-primary)' }}>
+            +{totalWeekly}
+          </span>
+          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>to'g'ri javob</span>
+        </div>
+      </div>
+
+      <div style={{ position: 'relative', width: '100%', height: `${height}px` }}>
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          style={{ width: '100%', height: '100%', overflow: 'visible' }}
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#6366f1" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#6366f1" stopOpacity="0.0" />
+            </linearGradient>
+            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#818cf8" />
+              <stop offset="100%" stopColor="#c084fc" />
+            </linearGradient>
+          </defs>
+
+          <path d={areaD} fill="url(#chartGradient)" />
+
+          <path
+            d={pathD}
+            fill="none"
+            stroke="url(#lineGrad)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+
+          {coords.map((c, i) => (
+            <circle
+              key={i}
+              cx={c.x}
+              cy={c.y}
+              r={i === coords.length - 1 ? 3.5 : 2}
+              fill={i === coords.length - 1 ? '#c084fc' : '#818cf8'}
+              stroke="var(--surface-card, #1e1e2d)"
+              strokeWidth="1.5"
+            />
+          ))}
+        </svg>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 4px', marginTop: '4px' }}>
+        {coords.map((c, i) => (
+          <span
+            key={i}
+            style={{
+              fontSize: '0.68rem',
+              color: i === coords.length - 1 ? 'var(--accent-primary)' : 'var(--text-muted)',
+              fontWeight: i === coords.length - 1 ? '700' : '500',
+            }}
+          >
+            {c.label}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function HomeView({
   initialData,
   onStartQuiz,
@@ -54,31 +170,11 @@ export function HomeView({
         style={{
           background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.1) 100%)',
           border: '1px solid var(--surface-border-glow)',
-          padding: '20px',
+          padding: '16px',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <h2 style={{ fontSize: '1.3rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
-              {t('GREETING_HELLO')}, {user?.first_name || 'Bilimdon'}!
-            </h2>
-          </div>
-          <div
-            style={{
-              width: '42px',
-              height: '42px',
-              borderRadius: 'var(--radius-md)',
-              background: 'var(--accent-gradient)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#fff',
-              boxShadow: 'var(--shadow-accent)',
-            }}
-          >
-            <Icon icon="solar:star-fall-bold-duotone" width="24" height="24" />
-          </div>
-        </div>
+        {/* Dynamic Activity Mini Line Chart */}
+        <MiniLineChart data={stats.weeklyActivity} />
 
         {/* Level XP Progress Bar */}
         <div style={{ marginTop: '14px', background: 'rgba(0, 0, 0, 0.2)', padding: '10px 12px', borderRadius: 'var(--radius-sm)' }}>

@@ -48,7 +48,7 @@ export default async function (input, ctx) {
       }));
 
       const rawSessions = await turso.all(
-        'SELECT id, correct_count, wrong_count FROM quiz_sessions WHERE user_id = ? AND is_active = 0 LIMIT 100',
+        'SELECT id, correct_count, wrong_count, started_at FROM quiz_sessions WHERE user_id = ? AND is_active = 0 ORDER BY id DESC LIMIT 200',
         [userId]
       );
 
@@ -64,6 +64,45 @@ export default async function (input, ctx) {
       const level = Math.floor(xp / 100) + 1;
       const fullName = [userRow?.first_name, userRow?.last_name].filter(Boolean).join(' ') || tgUser?.first_name || 'Foydalanuvchi';
 
+      let globalRank = '-';
+      if ((rawSessions || []).length > 0) {
+        try {
+          const rankRow = await turso.get(
+            'SELECT COUNT(*) as higher_count FROM (SELECT user_id, SUM(correct_count) as tc FROM quiz_sessions WHERE is_active = 0 GROUP BY user_id HAVING tc > ?)',
+            [totalCorrect]
+          );
+          globalRank = (Number(rankRow?.higher_count) || 0) + 1;
+        } catch (rErr) {
+          console.warn('[get_initial_data] rank calc err:', rErr.message);
+          globalRank = '-';
+        }
+      }
+
+      // Calculate last 7 days activity
+      const nowSec = Math.floor(Date.now() / 1000);
+      const days = [];
+      const dayNames = ['Yak', 'Du', 'Se', 'Chor', 'Pay', 'Jum', 'Shan'];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date((nowSec - i * 86400) * 1000);
+        days.push({
+          day: dayNames[d.getDay()],
+          dateKey: d.toISOString().slice(0, 10),
+          correct: 0,
+        });
+      }
+
+      (rawSessions || []).forEach(s => {
+        if (s.started_at) {
+          const sDate = new Date(Number(s.started_at) * 1000).toISOString().slice(0, 10);
+          const found = days.find(d => d.dateKey === sDate);
+          if (found) {
+            found.correct += Number(s.correct_count || 0);
+          }
+        }
+      });
+
+      const weeklyActivity = days.map(d => ({ label: d.day, value: d.correct }));
+
       return {
         user: {
           id: userId,
@@ -78,7 +117,8 @@ export default async function (input, ctx) {
         stats: {
           totalSolved: (rawSessions || []).length,
           accuracy,
-          globalRank: (rawSessions || []).length > 0 ? 1 : '-',
+          globalRank,
+          weeklyActivity,
         },
       };
     } catch (err) {
@@ -169,6 +209,7 @@ export default async function (input, ctx) {
       totalSolved: finishedSessions.length,
       accuracy,
       globalRank: finishedSessions.length > 0 ? 1 : '-',
+      weeklyActivity: [],
     },
   };
 }
