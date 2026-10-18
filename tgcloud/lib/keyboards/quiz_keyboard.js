@@ -75,7 +75,7 @@ export function getQuizCardKeyboard(quiz, lang = 'UZ', isOwner = true, hasMistak
   return { inline_keyboard };
 }
 
-export function getMyQuizzesPageKeyboard(quizzesList, page, totalCount, lang = 'UZ') {
+export function getMyQuizzesPageKeyboard(quizzesList, page = 0, totalCount = 0, lang = 'UZ') {
   const inline_keyboard = [];
 
   for (const q of quizzesList) {
@@ -83,7 +83,7 @@ export function getMyQuizzesPageKeyboard(quizzesList, page, totalCount, lang = '
     inline_keyboard.push([
       {
         text: `📌 ${title}`,
-        callback_data: `${ACTIONS.VIEW_QUIZ_PREFIX}${q.id}`,
+        callback_data: `${ACTIONS.VIEW_QUIZ_PREFIX}${q.id}:my:${page}`,
       },
     ]);
   }

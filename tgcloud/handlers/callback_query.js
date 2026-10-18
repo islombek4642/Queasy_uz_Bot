@@ -790,7 +790,8 @@ export default async function (callbackQuery, ctx) {
     const raw = data.replace(ACTIONS.VIEW_QUIZ_PREFIX, '');
     const parts = raw.split(':');
     const quizId = parseInt(parts[0], 10);
-    const catIdParam = parts[1] ? parseInt(parts[1], 10) : null;
+    const originParam = parts[1] || null;
+    const pageParam = parts[2] ? parseInt(parts[2], 10) : 0;
 
     const quiz = await getQuizById(quizId);
     if (!quiz) {
@@ -803,8 +804,12 @@ export default async function (callbackQuery, ctx) {
     const isOwner = quiz.ownerId === userId;
 
     let backCallbackData = null;
-    if (catIdParam) {
-      backCallbackData = `kiut_c:${catIdParam}`;
+    if (originParam === 'my') {
+      backCallbackData = `${ACTIONS.MY_QUIZZES_PAGE_PREFIX}${pageParam}`;
+    } else if (originParam && !isNaN(parseInt(originParam, 10))) {
+      backCallbackData = `kiut_c:${originParam}`;
+    } else if (isOwner) {
+      backCallbackData = `${ACTIONS.MY_QUIZZES_PAGE_PREFIX}0`;
     } else if (quiz.category) {
       const catRec = await db
         .select()
@@ -816,8 +821,6 @@ export default async function (callbackQuery, ctx) {
       } else {
         backCallbackData = 'kiut_c:0';
       }
-    } else if (isOwner) {
-      backCallbackData = `${ACTIONS.MY_QUIZZES_PAGE_PREFIX}0`;
     }
 
     const mistakesCount = await getUserMistakesCount(userId, quiz.id);
@@ -855,16 +858,43 @@ export default async function (callbackQuery, ctx) {
 
   // 11. Pagination for My Quizzes
   if (data.startsWith(ACTIONS.MY_QUIZZES_PAGE_PREFIX)) {
-    const page = parseInt(data.replace(ACTIONS.MY_QUIZZES_PAGE_PREFIX, ''), 10);
+    const page = parseInt(data.replace(ACTIONS.MY_QUIZZES_PAGE_PREFIX, ''), 10) || 0;
     const quizzesList = await getUserQuizzes(userId, page);
     const count = await getUserQuizzesCount(userId);
 
     await answer();
-    await api.editMessageReplyMarkup({
-      chat_id: chatId,
-      message_id: messageId,
-      reply_markup: getMyQuizzesPageKeyboard(quizzesList, page, count, lang),
-    });
+    if (count === 0) {
+      try {
+        await api.editMessageText({
+          chat_id: chatId,
+          message_id: messageId,
+          text: getMessage('ERR_NO_QUIZZES', lang),
+        });
+      } catch {
+        await api.sendMessage({
+          chat_id: chatId,
+          text: getMessage('ERR_NO_QUIZZES', lang),
+        });
+      }
+      return;
+    }
+
+    try {
+      await api.editMessageText({
+        chat_id: chatId,
+        message_id: messageId,
+        text: getMessage('MY_QUIZZES_TITLE', lang, { count }),
+        parse_mode: 'HTML',
+        reply_markup: getMyQuizzesPageKeyboard(quizzesList, page, count, lang),
+      });
+    } catch {
+      await api.sendMessage({
+        chat_id: chatId,
+        text: getMessage('MY_QUIZZES_TITLE', lang, { count }),
+        parse_mode: 'HTML',
+        reply_markup: getMyQuizzesPageKeyboard(quizzesList, page, count, lang),
+      });
+    }
     return;
   }
 
