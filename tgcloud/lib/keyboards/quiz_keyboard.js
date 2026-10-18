@@ -88,24 +88,31 @@ export function getMyQuizzesPageKeyboard(quizzesList, page = 0, totalCount = 0, 
     ]);
   }
 
-  // Navigation row
-  const navRow = [];
-  if (page > 0) {
-    navRow.push({
-      text: getMessage('BTN_PREV', lang),
-      callback_data: `${ACTIONS.MY_QUIZZES_PAGE_PREFIX}${page - 1}`,
-    });
-  }
+  const pageSize = CONFIG.PAGINATION?.MY_QUIZZES || 8;
+  const totalPages = Math.ceil(totalCount / pageSize) || 1;
 
-  const offset = (page + 1) * CONFIG.PAGINATION.MY_QUIZZES;
-  if (offset < totalCount) {
-    navRow.push({
-      text: getMessage('BTN_NEXT', lang),
-      callback_data: `${ACTIONS.MY_QUIZZES_PAGE_PREFIX}${page + 1}`,
-    });
-  }
+  // Navigation row if more than 1 page
+  if (totalPages > 1) {
+    const navRow = [];
+    if (page > 0) {
+      navRow.push({
+        text: getMessage('BTN_PREV', lang),
+        callback_data: `${ACTIONS.MY_QUIZZES_PAGE_PREFIX}${page - 1}`,
+      });
+    }
 
-  if (navRow.length > 0) {
+    navRow.push({
+      text: `📄 ${page + 1}/${totalPages}`,
+      callback_data: 'noop',
+    });
+
+    if (page < totalPages - 1) {
+      navRow.push({
+        text: getMessage('BTN_NEXT', lang),
+        callback_data: `${ACTIONS.MY_QUIZZES_PAGE_PREFIX}${page + 1}`,
+      });
+    }
+
     inline_keyboard.push(navRow);
   }
 

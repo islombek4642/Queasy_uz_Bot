@@ -987,6 +987,16 @@ export default async function (callbackQuery, ctx) {
         chat_id: chatId,
         message_id: messageId,
         text: getMessage('QUIZ_DELETED_SUCCESS', lang),
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: getMessage('BTN_MY_QUIZZES', lang),
+                callback_data: `${ACTIONS.MY_QUIZZES_PAGE_PREFIX}0`,
+              },
+            ],
+          ],
+        },
       });
     } else {
       await answer(getMessage('ERR_DELETE_FAILED', lang), true);
