@@ -104,7 +104,7 @@ export function stripExamHeadersAndPageNumbers(lines) {
  */
 export function fixBrokenLineJoins(lines) {
   const result = [];
-  const itemStartPattern = /^(?:\d{1,4}[.)"']|#?[*+]?[a-fA-Fа-яА-Я][.)"']|====|\+\+\+\+|\?|\+|\=|\{|~|to['']?g['']?ri|javob|correct|answers?)/i;
+  const itemStartPattern = /^(?:::|\/\/|\d{1,4}[.)"']|#?[*+]?[a-fA-Fа-яА-Я][.)"']|====|\+\+\+\+|\?|\+|\=|\{|\}|~|to['']?g['']?ri|javob|correct|answers?)/i;
 
   for (let i = 0; i < lines.length; i++) {
     const current = lines[i].trim();
@@ -124,7 +124,7 @@ export function fixBrokenLineJoins(lines) {
     }
 
     // If previous line does NOT end with sentence terminator and current is a continuation
-    const endsWithTerminator = /[.!?:;]$/.test(prev) || prev === '====' || prev === '++++';
+    const endsWithTerminator = /[.!?:;]$/.test(prev) || prev.endsWith('}') || prev.endsWith('{') || prev === '====' || prev === '++++';
     if (!endsWithTerminator && !itemStartPattern.test(current)) {
       // Join to previous line
       result[result.length - 1] = `${prev} ${current}`;

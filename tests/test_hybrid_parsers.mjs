@@ -109,6 +109,32 @@ O'zbekiston mustaqillikka qachon erishgan? {
   console.log('✅ Parser: GIFT format with feedback passed');
 }
 
+// 6b. GIFT Format with Numbered Titles (::1::), Comments and Multiple Questions
+{
+  const text = `
+// GIFT test comment
+::1:: Birinchi savol matni? {
+=To'g'ri javob
+~Xato javob 1
+~Xato javob 2
+}
+
+::2:: Ikkinchi savol matni? {
+~Xato javob 1
+=To'g'ri javob
+~Xato javob 2
+}
+  `;
+  const res = parseQuizInput(text);
+  assert.strictEqual(res.success, true);
+  assert.strictEqual(res.questions.length, 2);
+  assert.strictEqual(res.questions[0].questionText, 'Birinchi savol matni?');
+  assert.strictEqual(res.questions[0].correctOptionId, 0);
+  assert.strictEqual(res.questions[1].questionText, 'Ikkinchi savol matni?');
+  assert.strictEqual(res.questions[1].correctOptionId, 1);
+  console.log('✅ Parser: GIFT format with ::title:: and comments passed');
+}
+
 // 7. Block Format (++++ / ====)
 {
   const text = `

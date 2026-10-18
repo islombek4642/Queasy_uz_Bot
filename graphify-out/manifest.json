@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "tests/test_hybrid_parsers.mjs": {
-    "mtime": 1791990991.9672427,
-    "seen": 1792080792.0512319,
-    "ast_hash": "ee49030a9961f4844c9e404887fe4fb0",
+    "mtime": 1792349321.9392927,
+    "seen": 1792349349.0185275,
+    "ast_hash": "0a896b039017444799d4cf44639b0f31",
     "semantic_hash": ""
   },
   "tests/test_keyboards_i18n.mjs": {
@@ -138,9 +138,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/cleaner.js": {
-    "mtime": 1791990080.1335578,
-    "seen": 1792080792.0513978,
-    "ast_hash": "bda6123998d6e4f4c1c3072375b8494b",
+    "mtime": 1792349268.9251337,
+    "seen": 1792349349.018681,
+    "ast_hash": "49b2d8afcea9f93dfc47ba36405559f0",
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/docx_reader.js": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/gift_parser.js": {
-    "mtime": 1791903836.4775553,
-    "seen": 1791903905.0704353,
-    "ast_hash": "b18589605c4ffd3b43e3b3595ff275bc",
+    "mtime": 1792349283.0940664,
+    "seen": 1792349349.0186865,
+    "ast_hash": "c7c0a8362a7fa5b3084dbfbcb9561a61",
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/legacy_parser.js": {
@@ -162,9 +162,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/parser_engine.js": {
-    "mtime": 1791987977.7550004,
-    "seen": 1791988031.6108193,
-    "ast_hash": "6a1f09f0c939dcf0a07251b511163972",
+    "mtime": 1792349296.676339,
+    "seen": 1792349349.0186942,
+    "ast_hash": "8cc131f46dbaa1d52ea2f979e1d69237",
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/validator.js": {
@@ -3057,6 +3057,12 @@
     "mtime": 1792331345.1315365,
     "seen": 1792331448.7386727,
     "ast_hash": "da283269bc83fe5a71e7953bfa82e2fa",
+    "semantic_hash": ""
+  },
+  "davlat_xaridlari_gift_raqamli.txt": {
+    "mtime": 1792348716.0525327,
+    "seen": 1792349349.019436,
+    "ast_hash": "0acaaa34d67a49f5ffa0851829ec4a25",
     "semantic_hash": ""
   }
 }

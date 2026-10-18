@@ -16,22 +16,25 @@ export function detectFormatAndParse(lines) {
   if (!lines || lines.length === 0) return [];
   const sample = lines.slice(0, 100).join('\n');
 
-  // 1. Check Legacy format (?Savol, +To'g'ri, =Xato)
+  // 1. Check GIFT format ({ =Correct ~Wrong } or ::title:: {)
+  const hasGiftPattern =
+    (sample.includes('{') && sample.includes('}') && (sample.includes('=') || sample.includes('~'))) ||
+    (sample.includes('::') && sample.includes('{')) ||
+    /\{\s*[=~]/.test(sample);
+  if (hasGiftPattern) {
+    const q = parseGiftFormat(lines);
+    if (q.length > 0) return q;
+  }
+
+  // 2. Check Legacy format (?Savol, +To'g'ri, =Xato)
   if (sample.includes('?') && (sample.includes('+') || sample.includes('='))) {
     const legacyQ = parseLegacyFormat(lines);
     if (legacyQ.length > 0) return legacyQ;
   }
 
-  // 2. Check Block format (++++ and ====)
+  // 3. Check Block format (++++ and ====)
   if (sample.includes('++++') && sample.includes('====')) {
     const q = parseBlockFormat(lines);
-    if (q.length > 0) return q;
-  }
-
-  // 3. Check GIFT format ({ =Correct ~Wrong }) - must contain real GIFT curly braces with = or ~
-  const hasGiftPattern = sample.includes('{=') || sample.includes('{~') || /\{\s*[=~]/.test(sample);
-  if (hasGiftPattern) {
-    const q = parseGiftFormat(lines);
     if (q.length > 0) return q;
   }
 
@@ -41,7 +44,10 @@ export function detectFormatAndParse(lines) {
     return abcQuestions;
   }
 
-  // Fallbacks
+  // Fallbacks: check GIFT or legacy
+  const giftFallback = parseGiftFormat(lines);
+  if (giftFallback.length > 0) return giftFallback;
+
   return parseLegacyFormat(lines);
 }
 

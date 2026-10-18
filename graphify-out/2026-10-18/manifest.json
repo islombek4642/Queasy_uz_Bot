@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/services/session_service.js": {
-    "mtime": 1792267610.529766,
-    "seen": 1792267730.2288558,
-    "ast_hash": "86cd75a35e12a176c5fd33a133de5c65",
+    "mtime": 1792268032.2123008,
+    "seen": 1792331448.73922,
+    "ast_hash": "5c2b5bcdc3f6db0c91b1fc5bfdba0fc2",
     "semantic_hash": ""
   },
   "tgcloud/lib/services/user_service.js": {
@@ -2934,9 +2934,9 @@
     "semantic_hash": ""
   },
   "tests/test_poll_modernization.mjs": {
-    "mtime": 1792072178.8393207,
-    "seen": 1792080792.051254,
-    "ast_hash": "bacf76067237b6639a5b35039254a61b",
+    "mtime": 1792268063.9222069,
+    "seen": 1792331448.738971,
+    "ast_hash": "6f5c5f767e5252113e6b3b882a750e7d",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/export_quiz_data.js": {
@@ -3051,6 +3051,12 @@
     "mtime": 1792264876.704381,
     "seen": 1792265138.317479,
     "ast_hash": "94db51496ee4680f7158af161adc0e7d",
+    "semantic_hash": ""
+  },
+  "scripts/restore_original_timestamps.mjs": {
+    "mtime": 1792331345.1315365,
+    "seen": 1792331448.7386727,
+    "ast_hash": "da283269bc83fe5a71e7953bfa82e2fa",
     "semantic_hash": ""
   }
 }

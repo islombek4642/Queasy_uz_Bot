@@ -1664,7 +1664,7 @@
       "file_type": "code",
       "norm_label": "parsequizinput()",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L54"
+      "source_location": "L60"
     },
     {
       "id": "agents_skills_brainstorming_scripts_server_broadcast",
@@ -2852,19 +2852,19 @@
       "file_type": "code",
       "norm_label": "commit()",
       "source_file": "tgcloud/lib/parsers/gift_parser.js",
-      "source_location": "L12"
+      "source_location": "L22"
     },
     {
-      "id": "tgcloud_lib_parsers_gift_parser_parsegiftformat_handleoptiontoken",
-      "label": "handleOptionToken()",
+      "id": "tgcloud_lib_parsers_gift_parser_parsegiftformat_parseoptions",
+      "label": "parseOptions()",
       "_callable": true,
       "_origin": "ast",
       "community": 22,
       "community_name": "parser_engine.js",
       "file_type": "code",
-      "norm_label": "handleoptiontoken()",
+      "norm_label": "parseoptions()",
       "source_file": "tgcloud/lib/parsers/gift_parser.js",
-      "source_location": "L29"
+      "source_location": "L54"
     },
     {
       "id": "tgcloud_lib_parsers_legacy_parser_parselegacyformat",
@@ -52467,6 +52467,18 @@
     },
     {
       "source": "tgcloud_lib_parsers_parser_engine_detectformatandparse",
+      "target": "tgcloud_lib_parsers_gift_parser_parsegiftformat",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tgcloud/lib/parsers/parser_engine.js",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_lib_parsers_parser_engine_detectformatandparse",
       "target": "tgcloud_lib_parsers_legacy_parser_parselegacyformat",
       "relation": "calls",
       "_origin": "ast",
@@ -52474,7 +52486,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L21",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -52486,19 +52498,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L27",
-      "weight": 1.0
-    },
-    {
-      "source": "tgcloud_lib_parsers_parser_engine_detectformatandparse",
-      "target": "tgcloud_lib_parsers_gift_parser_parsegiftformat",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L34",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -52510,7 +52510,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L39",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -52522,7 +52522,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L60",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -52534,7 +52534,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L62",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -52546,7 +52546,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L63",
+      "source_location": "L69",
       "weight": 1.0
     },
     {
@@ -52558,7 +52558,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L65",
+      "source_location": "L71",
       "weight": 1.0
     },
     {
@@ -52570,7 +52570,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L76",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -52582,7 +52582,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L84",
+      "source_location": "L90",
       "weight": 1.0
     },
     {
@@ -52594,7 +52594,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L89",
+      "source_location": "L95",
       "weight": 1.0
     },
     {
@@ -53998,7 +53998,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tgcloud/lib/parsers/gift_parser.js",
-      "source_location": "L12",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "tgcloud_lib_parsers_gift_parser_parsegiftformat",
+      "target": "tgcloud_lib_parsers_gift_parser_parsegiftformat_parseoptions",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tgcloud/lib/parsers/gift_parser.js",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -104310,18 +104322,6 @@
       "weight": 1.0
     },
     {
-      "source": "tgcloud_lib_parsers_gift_parser_parsegiftformat",
-      "target": "tgcloud_lib_parsers_gift_parser_parsegiftformat_handleoptiontoken",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "tgcloud/lib/parsers/gift_parser.js",
-      "source_location": "L64",
-      "weight": 1.0
-    },
-    {
       "source": "tgcloud_lib_turso_client_tursoclient_all",
       "target": "tgcloud_lib_turso_client_formatarg",
       "relation": "indirect_call",
@@ -105122,7 +105122,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/parsers/gift_parser.js",
-      "source_location": "L89",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -105218,7 +105218,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L119",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -105230,7 +105230,7 @@
       "confidence_score": 0.85,
       "context": "collection",
       "source_file": "tgcloud/lib/parsers/parser_engine.js",
-      "source_location": "L119",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -107509,5 +107509,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "cc57733a0dd0d2f04459e376c0d24a96f8ecfc2d"
+  "built_at_commit": "5883c7bbaa59f7f5dcba5bc96d5217e88f0cf527"
 }

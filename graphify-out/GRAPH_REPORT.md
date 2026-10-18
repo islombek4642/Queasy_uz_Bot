@@ -1,17 +1,17 @@
 # Graph Report - Queasy_uz_Bot  (2026-10-18)
 
 ## Corpus Check
-- 471 files · ~514,208 words
+- 471 files · ~521,031 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 99 file(s) not represented in the graph (top: .ttf 54, .csv 37, .css 4)
 
 ## Summary
 - 3654 nodes · 5533 edges · 341 communities (226 shown, 115 thin omitted)
-- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 273 edges (avg confidence: 0.9)
+- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 272 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `cc57733a`
+- Built from commit: `5883c7bb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
