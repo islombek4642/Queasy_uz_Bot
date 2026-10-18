@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "tgcloud/handlers/callback_query.js": {
-    "mtime": 1792264152.8302052,
-    "seen": 1792264269.6541336,
-    "ast_hash": "1ca7a21c4b94246ccee987749402ce79",
+    "mtime": 1792267628.004524,
+    "seen": 1792267730.2287683,
+    "ast_hash": "20d154c34265e7afca7d5770e22f7e45",
     "semantic_hash": ""
   },
   "tgcloud/handlers/inline_query.js": {
@@ -60,9 +60,9 @@
     "semantic_hash": ""
   },
   "tgcloud/handlers/my_chat_member.js": {
-    "mtime": 1791903836.4440298,
-    "seen": 1791903905.0703962,
-    "ast_hash": "d8592d084b79a96a9831ceee63fe6166",
+    "mtime": 1792267563.9438918,
+    "seen": 1792267730.228776,
+    "ast_hash": "1fbc332ff00aba642f4c21597d520d76",
     "semantic_hash": ""
   },
   "tgcloud/handlers/poll.js": {
@@ -192,9 +192,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/services/group_service.js": {
-    "mtime": 1792259181.9296536,
-    "seen": 1792260572.3325808,
-    "ast_hash": "2ff7e186564bdf467344c4b116dae267",
+    "mtime": 1792267270.0653121,
+    "seen": 1792267730.2288506,
+    "ast_hash": "8c744216daa13aad2d0629ec87632b5d",
     "semantic_hash": ""
   },
   "tgcloud/lib/services/quiz_service.js": {
@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/services/session_service.js": {
-    "mtime": 1792264576.8497515,
-    "seen": 1792265138.3177621,
-    "ast_hash": "acea1251ab4d38a0501b57b5a0f34765",
+    "mtime": 1792267610.529766,
+    "seen": 1792267730.2288558,
+    "ast_hash": "86cd75a35e12a176c5fd33a133de5c65",
     "semantic_hash": ""
   },
   "tgcloud/lib/services/user_service.js": {
@@ -222,9 +222,9 @@
     "semantic_hash": ""
   },
   "tgcloud/schema.js": {
-    "mtime": 1791903732.6570952,
-    "seen": 1791903905.0704682,
-    "ast_hash": "a580f4dcff5fcb6601dad4470047de82",
+    "mtime": 1792267553.7493904,
+    "seen": 1792267730.228869,
+    "ast_hash": "dfcb4d5e0546d75abb8a0361f4c7536e",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -600,9 +600,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_group_sessions.js": {
-    "mtime": 1791987977.749002,
-    "seen": 1791988031.610712,
-    "ast_hash": "dc3f5564712d6f4cd635a945e5dfcc21",
+    "mtime": 1792267084.9642584,
+    "seen": 1792267730.2287216,
+    "ast_hash": "400c787bb705e2ee86bf7478cf5805eb",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_leaderboard.js": {
@@ -2754,15 +2754,15 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_tournament_details.js": {
-    "mtime": 1792260424.3040032,
-    "seen": 1792260572.3269312,
-    "ast_hash": "a7fdd34109141efcf578212087ff5db7",
+    "mtime": 1792267657.0962906,
+    "seen": 1792267730.2287376,
+    "ast_hash": "2c760a009d5614476ca52df518a7e0f4",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/submit_tournament_result.js": {
-    "mtime": 1791905303.6327991,
-    "seen": 1791905647.6158571,
-    "ast_hash": "0fb3c1c249f7a5c6fc32579cf049ab4f",
+    "mtime": 1792267217.042104,
+    "seen": 1792267730.228763,
+    "ast_hash": "3a9971422c26c789c72995b5515eaa31",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-10-12-webapp-group-quizzes.md": {
@@ -2790,15 +2790,15 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_live_room_state.js": {
-    "mtime": 1792260464.459675,
-    "seen": 1792260572.3269253,
-    "ast_hash": "bd1cdef97c17f806a4953cee2b29c9e7",
+    "mtime": 1792267640.4482203,
+    "seen": 1792267730.2287326,
+    "ast_hash": "3b366b17c42193f84eadda97c843b018",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/start_live_room.js": {
-    "mtime": 1792083399.5758507,
-    "seen": 1792083890.187035,
-    "ast_hash": "8dca2965530dfbbef0d940c81c6c56a3",
+    "mtime": 1792267111.045048,
+    "seen": 1792267730.228756,
+    "ast_hash": "761172d81e1410dfc24d06288d6a9e85",
     "semantic_hash": ""
   },
   "tests/test_auth_endpoints.mjs": {
@@ -2850,15 +2850,15 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/finish_live_room.js": {
-    "mtime": 1791988315.063584,
-    "seen": 1791988399.8209453,
-    "ast_hash": "8e576dd957c7e125e7ca025446082f7c",
+    "mtime": 1792267133.9841635,
+    "seen": 1792267730.2287154,
+    "ast_hash": "ca5e8e336f86853498d185d9f306fbb5",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/submit_live_room_result.js": {
-    "mtime": 1791988315.0683174,
-    "seen": 1791988399.8209856,
-    "ast_hash": "b1a5797ab8685edf35cdcab093229aa9",
+    "mtime": 1792267183.4398851,
+    "seen": 1792267730.2287583,
+    "ast_hash": "d723063cdbfac851fec34223d0d4c70e",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-10-13-group-host-fixes.md": {
