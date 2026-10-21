@@ -1,0 +1,1301 @@
+::1:: Yangi tahrirdagi “Davlat xaridlari to‘g‘risida” Qonun qachon qabul qilingan? {
+=2021-yil 22-aprelda
+~2021-yil 12-martda
+~2020-yil 1-dekabrda
+~2018-yil 9-aprelda
+}
+
+::2:: Davlat xaridlaridagi nazorat qiluvchi organ qaysi qatorda keltirilgan? {
+=monopoliyaga qarshi kurashish qo‘mitasi
+~tender ishtirokchisi
+~buyurtmachi
+~yetkazib beruvchi
+}
+
+::3:: Davlat buyurtmachisi kim? {
+=davlat xaridlarini amalga oshiruvchi yuridik shaxs
+~pirovardida mulk huquqlariga egalik qiladigan yoki tovarlar (ishlar, xizmatlar) etkazib beruvchini amalda nazorat qiladigan jismoniy shaxs
+~davlat tashkilotlariga tovarlar (ishlar, xizmatlar) etkazib beruvchi shaxs
+~davlat tashkilotlarida xaridlar bo‘yicha ishlovсhi jismoniy shaxs
+}
+
+::4:: Davlat buyurtmachisi va davlat xaridlarining ijrochisi o‘rtasidagi davlat xaridlari bo‘yicha huquqlar va majburiyatlarni belgilash, o‘zgartirish yoki bekor qilish to‘g‘risidagi kelishuv nima deb nomlanadi? {
+=davlat xaridlari to‘g‘risidagi shartnoma
+~davlat xaridlari to‘g‘risidagi e’lon
+~davlat xaridlari to‘g‘risidagi axborot
+~davlat xaridlari to‘g‘risidagi emajburiyat
+}
+
+::5:: Davlat xaridi jarayonida ishlar deganda quyidagilardan qaysi biri tushiniladi? {
+=qurilish, ta’mirlash, binoni, inshoat va obyektlarni buzish yoki ta’mirlash bilan bog‘liq faoliyat turlari, shuningdek, guruntlarni qazish, yangidan qurish, jihozlash, montaj uchun qurilish maydonlarini tayyorlash va boshqa qurilish ishlari
+~davlat ehtiyoji uchun tenderlarni o‘tkazishga tayyorgarlik ishlari
+~faqat bozor uchun, yani sotish uchun yaratilgan buyumlar
+~ijtimoiy ehtiyojlar uchun tenderlarni o‘tkazishga tayyorgarlik ishlari
+}
+
+::6:: Quyidagilardan qaysi biri davlat xaridlarining subyektlari hisoblanmaydi? {
+=budjet tashkiloti buxgalteri
+~davlat buyurtmachisi
+~xarid komissiyasi
+~maxsus axborot portali operatori
+}
+
+::7:: Xarid qilish tartib-taomilining qaysi turida narx g‘olibni aniqlashning yagona mezoni bo‘ladi? {
+=boshlang‘ich narxni pasaytirish uchun o‘tkaziladigan auksionda
+~tenderda
+~tanlashda
+~elektron do‘konda
+}
+
+::8:: Shartnomalarning yagona reestri nima? {
+=davlat xaridlari sohasidagi vakolatli organ tomonidan maxsus axborot portalida yuritiladigan, davlat buyurtmachilari tomonidan tuzilgan davlat xaridlari to‘g‘risidagi shartnomalarning reestri
+~davlat buyurtmachilari tomonidan tuzilgan va uning shaxsiy kabinetida saqlanadigan davlat xaridlari to‘g‘risidagi shartnomalarning reestri
+~davlat buyurtmachilari tomonidan tuzilgan va Moliya vazirligida saqlanadigan davlat xaridlari to‘g‘risidagi shartnomalarning reestri
+~davlat buyurtmachilari tomonidan maxsus axborot portalida yuritiladigan, tuzilgan davlat xaridlari to‘g‘risidagi shartnomalarning reestri
+}
+
+::9:: Elektron davlat xaridlari nima? {
+=axborot-kommunikatsiya texnologiyalaridan foydalangan holda davlat xaridlarini amalga oshirish shakli
+~davlat buyurtmachilarining soddalashtirilgan shaklda amalga oshiriladigan xarid turi
+~internet orqali amalga oshiriladigan xarid shakli
+~raqobatga asoslanmagan, elektron tizimlardan foydalangan holda davlat xaridlarini amalga oshirish shakli
+}
+
+::10:: Davlat xaridlarining elektron tizimidagi maxsus maydonda savdolarni elektron shaklda amalga oshiriladigan, maxsus talablar qo‘yilmaydigan davlat xaridlarini amalga oshirish tartib-taomili qanday nomlanadi? {
+=elektron do‘kon
+~elektron auksion
+~elektron katolog
+~elektron tender
+}
+
+::11:: Xarid qilish tartib-taomillarining bir nechta ishtirokchisidan olingan takliflarni taqqoslash asosida davlat xaridlarini amalga oshirishning raqobatli usuli qanday nomlanadi? {
+=eng yaxshi takliflarni tanlash
+~elektron auksion
+~elektron do‘kon
+~tender savdolari
+}
+
+::12:: Xarid qilish tartib-taomillari yakunlariga ko‘ra taklifi eng maqbul deb topilgan xarid qilish tartib-taomillari ishtirokchisi qanday ataladi? {
+=g‘olib
+~ishonchli yetkazuvchi
+~ekspert
+~davlat xaridlari elektron tizimining operatori
+}
+
+::13:: Quyidagilardan qaysi biri davlat xaridlarining tamoyillari sanalmaydi? {
+=tezkorlik
+~kasbiy mahorat va mas’uliyatlilik
+~ochiqlik va shaffoflik
+~raqobat va xolislik
+}
+
+::14:: Quyidagilardan qaysi biri davlat xaridlari sohasini davlat tomonidan tartibga solishning asosiy maqsadlari hisoblanmaydi? {
+=davlat xaridlari tizimida elektron axborot almashinuviga erishish
+~davlatning strategik maqsadlari va vazifalariga erishish
+~davlat buyurtmachilarining tovarlarga (ishlarga, xizmatlarga) bo‘lgan ehtiyojlarini ta’minlash
+~davlatning ijtimoiy vazifalarni hal qilish bo‘yicha funksiyalarini bajarish
+}
+
+::15:: Quyidagilardan qaysi biri budjet buyurtmachilari sanalmaydi? {
+=davlat korxonalari
+~davlat organlari va muassasalari
+~budjet tashkilotlari
+~davlat maqsadli jamg‘armalari
+}
+
+::16:: Quyidagilardan qaysi biri korporativ buyurtmachilar sanalmaydi? {
+=davlat maqsadli jamg‘armalari
+~davlat korxonalari
+~ustav fondida (ustav kapitalida) davlat ulushi 50 foiz va undan ortiq bo‘lgan yuridik shaxslar
+~davlat unitar korxonalari
+}
+
+::17:: Quyidagilardan qaysi biri davlat buyurtmachilarining majburiyatiga kirmaydi? {
+=davlat xaridlarini amalga oshirishda o‘z rasmiy veb-saytiga yoki o‘zining yuqori turuvchi organi rasmiy veb-saytiga e’lon joylashtirish
+~qonunchilikda belgilangan tartibda davlat xaridlarini amalga oshirish
+~davlat xaridlari to‘g‘risidagi axborotni qonunchilikda belgilangan tartibda va muddatlarda maxsus axborot portaliga joylashtirish
+~davlat xaridlarini amalga oshirishda affillanganlik to‘g‘risidagi axborotni taqdim etish
+}
+
+::18:: Xarid qilish tartib-taomillarini tashkil etish va o‘tkazish chog‘ida davlat buyurtmachisi tomonidan shakllantiriladigan, ushbu tartib-taomillarni o‘tkazish tartibida shakllantirilishi talab etiladigan kollegial qanday nomlanadi? {
+=Xarid komissiyasi
+~Shikoyatlarni ko‘rib chiqish komissiyasi
+~Maslahat kengashi
+~Ixtisoslashgan tashkilot
+}
+
+::19:: Quyidagilardan qaysi biri xarid komissiyasining faoliyatiga tegishli emas? {
+=Xarid komissiyasining raisi ovoz berishda ishtirok etishdan bosh tortish huquqiga ega
+~Xarid komissiyasi davlat buyurtmachisining tegishli qarorlari bilan shakllantiriladi va tarqatib yuboriladi
+~Xarid komissiyasining majlislari xarid komissiyasi a’zolari hozirligida yuzma-yuz o‘tkaziladi
+~Xarid komissiyasi davlat xaridlarining boshqa subyektlari tomonidan amalga oshiriladigan harakatlar uchun javobgar bo‘lmaydi
+}
+
+::20:: Quyidagilardan qaysi biri xarid komissiyasining vazifalariga kirmaydi? {
+=tuzilgan shartnomalar bo‘yicha to‘lovlarni o‘tkazish
+~xarid qilish hujjatlarini kelishish
+~takliflar qabul qilish muddatlarini belgilash
+~xarid qilish tartib-taomillarining raqobatlashuv turlari g‘olibini belgilash
+}
+
+::21:: Davlat buyurtmachisining topshirig‘iga ko‘ra davlat xaridlarini amalga oshirishni tashkil etish bo‘yicha shartnomaga asosan pulli asosda xizmatlar ko‘rsatish huquqiga ega bo‘lgan yuridik shaxs qanday nomlanadi? {
+=ixtisoslashgan tashkilot
+~ekspert tashkiloti
+~idoralararo komissiya
+~loyihalash markazi
+}
+
+::22:: Ixtisoslashgan tashkilotlar tomonidan davlat xaridlarini o‘tkazishni tashkil etish bo‘yicha xizmatlar ko‘rsatish uchun quyidagilardan qaysi biri talab etilmaydi? {
+=shartnomaning muhim shartlarini belgilash
+~yuridik shaxs maqomiga ega bo‘lish
+~amaliy tajribaga ega bo‘lgan bir nafardan kam bo‘lmagan xodimga ega bo‘lish
+~maxsus axborot portaliga ulanish imkonini ta’minlovchi dasturiy-texnik vositalarga ega bo‘lish
+}
+
+::23:: Ixtisoslashgan tashkilot qanday xizmatlarni ko‘rsatmaydi? {
+=xarid qilish tartib-taomillarini o‘tkazish to‘g‘risidagi e’lonlarni joylashtirish
+~marketing tadqiqotlarini va boshqa tadqiqotlarni o‘tkazish
+~xarid komissiyasi majlislarining bayonnomalarini rasmiylashtirish
+~xarid qilish tartib-taomillarini o‘tkazish yakunlari bo‘yicha hisobotlar tuzish
+}
+
+::24:: Xarid qilish tartib-taomillari ishtirokchisi qanday huquqqa ega emas? {
+=asosiy benefitsiar mulkdor to‘g‘risidagi ma’lumotlarni oshkor etmaslik
+~davlat buyurtmachisiga davlat xaridlarining tartib-taomillari, ularni o‘tkazish talablari va shartlari bo‘yicha so‘rovlar berish
+~xarid komissiyasi tomonidan takliflar ochilayotganda belgilangan tartibda ishtirok etish
+~takliflarga o‘zgartirishlar kiritish yoki ularni qaytarib olish
+}
+
+::25:: Davlat xaridlarining ijrochisi qanday huquqqa ega emas? {
+=asosiy benefitsiar mulkdor to‘g‘risidagi ma’lumotlarni oshkor etmaslik
+~davlat buyurtmachisi bilan tuzilgan shartnomani bajarish jarayonida tushuntirishlar olish uchun unga murojaat qilish
+~shartnoma shartlariga muvofiq yoki qonunchilikda nazarda tutilgan hollarda shartnomani bekor qilish
+~yetkazib berilgan tovar (ish, xizmat) uchun haq olish
+}
+
+::26:: Quyidagilardan qaysi biri davlat xaridlari elektron tizimining operatori faoliyatiga ta’luqli emas? {
+=uzatiladigan, olinadigan va saqlanadigan elektron hujjatlar hamda elektron xabarlarning ishonchliligini, qonunchilikka muvofiqligini nazorat qiladi yoki tekshiradi
+~elektron hujjatlar va elektron xabarlarning saqlanishini ta’minlaydi
+~davlat xaridlari jarayonida ishtirok etayotgan boshqa davlat va xo‘jalik boshqaruvi organlari bilan hamkorlikni amalga oshiradi
+~davlat xaridlari elektron tizimining uzluksiz ishlashini ta’minlaydi
+}
+
+::27:: Davlat xaridlari jarayoni qanday bosqichlarni o‘z ichiga oladi? {
+=davlat xaridlarini rejalashtirish; xarid qilish tartib-taomillarini amalga oshirish; shartnomani tuzish va bajarish; davlat xaridlari monitoringi
+~davlat xaridlarini rejalashtirish; xarid qilish tartib-taomillarini amalga oshirish; shartnomani tuzish va bajarish
+~xarid qilish tartib-taomillarini amalga oshirish; shartnomani tuzish va bajarish; davlat xaridlari monitoringi
+~davlat xaridlarini rejalashtirish; xarid qilish tartib-taomillarini amalga oshirish; shartnomani tuzish va bajarish; to‘lovlarni o‘tkazish
+}
+
+::28:: Quyidagilardan qaysi biri maxsus axborot portali faoliyatiga ta’luqli emas? {
+=undan foydalanuvchilarga ro‘yxatdan o‘tish paytida elektron raqamli imzolar berilishini ta’minlaydi
+~davlat xaridlari to‘g‘risidagi axborotning jamoatchilik uchun ochiqligini ta’minlaydi
+~davlat xaridlari sohasidagi axborotni jamlaydi, unga ishlov beradi va tahliliy hisobotni shakllantiradi
+~davlat xaridlarining elektron tizimlari va boshqa axborot tizimlari bilan hamkorlikni amalga oshiradi
+}
+
+::29:: Davlat xaridlarining yillik reja-jadvali budjet buyurtmachilari tomonidan qachon maxsus axborot portalida joylashtiriladi? {
+=joriy yilning 25-martiga qadar
+~chorak oxirgi oyining 25-sanasiga qadar
+~joriy yil oxirgi oyining 25-sanasiga qadar
+~joriy yilning 15-dekabriga qadar
+}
+
+::30:: Kelgusi yil uchun davlat xaridlarining yillik reja-jadvallari korporativ buyurtmachilar tomonidan qachon maxsus axborot portalida joylashtiriladi? {
+=joriy yilning 25-dekabriga
+~chorak oxirgi oyining 25 sanasiga qadar
+~joriy yil oxirgi oyining 15 sanasiga qadar
+~joriy yilning 5 dekabriga qadar
+}
+
+::31:: Quyidagilardan qaysi biri davlat xaridlari to‘g‘risidagi axborot jumlasiga kirmaydi? {
+=yuqori likvidli tovarlarning narxlari
+~davlat xaridlarining reja-jadvallari
+~davlat xaridlari to‘g‘risidagi e’lonlar
+~hujjatlarning namunaviy shakllari
+}
+
+::32:: Quyidagilardan qaysi biri davlat xaridlarining tiliga doir talabga kirmaydi? {
+=davlat xaridlari to‘g‘risidagi axborot faqat davlat tilida e’lon qilinishi va tarqatilishi lozim
+~davlat xaridlari to‘g‘risidagi axborot davlat tilida e’lon qilinadi va tarqatiladi
+~davlat xaridlari to‘g‘risidagi axborot davlat tili bilan bir vaqtda boshqa tillarda ham e’lon qilinishi va tarqatilishi mumkin
+~boshqa tillarda e’lon qilinayotgan davlat xaridlari to‘g‘risidagi axborotning mazmuni davlat tilida e’lon qilingan axborotga muvofiq bo‘lishi kerak
+}
+
+::33:: Quyidagilardan qaysi biri davlat xaridlari jarayonidagi cheklovlarga kirmaydi? {
+=odob-axloq qoidalarini davlat buyurtmachilarining rasmiy veb-saytlarida e’lon qilish
+~manfaatlar to‘qnashuvi
+~firibgarlik, soxtalashtirish
+~davlat xaridlari to‘g‘risidagi axborotdan foydalanishni asossiz ravishda cheklash
+}
+
+::34:: Insofsiz ijrochilarning yagona reestriga kiritilgan ijrochi qancha muddat davomida davlat xaridlarida ishtirok etishi mumkin emas? {
+=ikki yil davomida
+~bir yil davomida
+~olti oy davomida
+~uch yil davomida
+}
+
+::35:: Elektron do‘konda budjet buyurtmachilari bir shartnoma bo‘yicha qancha qiymatdagi tovarlarni xarid qilishi mumkin? {
+=BHMning 2500 baravarigacha
+~BHMning 250 baravarigacha
+~BHMning 25 baravarigacha
+~BHMning 25000 baravarigacha
+}
+
+::36:: Elektron do‘konda korporativ buyurtmachilari bir shartnoma bo‘yicha qancha qiymatdagi tovarlarni xarid qilishi mumkin? {
+=BHMning 25000 baravarigacha
+~BHMning 250 baravarigacha
+~BHMning 25 baravarigacha
+~BHMning 2500 baravarigacha
+}
+
+::37:: Elektron do‘konda budjet buyurtmachilari bir shartnoma bo‘yicha qancha qiymatdagi ishlar va xizmatlarni xarid qilishi mumkin? {
+=BHMning 50 baravarigacha
+~BHMning 250 baravarigacha
+~BHMning 500 baravarigacha
+~BHMning 100 baravarigacha
+}
+
+::38:: Elektron do‘konda korporativ buyurtmachilar bir shartnoma boʻyicha qancha qiymatdagi ishlar va xizmatlarni xarid qilishi mumkin? {
+=BHMning 100 baravarigacha
+~BHMning 50 baravarigacha
+~BHMning 500 baravarigacha
+~BHMning 2500 baravarigacha
+}
+
+::39:: Elektron do‘kon orqali budjet buyurtmachisi tomonidan ayni bir turdagi tovarlarning davlat xaridini bir moliya yili davomida qancha miqdorgacha amalga oshirilishi mumkin? {
+=BHMning 10000 baravarigacha
+~BHMning 25000 baravarigacha
+~BHMning 50000 baravarigacha
+~BHMning 2500 baravarigacha
+}
+
+::40:: Elektron do‘kon orqali budjet buyurtmachilari tomonidan ayni bir turdagi ish-xizmatlarning davlat xaridini bir moliya yili davomida qancha miqdorgacha amalga oshirilishi mumkin? {
+=BHMning 500 baravarigacha
+~BHMning 25000 baravarigacha
+~BHMning 5100 baravarigacha
+~BHMning 2500 baravarigacha
+}
+
+::41:: Elektron do‘kon orqali korporativ buyurtmachilar tomonidan ayni bir turdagi ish-xizmatlarning davlat xaridini bir moliya yili davomida qancha miqdorgacha amalga oshirilishi mumkin? {
+=BHMning 1000 baravarigacha
+~BHMning 25000 baravarigacha
+~BHMning 5100 baravarigacha
+~BHMning 2500 baravarigacha
+}
+
+::42:: Ishtirokchining ofertasi u elektron do‘konda joylashtirilgan paytdan e’tiboran necha kun mobaynida amal qiladi? {
+=o‘n besh ish kuni mobaynida
+~o‘n ish kuni mobaynida
+~besh ish kuni mobaynida
+~o‘ttiz ish kuni mobaynida
+}
+
+::43:: Boshlang‘ich narxni pasaytirish uchun o‘tkaziladigan auksionda budjet buyurtmachilari bir shartnoma bo‘yicha qancha qiymatdagi tovarlarni xarid qilishi mumkin? {
+=BHMning 6000 baravarigacha
+~BHMning 2500 baravarigacha
+~BHMning 600 baravarigacha
+~BHMning 25000 baravarigacha
+}
+
+::44:: Boshlang‘ich narxni pasaytirish uchun o‘tkaziladigan auksionda korporativ buyurtmachilari bir shartnoma bo‘yicha qancha qiymatdagi tovarlarni xarid qilishi mumkin? {
+=BHMning 25000 baravarigacha
+~BHMning 2500 baravarigacha
+~BHMning 600 baravarigacha
+~BHMning 6000 baravarigacha
+}
+
+::45:: Xarid qilishning qaysi tartib-taomili turida xizmatlar va ishlar davlat xaridi obyekti bo‘la olmaydi? {
+=boshlang‘ich narxni pasaytirish uchun o‘tkaziladigan auksionda
+~elektron do‘konda
+~eng yaxshi taklifni tanlashda
+~tenderda
+}
+
+::46:: Auksion o‘tkazilishi to‘g‘risidagi e’lon u amalga oshirilishidan necha kun avval joylashtirilishi kerak? {
+=kamida besh ish kuni avval
+~kamida besh kun avval
+~kamida o‘n besh ish kuni avval
+~kamida o‘n ish kuni avval
+}
+
+::47:: Auksion davomida ishtirokchilar narx bo‘yicha takliflarni necha marta berishga haqli? {
+=cheklanmagan miqdorda
+~faqat bir marta
+~ikki martagacha
+~besh martagacha
+}
+
+::48:: Auksion ishtirokchilarning nomi va ular bilan bogʻlanishga doir maʼlumotlar qachon davlat xaridlarining elektron tizimida aks ettiriladi? {
+=gʻolib aniqlangandan keyin
+~Auksion boshlanishidan oldin
+~Aks ettirilmaydi
+~E’lon joylashtirilgandan keyin
+}
+
+::49:: Qanday holatda auksion o‘tkazilmagan deb hisoblanadi va g‘olib aniqlanmaydi? {
+=agar auksionda bir nafar ishtirokchi ishtirok etgan bo‘lsa yoki hech kim ishtirok etmagan bo‘lsa
+~agar auksionda ikki nafar ishtirokchi ishtirok etgan bo‘lsa
+~agar auksionda faqat mahalliy ishlab chiqaruvchilar ishtirok etgan bo‘lsa
+~agar auksionda faqat kichik biznes subyektlari ishtirok etgan bo‘lsa
+}
+
+::50:: Agar auksion o‘tkazilmagan deb hisoblansa, davlat buyurtmachisi uni qancha muddatga uzaytirishi mumkin? {
+=3 ish kuni
+~3 kalendar kuni
+~5 kalendar kuni
+~5 ish kuni
+}
+
+::51:: Tanlash orqali xaridlarni amalga oshirish uchun necha nafar a’zodan iborat tarkibda xarid komissiyasi tuziladi? {
+=kamida besh nafar a’zodan
+~kamida yetti nafar a’zodan
+~toq sondan iborat istalgan miqdorda
+~ko‘pi bilan o‘n bir nafar a’zodan
+}
+
+::52:: Tanlash o‘tkazilishi to‘g‘risidagi e’lon quyidagi axborotlardan qaysi birini o‘z ichiga olmaydi? {
+=tanlash komissiyasi tarkibi
+~tanlash o‘tkaziladigan joyning manzili
+~ishtirokchilarga qo‘yiladigan talablar
+~taklifni rasmiylashtirishga doir talablar
+}
+
+::53:: Tanlash ishtirokchisi necha marta taklif berishga haqli? {
+=faqat bir marta
+~cheklanmagan miqdorda
+~ikki martagacha
+~belgilanmagan
+}
+
+::54:: Tanlash o‘tkazilishi to‘g‘risidagi e’lon va tanlash bo‘yicha xarid qilish hujjatlari davlat buyurtmachisi tomonidan qachon maxsus axborot portali orqali davlat xaridlarining elektron tizimiga joylashtiriladi? {
+=takliflarni qabul qilish muddati tugaydigan sanadan kamida besh ish kuni oldin
+~takliflarni qabul qilish muddati tugaydigan sanadan kamida besh kun oldin
+~takliflarni qabul qilish muddati tugaydigan sanadan kamida yetti ish kuni oldin
+~takliflarni qabul qilish muddati tugaydigan sanadan kamida yetti kun oldin
+}
+
+::55:: Tanlash ishtirokchilarining takliflarini ko‘rib chiqish va baholash qancha muddat ichida amalga oshiriladi? {
+=takliflar berish tugagan paytdan e’tiboran o‘n ish kunida
+~takliflar berish tugagan paytdan e’tiboran o‘n besh ish kunida
+~takliflar berish tugagan paytdan e’tiboran uch ish kunida
+~takliflar berish tugagan paytdan e’tiboran bir ish kunida
+}
+
+::56:: Budjet buyurtmachilari qancha summadagi tanlashni xarid komissiyasining ishtirokisiz o‘tkazilishi mumkin? {
+=summasi BHMning yigirma besh baravari miqdoridan oshmaydigan
+~summasi BHMning yigirma ellik baravari miqdoridan oshmaydigan
+~summasi BHMning yuz baravari miqdoridan oshmaydigan
+~summasi BHMning bir yuz ellik baravari miqdoridan oshmaydigan
+}
+
+::57:: Tanlash natijalari bo‘yicha tuzilgan bayonnoma davlat buyurtmachisi tomonidan davlat xaridlarining elektron tizimiga muhokama qilish uchun qachon va qancha muddatga joylashtirilishi kerak? {
+=bayonnoma rasmiylashtirilgan kunda, ikki ish kuniga muhokama qilish uchun joylashtiriladi
+~bayonnoma rasmiylashtirilgan kundan keyingi kun, uch ish kuniga muhokama qilish uchun joylashtiriladi
+~bayonnoma rasmiylashtirilgan kundan keyingi uch kun ichida, besh ish kuniga muhokama qilish uchun joylashtiriladi
+~bayonnoma rasmiylashtirilgan kundan keyingi ish kuni, uch ish kuniga muhokama qilish uchun joylashtiriladi
+}
+
+::58:: Tanlash natijalari bo‘yicha tuzilgan shartnoma to‘g‘risidagi axborot davlat buyurtmachisi tomonidan maxsus axborot portaliga qachon joylashtirilishi kerak? {
+=tuzilgan kundan boshlab uch ish kunidan kechiktirmay
+~tuzilgan kunidan boshlab bir ish kunidan kechiktirmay
+~tuzilgan kundan boshlab yetti ish kunidan kechiktirmay
+~tuzilgan kundan boshlab besh ish kunidan kechiktirmay
+}
+
+::59:: Tender orqali xaridlarni amalga oshirish uchun necha nafar a’zodan iborat tarkibda xarid komissiyasi tuziladi? {
+=kamida yetti nafar a’zodan
+~kamida besh nafar a’zodan
+~toq sondan iborat istalgan miqdorda
+~ko‘pi bilan o‘n bir nafar a’zodan
+}
+
+::60:: Budjet buyurtmachilari qancha qiymatdagi tovarlarning (ishlarning, xizmatlarning) xaridini eng yaxshi takliflarni tanlash orqali amalga oshiradilar? {
+=bir shartnoma bo‘yicha BHMning 6000 baravarigacha
+~bir shartnoma bo‘yicha BHMning 6000 baravaridan ortiq
+~bir shartnoma bo‘yicha BHMning 25000 baravaridan ortiq
+~bir shartnoma bo‘yicha BHMning 25000 baravarigacha
+}
+
+::61:: Korporativ buyurtmachilari qancha qiymatdagi tovarlarning (ishlarning, xizmatlarning) xaridini eng yaxshi takliflarni tanlash orqali amalga oshiradilar? {
+=bir shartnoma bo‘yicha BHMning 25000 baravarigacha
+~bir shartnoma bo‘yicha BHMning 6000 baravaridan ortiq
+~bir shartnoma bo‘yicha BHMning 25000 baravaridan ortiq
+~bir shartnoma bo‘yicha BHMning 6000 baravarigacha
+}
+
+::62:: Budjet buyurtmachilari qancha qiymatdagi tovarlarning (ishlarning, xizmatlarning) xaridini tender orqali amalga oshiradilar? {
+=bir shartnoma bo‘yicha BHMning 6000 baravaridan ortiq
+~bir shartnoma bo‘yicha BHMning 6000 baravarigacha
+~bir shartnoma bo‘yicha BHMning 25000 baravaridan ortiq
+~bir shartnoma bo‘yicha BHMning 25000 baravarigacha
+}
+
+::63:: Korportiv buyurtmachilar qancha qiymatdagi tovarlarning (ishlarning, xizmatlarning) xaridini tender orqali amalga oshiradilar? {
+=bir shartnoma bo‘yicha BHMning 25000 baravaridan ortiq
+~bir shartnoma bo‘yicha BHMning 6000 baravarigacha
+~bir shartnoma bo‘yicha BHMning 6000 baravaridan ortiq
+~bir shartnoma bo‘yicha BHMning 25000 baravarigacha
+}
+
+::64:: Davlat xaridini tender o‘tkazish orqali amalga oshirish necha nafar a’zodan iborat tarkibda xarid komissiyasi tuziladi? {
+=kamida yetti nafar
+~kamida besh nafar
+~kamida to‘qqiz nafar
+~ko‘pi bilan besh nafar
+}
+
+::65:: Tender xarid komissiyasi majlisida komissiya a’zolarining qancha qismi hozir bo‘lsa, xarid komissiyasi vakolatli hisoblanadi? {
+=umumiy sonining kamida uchdan ikki qismi
+~umumiy sonining kamida 60 foizi
+~umumiy sonining kamida 75 foizi
+~umumiy sonining kamida to‘rtdan uch qismi
+}
+
+::66:: Tanlash xarid komissiyasi majlisida komissiya a’zolarining qancha qismi hozir bo‘lsa, xarid komissiyasi vakolatli hisoblanadi? {
+=umumiy sonining kamida uchdan ikki qismi
+~umumiy sonining kamida 60 foizi
+~umumiy sonining kamida 75 foizi
+~umumiy sonining kamida to‘rtdan uch qismi
+}
+
+::67:: Tender o‘tkazilishi to‘g‘risidagi e’lon maxsus axborot portali orqali davlat xaridlarining elektron tizimiga qachon davlat buyurtmachisi tomonidan joylashtiriladi? {
+=takliflarni qabul qilish muddati tugaydigan sanadan kamida o‘n ikki ish kuni va ko‘pi bilan o‘ttiz ish kuni oldin
+~takliflarni qabul qilish muddati tugaydigan sanadan kamida o‘n besh ish kuni va ko‘pi bilan o‘ttiz ish kuni oldin
+~takliflarni qabul qilish muddati tugaydigan sanadan kamida besh ish kuni va ko‘pi bilan o‘n ikki ish kuni oldin
+~takliflarni qabul qilish muddati tugaydigan sanadan kamida o‘ttiz ish kuni va ko‘pi bilan qirq besh ish kuni oldin
+}
+
+::68:: Tender boʻyicha mezonlarga muvofiq gʻolibning taklifidan keyingi eng maqbul taklifni taqdim etgan deb topilgan ishtirokchi kim? {
+=Zaxiradagi g‘olib
+~g‘olib
+~Ekspert
+~Ixtisoslashgan tashkilot
+}
+
+::69:: Tender o‘tkazilishi to‘g‘risidagi e’lon quyidagilarni qaysi birini o‘z ichiga olmaydi? {
+=zahiradagi g‘olib to‘g‘risidagi ma’lumot
+~tender ishtirokchilariga qo‘yiladigan talablar
+~davlat buyurtmachisining ishtirokchilar bilan bog‘lanish uchun aloqa bog‘lovchi shaxslar sifatida belgilangan shaxslarining familiyasi, ismi, sharifi, lavozimi va manzili
+~tovarning (ishning, xizmatning) batafsil tavsifi va boshlang‘ich narxi
+}
+
+::70:: Davlat buyurtmachisi xarid komissiyasi bilan kelishilgan holda qanday muddatda tender bo‘yicha xarid qilish hujjatlariga o‘zgartishlar kiritish to‘g‘risida qaror qabul qilishga haqli? {
+=takliflar berish muddati tugaydigan sanadan kamida bir ish kuni oldin
+~takliflar berish muddati tugaydigan sanadan kamida uch ish kuni oldin
+~istalgan paytda
+~e’londan so‘ng o‘zgartishlar kiritish mumkin emas
+}
+
+::71:: Tender ishtirokchisi necha marta taklif berishga haqli? {
+=faqat bitta
+~istalgancha
+~ko‘pi bilan 3 ta
+~ko‘pi bilan 2 ta
+}
+
+::72:: Takliflar berish muddati tugagan vaqtda tender ishtirokchilaridan kamida nechta taklif olingan bo‘lsa, tender ishtirokchilarining takliflari xarid komissiyasi tomonidan ko‘rib chiqiladi? {
+=kamida ikkita
+~kamida uchta
+~kamida bitta
+~kamida beshta
+}
+
+::73:: Quyidagilardan qaysi biri tender boʻyicha xarid qilish hujjatlari tarkibiga kirmaydi? {
+=g‘olib to‘g‘risida ma’lumot
+~tender oʻtkazilishi toʻgʻrisidagi eʼlonda koʻrsatilgan axborot
+~tender ishtirokchisi taklifining texnik va narxga oid qismi, ularni baholash tartibi haqidagi axborot
+~texnik topshiriq
+}
+
+::74:: Tenderda kim ishtirokchilar taqdim etayotgan axborot va hujjatlarning haqiqiyligi va toʻgʻriligi uchun javobgar boʻladi? {
+=Tender ishtirokchisi
+~komissiya
+~benefitsiar
+~Operator
+}
+
+::75:: Tender o‘tkazilmagan deb topilsa nima qilinadi? {
+=davlat buyurtmachisi xarid qilish tartib-taomilini ayni o‘sha shartlarda hamda ayni o‘sha mezonlarga va talablarga muvofiq takroran amalga oshirishi shart
+~davlat buyurtmachisi xarid qilish tartib-taomiliga o‘zgartirish kiritgan holda takroran amalga oshiradi
+~davlat buyurtmachisi eng yaxshi takliflarni tanlash yoki auksion orqali ayni o‘sha shartlarda hamda ayni o‘sha mezonlarga va talablarga muvofiq amalga oshirishi shart
+~davlat buyurtmachisi o‘rnatilgan tartibga muvofiq to‘g‘ridan to‘g‘ri shartnomalar orqali amalga oshiradi
+}
+
+::76:: Tender ishtirokchilarining takliflari qancha muddatda ko‘rib chiqiladi va baholalanadi? {
+=takliflar berish tugagan paytdan e’tiboran qirq besh ish kuni davomida
+~takliflar berish tugagan paytdan e’tiboran o‘ttiz ish kuni davomida
+~takliflar berish tugagan paytdan e’tiboran o‘n besh ish kuni davomida
+~takliflar berish tugagan paytdan e’tiboran o‘n ish kuni davomida
+}
+
+::77:: Tenderning ikkinchi bosqichi birinchi bosqichdan o‘tgan nechta taklif mavjud bo‘lganda o‘tkaziladi? {
+=kamida ikkita
+~kamida uchta
+~bitta bo‘lsa ham etarli
+~kamida beshta
+}
+
+::78:: Tender bosqichlarida takliflarni ko‘rib chiqish va baholash bayonnomasidan olingan ko‘chirma qancha vaqt davomida davlat xaridlarining elektron tizimida e’lon qilinadi? {
+=imzolangan kundan e’tiboran uch ish kuni ichida
+~imzolangan kuni
+~imzolangan kundan keyingi ish kuni davomida
+~bayonnoma elektron tizimida e’lon qilinmaydi
+}
+
+::79:: Tenderda g‘olib shartnoma tuzishdan bosh tortgan taqdirda uning zakalat summasining qancha qismi qaytarilib beriladi? {
+=zakalat summasi qaytarib berilmaydi
+~zakalat summasi to‘liq qaytarib beriladi
+~zakalat summasining ellik foizi qaytarib beriladi
+~zakalat summasining uch foizi qaytarib beriladi
+}
+
+::80:: Tenderda bitta ishtirokchi ishtirok etgan yoki hech kim ishtirok etmagan boʻlsa, tender oʻtkazilmagan deb topiladi? {
+=bitta ishtirokchi ishtirok etgan yoki hech kim ishtirok etmagan boʻlsa
+~O‘n beshtadan ortiq ishtirokchi ishtirok etgan bo‘lsa
+~Insofsiz ijrochilar ishtirok etgan bo‘lsa
+~Buyurtmachi hisob raqamida pul bo‘lmaganda
+}
+
+::81:: Quyidagilardan qaysi biri davlat xaridlari sohasidagi qonunchilik hujjatlarining to‘g‘ri qo‘llanilishi ustidan davlat nazoratini amalga oshirmaydi? {
+=O‘zbekiston Respublikasi tovar xom-ashyo birjasi
+~O‘zbekiston Respublikasi Monopoliyaga qarshi kurashish qo‘mitasi
+~O‘zbekiston Respublikasi Bosh prokuraturasi
+~O‘zbekiston Respublikasi Korruptsiyaga qarshi kurashish agentligi
+}
+
+::82:: Yangi tahrirdagi “Davlat xaridlari to‘g‘risida”gi Qonun qachondan kuchga kirgan? {
+=2021 yil 24-iyuldan
+~2021 yil 22-apreldan
+~2021 yil 12-martdan
+~2018 yil 9-apreldan
+}
+
+::83:: “Yashil xaridlar” nima? {
+=energiya tejovchi, ijtimoiy va ekоlogik muhitni yaxshilash uchun amalga oshiriladigan xaridlar
+~tabiiy materiallar va tovarlar xaridi
+~yashil maydonlar qurish bo‘yicha tender savdolari
+~innovatsion mahsulotlari xaridi
+}
+
+::84:: Xarid qilish tartib-taomillarining eng yaxshi takliflarni tanlash va tender turlari qachondan majburiy tartibda elektron shaklda o‘tkaziladi? {
+=2022-yil 1-yanvardan
+~2021 yil 22 iyuldan
+~2021 yil 22 apreldan
+~2022 yil 1 martdan
+}
+
+::85:: “Davlat xaridlari to‘g‘risidagi e’lonlarga va xarid hujjatlariga qonunchilikda taqiqlangan hamda raqobatni cheklovchi axborotni kiritiganlik uchun qancha miqdorda jarimaga tortiladi? {
+=bazaviy hisoblash miqdoring 10 baravaridan 15 baravarigacha
+~bazaviy hisoblash miqdoring 5 baravaridan 10 baravarigacha
+~bazaviy hisoblash miqdoring 15 baravaridan 20 baravarigacha
+~bazaviy hisoblash miqdoring 20 baravaridan 25 baravarigacha
+}
+
+::86:: Raqobatli xarid usuli vositasida emas, balki qonunga zid holda, to‘g‘ridan-to‘g‘ri shartnomalar xaridlar qilinganda qancha miqdordagi jarimaga tortiladi? {
+=bazaviy hisoblash miqdoring 10 baravaridan 15 baravarigacha
+~bazaviy hisoblash miqdoring 20 baravaridan 30 baravarigacha
+~bazaviy hisoblash miqdoring 30 baravaridan 40 baravarigacha
+~bazaviy hisoblash miqdoring 25 baravaridan 30 baravarigacha
+}
+
+::87:: “Davlat xaridlari to‘g‘risida”gi yangi tahriridagi Qonunga ko‘ra qaysi organ davlat xaridlari ustidan nazorat qiluvchi organlar ro‘yxatiga kiritildi? {
+=O‘zbekiston Respublikasi Korruptsiyaga qarshi kurashish agentligi
+~O‘zbekiston Respublikasi Bosh prokuraturasi
+~O‘zbekiston Respublikasi Monopoliyaga qarshi kurashish qo‘mitasi
+~O‘zbekiston Respublikasi Iqtisodiyot va Moliya vazirligi
+}
+
+::88:: Quyidagilardan qaysi biri davlat xaridini tashkil etish modeli emas? {
+=ixtisoslashgan
+~aralash
+~markazlashgan
+~markazlashmagan
+}
+
+::89:: Yunsitral “Tovarlar va xizmatlarni sotib olish to‘g‘risida” Qonuni qachon qabul qilingan? {
+=1994 yil
+~2007 yil
+~1998 yil
+~2002 yil
+}
+
+::90:: AQShda federal organlar ehtiyojlari uchun xarajatni amalga oshirish qaysi tashkilot zimmasiga yuklatilgan? {
+=Umumiy Xizmatlar Boshqarmasi(General Services Adminstration)
+~Xarid siyosati Federal Boshqarmasi (Office of Federal Procurement Policy)
+~Milliy mudofaa ehtiyojlari uchun xarid Mudofaa vazirligi (Department of Defense)
+~Energitika sohasidagi tadqiqotlar va rivojlanish Agentligi (Energy Research and Development Agency)
+}
+
+::91:: Davlat xaridining predmeti nima? {
+=budjet buyurtmachilari ehtiyojlari uchun xarid qilinadigan tovarlar, ishlar, xizmatlar
+~davlat ehtiyojlari uchun sotiladigan xom-ashyo materaillar
+~davlat xaridi uchun to‘lanadigan budjet mablag‘lari
+~budjet buyurtmachilari ehtiyojlari uchun yo‘naltiriladigan moliyaviy resurslar
+}
+
+::92:: O‘zbekiston Respublikasida davlat xaridini tashkil etish va boshqarish qaysi kodeks(lar) bilan tartibga solinadi? {
+=O‘zbekiston Respublikasining Budjet kodeksi
+~O‘zbekiston Respublikasining Budjet kodeksi va Fuqarolik protsessual kodeksi bilan
+~O‘zbekiston Respublikasining Budjet kodeksi, Fuqarolik kodeksi va Soliq kodeksi bilan
+~O‘zbekiston Respublikasining Budjet kodeksi, Bojxona kodeksi va Soliq kodeksi bilan
+}
+
+::93:: Agar mahsulot yetkazib berish shartnomasida uning amal qilish muddati belgilanmagan bo‘lsa, shartnoma qanday muddatga tuzilgan deb hisoblanadi? {
+=bir yilga tuzilgan deb hisoblanadi
+~bunday shartnoma kuchga ega bo‘lmaydi
+~g‘aznachilik idoralari belgilab bergan muddatga tuzilgan deb hisoblanadi
+~yuqori tashkilot belgilab bergan muddatga tuzilgan deb hisoblanadi
+}
+
+::94:: Davlat xaridlari borasidagi munosabatlar Budjet kodeksining qaysi moddasida o‘z aksini topgan? {
+=121- moddasida
+~122-moddasida
+~131-moddasida
+~132-moddasida
+}
+
+::95:: Davlat xaridlari amalga oshirilishi va ularning yakunlari to‘g‘risidagi e’lonlar belgilangan tartibda qaysi axborot portalida joylashtirilishi shart? {
+=davlat xaridlari bo‘yicha maxsus axborot portalida
+~O‘zbekiston Respublikasi Iqtisodiyot va Moliya vazirligining maxsus veb-saytida
+~xaridni amalga oshiruvchi tashkilotlarning veb-saytida
+~Xaridni amalga oshiruvchi tashkilotldan yuqori turuvchi tashkilotrning veb-saytida
+}
+
+::96:: O‘zbekiston Respublikasining “Davlat xaridi to‘g‘risida”gi ilk Qonuni qachon qabul qilingan? {
+=2018 yil 9-aprelda
+~1918 yil 27-avgustda
+~2017 yil 29-avgustda
+~2016 yil 19-avgustda
+}
+
+::97:: Yunsitral “Tovarlar va xizmatlarni sotib olish to‘g‘risida” qonuni qaysi mamlakatlarda davlat buyurtmasini joylashtirish buyicha model sifatida ishlab chiqilgan? {
+=Sharqiy Evropa mamlakatlarida
+~BMTga a’zo mamlakatlarda
+~Jahon bankiga a’zo mamlakatlarda
+~AQSH va Evropa mamlakatlarida
+}
+
+::98:: Yunsitral “Tovarlar va xizmatlarni sotib olish to‘g‘risida” qonunidan qaysi sohalardagi xaridni amalga oshirish uchun qo‘llash nazarda tutilgan? {
+=milliy xavfsizlik va mudofaa sohalaridan tashqari, barcha sohalarda
+~milliy xavfsizlik va mudofaa sohalarida
+~ta’lim va sog‘liqni saqlash sohalaridan tashqari, barcha sohalarda
+~barcha sohalarda xaridni amalga oshirish uchun
+}
+
+::99:: Davlat xaridini tashkil etishni markazlashgan modelida- … {
+=bunda xarid uchun buyurtmalarni joylashtirish maxsus tashkilot yoki ijroiy hukumatning yagona tarkibiy bo‘linmasi - xaridni tashkil etuvchi tomonidan amalga oshiriladi
+~bunda davlatning buryutmachisi o‘z ixtisosligi buyicha xaridga buyurtmani alohida amalga oshiradi
+~bunda xaridga buyurtmani joylashtirish vakolati davlat buyurtmachisi va ixtisoslashgan tashkilot bilan hamkorlikda amalga oshiradi
+~bunda xarid uchun buyurtmalarni joylashtirish maxsus tashkilot yoki ijroiy hukumatning bir necha tarkibiy bo‘linmasi - xaridni tashkil etuvchilar tomonidan amalga oshiriladi
+}
+
+::100:: Davlat xaridini tashkil etishni markazlashmagan modelida- …… {
+=bunda davlatning buryutmachisi o‘z ixtisosligi buyicha xaridga buyurtmani alohida amalga oshiradi
+~bunda xaridga buyurtmani joylashtirish vakolati davlat buyurtmachisi va ixtisoslashgan tashkilot bilan hamkorlikda amalga oshiradi
+~bunda xarid uchun buyurtmalarni joylashtirish maxsus tashkilot yoki ijroiy hukumatning bir necha tarkibiy bo‘linmasi - xaridni tashkil etuvchilar tomonidan amalga oshiriladi
+~bunda xarid uchun buyurtmalarni joylashtirish maxsus tashkilot yoki ijroiy hukumatning yagona tarkibiy bo‘linmasi - xaridni tashkil etuvchi tomonidan amalga oshiriladi
+}
+
+::101:: Geografik belgilariga ko`ra qanday tender savdolari mavjud? {
+=xalqaro, milliy, mahalliy
+~xalqaro, milliy
+~xalqaro, mahalliy
+~xalqaro, milliy, mahalliy,mintaqaviy
+}
+
+::102:: Quyidagilardan qaysi biri davlat xaridlarining subyektlari hisoblanmaydi? {
+=budjet tashkiloti buxgalteri
+~davlat buyurtmachisi
+~xarid komissiyasi
+~maxsus axborot portali operatori
+}
+
+::103:: Xarid qilish tartib-taomilining qaysi turida narx g‘olibni aniqlashning yagona mezoni bo‘ladi? {
+=boshlang‘ich narxni pasaytirish uchun o‘tkaziladigan auksionda
+~tenderda
+~Hadli kelishuvda
+~elektron do‘konda
+}
+
+::104:: Quyidagilardan qaysi biri “yashil” xaridlarni eng yaxshi tavsiflaydi? {
+=ekologik oqibatlarni hisobga olgan holda tovarlarni sotib olish
+~eng past narx bilan sotib olish
+~faqat xorijiy ishlab chiqaruvchilardan sotib olish
+~oldindan shartlarsiz sotib olish
+}
+
+::105:: Yashil xaridlarning asosiy maqsadi\: {
+=atrof-muhitga salbiy ta’sirni kamaytirish
+~narx o‘zgarishini minimallashtirish
+~yetkazib beruvchilar foydasini maksimal darajada oshirish
+~Iste’mol soliqlarini oshirish
+}
+
+::106:: Eng yaxshi takliflarni tanlashda Biriktirilgan hujjatlardagi maʼlumotlarning tanlash ishtirokchisining taklifida koʻrsatilgan maʼlumotlarga muvofiqligini tekshirish kim tomonidan amalga oshiriladi? {
+=xarid komissiyasining masʼul kotibi
+~Davlat buyurtmachisi mutaxassisi
+~Ixtisoslashgan tashkilot
+~Ekpert va ekspert tashkiloti
+}
+
+::107:: Xarid komissiyasi tomonidan ishtirokchilardan tanlash boʻyicha xarid qilish hujjatlarida koʻrsatilgan talablarga javob beradigan nechta taklif olingan boʻlsa, tanlash oʻtkazilgan deb hisoblanadi? {
+=Kamida 2 ta
+~Kamida 1 ta
+~Kamida 5 ta
+~Kamida 3 ta
+}
+
+::108:: Tanlash ishtirokchilarining takliflarini koʻrib chiqish va baholash muddati takliflar berish tugagan paytdan eʼtiboran qancha muddatdan oshishi mumkin emas {
+=o‘n ish kunidan
+~Besh ish kunidan
+~O‘n ikki ish kunidan
+~Uch ish kunidan
+}
+
+::109:: Takliflarni taqqoslash natijalariga koʻra kim tanlash gʻolibini aniqlaydi? {
+=xarid komissiyasi
+~Davlat buyurtmachisi mutaxassisi
+~Ixtisoslashgan tashkilot
+~Ekpert va ekspert tashkiloti
+}
+
+::110:: Tanlash boʻyicha xarid qilish hujjatlarida va taklifda koʻrsatilgan mezonlarga muvofiq gʻolibning taklifidan keyingi eng maqbul taklifni taqdim etgan ishtirokchi kim? {
+=zaxiradagi g‘olib
+~g‘olib
+~ishtirokchi
+~ijrochi
+}
+
+::111:: Bayonnoma kim tomonidan u rasmiylashtirilgan kunda davlat xaridlarining elektron tizimiga muhokama qilish uchun joylashtirilishi kerak? {
+=davlat buyurtmachisi
+~Ixtisoslashgan tashkilot
+~Ekpert va ekspert tashkiloti
+~xarid komissiyasining
+}
+
+::112:: Tanlashda bayonnoma rasmiylashtirilgan kunda davlat xaridlarining elektron tizimiga muhokama qilish uchun qancha muddatga joylashtirilishi kerak. {
+=ikki ish kuniga
+~Ikki kunga
+~Uch kunga
+~Besh ish kuniga
+}
+
+::113:: Tanlashda muhokama uchun belgilangan muddat tugaganidan keyin kelib tushgan eʼtirozlar taqdiri nima bo‘ladi? {
+=koʻrib chiqilmaydi
+~Yozma javob beriladi
+~Yozma tushuntirish beriladi
+~qanoatlantiriladi
+}
+
+::114:: Davlat buyurtmachisi tomonidan xarid komissiyasiga taqdim etilgan muhokama natijalari toʻgʻrisidagi axborot asosida xarid komissiyasining tegishli majlisi bayonnomasi rasmiylashtiriladi va imzolangan kundan boshlab qancha muddat ichida davlat xaridlarining elektron tizimiga joylashtiriladi? {
+=uch ish kuni
+~Uch kun
+~Besh ish kuni
+~Besh kun
+}
+
+::115:: Tender ishtirokchilarining takliflarini koʻrib chiqish va baholash muddati takliflar berish tugagan paytdan eʼtiboran qancha muddatni tashkil etadi? {
+=ko‘pi bilan qirq besh ish kuni
+~Kamida qirq besh ish kuni
+~ko‘pi bilan besh kalendar kuni
+~Kamida besh ish kuni
+}
+
+::116:: Qanday hollarda tenderda davlat xaridlarining elektron tizimi kelib tushgan takliflarni rad etadi? {
+=ishtirokchi tomonidan taklif etilgan narx boshlangʻich narxdan yuqori boʻlsa
+~ishtirokchi tomonidan taklif etilgan narx boshlangʻich narxdan past boʻlsa
+~ishtirokchi tomonidan taklif etilgan narx boshlangʻich narxga teng boʻlsa
+~Kelib tushgan takliflar talab etilgan hujjatlarga zid bo‘lsa
+}
+
+::117:: Qanday hollarda tenderda davlat xaridlarining elektron tizimi kelib tushgan takliflarni rad etadi? {
+=biriktirilishi zarur boʻlgan hujjatlarni toʻldirish va joylashtirish uchun majburiy boʻlgan boʻsh maydonlar mavjud boʻlsa
+~ishtirokchi tomonidan taklif etilgan narx boshlangʻich narxdan past boʻlsa
+~ishtirokchi tomonidan taklif etilgan narx boshlangʻich narxga teng boʻlsa
+~Kelib tushgan takliflar talab etilgan hujjatlarga zid bo‘lsa
+}
+
+::118:: Tenderda takliflarni baholashning birinchi bosqichida qanday baholash amalga oshiriladi? {
+=texnik baholash
+~Narx bo‘yicha baholash
+~Sifatni baholash
+~Hujjatlarni ko‘rib chiqish
+}
+
+::119:: Tenderda takliflarni baholashning ikkinchi bosqichida qanday baholash amalga oshiriladi? {
+=Narx bo‘yicha baholash
+~texnik baholash
+~Sifatni baholash
+~Hujjatlarni ko‘rib chiqish
+}
+
+::120:: Tenderning ikkinchi bosqichi tenderning birinchi bosqichidan oʻtgan necha nafar ishtirokchining takliflari mavjud boʻlganda oʻtkaziladi. {
+=Kamida 2 nafar
+~Kamida 1 nafar
+~Kamida 5 nafar
+~Kamida 3 nafar
+}
+
+::121:: tender bir bosqichda qanday tartibda o‘tkaziladi? {
+=texnik va narxga oid qismlarini ochish hamda baholash bir vaqtning oʻzida amalga oshiriladi
+~Faqat texnik qismlarini ochish hamda baholash amalga oshiriladi
+~Faqat narxga oid qismlarini ochish hamda baholash amalga oshiriladi
+~Tender faqat ikki bosqichda amalga oshiriladi
+}
+
+::122:: Tender boʻyicha xarid qilish hujjatlarida va taklifda koʻrsatilgan mezonlar asosida shartnomani bajarishning eng yaxshi shartlarini taklif qilgan tender ishtirokchisi kim? {
+=g‘olib
+~Zaxiradagi g‘olib
+~ishtirokchi
+~Maxsus kotib
+}
+
+::123:: Tender boʻyicha xarid qilish hujjatlarida va taklifda koʻrsatilgan mezonlarga muvofiq gʻolibning taklifidan keyingi eng maqbul taklifni taqdim etgan ishtirokchi kim? {
+=zaxiradagi g‘olib
+~g‘olib
+~ishtirokchi
+~ijrochi
+}
+
+::124:: Tenderda takliflarni koʻrib chiqish va baholash natijalari qayerda qayd etiladi? {
+=takliflarni koʻrib chiqish hamda baholash bayonnomasida
+~arizada
+~shikoyatnomada
+~Texnik topshiriqda
+}
+
+::125:: Takliflarni koʻrib chiqish va baholash bayonnomasida quyidagi axborotlardan qaysi biri boʻlishi kerak? {
+=tender takliflari koʻrib chiqiladigan hamda baholanadigan sana va vaqt toʻgʻrisidagi
+~Ekspert va ekspert tashkiloti haqidagi
+~Ixtisoslashgan tashkilot haqidagi
+~Davlat xaridlarining elektron tizimi operatori haqidagi
+}
+
+::126:: Takliflarni koʻrib chiqish va baholash bayonnomasida quyidagi axborotlardan qaysi biri boʻlishi kerak? {
+=hozir boʻlgan xarid komissiyasi aʼzolarining va tender ishtirokchilari vakolatli vakillarining tarkibi haqidagi
+~Ekspert va ekspert tashkiloti haqidagi
+~Ixtisoslashgan tashkilot haqidagi
+~Davlat xaridlarining elektron tizimi operatori haqidagi
+}
+
+::127:: Takliflarni koʻrib chiqish va baholash bayonnomasida quyidagi axborotlardan qaysi biri boʻlishi kerak? {
+=takliflari koʻrib chiqilgan tender ishtirokchilari toʻgʻrisidagi
+~Ekspert va ekspert tashkiloti haqidagi
+~Ixtisoslashgan tashkilot haqidagi
+~Davlat xaridlarining elektron tizimi operatori haqidagi
+}
+
+::128:: Takliflarni koʻrib chiqish va baholash bayonnomasida quyidagi axborotlardan qaysi biri boʻlishi kerak? {
+=takliflari ularni rad etishning aniq sabablari koʻrsatilgan holda rad etilgan tender ishtirokchilari haqidagi
+~Ekspert va ekspert tashkiloti haqidagi
+~Ixtisoslashgan tashkilot haqidagi
+~Davlat xaridlarining elektron tizimi operatori haqidagi
+}
+
+::129:: Takliflarni koʻrib chiqish va baholash bayonnomasida quyidagi axborotlardan qaysi biri boʻlishi kerak? {
+=tender gʻolibi toʻgʻrisida qabul qilingan qaror haqidagi
+~Ekspert va ekspert tashkiloti haqidagi
+~Ixtisoslashgan tashkilot haqidagi
+~Davlat xaridlarining elektron tizimi operatori haqidagi
+}
+
+::130:: Takliflarni koʻrib chiqish va baholash bayonnomasida quyidagi axborotlardan qaysi biri boʻlishi kerak? {
+=tender gʻolibining nomi
+~Ekspert va ekspert tashkiloti haqidagi
+~Ixtisoslashgan tashkilot haqidagi
+~Davlat xaridlarining elektron tizimi operatori haqidagi
+}
+
+::131:: To‘g‘ridan-to‘g‘ri shartnoma qayerda ro‘yxatdan o‘tkazilishi shart? {
+=Maxsus axborot portalida
+~Soliq inspeksiyasida
+~Vazirlikda
+~Sudda
+}
+
+::132:: Davlat buyurtmachisi faoliyatini amalga oshirish bilan bogʻliq xizmat safarlari uchun va boshqa holatlardagi chiptalar qanday xarid orqali amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Tender
+~Elektron do‘kon
+}
+
+::133:: Xarid qilishning qaysi tartib taomilida yagona yetkazib beruvchilar reyestriga kiritilgan yagona yetkazib beruvchi bilan davlat xaridini amalga oshirish uchun ruxsat etilgan tovarlarning (ishlarning, xizmatlarning) davlat xaridi amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Tender
+~Elektron do‘kon
+}
+
+::134:: Xarid qilishning qaysi tartib taomilida favqulodda vaziyatlarni bartaraf etish maqsadida OʻzRning ehtiyojlarini taʼminlash uchun zarur boʻlgan tovarlarning (ishlarning, xizmatlarning) davlat xaridi amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Tender
+~Eng yaxshi takliflarni tanlash
+}
+
+::135:: Xarid qilishning qaysi tartib taomilida sud muhokamalarida ishtirok etish uchun advokatni (vakilni) tayinlash bilan bogʻliq boʻlgan davlat xaridi amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Eng yaxshi takliflarni tanlash
+}
+
+::136:: Xarid qilishning qaysi tartib taomilida narxi (tarifi) davlat tomonidan tartibga solinadigan tovarlarning (ishlarning, xizmatlarning) davlat xaridi amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Eng yaxshi takliflarni tanlash
+}
+
+::137:: Xarid qilishning qaysi tartib taomilida giyohvandlik vositalarini va psixotrop moddalarni saqlash hamda olib kirish (olib chiqish) amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Eng yaxshi takliflarni tanlash
+}
+
+::138:: Xarid qilishning qaysi tartib taomilida favqulodda hollarda tabiat hodisalari, epidemiyalar va kasalliklar tarqalishining oldini olish yoki uning oqibatlarini bartaraf etish uchun zarur tovarlarning (ishlarning, xizmatlarning) vakolatli idoralar tomonidan tasdiqlanadigan davlat xaridi amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Eng yaxshi takliflarni tanlash
+}
+
+::139:: Xarid qilishning qaysi tartib taomilida davlat buyurtmachisi faoliyatini amalga oshirish bilan bogʻliq boʻlgan xizmat safarlari va boshqa hollar uchun chiptalarning davlat xaridi amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Eng yaxshi takliflarni tanlash
+}
+
+::140:: .... - tabiiy monopoliyalar subyekti, shuningdek O‘zbekiston Respublikasi Prezidentining alohida farmonlari, qarorlari va farmoyishlari yoki O‘zbekiston Respublikasi Vazirlar Mahkamasining qarorlari bilan belgilangan subyektlar, {
+=Yagona yetkazib beruvchi
+~Ishtirokchi
+~Xarid komissiyasi
+~Ekspert
+}
+
+::141:: Yagona yetkazib beruvchidan hamda davlat buyurtmachisi oʻrtasida tuzilgan shartnoma toʻgʻrisidagi axborot u tuzilgan paytdan eʼtiboran qancha muddat ichida maxsus axborot portaliga joylashtirilishi lozim? {
+=besh ish kuni
+~uch ish kuni
+~besh kalendar kuni
+~Uch kalendar kuni
+}
+
+::142:: Davlat buyurtmachisi faoliyatini amalga oshirish bilan bogʻliq xizmat safarlari va boshqa holatlardagi yashash xarajatlari xarid qilishning qaysi tartib taomili orqali amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Elektron do‘kon
+}
+
+::143:: Avval tuzilgan shartnomalardagi yetkazib beruvchilar bilan aloqa, internet va teleradiouzatish xizmatlari boʻyicha xaridlar xarid qilishning qaysi tartib taomilida amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Eng yaxshi takliflarni tanlash
+}
+
+::144:: Bank (banklararo) xizmatlar va operatsiyalar Xarid qilishning qaysi tartib taomilida amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Elektron do‘kon
+}
+
+::145:: Mualliflik nazorati (hamrohligi) boʻyicha xizmatlar xarid qilishning qaysi tartib taomilida amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Elektron do‘kon
+}
+
+::146:: Sport, madaniy-ommaviy tadbirlar, koʻrgazmalar, yarmarkalar, anjumanlar, seminarlar va oʻquv mashgʻulotlarini tashkil etish hamda oʻtkazish uchun binolar, inshootlar va asbob-uskunalarni ijaraga olish xarid qilishning qaysi tartib taomilida amalga oshiriladi? {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Auksion
+~Hadli kelishuv
+~Elektron do‘kon
+}
+
+::147:: Yagona yetkazib beruvchi bilan xaridda raqobat bormi? {
+=yo‘q
+~ha
+~Ba’zan
+~Qisman
+}
+
+::148:: Narxi davlat tomonidan tartibga solinadigan tovarlar qanday xarid qilinadi? {
+=To‘g‘ridan-to‘g‘ri shartnoma orqali
+~Auksion
+~Tanlov orqali
+~Elektron do‘kon
+}
+
+::149:: Davlat xaridlarida xarid jarayoni turlari noto‘g‘ri keltirilgan qatorni toping. {
+=Ochiq savda
+~Boshlang‘ich narxi pasayib boruvchi auksion
+~To‘g‘ridan-to‘g‘ri shartnoma
+~Elektron do‘kon
+}
+
+::150:: Davlat xaridlarida xarid jarayoni turlari noto‘g‘ri keltirilgan qatorni toping. {
+=Elektron bozor
+~Boshlang‘ich narxi pasayib boruvchi auksion
+~To‘g‘ridan-to‘g‘ri shartnoma
+~Elektron do‘kon
+}
+
+::151:: Davlat xaridlarida xarid jarayoni turlari noto‘g‘ri keltirilgan qatorni toping. {
+=online savdo
+~Boshlang‘ich narxi pasayib boruvchi auksion
+~To‘g‘ridan-to‘g‘ri shartnoma
+~Elektron do‘kon
+}
+
+::152:: Davlat xaridlarida xarid jarayoni turlari to‘g‘ri keltirilgan qatorni toping. {
+=To‘g‘ridan-to‘g‘ri shartnoma
+~Elektron bozor
+~Online bozor
+~Uzum market orqali xarid
+}
+
+::153:: Davlat xaridlarida xarid jarayoni turlari to‘g‘ri keltirilgan qatorni toping. {
+=Boshlang‘ich narxi pasayib boruvchi auksion
+~Elektron bozor
+~Online bozor
+~Uzum market orqali xarid
+}
+
+::154:: Davlat xaridlarida xarid jarayoni turlari to‘g‘ri keltirilgan qatorni toping. {
+=Tender
+~Elektron bozor
+~Online bozor
+~Boshlang‘ich narxi o‘sib boruvchi auksion
+}
+
+::155:: Davlat xaridlarida xarid jarayoni turlari noto‘g‘ri keltirilgan qatorni toping. {
+=Boshlang‘ich narxi o‘sib boruvchi auksion
+~Tender
+~To‘g‘ridan-to‘g‘ri shartnoma
+~Elektron do‘kon
+}
+
+::156:: Davlat xaridlarida xarid jarayoni turlari to‘g‘ri keltirilgan qatorni toping. {
+=Elektron do‘kon
+~Elektron bozor
+~Online bozor
+~Boshlang‘ich narxi o‘sib boruvchi auksion
+}
+
+::157:: Davlat xaridlarida xarid jarayoni turlari to‘g‘ri keltirilgan qatorni toping. {
+=Eng yaxshi takliflarni tanlash
+~Elektron bozor
+~Online bozor
+~Eng past taklifni tanlash
+}
+
+::158:: Davlat xaridlarida xarid jarayoni turlari noto‘g‘ri keltirilgan qatorni toping. {
+=Eng past narxdagi taklifni tanlash
+~Tender
+~To‘g‘ridan-to‘g‘ri shartnoma
+~Elektron do‘kon
+}
+
+::159:: Ishtirokchilarning tovarlar (ishlar, xizmatlar) boʻyicha davlat xaridlariga taalluqli boʻlgan takliflarini baholashda qaysi mezondan foydalanilmaydi? {
+=ishtirokchi manzili
+~yetkazib berish muddatlari
+~tavsifnomalar va sifat koʻrsatkichlari
+~toʻlov va kafolatlar shartlari
+}
+
+::160:: Ishtirokchilarning tovarlar (ishlar, xizmatlar) boʻyicha davlat xaridlariga taalluqli boʻlgan takliflarini baholashda qaysi mezondan foydalanilmaydi? {
+=Ishtirokchi rahbarining yoshi
+~yetkazib berish muddatlari
+~tavsifnomalar va sifat koʻrsatkichlari
+~narx
+}
+
+::161:: Ishtirokchilarning tovarlar (ishlar, xizmatlar) boʻyicha davlat xaridlariga taalluqli boʻlgan takliflarini baholashda qaysi mezondan foydalanilmaydi? {
+=ishtirokchilar ta’sischilari yoshi
+~yetkazib berish muddatlari
+~tavsifnomalar va sifat koʻrsatkichlari
+~toʻlov va kafolatlar shartlari
+}
+
+::162:: Ishtirokchilarning tovarlar (ishlar, xizmatlar) boʻyicha davlat xaridlariga taalluqli boʻlgan takliflarini baholashda qaysi mezondan foydalanilmaydi? {
+=g‘olib malakasi
+~yetkazib berish muddatlari
+~tavsifnomalar va sifat koʻrsatkichlari
+~toʻlov va kafolatlar shartlari
+}
+
+::163:: Ishtirokchilarning tovarlar (ishlar, xizmatlar) boʻyicha davlat xaridlariga taalluqli boʻlgan takliflarini baholashda qaysi mezondan foydalanilmaydi? {
+=ishtirokchi manzili
+~yetkazib berish muddatlari
+~tavsifnomalar va sifat koʻrsatkichlari
+~toʻlov va kafolatlar shartlari
+}
+
+::164:: Ishtirokchining elektron doʻkonda qoʻyilgan taklifi- bu .....? {
+=ommaviy oferta
+~Narx
+~talab
+~tovar
+}
+
+::165:: Ishtirokchi tomonidan elektron doʻkonda joylashtirilgan taklifda quyidagilardan qaysi biri koʻrsatilmaydi? {
+=tovarning chet eldagi narxi
+~taklif etilayotgan tovarlarning (ishlarning, xizmatlarning) nomi
+~sotish narxi
+~tovarning eng koʻp va eng kam toʻpi
+}
+
+::166:: Ishtirokchi tomonidan elektron doʻkonda joylashtirilgan taklifda quyidagilardan qaysi biri koʻrsatilmaydi? {
+=sotib olingan narxi
+~taklif etilayotgan tovarlarning (ishlarning, xizmatlarning) nomi
+~sotish narxi
+~tovarning eng koʻp va eng kam toʻpi
+}
+
+::167:: Ishtirokchi tomonidan elektron doʻkonda joylashtirilgan taklifda quyidagilardan qaysi biri koʻrsatilmaydi? {
+=tovarning foydalanish yo‘riqnomasi
+~tovarning fotosurati
+~sotish narxi
+~tovarning eng koʻp va eng kam toʻpi
+}
+
+::168:: Ishtirokchi tomonidan elektron doʻkonda joylashtirilgan taklifda quyidagilardan qaysi biri koʻrsatilmaydi? {
+=tovar haqida video qo‘llanma
+~taklif etilayotgan tovarlarning (ishlarning, xizmatlarning) nomi
+~sotish narxi
+~tovarni ishlab chiqaruvchi va u kelib chiqqan mamlakat toʻgʻrisidagi axborot
+}
+
+::169:: Ishtirokchining ofertasi u elektron doʻkonda joylashtirilgan paytdan eʼtiboran qancha muddatga amal qiladi? {
+=oʻn besh ish kuni
+~oʻn ish kuni
+~besh ish kuni
+~uch ish kuni
+}
+
+::170:: Elektron do‘konda ishtirokchilar narxlar soʻrovida ishtirok etish toʻgʻrisidagi taklif davlat xaridlarining elektron tizimi tomonidan yuborilgan paytdan eʼtiboran qancha muddatga oʻz takliflarini berishga haqli? {
+=ikki ish kuni
+~o‘n ikki ish kuni
+~besh ish kuni
+~Uch ish kuni
+}
+
+::171:: Elektron do‘konda ishtirokchilar tomonidan berilgan narx boʻyicha takliflarni taqqoslash kim tomonidan amalga oshiriladi? {
+=davlat xaridlarining elektron tizimi
+~Xarid komissiyasi
+~Xarid komissiyasi mas’ul kotibi
+~Davlat buyurtmachisi
+}
+
+::172:: Auksion oʻtkazilishi toʻgʻrisidagi eʼlon u amalga oshirilishidan qancha muddat avval joylashtirilishi kerak? {
+=kamida besh ish kuni
+~kamida uch ish kuni
+~kamida o‘n ish kuni
+~kamida o‘n ikki ish kuni
+}
+
+::173:: Auksion oʻtkazilishi toʻgʻrisidagi eʼlonda quyidagi maʼlumotlardan qaysi biri keltirilmaydi? {
+=g‘olib to‘g‘risida ma’lumot
+~davlat buyurtmachisining nomi va manzili
+~auksionning birinchi va oxirgi kuni
+~auksion predmetining boshlangʻich narxi
+}
+
+::174:: Auksion oʻtkazilishi toʻgʻrisidagi eʼlonda quyidagi maʼlumotlardan qaysi biri keltirilmaydi? {
+=zahiradagi g‘olib to‘g‘risida ma’lumot
+~davlat buyurtmachisining nomi va manzili
+~auksionning birinchi va oxirgi kuni
+~auksion predmetining boshlangʻich narxi
+}
+
+::175:: Auksion oʻtkazilishi toʻgʻrisidagi eʼlonda quyidagi maʼlumotlardan qaysi biri keltirilmaydi? {
+=auksion predmetining sotilgan narxi
+~auksion predmeti va uning xususiyati
+~auksionning birinchi va oxirgi kuni
+~auksion predmetining boshlangʻich narxi
+}
+
+::176:: Auksionni oʻtkazish chogʻida ishtirokchilar auksion boshlangan paytdan eʼtiboran va u tamom boʻladigan paytga qadar butun muddat ichida narx boʻyicha takliflarni necha marta berishga haqli? {
+=cheklanmagan miqdorda
+~Faqat 1 marta
+~Kamida 2 marta
+~Faqat 5 marta
+}
+
+::177:: Tanlash vositasidagi davlat xaridi toʻgʻrisidagi axborot davlat buyurtmachisi tomonidan necha nafar shaxslarga maxsus axborot portali orqali maʼlum qilinadi? {
+=cheklanmagan miqdordagi
+~faqat 2 nafar
+~Faqat 10 nafar
+~Ko‘pi bilan 5 nafar
+}
+
+::178:: Agar xarid komissiyasi tomonidan ishtirokchilardan tanlash boʻyicha xarid qilish hujjatlarida koʻrsatilgan talablarga javob beradigan nechta taklif olingan boʻlsa, tanlash oʻtkazilgan deb hisoblanadi? {
+=kamida ikkita
+~Kamida beshta
+~Kamida uchta
+~Kamida bitta
+}
+
+::179:: Takliflarni taqqoslash natijalariga koʻra xarid komissiyasi tanlash gʻolibini aniqlaydi va tanlash oʻtkazish natijalarini qayerda aks ettiradi? {
+=bayonnomada
+~arizada
+~Shikoyat xatida
+~xulosada
+}
+
+::180:: Tanlash natijalari boʻyicha tuzilgan shartnoma toʻgʻrisidagi axborot davlat buyurtmachisi tomonidan maxsus axborot portaliga u tuzilgan kundan boshlab necha kundan kechiktirmay joylashtiriladi? {
+=besh ish kunidan
+~ikki ish kunidan
+~uch ish kunidan
+~O‘n ish kunidan
+}
+
+::181:: Kim tomonidan tanlash boʻyicha xarid qilish hujjatlari, shartnoma va tanlashni oʻtkazish haqidagi eʼlonning matni ishlab chiqiladi? {
+=davlat buyurtmachisining mutaxassislari
+~Xarid komissiyasi
+~Xarid komissiyasining mas’ul kotibi
+~ishtirokchi
+}
+
+::182:: Kim tomonidan tanlash boʻyicha xarid qilish hujjatlari, shartnoma va tanlashni oʻtkazish haqidagi eʼlonning matni ishlab chiqiladi? {
+=tanlashni tashkil etish va oʻtkazish uchun masʼul shaxs
+~Xarid komissiyasi
+~Xarid komissiyasining mas’ul kotibi
+~ishtirokchi
+}
+
+::183:: Tanlash boʻyicha xarid qilish hujjatlari namunaviy shakllarini toʻldirishda miqdoriy va miqdoriy boʻlmagan mezonlar kim tomonidan tasdiqlanadi? {
+=Xarid komissiyasi
+~davlat buyurtmachisining mutaxassislari
+~Xarid komissiyasining mas’ul kotibi
+~ishtirokchi
+}
+
+::184:: Xarid komissiyasi tanlash boʻyicha xarid qilish hujjatlarining majlisda yoki masofadan turib Qonun talablariga muvofiqligini koʻrib chiqadi va quyidagilardan qaysi birini belgilaydi? {
+=tanlash takliflari qabul qilinadigan muddatlar
+~G‘olib to‘g‘risidagi ma’lumotlar
+~Zahiradagi g‘olib to‘g‘risidagi ma’lumotlar
+~Ishtirokchilar soni
+}
+
+::185:: Xarid komissiyasi tanlash boʻyicha xarid qilish hujjatlarining majlisda yoki masofadan turib Qonun talablariga muvofiqligini koʻrib chiqadi va quyidagilardan qaysi birini belgilaydi? {
+=tanlash takliflarini baholash usullari va mezonlari
+~G‘olib to‘g‘risidagi ma’lumotlar
+~Zahiradagi g‘olib to‘g‘risidagi ma’lumotlar
+~Ishtirokchilar soni
+}
+
+::186:: Xarid komissiyasi tanlash boʻyicha xarid qilish hujjatlarining majlisda yoki masofadan turib Qonun talablariga muvofiqligini koʻrib chiqadi va quyidagilardan qaysi birini belgilaydi? {
+=tanlash takliflari qismlarining va zarur hollarda texnik qismining har bir baholash mezonlarining nisbiy qiymati
+~G‘olib to‘g‘risidagi ma’lumotlar
+~Zahiradagi g‘olib to‘g‘risidagi ma’lumotlar
+~Ishtirokchilar soni
+}

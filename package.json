@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "node tests/test_hybrid_parsers.mjs",
+    "test": "node tests/run_all.mjs",
     "deploy": "npx @tgcloud/cli push",
     "status": "npx @tgcloud/cli status",
     "diff": "npx @tgcloud/cli diff",

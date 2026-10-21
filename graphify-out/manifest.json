@@ -1,8 +1,8 @@
 {
   "package.json": {
-    "mtime": 1791740822.327416,
-    "seen": 1791741415.219096,
-    "ast_hash": "1a3103898f923d59928e353b6718f4ec",
+    "mtime": 1792602450.1004493,
+    "seen": 1792603404.812331,
+    "ast_hash": "8c85497dab196d3dd7f7a5e38f4096ad",
     "semantic_hash": ""
   },
   "tests/mock_start.json": {
@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "tgcloud/handlers/callback_query.js": {
-    "mtime": 1792267628.004524,
-    "seen": 1792267730.2287683,
-    "ast_hash": "20d154c34265e7afca7d5770e22f7e45",
+    "mtime": 1792350226.7321181,
+    "seen": 1792602016.761004,
+    "ast_hash": "5ce1368472a725e2b4d8824072182365",
     "semantic_hash": ""
   },
   "tgcloud/handlers/inline_query.js": {
@@ -114,9 +114,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/keyboards/quiz_keyboard.js": {
-    "mtime": 1792264058.9058104,
-    "seen": 1792264269.6541765,
-    "ast_hash": "28aab445cf42a8fde77deef2a222928a",
+    "mtime": 1792350209.4790332,
+    "seen": 1792602016.7610474,
+    "ast_hash": "ab3bfbcdc1648d6c46521a94375dc92e",
     "semantic_hash": ""
   },
   "tgcloud/lib/keyboards/subscribe_keyboard.js": {
@@ -180,9 +180,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/services/admin_service.js": {
-    "mtime": 1792258328.1728063,
-    "seen": 1792260572.3325732,
-    "ast_hash": "9347fde1a1940ca0baed56e556931485",
+    "mtime": 1792603299.6816106,
+    "seen": 1792603404.812747,
+    "ast_hash": "fb0e7bd035d0532f3d3f730e89e318d0",
     "semantic_hash": ""
   },
   "tgcloud/lib/services/channel_service.js": {
@@ -204,9 +204,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/services/session_service.js": {
-    "mtime": 1792268032.2123008,
-    "seen": 1792331448.73922,
-    "ast_hash": "5c2b5bcdc3f6db0c91b1fc5bfdba0fc2",
+    "mtime": 1792603280.6500082,
+    "seen": 1792603404.8127565,
+    "ast_hash": "b34da52c14b8d54a52f4a5d47279e811",
     "semantic_hash": ""
   },
   "tgcloud/lib/services/user_service.js": {
@@ -300,9 +300,9 @@
     "semantic_hash": ""
   },
   "tests/test_math_engine.mjs": {
-    "mtime": 1791656322.267116,
-    "seen": 1791656509.1541235,
-    "ast_hash": "be66d469e604e92d081af26d2a1e9474",
+    "mtime": 1792602386.0183349,
+    "seen": 1792603404.8125725,
+    "ast_hash": "073bb39c7483ab762e4b8750f42d4400",
     "semantic_hash": ""
   },
   "tests/test_pdf_reader.mjs": {
@@ -318,9 +318,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/math_engine.js": {
-    "mtime": 1791993017.7828865,
-    "seen": 1792080792.0514069,
-    "ast_hash": "b04511ad3505656d64423e11ee78a4c1",
+    "mtime": 1792602360.7462225,
+    "seen": 1792603404.812732,
+    "ast_hash": "53b3fefdcd8c405b11da960ee9be453c",
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/pdf_reader.js": {
@@ -330,15 +330,15 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/utils/poll_helpers.js": {
-    "mtime": 1791988315.078519,
-    "seen": 1791988399.8210893,
-    "ast_hash": "4a02d1a04a8055e2ee9fe53d1ed6da90",
+    "mtime": 1792602415.5920494,
+    "seen": 1792603404.812765,
+    "ast_hash": "63b1d9c8fc525ff6d9f8c66ee84bb1df",
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1792265010.016709,
-    "seen": 1792265138.3173637,
-    "ast_hash": "f80107c9da45e86558bbb42a86613193",
+    "mtime": 1792602481.274426,
+    "seen": 1792603404.8123908,
+    "ast_hash": "7183159f3c4787c2cca6433f45e28d4c",
     "semantic_hash": ""
   },
   "src/components/common/Badge.jsx": {
@@ -510,15 +510,15 @@
     "semantic_hash": ""
   },
   "src/views/ArenaView.jsx": {
-    "mtime": 1792082569.028296,
-    "seen": 1792082683.3881574,
-    "ast_hash": "29ac4956aa2d88f537c2644bf5625f2d",
+    "mtime": 1792602800.386099,
+    "seen": 1792603404.8125026,
+    "ast_hash": "7dbc30dc461d6e0becfc26f6cd470535",
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
-    "mtime": 1792086663.4191706,
-    "seen": 1792086931.4296165,
-    "ast_hash": "b59d8b39d34d618865832b5b2090d3bf",
+    "mtime": 1792602931.2697606,
+    "seen": 1792603404.8125045,
+    "ast_hash": "3cb345471f81006a1c97192fe4f3f2bc",
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
@@ -546,21 +546,21 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_initial_data.js": {
-    "mtime": 1792265808.9571948,
-    "seen": 1792265893.119435,
-    "ast_hash": "1512f274b42690b8603c996b104aa9b0",
+    "mtime": 1792603232.7528777,
+    "seen": 1792603404.8126166,
+    "ast_hash": "ed086856366b7fc0293ff28f0a2ce7fa",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_quiz_detail.js": {
-    "mtime": 1792258131.0005898,
-    "seen": 1792260572.3269281,
-    "ast_hash": "7e346241b8da85701a143c9571eb1047",
+    "mtime": 1792603137.6915338,
+    "seen": 1792603404.8126273,
+    "ast_hash": "f9d6bb6e3f037b5dc989e5b097db0d23",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/submit_solo_result.js": {
-    "mtime": 1792260288.0852976,
-    "seen": 1792260572.3278978,
-    "ast_hash": "4239dc0792f7d1d241e9046abd1640e2",
+    "mtime": 1792603110.4788198,
+    "seen": 1792603404.8126605,
+    "ast_hash": "2769aab89ceed46a5d0ab5c074fc4756",
     "semantic_hash": ""
   },
   "vite.config.js": {
@@ -642,9 +642,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/update_quiz.js": {
-    "mtime": 1792259895.7719169,
-    "seen": 1792260572.328059,
-    "ast_hash": "648cfdfe74650ef660a149d280736615",
+    "mtime": 1792603353.6853127,
+    "seen": 1792603404.8126655,
+    "ast_hash": "99848b3823c9792d29715f05f6fc0c3a",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-10-11-queasy-mini-app-phase3.md": {
@@ -1038,9 +1038,9 @@
     "semantic_hash": ""
   },
   "src/views/QuizCreatorView.jsx": {
-    "mtime": 1791995296.054942,
-    "seen": 1792080792.0512037,
-    "ast_hash": "d86a4d8f959952537906d2f7adf613f6",
+    "mtime": 1792602507.4742517,
+    "seen": 1792603404.8125281,
+    "ast_hash": "22e4ca913044487204ae38a008a0a1c1",
     "semantic_hash": ""
   },
   "tests/test_mistakes_sync.mjs": {
@@ -2736,9 +2736,9 @@
     "semantic_hash": ""
   },
   "src/utils/quizHelpers.js": {
-    "mtime": 1791820637.4926302,
-    "seen": 1791820864.7109597,
-    "ast_hash": "5187df3cf60bc17b994835b64306455c",
+    "mtime": 1792602760.4986427,
+    "seen": 1792603404.8125005,
+    "ast_hash": "4c7d2ac0a17623a203d37d8a24c8be55",
     "semantic_hash": ""
   },
   "src/views/TournamentView.jsx": {
@@ -2748,9 +2748,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/create_tournament.js": {
-    "mtime": 1792260380.9407115,
-    "seen": 1792260572.3265653,
-    "ast_hash": "5d41c7183d29a4153cb272f6a7a7bd61",
+    "mtime": 1792603051.781402,
+    "seen": 1792603404.8126013,
+    "ast_hash": "6dd81dd5b872b3a2eaf3a0ea4d19b30c",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_tournament_details.js": {
@@ -2784,9 +2784,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/create_live_room.js": {
-    "mtime": 1792260443.8352766,
-    "seen": 1792260572.3265624,
-    "ast_hash": "4cceb5f2fb03a128988bfefdcb5c0c75",
+    "mtime": 1792603068.676704,
+    "seen": 1792603404.8125987,
+    "ast_hash": "d577d40a3957f6e09666123c2c0f7226",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_live_room_state.js": {
@@ -2892,9 +2892,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/sanitize_kiut_batch.js": {
-    "mtime": 1791988315.0670538,
-    "seen": 1791988399.820975,
-    "ast_hash": "2ce7c67b3b46b721b5ec874cadeb1cab",
+    "mtime": 1792602989.3059876,
+    "seen": 1792603404.8126476,
+    "ast_hash": "c1b4f490f172fd45980af24d936eae77",
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/errors.js": {
@@ -2928,9 +2928,9 @@
     "semantic_hash": ""
   },
   "src/views/QuizDetailView.jsx": {
-    "mtime": 1791995662.5225887,
-    "seen": 1792080792.0512059,
-    "ast_hash": "1087d19dec8abe56de97425d4800f23b",
+    "mtime": 1792602682.2842386,
+    "seen": 1792603404.8125308,
+    "ast_hash": "c26f36eab50af76d28243d1da8d5dd56",
     "semantic_hash": ""
   },
   "tests/test_poll_modernization.mjs": {
@@ -2940,9 +2940,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/export_quiz_data.js": {
-    "mtime": 1792260172.655689,
-    "seen": 1792260572.3265715,
-    "ast_hash": "082a99065e4edd164b9c3e77a5f1ac34",
+    "mtime": 1792603031.4467695,
+    "seen": 1792603404.8126066,
+    "ast_hash": "c2fe0c77983313694de1194e81989084",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_app_logs.js": {
@@ -3063,6 +3063,54 @@
     "mtime": 1792348716.0525327,
     "seen": 1792349349.019436,
     "ast_hash": "0acaaa34d67a49f5ffa0851829ec4a25",
+    "semantic_hash": ""
+  },
+  "scripts/attach_photos_in_turso.mjs": {
+    "mtime": 1792598714.0698562,
+    "seen": 1792602016.7606678,
+    "ast_hash": "bb93c053820d29fe0c0091bc597ecdc9",
+    "semantic_hash": ""
+  },
+  "scripts/fast_import_turso.mjs": {
+    "mtime": 1792599327.8323312,
+    "seen": 1792602016.7606862,
+    "ast_hash": "bd4281e5b5a296490a7b22d9ac7312f0",
+    "semantic_hash": ""
+  },
+  "scripts/import_missing_tests.mjs": {
+    "mtime": 1792598047.4227338,
+    "seen": 1792602016.7606883,
+    "ast_hash": "622048319856f2119cb8ab6066cb5599",
+    "semantic_hash": ""
+  },
+  "scripts/import_missing_to_turso.mjs": {
+    "mtime": 1792599235.95133,
+    "seen": 1792602016.760691,
+    "ast_hash": "11286c7ed95cd7de193c5c3c7deb7783",
+    "semantic_hash": ""
+  },
+  "scripts/turbo_import_turso.mjs": {
+    "mtime": 1792599511.9524758,
+    "seen": 1792602016.7607164,
+    "ast_hash": "88bfbd524fdc3255f4a27206ba97a1d9",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/upload_media_batch.js": {
+    "mtime": 1792602978.4739833,
+    "seen": 1792603404.8126678,
+    "ast_hash": "cabc2faee3613ccb23dcd3c7325415b0",
+    "semantic_hash": ""
+  },
+  "SYSTEMATIC_DEBUGGING_REPORT.md": {
+    "mtime": 1792601990.8545299,
+    "seen": 1792602016.7618349,
+    "ast_hash": "680a615d8565e2c4a5b2d36c09c8b9a0",
+    "semantic_hash": ""
+  },
+  "tests/run_all.mjs": {
+    "mtime": 1792602435.2807248,
+    "seen": 1792603404.8125393,
+    "ast_hash": "8c6e0e68b29cc860075b1f5a8f2320ba",
     "semantic_hash": ""
   }
 }

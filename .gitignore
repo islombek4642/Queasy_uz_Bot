@@ -35,3 +35,6 @@ scratch/
 # Secrets
 tgcloud/lib/constants/secrets.js
 
+# Graphify cache & backups
+graphify-out/cache/
+graphify-out/2026-*/

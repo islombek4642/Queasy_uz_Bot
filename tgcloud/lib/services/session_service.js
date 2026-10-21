@@ -484,7 +484,10 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
       return true; // success
     }
   } catch (err) {
-    const isRateLimit = err?.message?.includes('429') || err?.message?.includes('Too Many Requests');
+    const isRateLimit = err?.message?.includes('429') ||
+      err?.message?.includes('Too Many Requests') ||
+      err?.error_code === 429 ||
+      Boolean(err?.parameters?.retry_after);
     console.error(`[_trySendQuestionPoll] Error sending question index ${session.currentIndex} for session ${sessionId} (isRateLimit=${isRateLimit}):`, err?.message);
     await logAppError('_trySendQuestionPoll:ERROR', err?.message || String(err), {
       sessionId,

@@ -4,8 +4,14 @@ import { db } from 'sdk';
 import { eq, gte, asc } from 'sdk/db';
 import { quizzes, questions } from '../schema.js';
 import { sanitizeQuestionText, sanitizeOptionsList } from '../lib/parsers/sanitizer.js';
+import { isUserAdmin } from '../lib/services/admin_service.js';
 
 export default async function (input, ctx) {
+  const callerId = ctx?.initData?.user?.id;
+  if (!callerId || !isUserAdmin(callerId)) {
+    return { success: false, error: 'UNAUTHORIZED_ADMIN_ONLY' };
+  }
+
   try {
     const startQuizId = Number(input?.startQuizId) || 0;
     const batchSize = Math.min(Number(input?.batchSize) || 30, 100);

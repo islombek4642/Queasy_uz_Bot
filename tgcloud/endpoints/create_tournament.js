@@ -10,7 +10,12 @@ import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
   const tgUser = ctx?.initData?.user;
-  const currentUserId = tgUser?.id || 0;
+  const currentUserId = Number(tgUser?.id) || 0;
+
+  if (!currentUserId) {
+    return { success: false, error: ERRORS.UNAUTHORIZED };
+  }
+
   const quizId = parseInt(input?.quizId, 10) || 0;
 
   if (!quizId) {

@@ -156,17 +156,27 @@ export default function App() {
   // If playing a quiz in arena, render arena in fullscreen (no bottom nav)
   if (activeQuizId || activeCustomQuestions) {
     return (
-      <ArenaView
-        quizId={activeQuizId}
-        customQuestions={activeCustomQuestions}
-        customTitle={activeCustomTitle}
-        mode={activeQuizMode}
-        range={activeQuizRange}
-        randomCount={activeQuizRandomCount}
-        tournamentShareCode={activeTournamentCode}
-        liveRoomCode={activeLiveRoomCode}
-        onExit={handleExitArena}
-      />
+      <ErrorBoundary>
+        <React.Suspense
+          fallback={
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }} className="animate-fade-in">
+              <Spinner size={38} />
+            </div>
+          }
+        >
+          <ArenaView
+            quizId={activeQuizId}
+            customQuestions={activeCustomQuestions}
+            customTitle={activeCustomTitle}
+            mode={activeQuizMode}
+            range={activeQuizRange}
+            randomCount={activeQuizRandomCount}
+            tournamentShareCode={activeTournamentCode}
+            liveRoomCode={activeLiveRoomCode}
+            onExit={handleExitArena}
+          />
+        </React.Suspense>
+      </ErrorBoundary>
     );
   }
 

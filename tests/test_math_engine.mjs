@@ -47,8 +47,9 @@ console.log('Testing Math & Formula Engine...');
 {
   const url = generateLatexImageUrl('\\frac{a}{b}', 300);
   assert.strictEqual(url.includes('latex.codecogs.com'), true);
-  assert.strictEqual(url.includes('\\dpi{300}'), true);
-  assert.strictEqual(url.includes('\\bg{white}'), true);
+  const decoded = decodeURIComponent(url);
+  assert.strictEqual(decoded.includes('\\dpi{300}'), true);
+  assert.strictEqual(decoded.includes('\\bg{white}'), true);
 }
 
 // 5. Mock upload fallback

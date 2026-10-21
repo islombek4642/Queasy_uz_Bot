@@ -9,7 +9,12 @@ import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
   const tgUser = ctx?.initData?.user;
-  const currentUserId = tgUser?.id || 0;
+  const currentUserId = Number(tgUser?.id) || 0;
+
+  if (!currentUserId) {
+    return { success: false, error: ERRORS.UNAUTHORIZED };
+  }
+
   const defaultHostName = getMessage('ROLE_HOST', 'UZ');
   const rawName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ') || tgUser?.username || defaultHostName;
   const userName = rawName.slice(0, 50);

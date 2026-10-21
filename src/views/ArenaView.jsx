@@ -5,7 +5,7 @@ import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
 import { useQuizTimer } from '../hooks/useQuizTimer.js';
 import { fetchQuizDetail, submitSoloResult, submitTournamentResult, submitLiveRoomResult } from '../services/quizService.js';
-import { shuffleQuestionOptions } from '../utils/quizHelpers.js';
+import { shuffleQuestionOptions, shuffleArray } from '../utils/quizHelpers.js';
 import { TimerRing } from '../components/quiz/TimerRing.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
 import { OptionCard } from '../components/quiz/OptionCard.jsx';
@@ -91,9 +91,9 @@ export function ArenaView({
           const end = Math.max(start, Math.min(Number(range[1]) || pool.length, pool.length));
           pool = pool.slice(start - 1, end);
         } else if (mode === 'random' && randomCount) {
-          // Only in random mode: shuffle question order!
+          // Only in random mode: shuffle question order using Fisher-Yates!
           const count = Math.min(pool.length, Math.max(1, Number(randomCount) || 10));
-          pool = [...pool].sort(() => Math.random() - 0.5).slice(0, count);
+          pool = shuffleArray(pool).slice(0, count);
         }
 
         // 2. Always shuffle options for each question (Fisher-Yates) unless shuffleOptions is explicitly false

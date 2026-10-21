@@ -12,13 +12,21 @@ import { QuizModeModal } from '../components/quiz/QuizModeModal.jsx';
 
 export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
   const { t } = useTranslation();
-  const { haptic } = useTelegram();
+  const { tg, haptic } = useTelegram();
   const [data, setData] = useState({ activeSessions: [], launchableQuizzes: [] });
   const [loading, setLoading] = useState(true);
   const [creatingId, setCreatingId] = useState(null);
   const [creatingLiveId, setCreatingLiveId] = useState(null);
   const [expandedQuizId, setExpandedQuizId] = useState(null);
   const [modeModalQuizId, setModeModalQuizId] = useState(null);
+
+  const showAlert = (msg) => {
+    if (tg?.showAlert) {
+      tg.showAlert(msg);
+    } else {
+      window.alert(msg);
+    }
+  };
 
   const loadSessions = () => {
     setLoading(true);
@@ -59,11 +67,11 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
           onOpenTournament(res.shareCode);
         }
       } else {
-        alert(res?.error || 'Turnir yaratishda xatolik yuz berdi');
+        showAlert(res?.error || 'Turnir yaratishda xatolik yuz berdi');
       }
     } catch (err) {
       console.error('Failed to create tournament:', err);
-      alert('Xatolik: ' + (err.message || 'Tarmoq xatosi'));
+      showAlert('Xatolik: ' + (err.message || 'Tarmoq xatosi'));
     } finally {
       setCreatingId(null);
     }
@@ -79,11 +87,11 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
           onOpenLiveRoom(res.roomCode);
         }
       } else {
-        alert(res?.error || 'Jonli xona ochishda xatolik yuz berdi');
+        showAlert(res?.error || 'Jonli xona ochishda xatolik yuz berdi');
       }
     } catch (err) {
       console.error('Failed to create live room:', err);
-      alert('Xatolik: ' + (err.message || 'Tarmoq xatosi'));
+      showAlert('Xatolik: ' + (err.message || 'Tarmoq xatosi'));
     } finally {
       setCreatingLiveId(null);
     }

@@ -1,8 +1,9 @@
 // tgcloud/endpoints/get_quiz_detail.js
 import { db, EndpointError } from 'sdk';
-import { eq } from 'sdk/db';
+import { eq, asc } from 'sdk/db';
 import { quizzes, questions } from '../schema.js';
 import { CONFIG } from '../lib/constants/config.js';
+import { isUserAdmin } from '../lib/services/admin_service.js';
 import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
@@ -11,11 +12,20 @@ export default async function (input, ctx) {
     throw new EndpointError('Invalid quiz ID', { code: 'INVALID_ID' });
   }
 
+  const callerId = ctx?.initData?.user?.id ? Number(ctx.initData.user.id) : 0;
+  const isAdmin = callerId && isUserAdmin(callerId);
+
   if (CONFIG.TURSO?.ENABLED) {
     try {
       const quiz = await turso.get('SELECT * FROM quizzes WHERE id = ?', [quizId]);
       if (!quiz) {
         throw new EndpointError('Quiz not found', { code: 'NOT_FOUND' });
+      }
+
+      const isPublic = Boolean(quiz.is_public);
+      const isOwner = callerId && Number(quiz.owner_id) === callerId;
+      if (!isPublic && !isOwner && !isAdmin) {
+        throw new EndpointError('Access denied', { code: 'FORBIDDEN' });
       }
 
       const rawQuestions = await turso.all('SELECT * FROM questions WHERE quiz_id = ? ORDER BY order_index ASC', [quizId]);
@@ -39,6 +49,8 @@ export default async function (input, ctx) {
       return {
         quiz: {
           id: quiz.id,
+          ownerId: quiz.owner_id,
+          isPublic,
           title: quiz.title,
           description: quiz.description,
           timeLimit: quiz.time_limit || 30,
@@ -57,11 +69,17 @@ export default async function (input, ctx) {
     throw new EndpointError('Quiz not found', { code: 'NOT_FOUND' });
   }
 
+  const isPublic = Boolean(quiz.isPublic);
+  const isOwner = callerId && Number(quiz.ownerId) === callerId;
+  if (!isPublic && !isOwner && !isAdmin) {
+    throw new EndpointError('Access denied', { code: 'FORBIDDEN' });
+  }
 
   const rawQuestions = await db
     .select()
     .from(questions)
     .where(eq(questions.quizId, quizId))
+    .orderBy(asc(questions.orderIndex))
     .all();
 
   const formattedQuestions = rawQuestions.map((q) => {
@@ -84,6 +102,8 @@ export default async function (input, ctx) {
   return {
     quiz: {
       id: quiz.id,
+      ownerId: quiz.ownerId,
+      isPublic,
       title: quiz.title,
       description: quiz.description,
       timeLimit: quiz.timeLimit || 30,

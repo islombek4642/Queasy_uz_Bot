@@ -176,11 +176,18 @@ export function QuizCreatorView({ onBack, onCreated, quizIdToEdit = null }) {
         title: title.trim(),
         description: description.trim(),
         timeLimit: Number(timeLimit),
-        questions: questions.map((q) => ({
-          questionText: q.questionText.trim(),
-          options: q.options.filter((o) => o && o.trim().length > 0),
-          correctOptionId: q.correctOptionId,
-        })),
+        questions: questions.map((q) => {
+          const rawCorrectText = (q.options[q.correctOptionId] || '').trim();
+          const cleanOpts = q.options
+            .map((o) => (typeof o === 'string' ? o.trim() : String(o || '').trim()))
+            .filter((o) => o.length > 0);
+          const newCorrectId = cleanOpts.indexOf(rawCorrectText);
+          return {
+            questionText: q.questionText.trim(),
+            options: cleanOpts,
+            correctOptionId: newCorrectId !== -1 ? newCorrectId : 0,
+          };
+        }),
       };
 
       let res;

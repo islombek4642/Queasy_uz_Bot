@@ -250,17 +250,19 @@ export function formatLatexForRender(text) {
   if (!text || typeof text !== 'string') return '';
   let s = text.trim();
 
-  // If text contains $...$ or $$...$$ delimiters, extract the actual formulas for crisp mathematical image
+  // If text contains $...$ or $$...$$ delimiters, format math and wrap non-math text in \text{...}
   if (s.includes('$')) {
     const parts = s.split(/(\$\$[\s\S]+?\$\$|\$[^\$]+?\$)/g);
-    const formulas = parts
-      .filter((p) => (p.startsWith('$$') && p.endsWith('$$')) || (p.startsWith('$') && p.endsWith('$')))
-      .map((p) => normalizeLatex(p.replace(/^\$+|\$+$/g, '').trim()))
-      .filter(Boolean);
-
-    if (formulas.length > 0) {
-      return formulas.join(' \\qquad ');
-    }
+    return parts
+      .map((p) => {
+        if (!p) return '';
+        if ((p.startsWith('$$') && p.endsWith('$$')) || (p.startsWith('$') && p.endsWith('$'))) {
+          const formula = p.replace(/^\$+|\$+$/g, '').trim();
+          return normalizeLatex(formula);
+        }
+        return `\\text{${p}}`;
+      })
+      .join('');
   }
 
   // Pure formula without delimiters

@@ -129,6 +129,8 @@ export async function setUserBlocked(userId, isBlocked = true) {
     .run();
 }
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export async function broadcastMessage(api, payload) {
   let allUsers = [];
 
@@ -151,6 +153,9 @@ export async function broadcastMessage(api, payload) {
 
   let success = 0;
   let fail = 0;
+  const chunkSize = CONFIG.BROADCAST?.CHUNK_SIZE || 25;
+  const delayMs = CONFIG.BROADCAST?.DELAY_MS || 50;
+  let counter = 0;
 
   for (const u of allUsers) {
     try {
@@ -176,6 +181,11 @@ export async function broadcastMessage(api, payload) {
           await setUserBlocked(u.id, true);
         } catch {}
       }
+    }
+
+    counter++;
+    if (counter % chunkSize === 0 && delayMs > 0) {
+      await sleep(delayMs);
     }
   }
 

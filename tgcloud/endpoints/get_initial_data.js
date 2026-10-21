@@ -1,6 +1,6 @@
 // tgcloud/endpoints/get_initial_data.js
 import { db } from 'sdk';
-import { eq, desc, and } from 'sdk/db';
+import { eq, desc, and, sql } from 'sdk/db';
 import { users, quizzes, questions, quizSessions } from '../schema.js';
 import { CONFIG } from '../lib/constants/config.js';
 import turso from '../lib/turso_client.js';
@@ -196,6 +196,17 @@ export default async function (input, ctx) {
   const xp = totalCorrect * 10;
   const level = Math.floor(xp / 100) + 1;
   const fullName = [userRow?.firstName, userRow?.lastName].filter(Boolean).join(' ') || tgUser?.first_name || 'Foydalanuvchi';
+  let globalRank = '-';
+  if (finishedSessions.length > 0) {
+    try {
+      const rankRow = await db.get(
+        sql`SELECT COUNT(*) as higher_count FROM (SELECT user_id, SUM(correct_count) as tc FROM quiz_sessions WHERE is_active = 0 GROUP BY user_id HAVING tc > ${totalCorrect})`
+      );
+      globalRank = (Number(rankRow?.higher_count) || 0) + 1;
+    } catch {
+      globalRank = '-';
+    }
+  }
 
   return {
     user: {
@@ -211,7 +222,7 @@ export default async function (input, ctx) {
     stats: {
       totalSolved: finishedSessions.length,
       accuracy,
-      globalRank: finishedSessions.length > 0 ? 1 : '-',
+      globalRank,
       weeklyActivity: [],
     },
   };

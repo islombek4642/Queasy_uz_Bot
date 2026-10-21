@@ -7,7 +7,11 @@ import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
   const tgUser = ctx?.initData?.user;
-  const userId = tgUser?.id || 0;
+  const userId = Number(tgUser?.id) || 0;
+  if (!userId) {
+    return { success: false, error: 'UNAUTHORIZED' };
+  }
+
   const isMistakesMode = Boolean(input?.isMistakesMode);
   const quizId = parseInt(input?.quizId, 10) || 0;
   const correctCount = parseInt(input?.correctCount, 10) || 0;
@@ -15,7 +19,7 @@ export default async function (input, ctx) {
   const totalQuestions = correctCount + wrongCount;
 
   if (totalQuestions === 0) {
-    return { success: false, error: 'NO_QUESTIONS' };
+    return { success: true, sessionId: null, message: 'NO_QUESTIONS' };
   }
 
   if (!isMistakesMode && !quizId) {

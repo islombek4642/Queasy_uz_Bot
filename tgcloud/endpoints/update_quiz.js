@@ -1,16 +1,17 @@
 // tgcloud/endpoints/update_quiz.js
 import { db } from 'sdk';
-import { eq, and } from 'sdk/db';
+import { eq } from 'sdk/db';
 import { quizzes, questions } from '../schema.js';
 import { CONFIG } from '../lib/constants/config.js';
 import { ERRORS } from '../lib/constants/errors.js';
+import { isUserAdmin } from '../lib/services/admin_service.js';
 
 import turso from '../lib/turso_client.js';
 
 const FALLBACK_OPTIONS = ['Option A', 'Option B'];
 
 export default async function (input, ctx) {
-  const currentUserId = ctx?.initData?.user?.id;
+  const currentUserId = Number(ctx?.initData?.user?.id);
   if (!currentUserId) {
     return { success: false, error: ERRORS.UNAUTHORIZED };
   }
@@ -30,10 +31,16 @@ export default async function (input, ctx) {
     return { success: false, error: ERRORS.QUESTIONS_REQUIRED };
   }
 
+  const isAdmin = isUserAdmin(currentUserId);
+
   if (CONFIG.TURSO?.ENABLED) {
     try {
-      const targetQuiz = await turso.get('SELECT * FROM quizzes WHERE id = ? AND owner_id = ?', [qId, currentUserId]);
+      const targetQuiz = await turso.get('SELECT * FROM quizzes WHERE id = ?', [qId]);
       if (!targetQuiz) {
+        return { success: false, error: ERRORS.QUIZ_NOT_FOUND_OR_FORBIDDEN };
+      }
+
+      if (Number(targetQuiz.owner_id) !== currentUserId && !isAdmin) {
         return { success: false, error: ERRORS.QUIZ_NOT_FOUND_OR_FORBIDDEN };
       }
 
@@ -70,7 +77,7 @@ export default async function (input, ctx) {
   const targetQuiz = await db
     .select()
     .from(quizzes)
-    .where(and(eq(quizzes.id, qId), eq(quizzes.ownerId, currentUserId)))
+    .where(eq(quizzes.id, qId))
     .get();
 
   if (!targetQuiz && !CONFIG.TURSO?.ENABLED) {
@@ -78,6 +85,10 @@ export default async function (input, ctx) {
   }
 
   if (targetQuiz) {
+    if (Number(targetQuiz.ownerId) !== currentUserId && !isAdmin) {
+      return { success: false, error: ERRORS.QUIZ_NOT_FOUND_OR_FORBIDDEN };
+    }
+
     await db
       .update(quizzes)
       .set({
@@ -93,8 +104,7 @@ export default async function (input, ctx) {
       .where(eq(questions.quizId, qId))
       .run();
 
-    for (let i = 0; i < questionsList.length; i++) {
-      const q = questionsList[i];
+    const localInserts = questionsList.map((q, i) => {
       const text = q.questionText?.trim() || `Question #${i + 1}`;
       const opts = Array.isArray(q.options) && q.options.length >= CONFIG.POLL.MIN_OPTIONS
         ? q.options.map((o) => (typeof o === 'string' ? o.trim() : String(o)))
@@ -104,17 +114,18 @@ export default async function (input, ctx) {
         ? Number(q.correctOptionId)
         : 0;
 
-      await db
-        .insert(questions)
-        .values({
-          quizId: qId,
-          orderIndex: i,
-          questionText: text,
-          optionsJson: JSON.stringify(opts),
-          correctOptionId: correctId,
-          explanation: q.explanation?.trim() || null,
-        })
-        .run();
+      return {
+        quizId: qId,
+        orderIndex: i,
+        questionText: text,
+        optionsJson: JSON.stringify(opts),
+        correctOptionId: correctId,
+        explanation: q.explanation?.trim() || null,
+      };
+    });
+
+    if (localInserts.length > 0) {
+      await db.insert(questions).values(localInserts).run();
     }
   }
 

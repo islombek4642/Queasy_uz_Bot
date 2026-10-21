@@ -80,7 +80,7 @@ export function formatParticipantName(rawName, userId = null, username = null) {
   }
 
   const cleanName = escapeHtml(nameStr || 'Foydalanuvchi');
-  const profileUrl = userId ? `tg://user?id=${userId}` : (cleanUser ? `https://t.me/${cleanUser}` : '');
+  const profileUrl = cleanUser ? `https://t.me/${cleanUser}` : (userId ? `tg://user?id=${userId}` : '');
   const nameLink = profileUrl ? `<a href="${profileUrl}">${cleanName}</a>` : cleanName;
   const userTag = cleanUser ? ` (@${escapeHtml(cleanUser)})` : '';
 

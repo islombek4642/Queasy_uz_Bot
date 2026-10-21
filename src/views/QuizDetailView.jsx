@@ -11,7 +11,7 @@ import { Button } from '../components/common/Button.jsx';
 import { Pagination } from '../components/common/Pagination.jsx';
 import { MathText } from '../components/quiz/MathText.jsx';
 
-export function QuizDetailView({ quizId, onBack }) {
+export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
   const { t } = useTranslation();
   const { haptic, backButton } = useTelegram();
 
@@ -89,7 +89,7 @@ export function QuizDetailView({ quizId, onBack }) {
       className="animate-fade-in"
     >
       {/* Top Navigation Bar */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', flexWrap: 'wrap' }}>
         <button
           onClick={() => {
             haptic.selection();
@@ -114,6 +114,35 @@ export function QuizDetailView({ quizId, onBack }) {
           <span>{t('BTN_EXIT')}</span>
         </button>
 
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {onEditQuiz && (
+            <Button
+              size="sm"
+              variant="outline"
+              icon="solar:pen-bold-duotone"
+              onClick={() => {
+                haptic.selection();
+                onEditQuiz(quizId);
+              }}
+            >
+              {t('BTN_EDIT')}
+            </Button>
+          )}
+
+          {onStartQuiz && (
+            <Button
+              size="sm"
+              variant="primary"
+              icon="solar:play-bold"
+              onClick={() => {
+                haptic.impact('medium');
+                onStartQuiz(quizId);
+              }}
+            >
+              {t('BTN_START_QUIZ')}
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Quiz Overview Card */}
