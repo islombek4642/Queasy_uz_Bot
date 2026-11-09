@@ -36,11 +36,14 @@ export function validateQuestion(q, index = 1, lang = 'UZ') {
   if (q.options.length > MAX_OPTIONS) {
     if (typeof q.correctOptionId === 'number' && q.correctOptionId < MAX_OPTIONS) {
       q.options = q.options.slice(0, MAX_OPTIONS);
+    } else if (typeof q.correctOptionId === 'number' && q.correctOptionId < q.options.length) {
+      const correctOpt = q.options[q.correctOptionId];
+      q.options = q.options.slice(0, MAX_OPTIONS - 1);
+      q.options.push(correctOpt);
+      q.correctOptionId = MAX_OPTIONS - 1;
     } else {
-      return {
-        isValid: false,
-        error: getMessage('VALIDATOR_ERR_MAX_OPTIONS', lang, { index, max: MAX_OPTIONS }),
-      };
+      q.options = q.options.slice(0, MAX_OPTIONS);
+      q.correctOptionId = 0;
     }
   }
 

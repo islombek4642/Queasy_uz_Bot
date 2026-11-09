@@ -323,6 +323,13 @@ export async function cloneQuiz(quizId, newOwnerId, lang = CONFIG.I18N.DEFAULT_L
       const original = await turso.get('SELECT * FROM quizzes WHERE id = ?', [qId]);
       if (!original) return null;
 
+      // Abort if original quiz has 0 questions
+      const origCountRow = await turso.get('SELECT count(*) as count FROM questions WHERE quiz_id = ?', [qId]);
+      if (!origCountRow || Number(origCountRow.count) === 0) {
+        console.warn(`[quiz_service] cloneQuiz: Quiz #${qId} has 0 questions, aborting clone.`);
+        return null;
+      }
+
       const title = customTitle || (Number(original.owner_id) === 0 ? original.title : getMessage('QUIZ_CLONED_TITLE', lang, { title: original.title }));
       const categoryDesc = original.description || (original.category ? `KIUT ${original.category}` : null);
 
@@ -360,6 +367,13 @@ export async function cloneQuiz(quizId, newOwnerId, lang = CONFIG.I18N.DEFAULT_L
     .get();
 
   if (!original) return null;
+
+  // Abort if original quiz has 0 questions
+  const origCount = await db.$count(questions, eq(questions.quizId, qId));
+  if (origCount === 0) {
+    console.warn(`[quiz_service] cloneQuiz: Quiz #${qId} has 0 questions, aborting clone.`);
+    return null;
+  }
 
   const title = customTitle || (original.ownerId === 0 ? original.title : getMessage('QUIZ_CLONED_TITLE', lang, { title: original.title }));
 

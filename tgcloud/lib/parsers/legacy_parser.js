@@ -45,15 +45,27 @@ export function parseLegacyFormat(lines) {
       }
     } else if (trimmed.startsWith('+')) {
       if (currentQuestion !== null) {
+        if (currentCorrect >= 0 && currentOptions.length >= 2) {
+          // A second '+' appeared: previous question has finished and a new question started
+          commit();
+          currentQuestion = 'Savol';
+        }
         currentOptions.push(trimmed.slice(1).trim());
         currentCorrect = currentOptions.length - 1;
       }
     } else if (trimmed.startsWith('=')) {
       if (currentQuestion !== null) {
-        currentOptions.push(trimmed.slice(1).trim());
+        if (currentOptions.length < 12) {
+          currentOptions.push(trimmed.slice(1).trim());
+        }
       }
     } else if (currentOptions.length > 0) {
-      currentOptions[currentOptions.length - 1] += ` ${trimmed}`;
+      if (/^\?+/.test(trimmed)) {
+        commit();
+        currentQuestion = trimmed.replace(/^\?+/, '').trim();
+      } else {
+        currentOptions[currentOptions.length - 1] += ` ${trimmed}`;
+      }
     } else if (currentQuestion !== null) {
       currentQuestion += (currentQuestion ? ' ' : '') + trimmed;
     }

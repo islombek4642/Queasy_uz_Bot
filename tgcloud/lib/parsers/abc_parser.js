@@ -4,19 +4,19 @@
 // Numbered question regex (supports 1., 1), 1", №1, etc., with or without space or text on same line)
 const Q_NUM_REGEX = /^(?:№|\b)?(\d{1,4})[.)"'](?:\s*(.*))?$/i;
 
-// Option regex: A) or А) (Latin/Cyrillic), with optional *, #, + marker and optional space
-const OPT_REGEX = /^[#*+]?\s*([a-fA-Fа-яА-ЯёЁ])[.)"']\s*(.+)$/;
+// Option regex: A) or А) (Latin/Cyrillic up to 12 options: A-L), with optional *, #, + marker and optional space
+const OPT_REGEX = /^[#*+]?\s*([a-lA-Lа-яА-ЯёЁ])[.)"']\s*(.+)$/;
 
-const CORRECT_INDICATOR_REGEX = /^(?:to['']?g['']?ri\s+javob|javob|correct(?:\s+answer)?)\s*:\s*([a-fA-Fа-яА-ЯёЁ])/i;
+const CORRECT_INDICATOR_REGEX = /^(?:to['']?g['']?ri\s+javob|javob|correct(?:\s+answer)?)\s*:\s*([a-lA-Lа-яА-ЯёЁ])/i;
 const EXPLANATION_REGEX = /^(?:izoh|tushuntirish|yechimi?|yechim|💡|explanation|solution)\s*:\s*(.+)$/i;
 const ANSWER_KEY_BLOCK_REGEX = /(?:javoblar|to['']?g['']?ri\s+javoblar|answers|keys)\s*:\s*([\s\S]+)$/i;
 
 // Mapping Cyrillic letters to standard 0-indexed positions
 const LETTER_INDEX_MAP = {
   // Latin
-  A: 0, B: 1, C: 2, D: 3, E: 4, F: 5,
+  A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8, J: 9, K: 10, L: 11,
   // Cyrillic uppercase
-  'А': 0, 'Б': 1, 'В': 2, 'Г': 3, 'Д': 4, 'Е': 5,
+  'А': 0, 'Б': 1, 'В': 2, 'Г': 3, 'Д': 4, 'Е': 5, 'Ж': 6, 'З': 7, 'И': 8, 'К': 9, 'Л': 10, 'М': 11,
 };
 
 function letterToOptionIndex(letter) {
@@ -42,7 +42,7 @@ function extractAnswerKeys(lines) {
 
   const rawKeys = match[1];
   const keysMap = new Map();
-  const pairRegex = /(\d{1,4})\s*[-:.)]\s*([a-fA-Fа-яА-ЯёЁ])/g;
+  const pairRegex = /(\d{1,4})\s*[-:.)]\s*([a-lA-Lа-яА-ЯёЁ])/g;
   let m;
   while ((m = pairRegex.exec(rawKeys)) !== null) {
     keysMap.set(parseInt(m[1], 10), m[2]);
@@ -123,6 +123,13 @@ export function parseAbcFormat(lines) {
     // Check for Option line (e.g., "A) Option" or "#B) Option" or "*A) Option")
     const optMatch = OPT_REGEX.exec(line);
     if (optMatch && currentQuestion !== null) {
+      const letter = (optMatch[1] || '').toUpperCase();
+      if ((letter === 'A' || letter === 'А') && currentOptions.length >= 2) {
+        // A new question started with 'A)' without question number
+        commitQuestion();
+        currentQuestion = 'Savol';
+      }
+
       let isCorrect = line.startsWith('#') || line.startsWith('*') || line.startsWith('+');
       let optText = optMatch[2].trim();
 
@@ -138,11 +145,12 @@ export function parseAbcFormat(lines) {
         optText = optText.slice(0, -1).trim();
       }
 
-      if (isCorrect) {
-        currentCorrect = currentOptions.length;
+      if (currentOptions.length < 12) {
+        if (isCorrect) {
+          currentCorrect = currentOptions.length;
+        }
+        currentOptions.push(optText);
       }
-
-      currentOptions.push(optText);
       continue;
     }
 

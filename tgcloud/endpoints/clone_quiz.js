@@ -40,6 +40,26 @@ export default async function (input, ctx) {
       return { success: false, error: ERRORS.QUIZ_NOT_FOUND };
     }
 
+    // Check if original quiz actually has questions
+    let questionsCount = 0;
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        const countRow = await turso.get('SELECT count(*) as count FROM questions WHERE quiz_id = ?', [quizId]);
+        questionsCount = Number(countRow?.count || 0);
+      } catch (err) {
+        console.warn('[clone_quiz] Turso questions count fallback:', err.message);
+      }
+    }
+    if (questionsCount === 0) {
+      try {
+        questionsCount = await db.$count(questions, eq(questions.quizId, quizId));
+      } catch {}
+    }
+
+    if (questionsCount === 0) {
+      return { success: false, error: "Savollari mavjud bo'lmagan bo'sh testni klonlab bo'lmaydi" };
+    }
+
     // 2. Check if user already owns this quiz or already cloned it with identical title
     let existing = null;
     if (CONFIG.TURSO?.ENABLED) {

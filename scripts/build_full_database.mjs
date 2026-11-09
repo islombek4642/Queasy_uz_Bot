@@ -283,7 +283,10 @@ async function main() {
       typeof q.createdAt === 'number' ? q.createdAt : Math.floor(Date.now() / 1000)
     );
     const key = `${(q.category || '').trim().toLowerCase()}|||${(q.title || '').trim().toLowerCase()}`;
-    quizIdMap.set(key, q.id);
+    // Priority to official quizzes (ownerId === 0); do not overwrite with user clone
+    if (!quizIdMap.has(key) || (q.ownerId || 0) === 0) {
+      quizIdMap.set(key, q.id);
+    }
   }
   db.exec('COMMIT;');
   console.log(`  ✓ ${quizzes.length} quizzes imported.`);
