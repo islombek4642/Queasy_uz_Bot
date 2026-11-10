@@ -33,6 +33,11 @@ import {
 } from '../lib/services/quiz_service.js';
 
 import {
+  getKiutCategoryView,
+  findCategoryIdByPath,
+} from '../lib/services/kiut_catalog_service.js';
+
+import {
   startQuizSession,
   getUserMistakesCount,
   getUserMistakesGrouped,
@@ -218,28 +223,27 @@ export default async function (callbackQuery, ctx) {
     return;
   }
 
-  // KIUT Catalog navigation (64-byte safe using compact category IDs)
+  // KIUT Catalog navigation (64-byte safe using compact category IDs & in-memory tree)
   if (data.startsWith('kiut_c:') || data.startsWith('kiut_cat:')) {
-    await answer();
-    await clearUserState(userId);
+    answer().catch(() => {});
+    clearUserState(userId).catch(() => {});
 
     let catId = 0;
     if (data.startsWith('kiut_c:')) {
       catId = parseInt(data.replace('kiut_c:', ''), 10) || 0;
     } else {
       const legacyPath = data.replace('kiut_cat:', '').trim();
-      let rec = null;
-      if (CONFIG.TURSO?.ENABLED) {
-        try { rec = await turso.get('SELECT id FROM categories WHERE path = ?', [legacyPath]); } catch {}
-      }
-      if (!rec) {
-        rec = await db.select().from(categoriesTable).where(eq(categoriesTable.path, legacyPath)).get();
-      }
-      catId = rec?.id || 0;
+      catId = findCategoryIdByPath(legacyPath) || 0;
+    }
+
+    const view = await getKiutCategoryView(catId);
+    if (!view) {
+      await answer(getMessage('ERR_SECTION_NOT_FOUND', lang), true);
+      return;
     }
 
     // Root level menu
-    if (catId === 0) {
+    if (view.isRoot || catId === 0) {
       const inline_keyboard = [
         [
           { text: "☀️ Kunduzgi ta'lim", callback_data: "kiut_c:1" },
@@ -261,101 +265,20 @@ export default async function (callbackQuery, ctx) {
         ],
       ];
 
-      try {
-        await api.editMessageText({
-          chat_id: chatId,
-          message_id: messageId,
-          text: getMessage('KIUT_MENU_HEADER', lang),
-          parse_mode: 'HTML',
-          reply_markup: { inline_keyboard },
-        });
-      } catch {
-        await api.sendMessage({
-          chat_id: chatId,
-          text: getMessage('KIUT_MENU_HEADER', lang),
-          parse_mode: 'HTML',
-          reply_markup: { inline_keyboard },
-        });
-      }
+      await safeEditMessageText({
+        chat_id: chatId,
+        message_id: messageId,
+        text: getMessage('KIUT_MENU_HEADER', lang),
+        parse_mode: 'HTML',
+        reply_markup: { inline_keyboard },
+      });
       return;
     }
-
-    let currentCat = null;
-    if (CONFIG.TURSO?.ENABLED) {
-      try { currentCat = await turso.get('SELECT * FROM categories WHERE id = ?', [catId]); } catch {}
-    }
-    if (!currentCat) {
-      currentCat = await db.select().from(categoriesTable).where(eq(categoriesTable.id, catId)).get();
-    }
-    const catPath = currentCat?.path || '';
-
-    if (!catPath) {
-      await answer(getMessage('ERR_SECTION_NOT_FOUND', lang), true);
-      return;
-    }
-
-    // Find direct subcategories using categories table
-    const prefix = `${catPath} /`;
-    let allChildCats = [];
-    if (CONFIG.TURSO?.ENABLED) {
-      try {
-        allChildCats = await turso.all('SELECT id, path FROM categories WHERE path LIKE ?', [`${prefix}%`]);
-      } catch {}
-    }
-    if (!allChildCats || allChildCats.length === 0) {
-      allChildCats = await db
-        .select()
-        .from(categoriesTable)
-        .where(like(categoriesTable.path, `${prefix}%`))
-        .all();
-    }
-
-    const subMap = new Map();
-    for (const row of allChildCats) {
-      const remainder = row.path.slice(prefix.length).trim();
-      const nextSeg = remainder.split(' / ')[0].trim();
-      if (nextSeg && !subMap.has(nextSeg)) {
-        const fullNextPath = `${catPath} / ${nextSeg}`;
-        const matchedChild = allChildCats.find((c) => c.path === fullNextPath);
-        if (matchedChild) {
-          subMap.set(nextSeg, matchedChild.id);
-        }
-      }
-    }
-
-    // Naturally sort subcategories (e.g. 1-SEMESTR, 2-SEMESTR, ... 10-SEMESTR)
-    const sortedSubList = Array.from(subMap.entries()).sort(([a], [b]) =>
-      a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
-    );
-
-    // Find direct quizzes directly under catPath
-    let directQuizzes = [];
-    if (CONFIG.TURSO?.ENABLED) {
-      try {
-        directQuizzes = await turso.all(
-          'SELECT id, title FROM quizzes WHERE is_public = 1 AND category = ? LIMIT 60',
-          [catPath]
-        );
-      } catch {}
-    }
-    if (!directQuizzes || directQuizzes.length === 0) {
-      directQuizzes = await db
-        .select({ id: quizzesTable.id, title: quizzesTable.title })
-        .from(quizzesTable)
-        .where(and(eq(quizzesTable.isPublic, true), eq(quizzesTable.category, catPath)))
-        .limit(60)
-        .all();
-    }
-
-    // Naturally sort direct quizzes
-    directQuizzes.sort((a, b) =>
-      a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' })
-    );
 
     const inline_keyboard = [];
 
     // Subcategory buttons
-    for (const [subName, subId] of sortedSubList) {
+    for (const [subName, subId] of view.subList) {
       inline_keyboard.push([
         {
           text: `📁 ${truncateText(subName, 32)}`,
@@ -365,7 +288,7 @@ export default async function (callbackQuery, ctx) {
     }
 
     // Direct quiz buttons (clicking a subject opens the Test Card first)
-    for (const q of directQuizzes) {
+    for (const q of view.directQuizzes) {
       inline_keyboard.push([
         {
           text: `▶️ ${truncateText(q.title, 32)}`,
@@ -375,26 +298,10 @@ export default async function (callbackQuery, ctx) {
     }
 
     // Parent navigation / Back button
-    const pathParts = catPath.split(' / ');
-    pathParts.pop();
-    const parentPath = pathParts.join(' / ');
-
-    let parentId = 0;
-    if (parentPath) {
-      let parentRec = null;
-      if (CONFIG.TURSO?.ENABLED) {
-        try { parentRec = await turso.get('SELECT id FROM categories WHERE path = ?', [parentPath]); } catch {}
-      }
-      if (!parentRec) {
-        parentRec = await db.select().from(categoriesTable).where(eq(categoriesTable.path, parentPath)).get();
-      }
-      parentId = parentRec?.id || 0;
-    }
-
     inline_keyboard.push([
       {
         text: '⬅️ Orqaga',
-        callback_data: `kiut_c:${parentId}`,
+        callback_data: `kiut_c:${view.parentId}`,
       },
       {
         text: '📱 Mini App',
@@ -402,22 +309,13 @@ export default async function (callbackQuery, ctx) {
       },
     ]);
 
-    try {
-      await api.editMessageText({
-        chat_id: chatId,
-        message_id: messageId,
-        text: `🏛 <b>KIUT Testlari</b>\n📍 <code>${escapeHtml(catPath)}</code>\n\nKerakli bo'lim yoki fanni tanlang:`,
-        parse_mode: 'HTML',
-        reply_markup: { inline_keyboard },
-      });
-    } catch {
-      await api.sendMessage({
-        chat_id: chatId,
-        text: `🏛 <b>KIUT Testlari</b>\n📍 <code>${escapeHtml(catPath)}</code>\n\nKerakli bo'lim yoki fanni tanlang:`,
-        parse_mode: 'HTML',
-        reply_markup: { inline_keyboard },
-      });
-    }
+    await safeEditMessageText({
+      chat_id: chatId,
+      message_id: messageId,
+      text: `🏛 <b>KIUT Testlari</b>\n📍 <code>${escapeHtml(view.catPath)}</code>\n\nKerakli bo'lim yoki fanni tanlang:`,
+      parse_mode: 'HTML',
+      reply_markup: { inline_keyboard },
+    });
     return;
   }
 
@@ -811,16 +709,8 @@ export default async function (callbackQuery, ctx) {
     } else if (isOwner) {
       backCallbackData = `${ACTIONS.MY_QUIZZES_PAGE_PREFIX}0`;
     } else if (quiz.category) {
-      const catRec = await db
-        .select()
-        .from(categoriesTable)
-        .where(eq(categoriesTable.path, quiz.category))
-        .get();
-      if (catRec) {
-        backCallbackData = `kiut_c:${catRec.id}`;
-      } else {
-        backCallbackData = 'kiut_c:0';
-      }
+      const catId = findCategoryIdByPath(quiz.category);
+      backCallbackData = catId ? `kiut_c:${catId}` : 'kiut_c:0';
     }
 
     const mistakesCount = await getUserMistakesCount(userId, quiz.id);
@@ -858,11 +748,13 @@ export default async function (callbackQuery, ctx) {
 
   // 11. Pagination for My Quizzes
   if (data.startsWith(ACTIONS.MY_QUIZZES_PAGE_PREFIX)) {
+    answer().catch(() => {});
     const page = parseInt(data.replace(ACTIONS.MY_QUIZZES_PAGE_PREFIX, ''), 10) || 0;
-    const quizzesList = await getUserQuizzes(userId, page);
-    const count = await getUserQuizzesCount(userId);
+    const [quizzesList, count] = await Promise.all([
+      getUserQuizzes(userId, page),
+      getUserQuizzesCount(userId),
+    ]);
 
-    await answer();
     if (count === 0) {
       try {
         await api.editMessageText({

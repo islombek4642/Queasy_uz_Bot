@@ -7,11 +7,26 @@ import { requiredChannels } from '../../schema.js';
 import { CONFIG } from '../constants/config.js';
 import turso from '../turso_client.js';
 
+let _cachedChannels = null;
+let _cachedChannelsTime = 0;
+const CHANNELS_CACHE_TTL = 3 * 60 * 1000; // 3 minutes
+
+export function invalidateChannelsCache() {
+  _cachedChannels = null;
+  _cachedChannelsTime = 0;
+}
+
 export async function getRequiredChannels() {
+  const now = Date.now();
+  if (_cachedChannels && (now - _cachedChannelsTime < CHANNELS_CACHE_TTL)) {
+    return _cachedChannels;
+  }
+
+  let channels = [];
   if (CONFIG.TURSO?.ENABLED) {
     try {
       const rows = await turso.all('SELECT * FROM required_channels WHERE is_active = 1');
-      return (rows || []).map(r => ({
+      channels = (rows || []).map(r => ({
         id: r.id,
         channelId: r.channel_id,
         channelUsername: r.channel_username,
@@ -19,19 +34,27 @@ export async function getRequiredChannels() {
         inviteLink: r.invite_link,
         isActive: Boolean(r.is_active),
       }));
+      _cachedChannels = channels;
+      _cachedChannelsTime = now;
+      return channels;
     } catch (err) {
       console.warn('[channel_service] Turso fallback to local db:', err.message);
     }
   }
 
-  return await db
+  channels = await db
     .select()
     .from(requiredChannels)
     .where(eq(requiredChannels.isActive, true))
     .all();
+
+  _cachedChannels = channels;
+  _cachedChannelsTime = now;
+  return channels;
 }
 
 export async function addRequiredChannel({ channelId, channelUsername, title, inviteLink }) {
+  invalidateChannelsCache();
   if (CONFIG.TURSO?.ENABLED) {
     try {
       await turso.run(
@@ -57,6 +80,7 @@ export async function addRequiredChannel({ channelId, channelUsername, title, in
 }
 
 export async function deleteRequiredChannel(id) {
+  invalidateChannelsCache();
   if (CONFIG.TURSO?.ENABLED) {
     try {
       await turso.run('DELETE FROM required_channels WHERE id = ?', [Number(id)]);

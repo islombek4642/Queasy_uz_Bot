@@ -9,6 +9,14 @@ import { STATES } from '../constants/actions.js';
 import { getMessage } from '../constants/messages.js';
 import turso from '../turso_client.js';
 
+// In-memory cache for ultra-fast user profile & state lookups
+const _userCache = new Map();
+const USER_CACHE_TTL = 3 * 60 * 1000; // 3 minutes
+const USER_ACTIVITY_SYNC_INTERVAL = 5 * 60 * 1000; // at most once every 5 minutes
+
+const _stateCache = new Map();
+const STATE_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
+
 function mapUserRow(r) {
   if (!r) return null;
   return {
@@ -27,16 +35,38 @@ export async function getOrCreateUser(tgUser) {
   if (!tgUser || !tgUser.id) return null;
 
   const telegramId = Number(tgUser.id);
+  const now = Date.now();
+
+  // 1. Check in-memory user cache
+  const cached = _userCache.get(telegramId);
+  if (cached && (now - cached.cachedAt < USER_CACHE_TTL)) {
+    // Non-blocking background touch if needed
+    if (now - cached.lastDbTouch > USER_ACTIVITY_SYNC_INTERVAL) {
+      cached.lastDbTouch = now;
+      if (CONFIG.TURSO?.ENABLED) {
+        turso.run(
+          'UPDATE users SET first_name = ?, last_name = ?, username = ?, last_active_at = unixepoch() WHERE telegram_id = ?',
+          [tgUser.first_name || cached.user.firstName, tgUser.last_name || cached.user.lastName, tgUser.username || cached.user.username, telegramId]
+        ).catch(() => {});
+      }
+    }
+    return cached.user;
+  }
 
   if (CONFIG.TURSO?.ENABLED) {
     try {
       const existing = await turso.get('SELECT * FROM users WHERE telegram_id = ?', [telegramId]);
       if (existing) {
-        await turso.run(
+        const mapped = mapUserRow(existing);
+        _userCache.set(telegramId, { user: mapped, cachedAt: now, lastDbTouch: now });
+
+        // Non-blocking background update so user doesn't wait 150ms!
+        turso.run(
           'UPDATE users SET first_name = ?, last_name = ?, username = ?, last_active_at = unixepoch() WHERE telegram_id = ?',
           [tgUser.first_name || existing.first_name, tgUser.last_name || existing.last_name, tgUser.username || existing.username, telegramId]
-        );
-        return mapUserRow(existing);
+        ).catch(() => {});
+
+        return mapped;
       }
 
       let initialLang = CONFIG.I18N.DEFAULT_LANG;
@@ -52,7 +82,9 @@ export async function getOrCreateUser(tgUser) {
       );
 
       const created = await turso.get('SELECT * FROM users WHERE telegram_id = ?', [telegramId]);
-      return mapUserRow(created);
+      const mappedCreated = mapUserRow(created);
+      _userCache.set(telegramId, { user: mappedCreated, cachedAt: now, lastDbTouch: now });
+      return mappedCreated;
     } catch (err) {
       console.warn('[user_service] Turso getOrCreateUser fallback to local db:', err.message);
     }
@@ -68,9 +100,9 @@ export async function getOrCreateUser(tgUser) {
     if (existing.lang) {
       existing.lang = existing.lang.toUpperCase();
     }
-    // Update last active
-    await db
-      .update(users)
+    _userCache.set(telegramId, { user: existing, cachedAt: now, lastDbTouch: now });
+    // Update last active in background
+    db.update(users)
       .set({
         firstName: tgUser.first_name || existing.firstName,
         lastName: tgUser.last_name || existing.lastName,
@@ -78,7 +110,8 @@ export async function getOrCreateUser(tgUser) {
         lastActiveAt: new Date(),
       })
       .where(eq(users.telegramId, telegramId))
-      .run();
+      .run()
+      .catch(() => {});
     return existing;
   }
 
@@ -120,11 +153,22 @@ export async function getOrCreateUser(tgUser) {
 export async function getUser(userId) {
   if (!userId) return null;
   const telegramId = Number(userId);
+  const now = Date.now();
+
+  const cached = _userCache.get(telegramId);
+  if (cached && (now - cached.cachedAt < USER_CACHE_TTL)) {
+    return cached.user;
+  }
 
   if (CONFIG.TURSO?.ENABLED) {
     try {
       const user = await turso.get('SELECT * FROM users WHERE telegram_id = ?', [telegramId]);
-      return mapUserRow(user);
+      if (user) {
+        const mapped = mapUserRow(user);
+        _userCache.set(telegramId, { user: mapped, cachedAt: now, lastDbTouch: now });
+        return mapped;
+      }
+      return null;
     } catch (err) {
       console.warn('[user_service] Turso getUser fallback to local db:', err.message);
     }
@@ -136,8 +180,11 @@ export async function getUser(userId) {
     .where(eq(users.telegramId, telegramId))
     .get();
 
-  if (user && user.lang) {
-    user.lang = user.lang.toUpperCase();
+  if (user) {
+    if (user.lang) {
+      user.lang = user.lang.toUpperCase();
+    }
+    _userCache.set(telegramId, { user, cachedAt: now, lastDbTouch: now });
   }
   return user;
 }
@@ -146,6 +193,11 @@ export async function setUserLanguage(userId, lang) {
   const normalized = typeof lang === 'string' ? lang.toUpperCase() : 'UZ';
   if (!CONFIG.I18N.SUPPORTED.includes(normalized)) return;
   const telegramId = Number(userId);
+
+  const cached = _userCache.get(telegramId);
+  if (cached && cached.user) {
+    cached.user.lang = normalized;
+  }
 
   if (CONFIG.TURSO?.ENABLED) {
     try {
@@ -165,11 +217,19 @@ export async function setUserLanguage(userId, lang) {
 
 export async function getUserState(userId) {
   const uid = Number(userId);
+  const now = Date.now();
+
+  const cached = _stateCache.get(uid);
+  if (cached && (now - cached.cachedAt < STATE_CACHE_TTL)) {
+    return { state: cached.state, data: cached.data };
+  }
 
   if (CONFIG.TURSO?.ENABLED) {
     try {
       const row = await turso.get('SELECT state, context_data_json as contextDataJson FROM user_states WHERE user_id = ?', [uid]);
       if (!row) {
+        const idle = { state: STATES.IDLE, data: {}, cachedAt: now };
+        _stateCache.set(uid, idle);
         return { state: STATES.IDLE, data: {} };
       }
       let data = {};
@@ -180,6 +240,7 @@ export async function getUserState(userId) {
           data = {};
         }
       }
+      _stateCache.set(uid, { state: row.state, data, cachedAt: now });
       return { state: row.state, data };
     } catch (err) {
       console.warn('[user_service] Turso getUserState fallback to local db:', err.message);
@@ -193,6 +254,8 @@ export async function getUserState(userId) {
     .get();
 
   if (!row) {
+    const idle = { state: STATES.IDLE, data: {}, cachedAt: now };
+    _stateCache.set(uid, idle);
     return { state: STATES.IDLE, data: {} };
   }
 
@@ -205,11 +268,15 @@ export async function getUserState(userId) {
     }
   }
 
+  _stateCache.set(uid, { state: row.state, data, cachedAt: now });
   return { state: row.state, data };
 }
 
 export async function setUserState(userId, state, data = {}) {
   const uid = Number(userId);
+  const now = Date.now();
+  _stateCache.set(uid, { state, data, cachedAt: now });
+
   const contextDataJson = JSON.stringify(data);
 
   if (CONFIG.TURSO?.ENABLED) {
@@ -253,7 +320,22 @@ export async function setUserState(userId, state, data = {}) {
 }
 
 export async function clearUserState(userId) {
-  await setUserState(userId, STATES.IDLE, {});
+  const uid = Number(userId);
+  _stateCache.set(uid, { state: STATES.IDLE, data: {}, cachedAt: Date.now() });
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      await turso.run('DELETE FROM user_states WHERE user_id = ?', [uid]);
+      return;
+    } catch (err) {
+      console.warn('[user_service] Turso clearUserState fallback to local db:', err.message);
+    }
+  }
+
+  await db
+    .delete(userStates)
+    .where(eq(userStates.userId, uid))
+    .run();
 }
 
 export async function isUserBlocked(userId) {

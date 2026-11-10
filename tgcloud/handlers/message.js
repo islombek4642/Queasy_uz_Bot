@@ -785,8 +785,10 @@ export default async function (message, ctx) {
   }
 
   if (text === '/myquizzes' || isButtonMatch(text, 'BTN_MY_QUIZZES')) {
-    const quizzesList = await getUserQuizzes(fromUser.id, 0);
-    const count = await getUserQuizzesCount(fromUser.id);
+    const [quizzesList, count] = await Promise.all([
+      getUserQuizzes(fromUser.id, 0),
+      getUserQuizzesCount(fromUser.id),
+    ]);
 
     if (count === 0) {
       await api.sendMessage({
