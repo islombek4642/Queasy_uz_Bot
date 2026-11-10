@@ -17,6 +17,16 @@ export function isUserAdmin(userId) {
 export async function cleanupStaleSessions(timeoutSeconds = 300) {
   try {
     const cutoff = Math.floor(Date.now() / 1000) - timeoutSeconds;
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        await turso.run(
+          'UPDATE quiz_sessions SET is_active = 0 WHERE is_active = 1 AND last_poll_sent_at IS NOT NULL AND last_poll_sent_at < ?',
+          [cutoff]
+        );
+      } catch (err) {
+        console.warn('[admin_service] Turso cleanupStaleSessions error:', err.message);
+      }
+    }
     await db
       .update(quizSessions)
       .set({ isActive: false })
@@ -34,6 +44,43 @@ export async function cleanupStaleSessions(timeoutSeconds = 300) {
 
 export async function getBotStatistics() {
   await cleanupStaleSessions(300);
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      const [
+        usersRow,
+        todayRow,
+        activeGroups,
+        quizzesRow,
+        sessionsRow,
+        activeTotalRow,
+        activeGroupRow,
+        activePrivateRow,
+      ] = await Promise.all([
+        turso.get('SELECT count(*) as count FROM users'),
+        turso.get("SELECT count(*) as count FROM users WHERE created_at >= unixepoch('now', '+5 hours', 'start of day', '-5 hours')"),
+        getGroupsCount(),
+        turso.get('SELECT count(*) as count FROM quizzes'),
+        turso.get('SELECT count(*) as count FROM quiz_sessions'),
+        turso.get('SELECT count(*) as count FROM quiz_sessions WHERE is_active = 1'),
+        turso.get('SELECT count(*) as count FROM quiz_sessions WHERE is_active = 1 AND is_group = 1'),
+        turso.get('SELECT count(*) as count FROM quiz_sessions WHERE is_active = 1 AND (is_group = 0 OR is_group IS NULL)'),
+      ]);
+
+      return {
+        totalUsers: Number(usersRow?.count || 0),
+        todayUsers: Number(todayRow?.count || 0),
+        activeGroups: Number(activeGroups || 0),
+        totalQuizzes: Number(quizzesRow?.count || 0),
+        totalSessions: Number(sessionsRow?.count || 0),
+        activeTotalSessions: Number(activeTotalRow?.count || 0),
+        activeGroupSessions: Number(activeGroupRow?.count || 0),
+        activePrivateSessions: Number(activePrivateRow?.count || 0),
+      };
+    } catch (err) {
+      console.warn('[admin_service] Turso getBotStatistics fallback to local db:', err.message);
+    }
+  }
 
   const [
     totalUsers,
