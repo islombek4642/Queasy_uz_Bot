@@ -27,6 +27,7 @@ scripts/.sanitize_*.json
 # SQLite databases
 *.sqlite
 *.sqlite3
+*.sqlite.backup*
 *.db
 
 # Temporary scratch folder
