@@ -77,3 +77,4 @@ testPerformanceAndCaching().catch((err) => {
   console.error('❌ test_performance_and_caching failed:', err);
   process.exit(1);
 });
+
