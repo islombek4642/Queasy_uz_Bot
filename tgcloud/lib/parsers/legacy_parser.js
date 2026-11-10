@@ -1,6 +1,19 @@
 // tgcloud/lib/parsers/legacy_parser.js
 // Legacy format parser (?Question, +Correct answer, =Wrong answer)
 
+import { hasMathFormula } from './math_engine.js';
+
+/**
+ * Checks if an option is a mathematical equation or formula (e.g. "x = 5", "f(x) = 2", "a = b + c")
+ */
+function isMathEquationOption(text) {
+  if (!text || typeof text !== 'string') return false;
+  if (hasMathFormula(text)) return true;
+  // Match variable assignment equations like "x = 5", "y = -2", "f(x) = 3", "a = b + c", "S = vt"
+  if (/^\s*[a-zA-Zα-ωΑ-Ω](?:\([a-zA-Z0-9]+\))?\s*=\s*.+/i.test(text)) return true;
+  return false;
+}
+
 export function parseLegacyFormat(lines) {
   const questions = [];
   let currentQuestion = null;
@@ -10,12 +23,14 @@ export function parseLegacyFormat(lines) {
   function commit() {
     if (currentQuestion && currentQuestion.trim() && currentOptions.length >= 1) {
       // Auto-repair inline options (e.g. "+Can =couldnt =be able to" or "=faylasuflar =boylar")
-      if (currentOptions.length < 4 && currentOptions.some((o) => o.includes('='))) {
+      // Math guard: NEVER split options if question or option contains a mathematical formula or equation
+      const isMath = hasMathFormula(currentQuestion) || currentOptions.some(isMathEquationOption);
+      if (!isMath && currentOptions.length < 4 && currentOptions.some((o) => o.includes('='))) {
         const expanded = [];
         let newCorrect = currentCorrect;
         for (let i = 0; i < currentOptions.length; i++) {
           const opt = currentOptions[i];
-          if (opt.includes('=')) {
+          if (opt.includes('=') && !isMathEquationOption(opt)) {
             const parts = opt.split(/\s*=\s*/).map((p) => p.trim()).filter(Boolean);
             if (parts.length > 1) {
               if (i === currentCorrect) newCorrect = expanded.length;
@@ -26,7 +41,8 @@ export function parseLegacyFormat(lines) {
           if (i === currentCorrect) newCorrect = expanded.length;
           expanded.push(opt.trim());
         }
-        if (expanded.length >= 2 && expanded.length <= 12) {
+        // Strict guard: only accept if it expands cleanly to exactly 4 standard options!
+        if (expanded.length === 4) {
           currentOptions = expanded;
           currentCorrect = newCorrect;
         }

@@ -276,4 +276,38 @@ B) Variant 2
   console.log('✅ Parser: Glued questions with ? separation passed');
 }
 
+// 15. Math Equation Protection (Equations with '=' must NEVER be split!)
+{
+  const mathLegacyText = `
+?Tenglamani yeching: 2x - 4 = 6
++x = 5
+=x = 3
+=x = -5
+=x = 0
+  `;
+  const res = parseQuizInput(mathLegacyText);
+  assert.strictEqual(res.success, true);
+  assert.strictEqual(res.questions.length, 1);
+  assert.strictEqual(res.questions[0].options.length, 4);
+  assert.strictEqual(res.questions[0].correctOptionId, 0);
+  assert.strictEqual(res.questions[0].options[0], 'x = 5');
+  assert.strictEqual(res.questions[0].options[1], 'x = 3');
+  assert.strictEqual(res.questions[0].options[2], 'x = -5');
+  assert.strictEqual(res.questions[0].options[3], 'x = 0');
+
+  const calculusText = `
+?Funksiya hosilasini toping: f(x) = x^2
++f'(x) = 2x
+=f'(x) = x
+=f'(x) = 3x
+  `;
+  const res2 = parseQuizInput(calculusText);
+  assert.strictEqual(res2.success, true);
+  assert.strictEqual(res2.questions.length, 1);
+  assert.strictEqual(res2.questions[0].options.length, 3);
+  assert.strictEqual(res2.questions[0].options[0], "f'(x) = 2x");
+
+  console.log('✅ Parser: Math equation protection (formulas with = intact) passed');
+}
+
 console.log('\n🎉 ALL HYBRID PARSER TESTS PASSED PERFECTLY!\n');
