@@ -42,7 +42,6 @@ export const CONFIG = {
   ADMINS: [
     8756078762, // Islombek (Primary Admin)
     8826149564, // Islombek (Admin)
-    8578759728, // Admin Account
     8869835041, // Bot App Owner
   ],
 
