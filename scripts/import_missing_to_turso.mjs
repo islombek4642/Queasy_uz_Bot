@@ -7,6 +7,7 @@ const TURSO_URL = 'https://queasy-db-xamidullayev-i.aws-eu-north-1.turso.io';
 const BASE_HOST = 'https://kiut-nm-test.uz';
 const MISSING_FILE = path.join(process.cwd(), 'scratch/missing_in_turso.json');
 const CHECKPOINT_FILE = path.join(process.cwd(), 'scratch/turso_import_checkpoint.json');
+const INIT_DATA = process.env.INIT_DATA || process.argv[2] || '';
 const CONCURRENCY = 6; // 6 parallel workers
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -98,11 +99,15 @@ async function processQuiz(item, index, total) {
   }
 
   // 1. Fetch test content
-  const testUrl = `${BASE_HOST}/api/test-content?path=${encodeURIComponent(item.relPath)}`;
+  const testUrl = `${BASE_HOST}/api/test-content?path=${encodeURIComponent(item.relPath)}${INIT_DATA ? `&initData=${encodeURIComponent(INIT_DATA)}` : ''}`;
   const res = await fetch(testUrl).then((r) => r.json());
 
   if (!res.success || !res.content) {
-    console.warn(`  ⚠️ [${index + 1}/${total}] Kontent topilmadi: ${item.title}`);
+    if (res.needActivation) {
+      console.warn(`  ⚠️ [${index + 1}/${total}] Server obuna talab qildi: ${res.error}`);
+    } else {
+      console.warn(`  ⚠️ [${index + 1}/${total}] Kontent topilmadi: ${item.title}`);
+    }
     return 0;
   }
 

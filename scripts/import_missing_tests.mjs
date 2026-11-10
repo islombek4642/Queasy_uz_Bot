@@ -4,10 +4,13 @@ import path from 'node:path';
 import sqlite3 from 'node:sqlite';
 import { spawnSync } from 'node:child_process';
 
-const INDEX_FILE = 'D:/Serverless/QUIZLARIM/index.json';
+const INDEX_FILE = fs.existsSync('D:/Serverless/Queasy_uz_Bot/scratch/new_site_tests_to_import.json')
+  ? 'D:/Serverless/Queasy_uz_Bot/scratch/new_site_tests_to_import.json'
+  : 'D:/Serverless/QUIZLARIM/index.json';
 const DB_FILE = 'D:/Serverless/Queasy_uz_Bot/queasy_ready.sqlite';
 const CHECKPOINT_FILE = 'D:/Serverless/Queasy_uz_Bot/scripts/.import_checkpoint.json';
 const BASE_HOST = 'https://kiut-nm-test.uz';
+const INIT_DATA = process.env.INIT_DATA || process.argv[2] || '';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -154,11 +157,15 @@ async function main() {
 
     try {
       // 1. Fetch raw test content from server
-      const testUrl = `${BASE_HOST}/api/test-content?path=${encodeURIComponent(item.relPath)}`;
+      const testUrl = `${BASE_HOST}/api/test-content?path=${encodeURIComponent(item.relPath)}${INIT_DATA ? `&initData=${encodeURIComponent(INIT_DATA)}` : ''}`;
       const res = await fetch(testUrl).then((r) => r.json());
 
       if (!res.success || !res.content) {
-        console.warn(`  ⚠️ Serverda test kontenti topilmadi: ${item.title}`);
+        if (res.needActivation) {
+          console.warn(`  ⚠️ Server obuna talab qildi: ${res.error}`);
+        } else {
+          console.warn(`  ⚠️ Serverda test kontenti topilmadi: ${item.title}`);
+        }
         continue;
       }
 
