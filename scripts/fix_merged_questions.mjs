@@ -62,3 +62,4 @@ for (const r of finalRows) {
 }
 console.log('New options distribution in SQLite:');
 console.log(dist);
+
