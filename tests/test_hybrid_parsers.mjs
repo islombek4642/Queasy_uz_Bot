@@ -222,4 +222,58 @@ B) Variant 2
   console.log('✅ MathEngine: Unicode math symbols, integrals & italics normalization passed');
 }
 
+// 12. Inline Legacy Options Auto-repair
+{
+  const text = `
+?Platon kimlar davlatni boshqaruvchilari bolishi kerak deydi?
++faylasuflar =boylar
+=harbiylar =er egalari
+  `;
+  const res = parseQuizInput(text);
+  assert.strictEqual(res.success, true);
+  assert.strictEqual(res.questions.length, 1);
+  assert.strictEqual(res.questions[0].options.length, 4);
+  assert.strictEqual(res.questions[0].correctOptionId, 0);
+  assert.deepStrictEqual(res.questions[0].options, ['faylasuflar', 'boylar', 'harbiylar', 'er egalari']);
+  console.log('✅ Parser: Inline Legacy options auto-repair passed');
+}
+
+// 13. Inline ABC Options on Single Line
+{
+  const text = `
+1. O'zbekiston poytaxti qaysi shahar?
+#A) Toshkent B) Samarqand C) Buxoro D) Xiva
+  `;
+  const res = parseQuizInput(text);
+  assert.strictEqual(res.success, true);
+  assert.strictEqual(res.questions.length, 1);
+  assert.strictEqual(res.questions[0].options.length, 4);
+  assert.strictEqual(res.questions[0].correctOptionId, 0);
+  assert.deepStrictEqual(res.questions[0].options, ['Toshkent', 'Samarqand', 'Buxoro', 'Xiva']);
+  console.log('✅ Parser: Inline ABC options on single line passed');
+}
+
+// 14. Glued Questions with Question Mark in Option
+{
+  const text = `
+?What kind of people like telling others what to do?
++bossy
+=shy
+=moody
+=worried?What kind of people are not confident about themselves?
++insecure
+=secure
+=happy
+=shy
+  `;
+  const res = parseQuizInput(text);
+  assert.strictEqual(res.success, true);
+  assert.strictEqual(res.questions.length, 2);
+  assert.strictEqual(res.questions[0].options.length, 4);
+  assert.strictEqual(res.questions[0].options[3], 'worried');
+  assert.strictEqual(res.questions[1].questionText, 'What kind of people are not confident about themselves?');
+  assert.strictEqual(res.questions[1].options.length, 4);
+  console.log('✅ Parser: Glued questions with ? separation passed');
+}
+
 console.log('\n🎉 ALL HYBRID PARSER TESTS PASSED PERFECTLY!\n');

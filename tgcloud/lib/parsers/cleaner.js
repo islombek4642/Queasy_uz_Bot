@@ -46,14 +46,33 @@ export function preprocessSpacedSeparators(text) {
 
 /**
  * Splits lines where another question was glued directly to the end of an option with no newline.
- * E.g. "B) Javob ikkiQuyidagi so'zlardan qaysi biri ot?"
+ * E.g. "B) Javob ikkiQuyidagi so'zlardan qaysi biri ot?" or "worried?What kind of people..."
  */
 export function splitGluedQuestions(text) {
   if (!text) return '';
-  // Pattern: lowercase letter / closing parenthesis directly followed by capitalized question start with multiple words ending in '?'
-  // We do NOT split on dots (.) because numbered questions like "1.Question" should stay intact!
-  const gluedRegex = /([a-zа-яёʻʼ\)])([A-ZА-ЯЁ]\S*(?:\s+\S+){2,}\?)/g;
-  return text.replace(gluedRegex, '$1\n$2');
+  // 1. Lowercase letter / closing parenthesis directly followed by capitalized question start with multiple words ending in '?'
+  let res = text.replace(/([a-zа-яёʻʼ\)])([A-ZА-ЯЁ]\S*(?:\s+\S+){2,}\?)/g, '$1\n$2');
+  // 2. Option ending with ? followed directly by capitalized question start
+  res = res.replace(/(\S)\?([A-ZА-ЯЁ]\S*(?:\s+\S+){2,}\?)/g, '$1\n?$2');
+  return res;
+}
+
+/**
+ * Splits inline ABC options onto separate lines if written on the same line:
+ * E.g. "A) Toshkent B) Samarqand C) Buxoro D) Xiva"
+ */
+export function splitInlineAbcOptions(text) {
+  if (!text) return '';
+  return text
+    .split(/\r?\n/)
+    .map((line) => {
+      const trimmed = line.trim();
+      if (/^[#*+]?\s*[a-lA-Lа-яА-ЯёЁ][.)"']/.test(trimmed)) {
+        return line.replace(/(\s+)([#*+]?\s*[b-lB-Lб-мБ-М][.)"']\s+)/g, '\n$2');
+      }
+      return line;
+    })
+    .join('\n');
 }
 
 /**
@@ -141,7 +160,7 @@ export function fixBrokenLineJoins(lines) {
  */
 export function cleanRawTextLines(text) {
   if (!text) return [];
-  const preprocessed = preprocessSpacedSeparators(splitGluedQuestions(text));
+  const preprocessed = preprocessSpacedSeparators(splitInlineAbcOptions(splitGluedQuestions(text)));
   const rawLines = preprocessed
     .split(/\r?\n/)
     .map((l) => normalizeUzbekApostrophes(l))
@@ -154,6 +173,7 @@ export function cleanRawTextLines(text) {
 export default {
   preprocessSpacedSeparators,
   splitGluedQuestions,
+  splitInlineAbcOptions,
   normalizeUzbekApostrophes,
   stripExamHeadersAndPageNumbers,
   fixBrokenLineJoins,

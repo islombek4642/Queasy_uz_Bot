@@ -8,12 +8,37 @@ export function parseLegacyFormat(lines) {
   let currentCorrect = -1;
 
   function commit() {
-    if (currentQuestion && currentQuestion.trim() && currentOptions.length >= 2) {
-      questions.push({
-        questionText: currentQuestion.trim(),
-        options: currentOptions,
-        correctOptionId: currentCorrect,
-      });
+    if (currentQuestion && currentQuestion.trim() && currentOptions.length >= 1) {
+      // Auto-repair inline options (e.g. "+Can =couldnt =be able to" or "=faylasuflar =boylar")
+      if (currentOptions.length < 4 && currentOptions.some((o) => o.includes('='))) {
+        const expanded = [];
+        let newCorrect = currentCorrect;
+        for (let i = 0; i < currentOptions.length; i++) {
+          const opt = currentOptions[i];
+          if (opt.includes('=')) {
+            const parts = opt.split(/\s*=\s*/).map((p) => p.trim()).filter(Boolean);
+            if (parts.length > 1) {
+              if (i === currentCorrect) newCorrect = expanded.length;
+              expanded.push(...parts);
+              continue;
+            }
+          }
+          if (i === currentCorrect) newCorrect = expanded.length;
+          expanded.push(opt.trim());
+        }
+        if (expanded.length >= 2 && expanded.length <= 12) {
+          currentOptions = expanded;
+          currentCorrect = newCorrect;
+        }
+      }
+
+      if (currentOptions.length >= 2) {
+        questions.push({
+          questionText: currentQuestion.trim(),
+          options: currentOptions,
+          correctOptionId: currentCorrect,
+        });
+      }
     }
     currentQuestion = null;
     currentOptions = [];
