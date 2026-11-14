@@ -80,8 +80,8 @@ export async function submitTournamentResult(payload) {
   return await callEndpoint(EP_SUBMIT_TOURNAMENT_RESULT, payload);
 }
 
-export async function createLiveRoom(quizId) {
-  return await callEndpoint(EP_CREATE_LIVE_ROOM, { quizId });
+export async function createLiveRoom(quizId, modeConfig = null) {
+  return await callEndpoint(EP_CREATE_LIVE_ROOM, { quizId, modeConfig });
 }
 
 export async function fetchLiveRoomState(roomCode) {
@@ -90,6 +90,14 @@ export async function fetchLiveRoomState(roomCode) {
 
 export async function startLiveRoom(roomCode, modeConfig = null) {
   return await callEndpoint(EP_START_LIVE_ROOM, { roomCode, modeConfig });
+}
+
+export async function fetchLiveQuestion(roomCode, questionIndex) {
+  return await callEndpoint('get_live_question', { roomCode, questionIndex });
+}
+
+export async function submitLiveAnswer(payload) {
+  return await callEndpoint('submit_live_answer', payload);
 }
 
 export async function submitLiveRoomResult(payload) {

@@ -3,19 +3,18 @@ import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
-import { fetchGroupSessions, createTournament, createLiveRoom } from '../services/quizService.js';
+import { fetchGroupSessions, createLiveRoom } from '../services/quizService.js';
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
 import { QuizModeModal } from '../components/quiz/QuizModeModal.jsx';
 
-export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
+export function GroupHostView({ onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
   const { t } = useTranslation();
   const { tg, haptic } = useTelegram();
   const [data, setData] = useState({ activeSessions: [], launchableQuizzes: [] });
   const [loading, setLoading] = useState(true);
-  const [creatingId, setCreatingId] = useState(null);
   const [creatingLiveId, setCreatingLiveId] = useState(null);
   const [expandedQuizId, setExpandedQuizId] = useState(null);
   const [modeModalQuizId, setModeModalQuizId] = useState(null);
@@ -48,62 +47,32 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
     return () => clearInterval(interval);
   }, []);
 
-  const handleOpenTournamentModeSelector = (quizId) => {
+  const handleLaunchGroupBattle = (quizId) => {
     haptic.impact('medium');
     setModeModalQuizId(quizId);
   };
 
-  const handleConfirmTournamentMode = async (modeConfig) => {
+  const handleConfirmBattleMode = async (modeConfig) => {
     const quizId = modeModalQuizId;
     setModeModalQuizId(null);
     if (!quizId) return;
 
-    haptic.impact('medium');
-    setCreatingId(quizId);
-    try {
-      const res = await createTournament(quizId, modeConfig);
-      if (res && res.success) {
-        if (onOpenTournament && res.shareCode) {
-          onOpenTournament(res.shareCode);
-        }
-      } else {
-        showAlert(res?.error || 'Turnir yaratishda xatolik yuz berdi');
-      }
-    } catch (err) {
-      console.error('Failed to create tournament:', err);
-      showAlert('Xatolik: ' + (err.message || 'Tarmoq xatosi'));
-    } finally {
-      setCreatingId(null);
-    }
-  };
-
-  const handleCreateLiveRoom = async (quizId) => {
     haptic.impact('heavy');
     setCreatingLiveId(quizId);
     try {
-      const res = await createLiveRoom(quizId);
+      const res = await createLiveRoom(quizId, modeConfig);
       if (res && res.success) {
         if (onOpenLiveRoom && res.roomCode) {
           onOpenLiveRoom(res.roomCode);
         }
       } else {
-        showAlert(res?.error || 'Jonli xona ochishda xatolik yuz berdi');
+        showAlert(res?.error || 'Guruh jangi xonasini ochishda xatolik yuz berdi');
       }
     } catch (err) {
-      console.error('Failed to create live room:', err);
+      console.error('Failed to create live battle room:', err);
       showAlert('Xatolik: ' + (err.message || 'Tarmoq xatosi'));
     } finally {
       setCreatingLiveId(null);
-    }
-  };
-
-  const handleLaunchInGroup = (shareLink) => {
-    haptic.impact('medium');
-    const tg = window.Telegram?.WebApp;
-    if (tg && typeof tg.openTelegramLink === 'function') {
-      tg.openTelegramLink(shareLink);
-    } else {
-      window.open(shareLink, '_blank');
     }
   };
 
@@ -115,9 +84,9 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
       {/* Top Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{t('GROUP_HOST_TITLE')}</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '800' }}>Guruh Jangi (Live Battle)</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '2px' }}>
-            {t('GROUP_HOST_DESC')}
+            Do'stlaringiz bilan birgalikda sinxron jonli test musobaqasi o'tkazing
           </p>
         </div>
         <button
@@ -137,14 +106,14 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
           <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px #10b981' }} />
-          <h3 style={{ fontSize: '1rem', fontWeight: '700' }}>{t('ACTIVE_SESSIONS')} ({activeSessions.length})</h3>
+          <h3 style={{ fontSize: '1rem', fontWeight: '700' }}>Faol sessiyalar ({activeSessions.length})</h3>
         </div>
 
         {activeSessions.length === 0 ? (
           <Card style={{ padding: '20px 16px', textAlign: 'center' }}>
             <Icon icon="solar:gamepad-minimalistic-bold-duotone" width="36" height="36" style={{ color: 'var(--text-muted)', margin: '0 auto 8px' }} />
             <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
-              {t('NO_ACTIVE_SESSIONS')}
+              Hozirda faol guruh sessiyalari mavjud emas. Quyidagi testlardan birini tanlab yangi jang boshlang!
             </div>
           </Card>
         ) : (
@@ -190,25 +159,37 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
 
       {/* 2. Launch in Group Section */}
       <div>
-        <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '10px' }}>
-          {t('LAUNCH_IN_GROUP')}
-        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: '700' }}>
+            Jang uchun testni tanlang
+          </h3>
+          {onOpenKiut && (
+            <button
+              onClick={onOpenKiut}
+              className="glass-pill"
+              style={{ padding: '4px 10px', fontSize: '0.76rem', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+            >
+              <Icon icon="solar:library-bold" width="14" height="14" />
+              <span>KIUT Katalogi</span>
+            </button>
+          )}
+        </div>
 
         {launchableQuizzes.length === 0 ? (
           <Card style={{ padding: '24px 16px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Icon icon="solar:folder-error-bold-duotone" width="36" height="36" style={{ color: 'var(--text-muted)', margin: '0 auto' }} />
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
-              {t('MY_QUIZZES_EMPTY')}
+              Sizda hali testlar mavjud emas. Yangi test tuzishingiz yoki KIUT katalogidan tanlashingiz mumkin.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '280px', margin: '0 auto', width: '100%' }}>
               {onOpenCreator && (
                 <Button variant="primary" size="sm" icon="solar:add-circle-bold" onClick={onOpenCreator}>
-                  {t('GROUP_CREATE_NEW_QUIZ')}
+                  {t('GROUP_CREATE_NEW_QUIZ') || 'Yangi test yaratish'}
                 </Button>
               )}
               {onOpenKiut && (
                 <Button variant="secondary" size="sm" icon="solar:library-bold" onClick={onOpenKiut}>
-                  {t('GROUP_CHOOSE_CATALOG')}
+                  {t('GROUP_CHOOSE_CATALOG') || 'Katalogdan tanlash'}
                 </Button>
               )}
             </div>
@@ -276,50 +257,22 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
                       <Badge size="sm">{q.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
                       <Badge size="sm" variant="warning">{q.timeLimit}s</Badge>
                       <Badge size="sm" variant={q.isPublic ? 'accent' : 'glass'}>
-                        {q.isPublic ? t('BADGE_PUBLIC_QUIZ') : t('BADGE_MY_QUIZ')}
+                        {q.isPublic ? 'Umumiy test' : 'Mening testim'}
                       </Badge>
                     </div>
 
-                    {/* Row 2: 3 Action Launch Buttons */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      {/* Option 1: Native Bot Poll in Telegram Group */}
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        fullWidth
-                        onClick={() => handleLaunchInGroup(q.shareLink)}
-                        icon="solar:forward-bold"
-                        style={{ padding: '8px 12px', fontSize: '0.84rem' }}
-                      >
-                        {t('BTN_LAUNCH_BOT_POLL')}
-                      </Button>
-
-                      {/* Option 2: WebApp Group Tournament */}
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        fullWidth
-                        loading={creatingId === q.id}
-                        onClick={() => handleOpenTournamentModeSelector(q.id)}
-                        icon="solar:cup-star-bold"
-                        style={{ padding: '8px 12px', fontSize: '0.84rem' }}
-                      >
-                        {t('BTN_GROUP_TOURNAMENT')}
-                      </Button>
-
-                      {/* Option 3: Synchronous Live Multiplayer Room */}
-                      <Button
-                        variant="glass"
-                        size="sm"
-                        fullWidth
-                        loading={creatingLiveId === q.id}
-                        onClick={() => handleCreateLiveRoom(q.id)}
-                        icon="solar:bolt-bold"
-                        style={{ padding: '8px 12px', fontSize: '0.84rem' }}
-                      >
-                        {t('BTN_LIVE_ROOM')}
-                      </Button>
-                    </div>
+                    {/* Single Unified Primary Launch Button */}
+                    <Button
+                      variant="primary"
+                      size="md"
+                      fullWidth
+                      loading={creatingLiveId === q.id}
+                      onClick={() => handleLaunchGroupBattle(q.id)}
+                      icon="solar:users-group-two-rounded-bold"
+                      style={{ padding: '10px 14px', fontSize: '0.88rem', fontWeight: '800' }}
+                    >
+                      👥 Guruh bilan o'ynash (Jonli Battle)
+                    </Button>
                   </div>
                 </Card>
               );
@@ -332,21 +285,21 @@ export function GroupHostView({ onOpenTournament, onOpenLiveRoom, onOpenCreator,
       <Card style={{ padding: '16px', backgroundColor: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: '700', fontSize: '0.92rem' }}>
           <Icon icon="solar:info-circle-bold-duotone" width="20" height="20" style={{ color: 'var(--accent-primary)' }} />
-          <span>{t('HOW_TO_PLAY_GROUP')}</span>
+          <span>Guruh jangini qanday o'tkazish kerak?</span>
         </div>
         <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <div>🤖 1. <b>«{t('BTN_LAUNCH_BOT_POLL')}»</b> {t('GROUP_HOST_STEP_1_HINT')}</div>
-          <div>🏆 2. <b>«{t('BTN_GROUP_TOURNAMENT')}»</b> {t('GROUP_HOST_STEP_2_HINT')}</div>
-          <div>⚡ 3. <b>«{t('BTN_LIVE_ROOM')}»</b> {t('GROUP_HOST_STEP_3_HINT')}</div>
+          <div>🎯 1. <b>«Guruh bilan o'ynash»</b> tugmasini bosing va savollar soni hamda vaqtini belgilang.</div>
+          <div>✈️ 2. Kutish zalida <b>«Telegram orqali taklif qilish»</b> havolasini guruhga yoki do'stlarga yuboring.</div>
+          <div>🚀 3. Ishtirokchilar qo'shilgach, <b>«Boshlash»</b> tugmasini bosing va birgalikda sinxron bellashing!</div>
         </div>
       </Card>
 
-      {/* Quiz Mode Selector Modal for Host to configure questions count & mode */}
+      {/* 2-Step Quiz Mode Selector Modal for Host to configure questions count & time limit */}
       <QuizModeModal
         isOpen={Boolean(modeModalQuizId)}
         quizId={modeModalQuizId}
         onClose={() => setModeModalQuizId(null)}
-        onConfirmMode={handleConfirmTournamentMode}
+        onConfirmMode={handleConfirmBattleMode}
       />
     </div>
   );

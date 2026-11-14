@@ -75,6 +75,8 @@ export default function App() {
       const startParam = tgParam || urlParams.get('startapp') || urlParams.get('tgWebAppStartParam');
       if (startParam && startParam.startsWith('gt_')) {
         setActiveTournamentCode(startParam);
+      } else if (startParam && startParam.startsWith('battle_')) {
+        setActiveRoomCode(startParam.replace('battle_', ''));
       } else if (startParam && startParam.startsWith('room_')) {
         setActiveRoomCode(startParam.replace('room_', ''));
       }
