@@ -1,6 +1,6 @@
 # Simplified Group Live Battle Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build a streamlined, synchronous Live Battle group quiz mode with a 2-step setup wizard modal, zero-PIN direct Telegram links, anti-cheat question delivery, and a celebratory podium.
 
@@ -47,7 +47,7 @@
 - Consumes: `quizzes`, `liveRooms`, `roomPlayers` from `tgcloud/schema.js`
 - Produces: `liveRoomAnswers` table in `schema.js`, updated `create_live_room` accepting `{ quizId, modeConfig: { mode, range, randomCount, timeLimit } }`
 
-- [ ] **Step 1: Write failing test for `create_live_room` with customized `timeLimit`**
+- [x] **Step 1: Write failing test for `create_live_room` with customized `timeLimit`**
 
 ```javascript
 // tests/endpoints/live_room_create.test.js
@@ -69,12 +69,12 @@ describe('create_live_room endpoint', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/endpoints/live_room_create.test.js`  
 Expected: FAIL (missing `shareLink` format or `liveRoomAnswers` table)
 
-- [ ] **Step 3: Update `schema.js` and `create_live_room.js`**
+- [x] **Step 3: Update `schema.js` and `create_live_room.js`**
 
 Add `liveRoomAnswers` table in `tgcloud/schema.js`:
 ```javascript
@@ -93,12 +93,12 @@ export const liveRoomAnswers = table('live_room_answers', {
 In `create_live_room.js`:
 Save `live_room_cfg:${roomCode}` with `modeConfig` (including `timeLimit`), and return `shareLink: https://t.me/${CONFIG.BOT.USERNAME}/app?startapp=battle_${roomCode}`.
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `npx vitest run tests/endpoints/live_room_create.test.js`  
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git -C "d:\Serverless\Queasy_uz_Bot" add tgcloud/schema.js tgcloud/endpoints/create_live_room.js tgcloud/endpoints/get_live_room_state.js tests/endpoints/live_room_create.test.js
@@ -120,7 +120,7 @@ git -C "d:\Serverless\Queasy_uz_Bot" commit -m "feat(live-battle): add liveRoomA
   - `get_live_question`: `{ success, questionIndex, totalQuestions, timeLimit, question: { id, questionText, options, photoFileId } }`
   - `submit_live_answer`: `{ success, isCorrect, correctOptionId, scoreAwarded, totalScore }`
 
-- [ ] **Step 1: Write failing tests for question delivery and scoring**
+- [x] **Step 1: Write failing tests for question delivery and scoring**
 
 ```javascript
 // tests/endpoints/live_battle_scoring.test.js
@@ -145,12 +145,12 @@ describe('Live battle anti-cheat and scoring', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/endpoints/live_battle_scoring.test.js`  
 Expected: FAIL (endpoints do not exist)
 
-- [ ] **Step 3: Implement `get_live_question.js` and `submit_live_answer.js`**
+- [x] **Step 3: Implement `get_live_question.js` and `submit_live_answer.js`**
 
 Implement `get_live_question.js`:
 - Fetch `modeConfig` from `live_room_cfg:${roomCode}`.
@@ -164,12 +164,12 @@ Implement `submit_live_answer.js`:
 - Record in `live_room_answers` and update `room_players.score`.
 - Return `{ success: true, isCorrect, correctOptionId: question.correctOptionId, scoreAwarded: score, totalScore }`.
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `npx vitest run tests/endpoints/live_battle_scoring.test.js`  
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git -C "d:\Serverless\Queasy_uz_Bot" add tgcloud/endpoints/get_live_question.js tgcloud/endpoints/submit_live_answer.js tests/endpoints/live_battle_scoring.test.js
@@ -188,7 +188,7 @@ git -C "d:\Serverless\Queasy_uz_Bot" commit -m "feat(live-battle): implement get
 - Consumes: `quizId`, `isOpen`, `onClose`, `onConfirmMode`
 - Produces: `onConfirmMode({ quizId, mode, range, randomCount, timeLimit })`
 
-- [ ] **Step 1: Write failing component test for 2-step wizard**
+- [x] **Step 1: Write failing component test for 2-step wizard**
 
 ```javascript
 // tests/components/QuizModeModal.test.jsx
@@ -204,12 +204,12 @@ describe('QuizModeModal 2-step wizard', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/components/QuizModeModal.test.jsx`  
 Expected: FAIL
 
-- [ ] **Step 3: Implement 2-step wizard in `QuizModeModal.jsx`**
+- [x] **Step 3: Implement 2-step wizard in `QuizModeModal.jsx`**
 
 - State: `step: 1 | 2`, `selectedTimeLimit: 15`, `customTimeInput: ''`.
 - Step 1 (Questions Count):
@@ -222,12 +222,12 @@ Expected: FAIL
   - Optional custom number input.
   - Final Action Button: `«🚀 O'yinni boshlash»` calling `onConfirmMode({ quizId, mode, range, randomCount, timeLimit })`.
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `npx vitest run tests/components/QuizModeModal.test.jsx`  
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git -C "d:\Serverless\Queasy_uz_Bot" add src/components/quiz/QuizModeModal.jsx tests/components/QuizModeModal.test.jsx
@@ -247,16 +247,16 @@ git -C "d:\Serverless\Queasy_uz_Bot" commit -m "feat(ui): refactor QuizModeModal
 - Consumes: `createLiveRoom(quizId, modeConfig)` from `quizService.js`
 - Produces: Single unified «👥 Guruh bilan o'ynash» button on each quiz card; `startapp=battle_<roomCode>` deep link handler in `App.jsx`.
 
-- [ ] **Step 1: Write failing test for `GroupHostView` single button layout**
+- [x] **Step 1: Write failing test for `GroupHostView` single button layout**
 
 Test verifies that only ONE primary group action button (`👥 Guruh bilan o'ynash`) is rendered per quiz card, and outdated tournament/bot buttons are removed.
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/views/GroupHostView.test.jsx`  
 Expected: FAIL
 
-- [ ] **Step 3: Update `GroupHostView.jsx` and `App.jsx`**
+- [x] **Step 3: Update `GroupHostView.jsx` and `App.jsx`**
 
 In `GroupHostView.jsx`:
 - Remove `BTN_LAUNCH_BOT_POLL`, `BTN_GROUP_TOURNAMENT`, `BTN_LIVE_ROOM`.
@@ -273,12 +273,12 @@ if (startParam && startParam.startsWith('battle_')) {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `npx vitest run tests/views/GroupHostView.test.jsx`  
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git -C "d:\Serverless\Queasy_uz_Bot" add src/views/GroupHostView.jsx src/App.jsx src/services/quizService.js
@@ -298,16 +298,16 @@ git -C "d:\Serverless\Queasy_uz_Bot" commit -m "feat(ui): consolidate group quiz
 - Consumes: `fetchLiveRoomState`, `startLiveRoom`, `get_live_question`, `submit_live_answer`
 - Produces: Complete synchronous multiplayer experience with 3-2-1 countdown, live round timer, 3-second intermediate scoreboard, and celebratory Podium.
 
-- [ ] **Step 1: Write failing test for LiveRoomView zero-PIN share link**
+- [x] **Step 1: Write failing test for LiveRoomView zero-PIN share link**
 
 Test verifies that lobby produces `battle_<roomCode>` link and hides manual PIN input requirements.
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/views/LiveRoomView.test.jsx`  
 Expected: FAIL
 
-- [ ] **Step 3: Implement Zero-PIN Lobby and Synchronous Arena**
+- [x] **Step 3: Implement Zero-PIN Lobby and Synchronous Arena**
 
 In `LiveRoomView.jsx`:
 - Generate share link as `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=battle_${roomCode}`.
@@ -323,12 +323,12 @@ In `ArenaView.jsx`:
   5. Display 3-second intermediate result pill (*"+140 ball! 2-o'rindasiz"*).
   6. On last question: transition to final 3-tier Podium.
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `npx vitest run tests/views/LiveRoomView.test.jsx`  
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git -C "d:\Serverless\Queasy_uz_Bot" add src/views/LiveRoomView.jsx src/views/ArenaView.jsx
@@ -343,18 +343,19 @@ git -C "d:\Serverless\Queasy_uz_Bot" commit -m "feat(live-battle): complete zero
 - Test: All test suites in `tests/`
 - Build: Client build (`npm run build`)
 
-- [ ] **Step 1: Run all tests**
+- [x] **Step 1: Run all tests**
 
 Run: `npm test`  
 Expected: All 23+ test suites PASS.
 
-- [ ] **Step 2: Run client build**
+- [x] **Step 2: Run client build**
 
 Run: `npm run build`  
 Expected: Build succeeds with 0 errors.
 
-- [ ] **Step 3: Verification commit**
+- [x] **Step 3: Verification commit**
 
 ```bash
 git -C "d:\Serverless\Queasy_uz_Bot" commit --allow-empty -m "chore: verify live battle implementation with passing test suite and clean build"
 ```
+
