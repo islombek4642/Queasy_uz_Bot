@@ -202,11 +202,12 @@ export default async function (input, ctx) {
       currentQuestionIndex: room.currentQuestionIndex,
       isHost,
       isFinished: room.status === 'finished',
+      shareLink: `https://t.me/${CONFIG.BOT.USERNAME}/app?startapp=battle_${room.roomCode}`,
     },
     quiz: {
       id: quiz?.id || room.quizId,
       title: quiz?.title || getMessage('DEFAULT_LIVE_QUIZ', 'UZ'),
-      timeLimit: quiz?.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT,
+      timeLimit: Number(modeConfig?.timeLimit) || quiz?.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT,
       questionCount: Number(qCount || 0),
     },
     players: formattedPlayers,

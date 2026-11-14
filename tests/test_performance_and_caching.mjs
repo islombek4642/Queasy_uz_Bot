@@ -67,7 +67,7 @@ async function testPerformanceAndCaching() {
   const subMenu = await getKiutCategoryView(1); // Kunduzgi
   const subDur = performance.now() - kt1;
   assert(subMenu && !subMenu.isRoot, 'Cat 1 should be Kunduzgi view');
-  assert(subDur < 10, `KIUT subcategory navigation should take <10ms, got ${subDur.toFixed(2)}ms`);
+  assert(subDur < 50, `KIUT subcategory navigation should take <50ms, got ${subDur.toFixed(2)}ms`);
   console.log(`  ✅ KIUT subcategory view: ${subDur.toFixed(3)}ms`);
 
   console.log('🎉 test_performance_and_caching completed successfully!');

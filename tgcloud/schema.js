@@ -203,4 +203,18 @@ export const roomPlayers = table('room_players', {
   joinedAt:  integer('joined_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
 });
 
+// 17. Live Room Question Answers (Anti-cheat & round tracking)
+export const liveRoomAnswers = table('live_room_answers', {
+  id:               integer('id').primaryKey({ autoIncrement: true }),
+  roomCode:         text('room_code').notNull(),
+  userId:           integer('user_id').notNull(),
+  questionIndex:    integer('question_index').notNull(),
+  selectedOptionId: integer('selected_option_id').notNull(),
+  isCorrect:        integer('is_correct', { mode: 'boolean' }).notNull(),
+  scoreAwarded:     integer('score_awarded').notNull().default(0),
+  timeTaken:        integer('time_taken').default(0),
+  answeredAt:       integer('answered_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
+});
+
+
 

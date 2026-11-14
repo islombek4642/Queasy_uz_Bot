@@ -1,7 +1,7 @@
 // tgcloud/endpoints/create_live_room.js
 import { db } from 'sdk';
 import { eq } from 'sdk/db';
-import { liveRooms, roomPlayers, quizzes, questions } from '../schema.js';
+import { liveRooms, roomPlayers, quizzes, questions, botSettings } from '../schema.js';
 import { CONFIG } from '../lib/constants/config.js';
 import { ERRORS } from '../lib/constants/errors.js';
 import { getMessage } from '../lib/constants/messages.js';
@@ -100,8 +100,37 @@ export default async function (input, ctx) {
     }
   } catch {}
 
+  // Save modeConfig if provided by host (e.g. range, randomCount, mode, timeLimit)
+  const modeConfig = input?.modeConfig;
+  if (modeConfig && typeof modeConfig === 'object') {
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        await turso.run(
+          'INSERT INTO bot_settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
+          [`live_room_cfg:${roomCode}`, JSON.stringify(modeConfig)]
+        );
+      } catch (err) {
+        console.warn('[create_live_room] Turso botSettings fallback:', err.message);
+      }
+    }
+
+    try {
+      await db
+        .insert(botSettings)
+        .values({
+          key: `live_room_cfg:${roomCode}`,
+          value: JSON.stringify(modeConfig),
+        })
+        .onConflictDoUpdate({
+          target: botSettings.key,
+          set: { value: JSON.stringify(modeConfig) },
+        })
+        .run();
+    } catch {}
+  }
+
   const botUsername = CONFIG.BOT.USERNAME;
-  const shareLink = `https://t.me/${botUsername}/app?startapp=room_${roomCode}`;
+  const shareLink = `https://t.me/${botUsername}/app?startapp=battle_${roomCode}`;
   const shareText = getMessage('LIVE_ROOM_INVITE_TEXT', 'UZ', { title: quiz.title, pin: roomCode });
   const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(shareText)}`;
 
@@ -113,6 +142,7 @@ export default async function (input, ctx) {
     questionCount: qCount,
     shareLink,
     telegramShareUrl,
+    modeConfig: modeConfig || null,
     isHost: true,
   };
 }
