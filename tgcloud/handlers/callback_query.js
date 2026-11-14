@@ -642,6 +642,24 @@ export default async function (callbackQuery, ctx) {
     const mistakesCount = await getUserMistakesCount(userId, quizId);
     if (mistakesCount === 0) {
       await answer(getMessage('ERR_MISTAKES_EMPTY_SUBJECT', lang) || getMessage('MISTAKES_EMPTY', lang), true);
+
+      // Refresh the message keyboard so the 0-mistake subject button disappears immediately
+      try {
+        const grouped = await getUserMistakesGrouped(userId);
+        if (grouped.length === 0) {
+          await safeEditMessageText({
+            chat_id: chatId,
+            message_id: messageId,
+            text: getMessage('MISTAKES_EMPTY', lang),
+          });
+        } else {
+          await api.editMessageReplyMarkup({
+            chat_id: chatId,
+            message_id: messageId,
+            reply_markup: getMistakesPageKeyboard(grouped, 0, lang),
+          });
+        }
+      } catch {}
       return;
     }
 
@@ -661,10 +679,21 @@ export default async function (callbackQuery, ctx) {
       lang,
     });
     if (sessionRes && !sessionRes.success && sessionRes.error) {
-      await api.sendMessage({
-        chat_id: chatId,
-        text: sessionRes.error,
-      });
+      const grouped = await getUserMistakesGrouped(userId);
+      if (grouped.length === 0) {
+        await api.sendMessage({
+          chat_id: chatId,
+          text: getMessage('MISTAKES_EMPTY', lang),
+          reply_markup: getMainKeyboard(lang, isAdmin),
+        });
+      } else {
+        await api.sendMessage({
+          chat_id: chatId,
+          text: `${sessionRes.error}\n\n${getMessage('MISTAKES_CHOOSE_SUBJECT', lang, { count: grouped.reduce((s, g) => s + g.count, 0) })}`,
+          parse_mode: 'HTML',
+          reply_markup: getMistakesPageKeyboard(grouped, 0, lang),
+        });
+      }
     }
     return;
   }

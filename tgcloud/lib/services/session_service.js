@@ -61,23 +61,46 @@ export async function startQuizSession(api, { chatId, userId, quizId, isGroup = 
   let timeLimit = CONFIG.POLL.DEFAULT_TIME_LIMIT;
 
   if (mode === ACTIONS.MODE_MISTAKES) {
-    // Load mistakes for this user
+    // Load mistakes for this user (checking Turso Cloud first, then local DB fallback)
     let mistakes = [];
-    if (quizId && quizId > 0) {
-      mistakes = await db
-        .select()
-        .from(userMistakes)
-        .where(and(eq(userMistakes.userId, userId), eq(userMistakes.originalQuizId, quizId)))
-        .all();
-    } else {
-      mistakes = await db
-        .select()
-        .from(userMistakes)
-        .where(eq(userMistakes.userId, userId))
-        .all();
+    const uid = Number(userId);
+    const qId = Number(quizId);
+
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        if (qId && qId > 0) {
+          mistakes = await turso.all(
+            'SELECT * FROM user_mistakes WHERE user_id = ? AND original_quiz_id = ? ORDER BY id ASC',
+            [uid, qId]
+          );
+        } else {
+          mistakes = await turso.all(
+            'SELECT * FROM user_mistakes WHERE user_id = ? ORDER BY id ASC',
+            [uid]
+          );
+        }
+      } catch (err) {
+        console.warn('[session_service] Turso startQuizSession mistakes fallback:', err.message);
+      }
     }
 
-    if (mistakes.length === 0) {
+    if (!mistakes || mistakes.length === 0) {
+      if (qId && qId > 0) {
+        mistakes = await db
+          .select()
+          .from(userMistakes)
+          .where(and(eq(userMistakes.userId, uid), eq(userMistakes.originalQuizId, qId)))
+          .all();
+      } else {
+        mistakes = await db
+          .select()
+          .from(userMistakes)
+          .where(eq(userMistakes.userId, uid))
+          .all();
+      }
+    }
+
+    if (!mistakes || mistakes.length === 0) {
       return { success: false, error: getMessage('ERR_MISTAKES_EMPTY_SUBJECT', lang) };
     }
 
@@ -85,25 +108,34 @@ export async function startQuizSession(api, { chatId, userId, quizId, isGroup = 
     const seen = new Set();
     const uniqueMistakes = [];
     for (const m of mistakes) {
-      if (!seen.has(m.questionText)) {
-        seen.add(m.questionText);
+      const qText = m.question_text || m.questionText;
+      if (!qText) continue;
+      if (!seen.has(qText)) {
+        seen.add(qText);
         uniqueMistakes.push(m);
       }
     }
 
     selectedQuestions = uniqueMistakes.map((m) => {
+      const qText = m.question_text || m.questionText;
+      const optsJson = m.options_json || m.optionsJson;
+      const cOptId = m.correct_option_id !== undefined ? Number(m.correct_option_id) : Number(m.correctOptionId || 0);
+      const origQuizId = m.original_quiz_id !== undefined ? Number(m.original_quiz_id) : Number(m.originalQuizId || 0);
+      const pFileId = m.photo_file_id !== undefined ? m.photo_file_id : (m.photoFileId || null);
+      const pCaption = m.photo_caption !== undefined ? m.photo_caption : (m.photoCaption || null);
+
       let opts = [];
-      try { opts = JSON.parse(m.optionsJson); } catch { opts = []; }
-      const shuf = shuffleQuestionOptions(opts, m.correctOptionId);
+      try { opts = JSON.parse(optsJson); } catch { opts = []; }
+      const shuf = shuffleQuestionOptions(opts, cOptId);
       return {
-        mistakeId: m.id,
-        originalQuizId: m.originalQuizId,
-        questionText: m.questionText,
+        mistakeId: Number(m.id),
+        originalQuizId: origQuizId,
+        questionText: qText,
         options: shuf.options,
         correctOptionId: shuf.correctOptionId,
-        explanation: m.explanation,
-        photoFileId: m.photoFileId || null,
-        photoCaption: m.photoCaption || null,
+        explanation: m.explanation || null,
+        photoFileId: pFileId,
+        photoCaption: pCaption,
       };
     });
   } else {
@@ -656,9 +688,38 @@ export async function handlePollAnswer(api, pollAnswer) {
     if (!isCorrect) {
       // Save to user mistakes
       await saveUserMistake(tgUser.id, currentQ, session.quizId);
-    } else if (session.mode === ACTIONS.MODE_MISTAKES && currentQ.mistakeId) {
-      // If solved correctly in mistakes mode, remove this mistake
-      await db.delete(userMistakes).where(eq(userMistakes.id, currentQ.mistakeId)).run();
+    } else if (session.mode === ACTIONS.MODE_MISTAKES && (currentQ.mistakeId || currentQ.questionText)) {
+      // If solved correctly in mistakes mode, remove this mistake from Turso Cloud & local DB
+      const mId = Number(currentQ.mistakeId) || 0;
+      const qText = currentQ.questionText ? String(currentQ.questionText).trim() : '';
+
+      if (CONFIG.TURSO?.ENABLED) {
+        if (qText) {
+          turso.run(
+            'DELETE FROM user_mistakes WHERE user_id = ? AND (id = ? OR question_text = ?)',
+            [Number(tgUser.id), mId, qText]
+          ).catch(e => console.warn('[handlePollAnswer] Turso mistake delete failed:', e.message));
+        } else if (mId) {
+          turso.run(
+            'DELETE FROM user_mistakes WHERE id = ? AND user_id = ?',
+            [mId, Number(tgUser.id)]
+          ).catch(e => console.warn('[handlePollAnswer] Turso mistake delete failed:', e.message));
+        }
+      }
+
+      try {
+        if (qText) {
+          await db
+            .delete(userMistakes)
+            .where(and(eq(userMistakes.userId, tgUser.id), eq(userMistakes.questionText, qText)))
+            .run();
+        } else if (mId) {
+          await db
+            .delete(userMistakes)
+            .where(and(eq(userMistakes.id, mId), eq(userMistakes.userId, tgUser.id)))
+            .run();
+        }
+      } catch {}
     }
 
     // Atomic update to advance session index & clear lastPollId
