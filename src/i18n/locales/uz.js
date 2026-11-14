@@ -188,6 +188,9 @@ export default {
   MODE_RANDOM_DESC: 'Savollarni aralash tartibda yechish',
   RANGE_FROM_LABEL: 'Boshlanishi',
   RANGE_TO_LABEL: 'Tugashi',
+  RANGE_START_LABEL: 'Boshlanishi',
+  RANGE_END_LABEL: 'Tugashi',
+  LOADING_APP: 'Ilova yuklanmoqda...',
   RANDOM_COUNT_LABEL: 'Savollar soni',
   BTN_START_PLAY: 'Boshlash',
 
@@ -265,7 +268,7 @@ export default {
   GROUP_BATTLE_TITLE: 'Guruh Jangi (Live Battle)',
   GROUP_BATTLE_SUBTITLE: 'Do\'stlaringiz bilan birgalikda sinxron jonli test musobaqasi o\'tkazing',
   ACTIVE_SESSIONS_COUNT: 'Faol sessiyalar ({count})',
-  NO_ACTIVE_BATTLES: 'Hozirda faol guruh sessiyalari mavjud emas. Quyidagi testlardan birini tanlab yangi jang boshlang!',
+  NO_ACTIVE_BATTLES: 'Hozirda faol seanslar mavjud emas',
   SELECT_QUIZ_FOR_BATTLE: 'Jang uchun testni tanlang',
   KIUT_CATALOG_BTN: 'KIUT Katalogi',
   NO_LAUNCHABLE_QUIZZES: 'Sizda hali testlar mavjud emas. Yangi test tuzishingiz yoki KIUT katalogidan tanlashingiz mumkin.',

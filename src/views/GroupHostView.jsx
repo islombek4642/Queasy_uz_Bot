@@ -92,12 +92,7 @@ export function GroupHostView({ onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
     <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '18px' }} className="animate-fade-in">
       {/* Top Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{t('GROUP_BATTLE_TITLE')}</h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '2px' }}>
-            {t('GROUP_BATTLE_SUBTITLE')}
-          </p>
-        </div>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: '800' }}>{t('GROUP_BATTLE_TITLE')}</h2>
         <button
           onClick={() => {
             haptic.selection();
@@ -121,8 +116,7 @@ export function GroupHostView({ onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
         </div>
 
         {activeSessions.length === 0 ? (
-          <Card style={{ padding: '18px 16px', textAlign: 'center' }}>
-            <Icon icon="solar:gamepad-minimalistic-bold-duotone" width="34" height="34" style={{ color: 'var(--text-muted)', margin: '0 auto 8px' }} />
+          <Card style={{ padding: '16px', textAlign: 'center' }}>
             <div style={{ fontSize: '0.86rem', color: 'var(--text-secondary)' }}>
               {t('NO_ACTIVE_BATTLES')}
             </div>
@@ -257,14 +251,9 @@ export function GroupHostView({ onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
           <Icon icon="solar:users-group-two-rounded-bold" width="28" height="28" />
         </div>
 
-        <div>
-          <h3 style={{ fontSize: '1.15rem', fontWeight: '800', marginBottom: '6px' }}>
-            {t('CREATE_GROUP_BATTLE_HERO_TITLE')}
-          </h3>
-          <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', maxWidth: '320px', lineHeight: '1.4', margin: '0 auto' }}>
-            {t('CREATE_GROUP_BATTLE_HERO_SUB')}
-          </p>
-        </div>
+        <h3 style={{ fontSize: '1.2rem', fontWeight: '800' }}>
+          {t('CREATE_GROUP_BATTLE_HERO_TITLE')}
+        </h3>
 
         <Button
           variant="primary"
@@ -280,19 +269,6 @@ export function GroupHostView({ onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
         >
           {t('CREATE_GROUP_BATTLE_BTN')}
         </Button>
-      </Card>
-
-      {/* 3. How to play guide card */}
-      <Card style={{ padding: '16px', backgroundColor: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: '700', fontSize: '0.92rem' }}>
-          <Icon icon="solar:info-circle-bold-duotone" width="20" height="20" style={{ color: 'var(--accent-primary)' }} />
-          <span>{t('HOW_TO_PLAY_BATTLE_TITLE')}</span>
-        </div>
-        <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <div>{t('BATTLE_GUIDE_STEP_1')}</div>
-          <div>{t('BATTLE_GUIDE_STEP_2')}</div>
-          <div>{t('BATTLE_GUIDE_STEP_3')}</div>
-        </div>
       </Card>
 
       {/* 3-Step Modal Wizard (Step 1: User Quiz Selection -> Step 2: Mode Selection -> Step 3: Time Limit) */}

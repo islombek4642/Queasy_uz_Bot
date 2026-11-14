@@ -188,6 +188,9 @@ export default {
   MODE_RANDOM_DESC: 'Solve questions in random order',
   RANGE_FROM_LABEL: 'From',
   RANGE_TO_LABEL: 'To',
+  RANGE_START_LABEL: 'Start',
+  RANGE_END_LABEL: 'End',
+  LOADING_APP: 'Loading app...',
   RANDOM_COUNT_LABEL: 'Question count',
   BTN_START_PLAY: 'Start',
 
@@ -261,7 +264,7 @@ export default {
   GROUP_BATTLE_TITLE: 'Group Battle (Live Battle)',
   GROUP_BATTLE_SUBTITLE: 'Host a synchronized real-time quiz competition with your friends',
   ACTIVE_SESSIONS_COUNT: 'Active Sessions ({count})',
-  NO_ACTIVE_BATTLES: 'There are no active group sessions right now. Pick a quiz below to start a new battle!',
+  NO_ACTIVE_BATTLES: 'No active sessions currently',
   SELECT_QUIZ_FOR_BATTLE: 'Select a Quiz for Battle',
   KIUT_CATALOG_BTN: 'KIUT Catalog',
   NO_LAUNCHABLE_QUIZZES: 'You don\'t have any quizzes yet. You can create a new quiz or pick one from the KIUT catalog.',

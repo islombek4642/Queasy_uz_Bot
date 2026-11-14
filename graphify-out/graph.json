@@ -53279,7 +53279,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L124",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_grouphostview_grouphostview",
+      "target": "src_components_common_badge_badge",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/GroupHostView.jsx",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -53292,18 +53304,6 @@
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
       "source_location": "L14",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_grouphostview_grouphostview",
-      "target": "src_components_common_badge_badge",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L140",
       "weight": 1.0
     },
     {
@@ -53327,7 +53327,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L164",
+      "source_location": "L158",
       "weight": 1.0
     },
     {
@@ -53339,7 +53339,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L175",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -53351,7 +53351,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/GroupHostView.jsx",
-      "source_location": "L299",
+      "source_location": "L275",
       "weight": 1.0
     },
     {
@@ -113763,5 +113763,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "14b6113c2c680727e9c1be8009ef77154fca946a"
+  "built_at_commit": "0b737cb5d63d6cb95a8c7121858667b7bb7fc649"
 }

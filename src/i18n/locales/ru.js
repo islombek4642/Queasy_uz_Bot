@@ -188,6 +188,9 @@ export default {
   MODE_RANDOM_DESC: 'Решать вопросы в случайном порядке',
   RANGE_FROM_LABEL: 'От',
   RANGE_TO_LABEL: 'До',
+  RANGE_START_LABEL: 'Начало',
+  RANGE_END_LABEL: 'Конец',
+  LOADING_APP: 'Загрузка приложения...',
   RANDOM_COUNT_LABEL: 'Количество вопросов',
   BTN_START_PLAY: 'Начать',
 
@@ -265,7 +268,7 @@ export default {
   GROUP_BATTLE_TITLE: 'Битва Группы (Live Battle)',
   GROUP_BATTLE_SUBTITLE: 'Проведите синхронное онлайн-соревнование по тестам с друзьями',
   ACTIVE_SESSIONS_COUNT: 'Активные сессии ({count})',
-  NO_ACTIVE_BATTLES: 'Сейчас нет активных групповых сессий. Выберите один из тестов ниже и начните битву!',
+  NO_ACTIVE_BATTLES: 'Сейчас нет активных сессий',
   SELECT_QUIZ_FOR_BATTLE: 'Выберите тест для битвы',
   KIUT_CATALOG_BTN: 'Каталог KIUT',
   NO_LAUNCHABLE_QUIZZES: 'У вас пока нет тестов. Вы можете создать новый тест или выбрать из каталога KIUT.',

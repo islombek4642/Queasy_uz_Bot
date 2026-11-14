@@ -527,12 +527,15 @@ export function QuizModeModal({
 
                     {/* Manual Range Inputs with Backspace/Clear Support */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_START_LABEL')}</span>
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <span style={{ fontSize: '0.78rem', fontWeight: '700', color: 'var(--text-primary)' }}>
+                          {t('RANGE_START_LABEL')}
+                        </span>
                         <input
                           type="number"
                           min="1"
                           max={totalQuestions}
+                          placeholder="1"
                           value={rawRangeStart}
                           onChange={(e) => {
                             const val = e.target.value;
@@ -568,12 +571,15 @@ export function QuizModeModal({
                         />
                       </div>
                       <span style={{ color: 'var(--text-muted)', paddingTop: '16px' }}>—</span>
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_END_LABEL')}</span>
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <span style={{ fontSize: '0.78rem', fontWeight: '700', color: 'var(--text-primary)' }}>
+                          {t('RANGE_END_LABEL')}
+                        </span>
                         <input
                           type="number"
                           min={rangeStart}
                           max={totalQuestions}
+                          placeholder={String(totalQuestions || 25)}
                           value={rawRangeEnd}
                           onChange={(e) => {
                             const val = e.target.value;
