@@ -20,3 +20,4 @@ assert(serviceContent.includes('fetchLiveQuestion'), 'quizService must export fe
 assert(serviceContent.includes('submitLiveAnswer'), 'quizService must export submitLiveAnswer');
 
 console.log('Task 4 test assertions verified successfully!');
+

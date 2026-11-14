@@ -16,3 +16,4 @@ assert(arenaContent.includes('submitLiveAnswer'), 'ArenaView must submit round a
 assert(arenaContent.includes('liveRoomCode'), 'ArenaView must support liveRoomCode');
 
 console.log('Task 5 test assertions verified successfully!');
+

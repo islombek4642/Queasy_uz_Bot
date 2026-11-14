@@ -244,3 +244,4 @@ For each question:
    - Host creates a room with 15 questions and 15s timer.
    - Joiner connects via `battle_<roomCode>` link.
    - Verify lobby updates, 3-2-1 countdown, question presentation, intermediate scorecards, and final podium.
+

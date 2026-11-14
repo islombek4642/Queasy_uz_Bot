@@ -22,3 +22,4 @@ assert(getStateContent.includes('modeConfig'), 'get_live_room_state must return 
 assert(getStateContent.includes('shareLink') || getStateContent.includes('roomCode'), 'get_live_room_state must handle roomCode');
 
 console.log('Task 1 test assertions verified successfully!');
+

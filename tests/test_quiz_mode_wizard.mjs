@@ -20,3 +20,4 @@ assert(modalContent.includes('60') && modalContent.includes('120'), 'QuizModeMod
 assert(modalContent.includes('timeLimit:'), 'QuizModeModal must pass timeLimit to onConfirmMode');
 
 console.log('Task 3 test assertions verified successfully!');
+

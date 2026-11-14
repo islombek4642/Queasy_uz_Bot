@@ -36,3 +36,4 @@ assert.equal(calculateScore(true, 15, 15), 100);
 assert.equal(calculateScore(false, 1, 15), 0);
 
 console.log('Task 2 test assertions verified successfully!');
+
