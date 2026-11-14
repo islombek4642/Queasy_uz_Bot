@@ -53,7 +53,7 @@ export function GroupHostView({ onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
   };
 
   const handleConfirmBattleMode = async (modeConfig) => {
-    const quizId = modeModalQuizId;
+    const quizId = modeConfig?.quizId || modeModalQuizId;
     setModeModalQuizId(null);
     if (!quizId) return;
 

@@ -8,7 +8,6 @@ import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { Spinner } from '../components/common/Spinner.jsx';
-import { QuizModeModal } from '../components/quiz/QuizModeModal.jsx';
 import { APP_CONFIG } from '../constants/config.js';
 
 export function LiveRoomView({ roomCode, onStartGame, onBack }) {
@@ -20,7 +19,6 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
   const [starting, setStarting] = useState(false);
   const [finishing, setFinishing] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [showModeModal, setShowModeModal] = useState(false);
   const prevStatusRef = useRef(null);
 
   const loadState = async () => {
@@ -127,9 +125,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
     );
   }
 
-  const { room, quiz, players } = roomData;
-  const isHost = room.isHost;
-  const isFinished = room.status === 'finished' || roomData.hasFinished;
+  const room = roomData?.room || {};
+  const quiz = roomData?.quiz || {};
+  const players = Array.isArray(roomData?.players) ? roomData.players : [];
+  const isHost = Boolean(room.isHost);
+  const isFinished = room.status === 'finished';
 
   // --------------------------------------------------------------------------
   // STATE A: PODIUM / RESULTS SCREEN (When finished or player completed)
@@ -183,11 +183,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             {topThree[1] && (
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ fontSize: '1.5rem', marginBottom: '4px' }}>🥈</div>
-                <div style={{ fontSize: '0.82rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85px' }} title={topThree[1].userName}>
-                  {topThree[1].userName}
+                <div style={{ fontSize: '0.82rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85px' }} title={topThree[1]?.userName || 'O\'yinchi'}>
+                  {topThree[1]?.userName || 'O\'yinchi'}
                 </div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--accent-primary)', fontWeight: '800' }}>
-                  {topThree[1].score} ball
+                  {topThree[1]?.score || 0} ball
                 </div>
                 <div style={{ height: '55px', width: '100%', background: 'rgba(148, 163, 184, 0.25)', borderTop: '3px solid #94a3b8', borderRadius: '6px 6px 0 0', marginTop: '6px' }} />
               </div>
@@ -197,11 +197,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             {topThree[0] && (
               <div style={{ flex: 1.15, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ fontSize: '2rem', marginBottom: '4px' }}>🥇</div>
-                <div style={{ fontSize: '0.88rem', fontWeight: '800', color: '#f59e0b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }} title={topThree[0].userName}>
-                  {topThree[0].userName}
+                <div style={{ fontSize: '0.88rem', fontWeight: '800', color: '#f59e0b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }} title={topThree[0]?.userName || 'O\'yinchi'}>
+                  {topThree[0]?.userName || 'O\'yinchi'}
                 </div>
                 <div style={{ fontSize: '0.84rem', color: 'var(--color-success)', fontWeight: '900' }}>
-                  {topThree[0].score} ball
+                  {topThree[0]?.score || 0} ball
                 </div>
                 <div style={{ height: '80px', width: '100%', background: 'rgba(245, 158, 11, 0.25)', borderTop: '3px solid #f59e0b', borderRadius: '8px 8px 0 0', marginTop: '6px' }} />
               </div>
@@ -211,11 +211,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             {topThree[2] && (
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ fontSize: '1.5rem', marginBottom: '4px' }}>🥉</div>
-                <div style={{ fontSize: '0.82rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85px' }} title={topThree[2].userName}>
-                  {topThree[2].userName}
+                <div style={{ fontSize: '0.82rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85px' }} title={topThree[2]?.userName || 'O\'yinchi'}>
+                  {topThree[2]?.userName || 'O\'yinchi'}
                 </div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--accent-primary)', fontWeight: '800' }}>
-                  {topThree[2].score} ball
+                  {topThree[2]?.score || 0} ball
                 </div>
                 <div style={{ height: '40px', width: '100%', background: 'rgba(217, 119, 6, 0.2)', borderTop: '3px solid #d97706', borderRadius: '6px 6px 0 0', marginTop: '6px' }} />
               </div>
@@ -244,12 +244,12 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
                 <span style={{ fontWeight: '800', fontSize: '0.9rem', color: idx < 3 ? 'var(--accent-primary)' : 'var(--text-muted)', width: '22px' }}>
                   #{idx + 1}
                 </span>
-                <span style={{ fontWeight: p.isCurrentUser ? '800' : '600', fontSize: '0.86rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={p.userName}>
-                  {p.userName} {p.isCurrentUser && ' (Siz)'}
+                <span style={{ fontWeight: p?.isCurrentUser ? '800' : '600', fontSize: '0.86rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={p?.userName || 'O\'yinchi'}>
+                  {p?.userName || 'O\'yinchi'} {p?.isCurrentUser && ' (Siz)'}
                 </span>
               </div>
               <div style={{ fontWeight: '800', fontSize: '0.9rem', color: 'var(--color-success)', flexShrink: 0 }}>
-                {p.score} ball
+                {p?.score || 0} ball
               </div>
             </Card>
           ))}
@@ -439,7 +439,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
                     flexShrink: 0,
                   }}
                 >
-                  {p.userName.slice(0, 1).toUpperCase()}
+                  {(p?.userName || 'O\'yinchi').slice(0, 1).toUpperCase()}
                 </div>
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <div
@@ -449,11 +449,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
-                      color: p.isCurrentUser ? 'var(--accent-primary)' : 'var(--text-primary)',
+                      color: p?.isCurrentUser ? 'var(--accent-primary)' : 'var(--text-primary)',
                     }}
-                    title={p.userName}
+                    title={p?.userName || 'O\'yinchi'}
                   >
-                    {p.userName}
+                    {p?.userName || 'O\'yinchi'}
                   </div>
                 </div>
               </Card>
@@ -529,16 +529,8 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
           </Card>
         )}
       </div>
-
-      {/* Quiz Mode Selector Modal for Host */}
-      {isHost && (
-        <QuizModeModal
-          isOpen={showModeModal}
-          quizId={quiz?.id}
-          onClose={() => setShowModeModal(false)}
-          onConfirmMode={handleConfirmStartMode}
-        />
-      )}
     </div>
   );
 }
+
+export default LiveRoomView;

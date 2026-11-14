@@ -158,16 +158,18 @@ export default async function (input, ctx) {
     }
   }
 
+  const isRoomFinished = room.status === 'finished';
   const formattedPlayers = (rawPlayers || []).map((p, idx) => ({
     ...p,
+    userName: p.userName || defaultPlayerName,
     score: Math.max(0, p.score || 0),
-    hasFinished: p.score >= 0,
+    hasFinished: isRoomFinished,
     rank: idx + 1,
     isCurrentUser: currentUserId ? p.userId === currentUserId : p.userName === userName,
   }));
 
   const currentPlayer = formattedPlayers.find((p) => p.isCurrentUser);
-  const hasFinished = Boolean(currentPlayer?.hasFinished || room.status === 'finished');
+  const hasFinished = isRoomFinished;
 
   // Fetch host's modeConfig if set (e.g. range, randomCount, mode)
   let modeConfig = null;

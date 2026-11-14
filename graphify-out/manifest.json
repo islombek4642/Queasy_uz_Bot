@@ -516,9 +516,9 @@
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
-    "mtime": 1794654810.6159656,
-    "seen": 1794655329.863624,
-    "ast_hash": "8c01c4e4317aa12e78d0b577d4eef888",
+    "mtime": 1794656838.8686883,
+    "seen": 1794656947.0174806,
+    "ast_hash": "738570361fe3b276e62cf64768b259c2",
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
@@ -2778,9 +2778,9 @@
     "semantic_hash": ""
   },
   "src/views/LiveRoomView.jsx": {
-    "mtime": 1794655030.4105272,
-    "seen": 1794655329.8636355,
-    "ast_hash": "9f2f1ae3d65c5ac703f3850bb86b2aba",
+    "mtime": 1794656827.9623663,
+    "seen": 1794656947.0174937,
+    "ast_hash": "925d8a2211ceca057e6c775628cb272c",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/create_live_room.js": {
@@ -2790,9 +2790,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_live_room_state.js": {
-    "mtime": 1794654383.4512193,
-    "seen": 1794655329.8637798,
-    "ast_hash": "e33dae08d1f33facfb9decb9ad56cfa4",
+    "mtime": 1794656853.5783153,
+    "seen": 1794656947.0176556,
+    "ast_hash": "17b6a1eb9a8de5c342b203e27012cfac",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/start_live_room.js": {
@@ -3197,12 +3197,6 @@
     "ast_hash": "154433086d724bce888914a75c641e52",
     "semantic_hash": ""
   },
-  ".superpowers/sdd/2026-11-14-simplified-group-live-battle/progress.md": {
-    "mtime": 1794655299.2654724,
-    "seen": 1794655329.8646958,
-    "ast_hash": "c27db06e37f1ad0a8d3d65fc97ee46f9",
-    "semantic_hash": ""
-  },
   "chatgpt_tavsiyasi.txt": {
     "mtime": 1794650003.774291,
     "seen": 1794655329.864707,
@@ -3219,6 +3213,12 @@
     "mtime": 1794654026.2706335,
     "seen": 1794655329.8647752,
     "ast_hash": "d348df84144d45cf50ea353f9a89402b",
+    "semantic_hash": ""
+  },
+  "tests/test_live_room_crash_resilience.mjs": {
+    "mtime": 1794656876.985154,
+    "seen": 1794656947.0175686,
+    "ast_hash": "03475f99b63e7039771c4883f4c93a75",
     "semantic_hash": ""
   }
 }
