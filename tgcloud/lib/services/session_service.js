@@ -958,15 +958,19 @@ export async function finishSession(api, sessionId, isStopped = false) {
       percent,
     });
 
-    let remainingMistakes = 0;
-    try {
-      remainingMistakes = await getUserMistakesCount(session.userId);
-    } catch (err) {
-      console.error('Error fetching remaining mistakes for finishSession:', err);
+    // Only offer "Review Mistakes" if the user actually made mistakes in this session (wrongCount > 0)
+    // AND there are recorded mistakes for this specific quiz
+    let remainingQuizMistakes = 0;
+    if (session.wrongCount > 0) {
+      try {
+        remainingQuizMistakes = await getUserMistakesCount(session.userId, session.quizId || null);
+      } catch (err) {
+        console.error('Error fetching remaining mistakes for finishSession:', err);
+      }
     }
 
     const isAdmin = CONFIG.ADMINS.includes(Number(session.userId));
-    const hasMistakes = session.wrongCount > 0 || remainingMistakes > 0;
+    const hasMistakes = session.wrongCount > 0 && remainingQuizMistakes > 0;
     const hasRemainingQuestions = !session.isGroup && (session.currentIndex < session.totalQuestions);
 
     const inline_keyboard = [];

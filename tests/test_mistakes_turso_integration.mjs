@@ -27,4 +27,11 @@ assert.ok(
   'callback_query.js must re-fetch mistakes and refresh keyboard when subject is empty'
 );
 
+// Test 4: finishSession must strictly require wrongCount > 0 to offer review mistakes
+assert.ok(
+  sessionCode.includes("session.wrongCount > 0 && remainingQuizMistakes > 0"),
+  'finishSession must strictly require wrongCount > 0 to show review mistakes button'
+);
+
 console.log('✅ ALL MISTAKES TURSO INTEGRATION TESTS PASSED!');
+
