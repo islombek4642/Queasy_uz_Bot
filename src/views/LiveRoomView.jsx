@@ -19,7 +19,6 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
   const [starting, setStarting] = useState(false);
   const [finishing, setFinishing] = useState(false);
   const [togglingReady, setTogglingReady] = useState(false);
-  const [copied, setCopied] = useState(false);
   const prevStatusRef = useRef(null);
 
   const loadState = async () => {
@@ -135,15 +134,6 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
     }
   };
 
-  const handleCopyLink = () => {
-    haptic.selection();
-    const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=battle_${roomCode}`;
-    navigator.clipboard?.writeText(shareLink).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
-
   if (loading && !roomData) {
     return (
       <div style={{ padding: '36px 16px', textAlign: 'center' }} className="animate-fade-in">
@@ -233,7 +223,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             {t('LIVE_ROOM_PODIUM_TITLE')}
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginBottom: '20px' }}>
-            {quiz.title} • PIN: {roomCode}
+            {quiz.title}
           </p>
 
           {/* Top 3 Visual Podium */}
@@ -366,86 +356,42 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
         </Badge>
       </div>
 
-      {/* Streamlined Room Code & Info Card */}
+      {/* Quiz Info & Invite Card */}
       <Card
         glow
         style={{
-          padding: '14px 16px',
+          padding: '16px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '12px',
+          gap: '14px',
           background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.15) 100%)',
           border: '1px solid var(--accent-glow)',
         }}
       >
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '4px' }}>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '700' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '6px' }}>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '700' }}>
               {t('LIVE_ROOM_TITLE')}
             </span>
             <Badge variant="warning" size="sm">
               {quiz.questionCount || 0} {t('QUESTIONS_COUNT')}
             </Badge>
           </div>
-          <h2 style={{ fontSize: '1.05rem', fontWeight: '800', wordBreak: 'break-word', overflowWrap: 'anywhere', lineHeight: '1.3' }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: '800', wordBreak: 'break-word', overflowWrap: 'anywhere', lineHeight: '1.35' }}>
             {quiz.title}
           </h2>
         </div>
 
-        {/* Compact PIN Badge with copy button */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            background: 'rgba(255, 255, 255, 0.05)',
-            padding: '8px 12px',
-            borderRadius: '12px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '0.72rem', fontWeight: '700', color: 'var(--text-muted)' }}>PIN:</span>
-            <span
-              style={{
-                fontSize: '1.4rem',
-                fontWeight: '900',
-                color: 'var(--accent-primary)',
-                letterSpacing: '3px',
-                fontFamily: 'var(--font-family-display)',
-              }}
-            >
-              {roomCode}
-            </span>
-          </div>
-
-          <button
-            onClick={handleCopyLink}
-            className="glass-pill"
-            style={{
-              padding: '4px 10px',
-              fontSize: '0.74rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              cursor: 'pointer',
-            }}
-          >
-            <Icon icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'} width="13" height="13" />
-            <span>{copied ? t('TOAST_LINK_COPIED') : t('BTN_COPY_LINK')}</span>
-          </button>
-        </div>
-
-        {/* Share Button to invite group members */}
+        {/* Invite Friends Button (Directly under the test name) */}
         <Button
           variant="primary"
           size="md"
           fullWidth
-          icon="solar:share-bold"
+          icon="solar:user-plus-bold"
           onClick={handleShareToTelegram}
-          style={{ height: '40px', fontSize: '0.88rem', fontWeight: '700' }}
+          style={{ height: '42px', fontSize: '0.94rem', fontWeight: '700' }}
         >
-          {t('LIVE_ROOM_INVITE_GROUP')}
+          {t('BTN_INVITE_FRIENDS')}
         </Button>
       </Card>
 

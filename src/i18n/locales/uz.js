@@ -218,6 +218,7 @@ export default {
   LIVE_ROOM_TITLE: 'Jonli Xona (Live)',
   LIVE_ROOM_PIN_LABEL: 'Xona PIN kodi',
   LIVE_ROOM_INVITE_GROUP: 'Guruhga taklif qilish',
+  BTN_INVITE_FRIENDS: 'Do\'stlarni taklif qilish',
   LIVE_ROOM_COPY_LINK: 'Xona havolasini nusxalash',
   LIVE_ROOM_LOBBY_TITLE: 'Kutish zali',
   LIVE_ROOM_YOU_ARE_HOST: 'Siz boshlovchisiz',

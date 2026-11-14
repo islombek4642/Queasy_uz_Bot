@@ -474,21 +474,21 @@
     "semantic_hash": ""
   },
   "src/i18n/locales/en.js": {
-    "mtime": 1794664790.9395852,
-    "seen": 1794664859.6767342,
-    "ast_hash": "c3d05e5d5320524462ed866481503f67",
+    "mtime": 1794665661.12141,
+    "seen": 1794665780.817613,
+    "ast_hash": "7f2cea261f2b13e862dcbd73317c9e7e",
     "semantic_hash": ""
   },
   "src/i18n/locales/ru.js": {
-    "mtime": 1794664786.3648136,
-    "seen": 1794664859.6767366,
-    "ast_hash": "d2c6404166220c4449d4980edd1a885f",
+    "mtime": 1794665655.8336518,
+    "seen": 1794665780.817616,
+    "ast_hash": "9af550f0ee45c3ef41a518d30feb52ea",
     "semantic_hash": ""
   },
   "src/i18n/locales/uz.js": {
-    "mtime": 1794664782.779379,
-    "seen": 1794664859.6767385,
-    "ast_hash": "f0d258a4dece7d0eaa9c5e3d99ceaf76",
+    "mtime": 1794665650.3179872,
+    "seen": 1794665780.8176181,
+    "ast_hash": "facbc97e5f91ca5b91b307fdc5caa160",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -2778,9 +2778,9 @@
     "semantic_hash": ""
   },
   "src/views/LiveRoomView.jsx": {
-    "mtime": 1794663978.3017156,
-    "seen": 1794664072.3478203,
-    "ast_hash": "c10689dceb0b4005a66d0752c4c0fb09",
+    "mtime": 1794665726.974591,
+    "seen": 1794665780.8176496,
+    "ast_hash": "1986c977df6c905b22f6b499867c5c0f",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/create_live_room.js": {

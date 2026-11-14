@@ -218,6 +218,7 @@ export default {
   LIVE_ROOM_TITLE: 'Комната Онлайн (Live)',
   LIVE_ROOM_PIN_LABEL: 'PIN-код комнаты',
   LIVE_ROOM_INVITE_GROUP: 'Пригласить в группу',
+  BTN_INVITE_FRIENDS: 'Пригласить друзей',
   LIVE_ROOM_COPY_LINK: 'Скопировать ссылку',
   LIVE_ROOM_LOBBY_TITLE: 'Комната ожидания',
   LIVE_ROOM_YOU_ARE_HOST: 'Вы ведущий',
