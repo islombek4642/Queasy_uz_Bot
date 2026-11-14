@@ -224,58 +224,51 @@ export function QuizModeModal({
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {/* Header Summary (Visible once a quiz is selected) */}
-          {(quiz || activeQuizId) && (
-            <div
-              style={{
-                padding: '8px 12px',
-                borderRadius: 'var(--radius-md, 12px)',
-                backgroundColor: 'var(--surface-card, rgba(255, 255, 255, 0.04))',
-                border: '1px solid var(--surface-border, rgba(255, 255, 255, 0.1))',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '8px',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '0.88rem',
-                  fontWeight: '800',
-                  color: 'var(--text-primary)',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
+          {/* Unified Wizard Navigation Bar: Back button (if step > 1) & Step Badge */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              minHeight: '28px',
+              paddingBottom: '2px',
+            }}
+          >
+            {step > 1 ? (
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.selection();
+                  setStep((prev) => Math.max(1, prev - 1));
                 }}
-                title={quiz?.title}
+                className="glass-pill"
+                style={{
+                  padding: '4px 10px',
+                  fontSize: '0.78rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  cursor: 'pointer',
+                  fontWeight: '600',
+                }}
               >
-                {quiz?.title || 'Test'}
-              </div>
-              <div style={{ display: 'flex', gap: '6px', flexShrink: 0, alignItems: 'center' }}>
-                <Badge variant="primary" icon="solar:question-circle-bold" size="sm">
-                  {(isQuizSelectionRequired ? step === 2 : step === 1) ? totalQuestions : getSelectedSummary()}
-                </Badge>
-                <Badge variant="accent" size="sm">
-                  {getStepBadge()}
-                </Badge>
-              </div>
-            </div>
-          )}
+                <Icon icon="solar:arrow-left-linear" width="14" height="14" />
+                <span>{t('BTN_BACK')}</span>
+              </button>
+            ) : (
+              <div />
+            )}
+
+            <Badge variant="accent" size="sm">
+              {getStepBadge()}
+            </Badge>
+          </div>
 
           {/* ========================================================================= */}
           {/* STEP A: Quiz Selection (When user clicked "+ Guruh testi yaratish")       */}
           {/* ========================================================================= */}
           {isQuizSelectionRequired && step === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className="animate-fade-in">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: '600' }}>
-                  {t('SELECT_MY_QUIZ_SUB')}
-                </span>
-                <Badge variant="accent" size="sm">
-                  {getStepBadge()}
-                </Badge>
-              </div>
-
               {userQuizzes && userQuizzes.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '340px', overflowY: 'auto', paddingRight: '2px' }}>
                   {userQuizzes.map((q) => (
@@ -352,34 +345,6 @@ export function QuizModeModal({
           {/* ========================================================================= */}
           {((isQuizSelectionRequired && step === 2) || (!isQuizSelectionRequired && step === 1)) && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className="animate-fade-in">
-              {/* Optional Back to Quiz selection button */}
-              {isQuizSelectionRequired && (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      haptic.selection();
-                      setStep(1);
-                    }}
-                    className="glass-pill"
-                    style={{
-                      padding: '4px 10px',
-                      fontSize: '0.78rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <Icon icon="solar:arrow-left-linear" width="14" height="14" />
-                    <span>{t('BTN_BACK')}</span>
-                  </button>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                    {t('SELECT_MODE_TITLE')}
-                  </span>
-                </div>
-              )}
-
               {/* 1. Full Mode (With Auto-Advance!) */}
               <div
                 onClick={handleSelectFullMode}
@@ -778,32 +743,6 @@ export function QuizModeModal({
           {/* ========================================================================= */}
           {((isQuizSelectionRequired && step === 3) || (!isQuizSelectionRequired && step === 2)) && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }} className="animate-fade-in">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    haptic.selection();
-                    setStep(isQuizSelectionRequired ? 2 : 1);
-                  }}
-                  className="glass-pill"
-                  style={{
-                    padding: '4px 10px',
-                    fontSize: '0.78rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <Icon icon="solar:arrow-left-linear" width="14" height="14" />
-                  <span>{t('BTN_BACK')}</span>
-                </button>
-
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: '600' }}>
-                  {t('TIME_PER_QUESTION_LABEL')}
-                </span>
-              </div>
-
               {/* Time Presets Grid (2 rows x 3 columns) */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
                 {timePresets.map((tp) => {

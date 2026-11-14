@@ -52703,7 +52703,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/quiz/QuizModeModal.jsx",
-      "source_location": "L255",
+      "source_location": "L262",
       "weight": 1.0
     },
     {
@@ -52715,7 +52715,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/quiz/QuizModeModal.jsx",
-      "source_location": "L332",
+      "source_location": "L325",
       "weight": 1.0
     },
     {
@@ -113763,5 +113763,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "0b737cb5d63d6cb95a8c7121858667b7bb7fc649"
+  "built_at_commit": "a0c784e0db03c6ed1fc595bccd653957dc5c72ff"
 }
