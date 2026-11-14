@@ -40,10 +40,11 @@ export default async function (input, ctx) {
     return { success: false, error: 'NOT_HOST' };
   }
 
-  // 3. Mark room as finished in Turso and local db
+  // 3. Mark room as finished or cancelled in Turso and local db
+  const targetStatus = input?.status === 'cancelled' ? 'cancelled' : 'finished';
   if (CONFIG.TURSO?.ENABLED) {
     try {
-      await turso.run('UPDATE live_rooms SET status = "finished" WHERE id = ?', [room.id]);
+      await turso.run('UPDATE live_rooms SET status = ? WHERE id = ?', [targetStatus, room.id]);
     } catch (err) {
       console.warn('[finish_live_room] Turso liveRooms update fallback:', err.message);
     }
@@ -53,7 +54,7 @@ export default async function (input, ctx) {
     await db
       .update(liveRooms)
       .set({
-        status: 'finished',
+        status: targetStatus,
       })
       .where(eq(liveRooms.id, room.id))
       .run();

@@ -9,6 +9,6 @@ const groupSessionsContent = fs.readFileSync('tgcloud/endpoints/get_group_sessio
 
 assert(liveStateContent.includes('hasFinished'), 'get_live_room_state must return hasFinished indicator');
 assert(groupSessionsContent.includes('isPublic'), 'get_group_sessions must include isPublic flag for quizzes');
-assert(groupSessionsContent.includes('ownerId, 0'), 'get_group_sessions must query public/catalog quizzes when user has < 5 quizzes');
+assert(groupSessionsContent.includes('owner_id') || groupSessionsContent.includes('ownerId'), 'get_group_sessions must query user quizzes');
 
 console.log('Task 2 assertions PASS!');

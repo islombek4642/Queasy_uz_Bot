@@ -326,6 +326,21 @@ export default {
   TIME_SECONDS_HINT: 'Время (секунды)',
   LIVE_WAITING_NEXT_ROUND: 'Ваш ответ принят. Ожидание следующего вопроса...',
   LIVE_ROUND_REVEAL: 'Показ правильного ответа',
+
+  // Hero Card & 3-Step Wizard for Group Host
+  CREATE_GROUP_BATTLE_HERO_TITLE: 'Создать новый групповой баттл',
+  CREATE_GROUP_BATTLE_HERO_SUB: 'Выберите один из своих тестов, настройте количество вопросов и время, и соревнуйтесь с друзьями вживую',
+  CREATE_GROUP_BATTLE_BTN: '➕ Создать групповой тест',
+  SELECT_MY_QUIZ_TITLE: 'Выберите свой тест',
+  SELECT_MY_QUIZ_SUB: 'Выберите тест для проведения группового баттла',
+  NO_MY_QUIZZES_TITLE: 'У вас пока нет своих тестов',
+  NO_MY_QUIZZES_DESC: 'Для проведения группового баттла сначала создайте свой тест',
+  BTN_CANCEL_ROOM: 'Отменить комнату',
+  CONFIRM_CANCEL_ROOM: 'Вы уверены, что хотите отменить эту комнату?',
+  SELECT_BTN: 'Выбрать',
+  STEP_1_OF_3: 'Шаг 1/3',
+  STEP_2_OF_3: 'Шаг 2/3',
+  STEP_3_OF_3: 'Шаг 3/3',
 };
 
 

@@ -105,8 +105,8 @@ export async function submitLiveRoomResult(payload) {
   return await callEndpoint(EP_SUBMIT_LIVE_ROOM_RESULT, payload);
 }
 
-export async function finishLiveRoom(roomCode) {
-  return await callEndpoint(EP_FINISH_LIVE_ROOM, { roomCode });
+export async function finishLiveRoom(roomCode, status = 'finished') {
+  return await callEndpoint(EP_FINISH_LIVE_ROOM, { roomCode, status });
 }
 
 export async function toggleLiveReady(roomCode, isReady, userId = null) {

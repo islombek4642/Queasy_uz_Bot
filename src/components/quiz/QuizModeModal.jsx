@@ -1,5 +1,5 @@
 // src/components/quiz/QuizModeModal.jsx
-// Interactive 2-Step Wizard Modal for WebApp (Step 1: Questions Mode & Count, Step 2: Time Limit)
+// Interactive Wizard Modal for WebApp (Step 1: Quiz Selection [if needed], Step 2: Questions Mode & Count, Step 3: Time Limit)
 
 import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
@@ -10,13 +10,24 @@ import { Modal } from '../common/Modal.jsx';
 import { Button } from '../common/Button.jsx';
 import { Badge } from '../common/Badge.jsx';
 
-export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
+export function QuizModeModal({
+  isOpen,
+  onClose,
+  quizId = null,
+  userQuizzes = [],
+  onOpenCreator = null,
+  onConfirmMode,
+}) {
   const { t } = useTranslation();
   const { haptic } = useTelegram();
 
-  const [loading, setLoading] = useState(true);
+  const isQuizSelectionRequired = !quizId;
+  const totalSteps = isQuizSelectionRequired ? 3 : 2;
+
+  const [activeQuizId, setActiveQuizId] = useState(quizId || null);
+  const [loading, setLoading] = useState(false);
   const [quizData, setQuizData] = useState(null);
-  const [step, setStep] = useState(1); // 1: Questions Mode & Count, 2: Time Limit per Question
+  const [step, setStep] = useState(1); // 1: Select Quiz (if needed) or Questions Mode, etc.
   const [selectedMode, setSelectedMode] = useState('full'); // 'full' | 'range' | 'random'
   const [rangeStart, setRangeStart] = useState(1);
   const [rawRangeStart, setRawRangeStart] = useState('1');
@@ -27,14 +38,10 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
   const [selectedTimeLimit, setSelectedTimeLimit] = useState(30);
   const [customTimeInput, setCustomTimeInput] = useState('');
 
-  useEffect(() => {
-    if (!isOpen || !quizId) return;
+  // Load quiz details when activeQuizId is known
+  const loadQuiz = (id) => {
     setLoading(true);
-    setStep(1);
-    setSelectedMode('full');
-    setCustomTimeInput('');
-
-    fetchQuizDetail(quizId)
+    fetchQuizDetail(id)
       .then((res) => {
         if (res && res.quiz) {
           setQuizData(res);
@@ -56,6 +63,23 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setSelectedMode('full');
+    setCustomTimeInput('');
+
+    if (quizId) {
+      setActiveQuizId(quizId);
+      setStep(1); // 1: Mode & Count
+      loadQuiz(quizId);
+    } else {
+      setActiveQuizId(null);
+      setQuizData(null);
+      setStep(1); // 1: Quiz Selection
+      setLoading(false);
+    }
   }, [isOpen, quizId]);
 
   const quiz = quizData?.quiz;
@@ -94,11 +118,19 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
     { label: '2m', value: 120 },
   ];
 
+  // Handler for picking quiz in Step 1
+  const handleSelectQuiz = (q) => {
+    haptic.selection();
+    setActiveQuizId(q.id);
+    loadQuiz(q.id);
+    setStep(2); // Advance to Mode & Range
+  };
+
   const handleSelectFullMode = () => {
     haptic.selection();
     setSelectedMode('full');
-    // Auto-advance to Step 2 for instant friction-free setup!
-    setStep(2);
+    // Auto-advance to Time limit step
+    setStep(isQuizSelectionRequired ? 3 : 2);
   };
 
   const handleNextStep = () => {
@@ -115,7 +147,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
     setRandomCount(parsedRand);
     setRawRandomCount(String(parsedRand));
 
-    setStep(2);
+    setStep(isQuizSelectionRequired ? 3 : 2);
   };
 
   const handleStart = () => {
@@ -137,7 +169,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
 
     if (onConfirmMode) {
       onConfirmMode({
-        quizId,
+        quizId: activeQuizId,
         mode: selectedMode,
         range: validatedRange,
         randomCount: validatedRandomCount,
@@ -146,7 +178,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
     }
   };
 
-  // Summary label for Step 2
+  // Summary label for Mode / Time steps
   const getSelectedSummary = () => {
     if (selectedMode === 'full') {
       return `${totalQuestions} ${t('QUESTIONS_COUNT')} (${t('MODE_ALL_QUESTIONS')})`;
@@ -161,60 +193,193 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
     return t('MODE_TOTAL_SUMMARY', { count: totalQuestions });
   };
 
+  const getModalTitle = () => {
+    if (isQuizSelectionRequired) {
+      if (step === 1) return t('SELECT_MY_QUIZ_TITLE');
+      if (step === 2) return t('SELECT_MODE_TITLE');
+      return t('SELECT_TIME_TITLE');
+    }
+    return step === 1 ? t('SELECT_MODE_TITLE') : t('SELECT_TIME_TITLE');
+  };
+
+  const getStepBadge = () => {
+    if (isQuizSelectionRequired) {
+      if (step === 1) return t('STEP_1_OF_3');
+      if (step === 2) return t('STEP_2_OF_3');
+      return t('STEP_3_OF_3');
+    }
+    return step === 1 ? t('STEP_1_OF_2') : t('STEP_2_OF_2');
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={step === 1 ? t('SELECT_MODE_TITLE') : t('SELECT_TIME_TITLE')}
+      title={getModalTitle()}
       maxWidth="440px"
     >
       {loading ? (
-        <div style={{ padding: '24px', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ padding: '32px', display: 'flex', justifyContent: 'center' }}>
           <Icon icon="line-md:loading-loop" width="32" height="32" style={{ color: 'var(--accent-primary)' }} />
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {/* Header Summary */}
-          <div
-            style={{
-              padding: '8px 12px',
-              borderRadius: 'var(--radius-md, 12px)',
-              backgroundColor: 'var(--surface-card, rgba(255, 255, 255, 0.04))',
-              border: '1px solid var(--surface-border, rgba(255, 255, 255, 0.1))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '8px',
-            }}
-          >
+          {/* Header Summary (Visible once a quiz is selected) */}
+          {(quiz || activeQuizId) && (
             <div
               style={{
-                fontSize: '0.88rem',
-                fontWeight: '800',
-                color: 'var(--text-primary)',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
+                padding: '8px 12px',
+                borderRadius: 'var(--radius-md, 12px)',
+                backgroundColor: 'var(--surface-card, rgba(255, 255, 255, 0.04))',
+                border: '1px solid var(--surface-border, rgba(255, 255, 255, 0.1))',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '8px',
               }}
-              title={quiz?.title}
             >
-              {quiz?.title || 'Test'}
+              <div
+                style={{
+                  fontSize: '0.88rem',
+                  fontWeight: '800',
+                  color: 'var(--text-primary)',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+                title={quiz?.title}
+              >
+                {quiz?.title || 'Test'}
+              </div>
+              <div style={{ display: 'flex', gap: '6px', flexShrink: 0, alignItems: 'center' }}>
+                <Badge variant="primary" icon="solar:question-circle-bold" size="sm">
+                  {(isQuizSelectionRequired ? step === 2 : step === 1) ? totalQuestions : getSelectedSummary()}
+                </Badge>
+                <Badge variant="accent" size="sm">
+                  {getStepBadge()}
+                </Badge>
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: '6px', flexShrink: 0, alignItems: 'center' }}>
-              <Badge variant="primary" icon="solar:question-circle-bold" size="sm">
-                {step === 1 ? totalQuestions : getSelectedSummary()}
-              </Badge>
-              <Badge variant="accent" size="sm">
-                {step === 1 ? t('STEP_1_OF_2') : t('STEP_2_OF_2')}
-              </Badge>
-            </div>
-          </div>
+          )}
 
           {/* ========================================================================= */}
-          {/* STEP 1: Questions Mode & Range/Random Selector                            */}
+          {/* STEP A: Quiz Selection (When user clicked "+ Guruh testi yaratish")       */}
           {/* ========================================================================= */}
-          {step === 1 && (
+          {isQuizSelectionRequired && step === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className="animate-fade-in">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: '600' }}>
+                  {t('SELECT_MY_QUIZ_SUB')}
+                </span>
+                <Badge variant="accent" size="sm">
+                  {getStepBadge()}
+                </Badge>
+              </div>
+
+              {userQuizzes && userQuizzes.length > 0 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '340px', overflowY: 'auto', paddingRight: '2px' }}>
+                  {userQuizzes.map((q) => (
+                    <div
+                      key={q.id}
+                      onClick={() => handleSelectQuiz(q)}
+                      style={{
+                        padding: '12px 14px',
+                        borderRadius: '12px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        backgroundColor: 'var(--surface-card, rgba(255, 255, 255, 0.04))',
+                        border: '1px solid var(--surface-border, rgba(255, 255, 255, 0.1))',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '10px',
+                      }}
+                    >
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div
+                          style={{
+                            fontWeight: '800',
+                            fontSize: '0.92rem',
+                            color: 'var(--text-primary)',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                          title={q.title}
+                        >
+                          {q.title}
+                        </div>
+                        <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginTop: '4px' }}>
+                          <Badge size="sm">{q.questionCount || 0} {t('QUESTIONS_COUNT')}</Badge>
+                          <Badge size="sm" variant="warning">{q.timeLimit}s</Badge>
+                        </div>
+                      </div>
+                      <div style={{ color: 'var(--accent-primary)', display: 'flex', alignItems: 'center', gap: '2px', fontSize: '0.82rem', fontWeight: '700', flexShrink: 0 }}>
+                        <span>{t('SELECT_BTN')}</span>
+                        <Icon icon="solar:arrow-right-linear" width="16" height="16" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ padding: '28px 16px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                  <Icon icon="solar:document-add-bold-duotone" width="46" height="46" style={{ color: 'var(--accent-primary)' }} />
+                  <h4 style={{ fontSize: '1rem', fontWeight: '800' }}>{t('NO_MY_QUIZZES_TITLE')}</h4>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', maxWidth: '280px', lineHeight: '1.4' }}>
+                    {t('NO_MY_QUIZZES_DESC')}
+                  </p>
+                  {onOpenCreator && (
+                    <Button
+                      variant="primary"
+                      size="md"
+                      icon="solar:add-circle-bold"
+                      onClick={() => {
+                        onClose();
+                        onOpenCreator();
+                      }}
+                      style={{ marginTop: '4px' }}
+                    >
+                      {t('GROUP_CREATE_NEW_QUIZ')}
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* STEP B: Questions Mode & Range/Random Selector                            */}
+          {/* ========================================================================= */}
+          {((isQuizSelectionRequired && step === 2) || (!isQuizSelectionRequired && step === 1)) && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className="animate-fade-in">
+              {/* Optional Back to Quiz selection button */}
+              {isQuizSelectionRequired && (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2px' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      haptic.selection();
+                      setStep(1);
+                    }}
+                    className="glass-pill"
+                    style={{
+                      padding: '4px 10px',
+                      fontSize: '0.78rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Icon icon="solar:arrow-left-linear" width="14" height="14" />
+                    <span>{t('BTN_BACK')}</span>
+                  </button>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                    {t('SELECT_MODE_TITLE')}
+                  </span>
+                </div>
+              )}
+
               {/* 1. Full Mode (With Auto-Advance!) */}
               <div
                 onClick={handleSelectFullMode}
@@ -326,7 +491,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                       gap: '8px',
                     }}
                   >
-                    {/* Preset Pills */}
+                    {/* Presets Pills */}
                     {getPresetRanges().length > 0 && (
                       <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                         {getPresetRanges().map(([pStart, pEnd]) => {
@@ -360,10 +525,10 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                       </div>
                     )}
 
-                    {/* Manual Inputs - Free text editing with clamp on blur */}
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    {/* Manual Range Inputs with Backspace/Clear Support */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_FROM_LABEL')}</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_START_LABEL')}</span>
                         <input
                           type="number"
                           min="1"
@@ -373,8 +538,8 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                             const val = e.target.value;
                             setRawRangeStart(val);
                             const parsed = parseInt(val, 10);
-                            if (!isNaN(parsed) && parsed >= 1) {
-                              setRangeStart(Math.min(totalQuestions, parsed));
+                            if (!isNaN(parsed)) {
+                              setRangeStart(parsed);
                             }
                           }}
                           onBlur={() => {
@@ -383,7 +548,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                             if (parsed > totalQuestions) parsed = totalQuestions;
                             setRangeStart(parsed);
                             setRawRangeStart(String(parsed));
-                            if (rangeEnd < parsed) {
+                            if (parsed > rangeEnd) {
                               setRangeEnd(parsed);
                               setRawRangeEnd(String(parsed));
                             }
@@ -402,9 +567,9 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                           }}
                         />
                       </div>
-                      <span style={{ paddingTop: '16px', color: 'var(--text-secondary)' }}>—</span>
+                      <span style={{ color: 'var(--text-muted)', paddingTop: '16px' }}>—</span>
                       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_TO_LABEL')}</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_END_LABEL')}</span>
                         <input
                           type="number"
                           min={rangeStart}
@@ -420,8 +585,8 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                           }}
                           onBlur={() => {
                             let parsed = parseInt(rawRangeEnd, 10);
-                            const minVal = Number(rangeStart) || 1;
-                            if (isNaN(parsed) || parsed < minVal) parsed = minVal;
+                            if (isNaN(parsed)) parsed = totalQuestions;
+                            if (parsed < rangeStart) parsed = rangeStart;
                             if (parsed > totalQuestions) parsed = totalQuestions;
                             setRangeEnd(parsed);
                             setRawRangeEnd(String(parsed));
@@ -541,7 +706,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                       })}
                     </div>
 
-                    {/* Manual Input - Free text editing with clamp on blur */}
+                    {/* Manual Input with Backspace/Clear Support */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                       <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>
                         {t('RANDOM_COUNT_LABEL')} (max: {totalQuestions})
@@ -603,16 +768,16 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
           )}
 
           {/* ========================================================================= */}
-          {/* STEP 2: Time Limit per Question Selector                                  */}
+          {/* STEP C: Time Limit per Question Selector                                  */}
           {/* ========================================================================= */}
-          {step === 2 && (
+          {((isQuizSelectionRequired && step === 3) || (!isQuizSelectionRequired && step === 2)) && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }} className="animate-fade-in">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <button
                   type="button"
                   onClick={() => {
                     haptic.selection();
-                    setStep(1);
+                    setStep(isQuizSelectionRequired ? 2 : 1);
                   }}
                   className="glass-pill"
                   style={{

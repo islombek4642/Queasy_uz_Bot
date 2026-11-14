@@ -322,6 +322,21 @@ export default {
   TIME_SECONDS_HINT: 'Time (seconds)',
   LIVE_WAITING_NEXT_ROUND: 'Answer accepted. Waiting for next question...',
   LIVE_ROUND_REVEAL: 'Showing correct answer',
+
+  // Hero Card & 3-Step Wizard for Group Host
+  CREATE_GROUP_BATTLE_HERO_TITLE: 'Create New Group Battle',
+  CREATE_GROUP_BATTLE_HERO_SUB: 'Choose one of your quizzes, configure questions count and time limit, and compete with friends live',
+  CREATE_GROUP_BATTLE_BTN: '➕ Create Group Quiz',
+  SELECT_MY_QUIZ_TITLE: 'Select Your Quiz',
+  SELECT_MY_QUIZ_SUB: 'Choose the quiz for your group battle',
+  NO_MY_QUIZZES_TITLE: 'You don\'t have any quizzes yet',
+  NO_MY_QUIZZES_DESC: 'To host a group battle, please create your own quiz first',
+  BTN_CANCEL_ROOM: 'Cancel Room',
+  CONFIRM_CANCEL_ROOM: 'Are you sure you want to cancel this room?',
+  SELECT_BTN: 'Select',
+  STEP_1_OF_3: 'Step 1/3',
+  STEP_2_OF_3: 'Step 2/3',
+  STEP_3_OF_3: 'Step 3/3',
 };
 
 

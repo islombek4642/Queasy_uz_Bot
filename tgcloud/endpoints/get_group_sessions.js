@@ -14,7 +14,16 @@ export default async function (input, ctx) {
 
   if (CONFIG.TURSO?.ENABLED) {
     try {
-      // 1. Fetch active live room sessions (Waiting or Active)
+      // 0. Auto-cancel stale rooms (waiting > 15m, active > 45m)
+      try {
+        await turso.run(`
+          UPDATE live_rooms SET status = 'cancelled'
+          WHERE (status = 'waiting' AND (created_at IS NULL OR created_at < unixepoch() - 900))
+             OR (status = 'active' AND (created_at IS NULL OR created_at < unixepoch() - 2700))
+        `);
+      } catch {}
+
+      // 1. Fetch active live room sessions (Waiting or Active within fresh thresholds)
       const rawActiveRooms = await turso.all(`
         SELECT lr.id, lr.room_code as roomCode, lr.quiz_id as quizId, lr.host_id as hostId, lr.status,
                lr.current_question_index as currentIndex, lr.created_at as startedAt,
@@ -24,8 +33,8 @@ export default async function (input, ctx) {
                (SELECT count(*) FROM questions qst WHERE qst.quiz_id = lr.quiz_id) as totalQuestions
         FROM live_rooms lr
         LEFT JOIN quizzes q ON q.id = lr.quiz_id
-        WHERE lr.status IN ('waiting', 'active')
-          AND (lr.created_at IS NULL OR lr.created_at >= unixepoch() - 7200)
+        WHERE (lr.status = 'waiting' AND lr.created_at >= unixepoch() - 900)
+           OR (lr.status = 'active' AND lr.created_at >= unixepoch() - 2700)
         ORDER BY lr.id DESC
         LIMIT 50
       `, [currentUserId]);
@@ -48,7 +57,7 @@ export default async function (input, ctx) {
         startedAt: s.startedAt,
       }));
 
-      // 2. Fetch user's quizzes
+      // 2. Fetch strictly user's own quizzes
       const userQuizzes = await turso.all(`
         SELECT q.id, q.title, q.description, q.time_limit as timeLimit, q.owner_id as ownerId,
                count(qst.id) as questionCount
@@ -57,41 +66,22 @@ export default async function (input, ctx) {
         WHERE q.owner_id = ?
         GROUP BY q.id
         ORDER BY q.id DESC
-        LIMIT 10
+        LIMIT 50
       `, [currentUserId]);
 
-      let publicQuizzes = [];
-      if ((userQuizzes || []).length < 5) {
-        const need = 10 - (userQuizzes || []).length;
-        publicQuizzes = await turso.all(`
-          SELECT q.id, q.title, q.description, q.time_limit as timeLimit, q.owner_id as ownerId,
-                 count(qst.id) as questionCount
-          FROM quizzes q
-          LEFT JOIN questions qst ON qst.quiz_id = q.id
-          WHERE q.owner_id = 0
-          GROUP BY q.id
-          ORDER BY q.id DESC
-          LIMIT ?
-        `, [need]);
-      }
-
-      const combined = [
-        ...(userQuizzes || []).map((q) => ({ ...q, isPublic: false })),
-        ...(publicQuizzes || []).map((q) => ({ ...q, isPublic: true })),
-      ];
-
-      const formattedQuizzes = combined.map((q) => ({
+      const formattedQuizzes = (userQuizzes || []).map((q) => ({
         id: q.id,
         title: q.title,
         description: q.description || '',
         questionCount: Number(q.questionCount || 0),
         timeLimit: q.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT,
-        isPublic: Boolean(q.isPublic),
+        isPublic: false,
         shareLink: `https://t.me/${CONFIG.BOT.USERNAME}/app?startapp=battle_${q.id}`,
       }));
 
       return {
         activeSessions,
+        userQuizzes: formattedQuizzes,
         launchableQuizzes: formattedQuizzes,
       };
     } catch (err) {
@@ -174,33 +164,11 @@ export default async function (input, ctx) {
     .from(quizzes)
     .where(eq(quizzes.ownerId, currentUserId))
     .orderBy(desc(quizzes.id))
-    .limit(10)
+    .limit(50)
     .all();
 
-  let publicQuizzes = [];
-  if ((userQuizzes || []).length < 5) {
-    publicQuizzes = await db
-      .select({
-        id: quizzes.id,
-        title: quizzes.title,
-        description: quizzes.description,
-        timeLimit: quizzes.timeLimit,
-        ownerId: quizzes.ownerId,
-      })
-      .from(quizzes)
-      .where(eq(quizzes.ownerId, 0))
-      .orderBy(desc(quizzes.id))
-      .limit(10 - (userQuizzes || []).length)
-      .all();
-  }
-
-  const combined = [
-    ...(userQuizzes || []).map((q) => ({ ...q, isPublic: false })),
-    ...(publicQuizzes || []).map((q) => ({ ...q, isPublic: true })),
-  ];
-
   const formattedQuizzes = await Promise.all(
-    combined.map(async (q) => {
+    (userQuizzes || []).map(async (q) => {
       const qCount = await db.$count(questions, eq(questions.quizId, q.id));
       return {
         id: q.id,
@@ -208,7 +176,7 @@ export default async function (input, ctx) {
         description: q.description || '',
         questionCount: Number(qCount || 0),
         timeLimit: q.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT,
-        isPublic: Boolean(q.isPublic),
+        isPublic: false,
         shareLink: `https://t.me/${CONFIG.BOT.USERNAME}/app?startapp=battle_${q.id}`,
       };
     })
@@ -216,6 +184,7 @@ export default async function (input, ctx) {
 
   return {
     activeSessions,
+    userQuizzes: formattedQuizzes,
     launchableQuizzes: formattedQuizzes,
   };
 }

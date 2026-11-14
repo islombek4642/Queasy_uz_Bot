@@ -326,6 +326,21 @@ export default {
   TIME_SECONDS_HINT: 'Vaqt (soniya)',
   LIVE_WAITING_NEXT_ROUND: 'Javobingiz qabul qilindi. Keyingi savol kutilmoqda...',
   LIVE_ROUND_REVEAL: 'To\'g\'ri javob ko\'rsatilmoqda',
+
+  // Hero Card & 3-Step Wizard for Group Host
+  CREATE_GROUP_BATTLE_HERO_TITLE: 'Yangi guruh jangi yaratish',
+  CREATE_GROUP_BATTLE_HERO_SUB: 'O\'z testlaringizdan birini tanlang, savollar soni va vaqtini belgilab do\'stlaringiz bilan jonli bellashing',
+  CREATE_GROUP_BATTLE_BTN: '➕ Guruh testi yaratish',
+  SELECT_MY_QUIZ_TITLE: 'O\'z testingizni tanlang',
+  SELECT_MY_QUIZ_SUB: 'Guruh jangi o\'tkazmoqchi bo\'lgan testingizni tanlang',
+  NO_MY_QUIZZES_TITLE: 'Sizda hali o\'z testlaringiz yo\'q',
+  NO_MY_QUIZZES_DESC: 'Guruh jangi o\'tkazish uchun avval o\'zingiz yangi test tuzishingiz kerak',
+  BTN_CANCEL_ROOM: 'Xonani bekor qilish',
+  CONFIRM_CANCEL_ROOM: 'Haqiqatan ham bu xonani bekor qilmoqchimisiz?',
+  SELECT_BTN: 'Tanlash',
+  STEP_1_OF_3: '1/3 bosqich',
+  STEP_2_OF_3: '2/3 bosqich',
+  STEP_3_OF_3: '3/3 bosqich',
 };
 
 

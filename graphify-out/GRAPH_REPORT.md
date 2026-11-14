@@ -1,17 +1,17 @@
 # Graph Report - Queasy_uz_Bot  (2026-11-14)
 
 ## Corpus Check
-- 498 files · ~543,839 words
+- 498 files · ~544,402 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 99 file(s) not represented in the graph (top: .ttf 54, .csv 37, .css 4)
 
 ## Summary
-- 3838 nodes · 5888 edges · 355 communities (240 shown, 115 thin omitted)
+- 3838 nodes · 5890 edges · 356 communities (241 shown, 115 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 295 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9a086e76`
+- Built from commit: `14b6113c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -144,7 +144,7 @@
 - Brainstorming Ideas Into Designs
 - CockroachDB Setup
 - Chat & Messaging
-- ArenaView.jsx
+- react
 - React Composition Patterns
 - 3. Server-Side Performance
 - Returns: "OK" or lists conflicts
@@ -181,7 +181,7 @@
 - client-api-mapping
 - Prisma MongoDB Upgrade Path
 - Forms & Inputs
-- LiveRoomView.jsx
+- callEndpoint
 - stop-server.sh
 - Diagnosing Superpowers
 - Superpowers session diagnosis bundle
@@ -191,7 +191,7 @@
 - verify-cutover-checklist
 - Prisma ORM setup
 - _style_is_dark_primary
-- HomeView.jsx
+- Badge
 - test_skill_script_paths.py
 - Review Focus
 - Gemini CLI Tool Mapping
@@ -203,7 +203,7 @@
 - import_missing_to_turso.mjs
 - detect_framework
 - detect_framework
-- Critical Rules
+- Review Focus
 - test_catalog_summary_line_endings.py
 - Review Focus
 - turbo_migrate_all.mjs
@@ -214,7 +214,7 @@
 - Skill Discovery Optimization (SDO)
 - Bulletproofing Skills Against Rationalization
 - Review Focus
-- ProfileView.jsx
+- useTranslation
 - Pressure Test 1: Emergency Production Fix
 - Pressure Test 2: Sunk Cost + Exhaustion
 - Pressure Test 3: Authority + Social Pressure
@@ -351,6 +351,7 @@
 - test_live_room_create.mjs
 - test_live_battle_scoring.mjs
 - TestTextLayoutRetrieval
+- main.jsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `getMessage()` - 62 edges
@@ -379,7 +380,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (355 total, 115 thin omitted)
+## Communities (356 total, 115 thin omitted)
 
 ### Community 0 - "schema.js"
 Cohesion: 0.23
@@ -422,8 +423,8 @@ Cohesion: 0.13
 Nodes (24): Parallel Nested Data Fetching, testPerformanceAndCaching(), addRequiredChannel(), checkUserSubscribed(), deleteRequiredChannel(), getRequiredChannels(), invalidateChannelsCache(), findCategoryIdByPath() (+16 more)
 
 ### Community 10 - "quizService.js"
-Cohesion: 0.16
-Nodes (27): 2. Frontend Services & Constants, EP_CLONE_QUIZ, EP_CREATE_LIVE_ROOM, EP_CREATE_TOURNAMENT, EP_DELETE_QUIZ, EP_FINISH_LIVE_ROOM, EP_GET_GROUP_SESSIONS, EP_GET_INITIAL_DATA (+19 more)
+Cohesion: 0.21
+Nodes (20): EP_CLONE_QUIZ, EP_CREATE_LIVE_ROOM, EP_CREATE_TOURNAMENT, EP_DELETE_QUIZ, EP_FINISH_LIVE_ROOM, EP_GET_GROUP_SESSIONS, EP_GET_INITIAL_DATA, EP_GET_KIUT_CATALOG (+12 more)
 
 ### Community 11 - "Queasy Telegram Mini App (Web App) Arxitektura va Dizayn Spetsifikatsiyasi"
 Cohesion: 0.12
@@ -562,8 +563,8 @@ Cohesion: 0.10
 Nodes (19): Advanced v4 Patterns, Best Practices, Container Queries, Custom Utilities with `@utility`, Do's, Don'ts, Namespace Overrides, Pattern 5: Native CSS Animations (v4) (+11 more)
 
 ### Community 45 - "useTelegram"
-Cohesion: 0.27
-Nodes (24): Component Selection, @iconify/react, react, Badge(), Button(), Card(), Modal(), Pagination() (+16 more)
+Cohesion: 0.31
+Nodes (19): Component Selection, @iconify/react, Button(), Card(), Modal(), Pagination(), KiutExplorerModal(), QuestionInspectorModal() (+11 more)
 
 ### Community 46 - "admin_service.js"
 Cohesion: 0.13
@@ -885,9 +886,9 @@ Nodes (10): 1. Schema Configuration, 2. Config Configuration, 3. Environment Var
 Cohesion: 0.11
 Nodes (18): Accordion, Base vs Radix, Button / trigger as non-button element (base only), Composition: asChild (radix) vs render (base), Contents, Select, Select — multiple selection and object values (base only), Slider (+10 more)
 
-### Community 129 - "ArenaView.jsx"
+### Community 129 - "react"
 Cohesion: 0.13
-Nodes (25): 1. React ArenaView: Oxirgi Savolda Natija 1 Ball Kam Hisoblanishi (Stale State Closure Bug), 8. Mini App Frontendining Katta Hajmi (666.6 kB bitta faylda), Task 5: Guruh Turniri Ko'rinishi va Natijalar Ekranini yaratish (`TournamentView.jsx`), Task 4: Frontend ArenaView Stale State Closure Resolution, Task 4: ArenaView & App.jsx Live Room Flow & Loop Trap Elimination, Task 4: Simplify `GroupHostView.jsx` and Entry Point Routing, 3.4. Frontend: `src/views/HomeView.jsx` va `src/App.jsx`, 2.3.1 `src/views/ArenaView.jsx` (Score Under-counting Fix) (+17 more)
+Nodes (28): 1. React ArenaView: Oxirgi Savolda Natija 1 Ball Kam Hisoblanishi (Stale State Closure Bug), 8. Mini App Frontendining Katta Hajmi (666.6 kB bitta faylda), Task 5: Guruh Turniri Ko'rinishi va Natijalar Ekranini yaratish (`TournamentView.jsx`), Task 4: Frontend ArenaView Stale State Closure Resolution, Task 4: ArenaView & App.jsx Live Room Flow & Loop Trap Elimination, Task 4: Simplify `GroupHostView.jsx` and Entry Point Routing, 2.3.1 `src/views/ArenaView.jsx` (Score Under-counting Fix), 3.1 Data Flow Verification (+20 more)
 
 ### Community 130 - "React Composition Patterns"
 Cohesion: 0.18
@@ -1033,9 +1034,9 @@ Nodes (8): Decision table, Hand-off rule, If staying on v6: hygiene (a deliberat
 Cohesion: 0.25
 Nodes (8): Buttons inside inputs use InputGroup + InputGroupAddon, Contents, Field validation and disabled states, FieldSet + FieldLegend for grouping related fields, Forms & Inputs, Forms use FieldGroup + Field, InputGroup requires InputGroupInput/InputGroupTextarea, Option sets (2–7 choices) use ToggleGroup
 
-### Community 166 - "LiveRoomView.jsx"
-Cohesion: 0.14
-Nodes (19): Global Constraints, Review Focus, Task 1: Backend Endpoints for Live Room Score & Completion, Task 2: Backend Enhancements for State & Catalog Availability, Task 3: Frontend Constants, Services & Localization, Task 5: LiveRoomView Complete Lifecycle (Lobby, Active, and Podium / Leaderboard), Task 6: GroupHostView & TournamentView Enhancements, Task 7: Verification, Knowledge Graph Sync & Final Validation (+11 more)
+### Community 166 - "callEndpoint"
+Cohesion: 0.13
+Nodes (22): Chat & Messaging → [chat.md](./rules/chat.md), CLI, Component Structure → [composition.md](./rules/composition.md), Critical Rules, Forms & Inputs → [forms.md](./rules/forms.md), Icons → [icons.md](./rules/icons.md), Styling & Tailwind → [styling.md](./rules/styling.md), Use Components, Not Custom Markup → [composition.md](./rules/composition.md) (+14 more)
 
 ### Community 167 - "stop-server.sh"
 Cohesion: 0.52
@@ -1073,9 +1074,9 @@ Nodes (7): 1. Detect the starting point, 2. Handle requested major upgrades sepa
 Cohesion: 0.24
 Nodes (4): _query_wants_dark(), _resolve_color_mode(), _style_is_dark_primary(), TestModeResolution
 
-### Community 177 - "HomeView.jsx"
-Cohesion: 0.25
-Nodes (13): 2.3.2 `src/App.jsx` (Code Splitting & Bundle Size Optimization), 2.3.3 `src/constants/endpoints.js` (Dead Code Elimination), 2.3 Frontend: State Management & Performance, cloneQuiz(), fetchKiutCatalog(), fetchLeaderboard(), CACHE_KEYS, getCachedData() (+5 more)
+### Community 177 - "Badge"
+Cohesion: 0.21
+Nodes (17): 2. Frontend Services & Constants, 3.4. Frontend: `src/views/HomeView.jsx` va `src/App.jsx`, 2.3.2 `src/App.jsx` (Code Splitting & Bundle Size Optimization), 2.3.3 `src/constants/endpoints.js` (Dead Code Elimination), 2.3 Frontend: State Management & Performance, Badge(), cloneQuiz(), fetchLeaderboard() (+9 more)
 
 ### Community 178 - "test_skill_script_paths.py"
 Cohesion: 0.38
@@ -1113,9 +1114,9 @@ Nodes (6): 1. Backend Serverless Endpoints (`tgcloud/endpoints/`), 3. Frontend V
 Cohesion: 0.33
 Nodes (7): CHECKPOINT_FILE, main(), MISSING_FILE, parseLegacyQuiz(), processQuiz(), sleep(), tursoPipeline()
 
-### Community 189 - "Critical Rules"
-Cohesion: 0.25
-Nodes (8): Chat & Messaging → [chat.md](./rules/chat.md), CLI, Component Structure → [composition.md](./rules/composition.md), Critical Rules, Forms & Inputs → [forms.md](./rules/forms.md), Icons → [icons.md](./rules/icons.md), Styling & Tailwind → [styling.md](./rules/styling.md), Use Components, Not Custom Markup → [composition.md](./rules/composition.md)
+### Community 189 - "Review Focus"
+Cohesion: 0.22
+Nodes (8): Global Constraints, Review Focus, Task 1: Backend Endpoints for Live Room Score & Completion, Task 2: Backend Enhancements for State & Catalog Availability, Task 3: Frontend Constants, Services & Localization, Task 6: GroupHostView & TournamentView Enhancements, Task 7: Verification, Knowledge Graph Sync & Final Validation, WebApp Group Host, Tournament & Live Room Fixes Implementation Plan
 
 ### Community 190 - "test_catalog_summary_line_endings.py"
 Cohesion: 0.08
@@ -1157,9 +1158,9 @@ Nodes (6): Address "Spirit vs Letter" Arguments, Build Rationalization Table, Bu
 Cohesion: 0.20
 Nodes (9): Global Constraints, Review Focus, Task 1: Ma'lumotlar bazasi sxemasini kengaytirish (`tgcloud/schema.js`), Task 2: Backend API endpointlarini yaratish (`tgcloud/endpoints/`), Task 3: Lokalizatsiya matnlarini qo'shish (`uz.js`, `ru.js`), Task 4: Frontend API xizmatlari va Deep-Link Routerni ulash (`quizService.js`, `App.jsx`), Task 6: `GroupHostView.jsx` sahifasini yangilash, Task 7: Build, Sinov va Serverless Sinxronizatsiya (+1 more)
 
-### Community 200 - "ProfileView.jsx"
-Cohesion: 0.14
-Nodes (17): Pattern 4: Responsive Grid System, Don't Define Components Inside Components, Avatar(), Header(), AchievementGrid(), THEME_AUTO, THEME_DARK, THEME_LIGHT (+9 more)
+### Community 200 - "useTranslation"
+Cohesion: 0.19
+Nodes (14): Don't Define Components Inside Components, Avatar(), Header(), AchievementGrid(), ACHIEVEMENTS, THEME_AUTO, THEME_DARK, THEME_LIGHT (+6 more)
 
 ### Community 201 - "Pressure Test 1: Emergency Production Fix"
 Cohesion: 0.40
@@ -1341,6 +1342,10 @@ Nodes (5): combineGraphs(), extractDotBlocks(), extractGraphBody(), main(), rend
 Cohesion: 0.50
 Nodes (3): createRoomContent, getStateContent, schemaContent
 
+### Community 355 - "main.jsx"
+Cohesion: 0.29
+Nodes (5): Pattern 4: Responsive Grid System, TelegramContext, TelegramProvider(), ThemeProvider(), LanguageProvider()
+
 ## Knowledge Gaps
 - **3 isolated node(s):** `RFC-6455`, `RFC-1951`, `RFC-1950`
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2326 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
@@ -1349,7 +1354,7 @@ Nodes (3): createRoomContent, getStateContent, schemaContent
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Review Focus` connect `LiveRoomView.jsx` to `ArenaView.jsx`?**
+- **Why does `Review Focus` connect `Review Focus` to `react`, `callEndpoint`?**
   _High betweenness centrality (0.130) - this node is a cross-community bridge._
 - **Are the 4 inferred relationships involving `getMessage()` (e.g. with `Global Constraints` and `3.2 Handlers (`tgcloud/handlers/`)`) actually correct?**
   _`getMessage()` has 4 INFERRED edges - model-reasoned connections that need verification._
@@ -1357,7 +1362,7 @@ _Questions this graph is uniquely positioned to answer:_
   _3 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `🟠 II. Xavfsizlik va Ruxsatsiz Boshqaruv (High & Security Severity)` be split into smaller, more focused modules?**
   _Cohesion score 0.07407407407407407 - nodes in this community are weakly interconnected._
-- **Why does `Task 1: Backend Endpoints for Live Room Score & Completion` connect `LiveRoomView.jsx` to `BM25`?**
+- **Why does `Task 1: Backend Endpoints for Live Room Score & Completion` connect `Review Focus` to `BM25`?**
   _High betweenness centrality (0.129) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `search()` (e.g. with ``search` — Search registries` and `Muse Tool Mapping`) actually correct?**
   _`search()` has 2 INFERRED edges - model-reasoned connections that need verification._

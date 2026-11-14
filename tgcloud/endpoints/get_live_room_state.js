@@ -321,6 +321,7 @@ export default async function (input, ctx) {
     success: true,
     room: {
       roomCode: room.roomCode,
+      hostId: room.hostId,
       status: room.status,
       currentQuestionIndex: room.currentQuestionIndex,
       roundPhase,

@@ -92,7 +92,8 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
     });
 
     try {
-      const res = await toggleLiveReady(roomCode, isReady, currentUser?.userId);
+      const myUserId = roomData?.players?.find((p) => p.isCurrentUser)?.userId;
+      const res = await toggleLiveReady(roomCode, isReady, myUserId);
       if (!res || !res.success) {
         console.warn('Failed to toggle ready status:', res?.error);
       }
