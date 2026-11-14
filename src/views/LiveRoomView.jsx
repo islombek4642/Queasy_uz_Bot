@@ -39,6 +39,8 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
         prevStatusRef.current = res.room?.status;
       } else if (res && res.error === 'ROOM_FULL') {
         setRoomData({ error: 'ROOM_FULL', message: res.message || t('ROOM_FULL') });
+      } else if (res && !res.success) {
+        setRoomData({ error: res.error || 'ERROR', message: res.message || res.error || t('LIVE_ROOM_NOT_FOUND') });
       }
     } catch (err) {
       console.error('Failed to poll room state:', err);
@@ -417,7 +419,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '8px' }}>
             {players.map((p) => {
-              const pInitial = (p?.userName || 'O\'yinchi').slice(0, 1).toUpperCase();
+              const pInitial = String(p?.userName || 'O\'yinchi').slice(0, 1).toUpperCase();
               const isPlayerHost = Number(p.userId) === Number(room.hostId);
 
               return (

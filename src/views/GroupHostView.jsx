@@ -18,6 +18,7 @@ export function GroupHostView({ onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
   const [creatingLive, setCreatingLive] = useState(false);
   const [cancellingCode, setCancellingCode] = useState(null);
   const [showCreateWizard, setShowCreateWizard] = useState(false);
+  const [modeModalQuizId, setModeModalQuizId] = useState(null);
 
   const showAlert = (msg) => {
     if (tg?.showAlert) {
@@ -62,16 +63,19 @@ export function GroupHostView({ onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
   };
 
   const handleConfirmBattleMode = async (modeConfig) => {
-    const quizId = modeConfig?.quizId || modeModalQuizId;
     setShowCreateWizard(false);
-    if (!quizId) return;
+    const quizId = modeConfig?.quizId || modeModalQuizId;
+    if (!quizId) {
+      console.warn('Cannot create group battle room: missing quizId');
+      return;
+    }
 
     haptic.impact('heavy');
     setCreatingLive(true);
     try {
       const res = await createLiveRoom(quizId, modeConfig);
-      if (res && res.success) {
-        if (onOpenLiveRoom && res.roomCode) {
+      if (res && res.success && res.roomCode) {
+        if (onOpenLiveRoom) {
           onOpenLiveRoom(res.roomCode);
         }
       } else {
@@ -79,7 +83,7 @@ export function GroupHostView({ onOpenLiveRoom, onOpenCreator, onOpenKiut }) {
       }
     } catch (err) {
       console.error('Failed to create live battle room:', err);
-      showAlert(t('ERROR_PREFIX') + (err.message || t('NETWORK_ERROR')));
+      showAlert(t('ERROR_PREFIX') + (err?.message || t('NETWORK_ERROR')));
     } finally {
       setCreatingLive(false);
     }

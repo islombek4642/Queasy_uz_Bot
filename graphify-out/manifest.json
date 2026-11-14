@@ -474,21 +474,21 @@
     "semantic_hash": ""
   },
   "src/i18n/locales/en.js": {
-    "mtime": 1794665661.12141,
-    "seen": 1794665780.817613,
-    "ast_hash": "7f2cea261f2b13e862dcbd73317c9e7e",
+    "mtime": 1794667304.6843612,
+    "seen": 1794667442.495267,
+    "ast_hash": "6642cd44f962e939c611759cbfb4e6bb",
     "semantic_hash": ""
   },
   "src/i18n/locales/ru.js": {
-    "mtime": 1794665655.8336518,
-    "seen": 1794665780.817616,
-    "ast_hash": "9af550f0ee45c3ef41a518d30feb52ea",
+    "mtime": 1794667299.2129488,
+    "seen": 1794667442.495269,
+    "ast_hash": "03f0b2281c023de3e4bc6faec30643a3",
     "semantic_hash": ""
   },
   "src/i18n/locales/uz.js": {
-    "mtime": 1794665650.3179872,
-    "seen": 1794665780.8176181,
-    "ast_hash": "facbc97e5f91ca5b91b307fdc5caa160",
+    "mtime": 1794666508.5202599,
+    "seen": 1794667442.4952714,
+    "ast_hash": "f309dd466ab7e15d33fc6a0874deceea",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -516,9 +516,9 @@
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
-    "mtime": 1794664796.9097242,
-    "seen": 1794664859.6767595,
-    "ast_hash": "6611bd8c56bb9cba290b53440f51571d",
+    "mtime": 1794667407.4295406,
+    "seen": 1794667442.495295,
+    "ast_hash": "c4dcd4072fd25746274063127040f044",
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
@@ -654,9 +654,9 @@
     "semantic_hash": ""
   },
   "src/components/common/ErrorBoundary.jsx": {
-    "mtime": 1791745673.6207087,
-    "seen": 1791745740.0925407,
-    "ast_hash": "96b7def02e98e469c9ea39607cb2c4f7",
+    "mtime": 1794667355.7716694,
+    "seen": 1794667442.4951885,
+    "ast_hash": "323e20a64fe2d597bf4847b6df5bf0cc",
     "semantic_hash": ""
   },
   "src/components/profile/AchievementGrid.jsx": {
@@ -1032,9 +1032,9 @@
     "semantic_hash": ""
   },
   "src/views/MistakesView.jsx": {
-    "mtime": 1791822286.4831035,
-    "seen": 1791822333.7264705,
-    "ast_hash": "5634bd0a968021fa2a55a6115e142592",
+    "mtime": 1794666481.0140717,
+    "seen": 1794667442.4953094,
+    "ast_hash": "b042cb1b772f10ae655c8e3dbc9d8178",
     "semantic_hash": ""
   },
   "src/views/QuizCreatorView.jsx": {
@@ -2778,9 +2778,9 @@
     "semantic_hash": ""
   },
   "src/views/LiveRoomView.jsx": {
-    "mtime": 1794665726.974591,
-    "seen": 1794665780.8176496,
-    "ast_hash": "1986c977df6c905b22f6b499867c5c0f",
+    "mtime": 1794667342.658919,
+    "seen": 1794667442.4953065,
+    "ast_hash": "0456e456f794d318c8a873bd5ee8a82c",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/create_live_room.js": {

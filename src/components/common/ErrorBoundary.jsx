@@ -68,10 +68,31 @@ export class ErrorBoundary extends React.Component {
               fontWeight: '700',
               fontSize: '0.9rem',
               cursor: 'pointer',
+              marginBottom: '12px',
             }}
           >
             Qayta yuklash
           </button>
+          {this.state.error && (
+            <div
+              style={{
+                marginTop: '8px',
+                padding: '8px 12px',
+                backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                border: '1px solid rgba(239, 68, 68, 0.25)',
+                borderRadius: '8px',
+                color: '#ef4444',
+                fontSize: '0.74rem',
+                fontFamily: 'monospace',
+                maxWidth: '92%',
+                wordBreak: 'break-all',
+                textAlign: 'left',
+                lineHeight: '1.4',
+              }}
+            >
+              {String(this.state.error?.message || this.state.error)}
+            </div>
+          )}
         </div>
       );
     }

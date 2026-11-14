@@ -115,31 +115,25 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
       </div>
 
       {/* Header Banner */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-          <div
-            style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(244, 63, 94, 0.1))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--color-danger, #ef4444)',
-            }}
-          >
-            <Icon icon="solar:history-bold" width="24" height="24" />
-          </div>
-          <div>
-            <h2 style={{ fontSize: '1.35rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
-              {t('MISTAKES_PRACTICE_TITLE')}
-            </h2>
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', margin: 0 }}>
-              {t('MISTAKES_SUBTITLE')}
-            </p>
-          </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div
+          style={{
+            width: '38px',
+            height: '38px',
+            borderRadius: '12px',
+            background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(244, 63, 94, 0.1))',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--color-danger, #ef4444)',
+            flexShrink: 0,
+          }}
+        >
+          <Icon icon="solar:history-bold" width="22" height="22" />
         </div>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
+          {t('MISTAKES_PRACTICE_TITLE')}
+        </h2>
       </div>
 
       {loading ? (
@@ -201,30 +195,26 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
               gap: '14px',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div
                   style={{
-                    width: '44px',
-                    height: '44px',
+                    width: '40px',
+                    height: '40px',
                     borderRadius: '12px',
                     backgroundColor: 'rgba(99, 102, 241, 0.2)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: 'var(--accent-primary)',
+                    flexShrink: 0,
                   }}
                 >
-                  <Icon icon="solar:bolt-bold" width="26" height="26" />
+                  <Icon icon="solar:bolt-bold" width="24" height="24" />
                 </div>
-                <div>
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>
-                    {t('MISTAKES_ALL_TITLE')}
-                  </h3>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '2px 0 0' }}>
-                    {t('MISTAKES_ALL_DESC', { count: data.count })}
-                  </p>
-                </div>
+                <h3 style={{ fontSize: '1.05rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
+                  {t('MISTAKES_ALL_TITLE')}
+                </h3>
               </div>
               <Badge variant="primary" size="md">
                 {data.count}
@@ -239,14 +229,9 @@ export function MistakesView({ onBack, onStartMistakesPractice }) {
 
           {/* Section: By Subjects */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '6px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>
-                {t('MISTAKES_BY_SUBJECTS', { count: data.grouped?.length || 0 })}
-              </h3>
-              <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-                {t('MISTAKES_CHOOSE_SUBJECT_DESC')}
-              </span>
-            </div>
+            <h3 style={{ fontSize: '1rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
+              {t('MISTAKES_BY_SUBJECTS', { count: data.grouped?.length || 0 })}
+            </h3>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {data.grouped?.map((group, idx) => {
