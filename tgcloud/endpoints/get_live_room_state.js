@@ -68,7 +68,7 @@ export default async function (input, ctx) {
   if (CONFIG.TURSO?.ENABLED) {
     try {
       rawPlayers = await turso.all(
-        'SELECT id, user_id as userId, user_name as userName, score FROM room_players WHERE room_code = ? ORDER BY score DESC, id ASC',
+        'SELECT id, user_id as userId, user_name as userName, score, COALESCE(is_ready, 0) as isReady FROM room_players WHERE room_code = ? ORDER BY score DESC, id ASC',
         [roomCode]
       );
     } catch (err) {
@@ -84,6 +84,7 @@ export default async function (input, ctx) {
           userId: roomPlayers.userId,
           userName: roomPlayers.userName,
           score: roomPlayers.score,
+          isReady: roomPlayers.isReady,
         })
         .from(roomPlayers)
         .where(eq(roomPlayers.roomCode, roomCode))
@@ -299,7 +300,7 @@ export default async function (input, ctx) {
   const isRoomFinished = room.status === 'finished';
   const formattedPlayers = (rawPlayers || []).map((p, idx) => {
     const isPlayerHost = Number(p.userId) === Number(room.hostId);
-    const isReady = isPlayerHost ? true : Boolean(readyMap.get(Number(p.userId)));
+    const isReady = isPlayerHost ? true : Boolean(Number(p.isReady) === 1 || readyMap.get(Number(p.userId)));
 
     return {
       ...p,

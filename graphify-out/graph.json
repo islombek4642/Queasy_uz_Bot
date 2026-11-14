@@ -53716,26 +53716,14 @@
     },
     {
       "source": "src_views_liveroomview_liveroomview",
-      "target": "src_components_common_spinner_spinner",
+      "target": "src_services_quizservice_finishliveroom",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L129",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_liveroomview_liveroomview",
-      "target": "src_components_common_card_card",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L138",
+      "source_location": "L112",
       "weight": 1.0
     },
     {
@@ -53752,14 +53740,14 @@
     },
     {
       "source": "src_views_liveroomview_liveroomview",
-      "target": "src_components_common_button_button",
+      "target": "src_components_common_spinner_spinner",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L144",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -53776,6 +53764,30 @@
     },
     {
       "source": "src_views_liveroomview_liveroomview",
+      "target": "src_components_common_card_card",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/LiveRoomView.jsx",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_liveroomview_liveroomview",
+      "target": "src_components_common_button_button",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/views/LiveRoomView.jsx",
+      "source_location": "L164",
+      "weight": 1.0
+    },
+    {
+      "source": "src_views_liveroomview_liveroomview",
       "target": "src_components_common_badge_badge",
       "relation": "calls",
       "_origin": "ast",
@@ -53783,7 +53795,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L195",
+      "source_location": "L215",
       "weight": 1.0
     },
     {
@@ -53819,19 +53831,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L79",
-      "weight": 1.0
-    },
-    {
-      "source": "src_views_liveroomview_liveroomview",
-      "target": "src_services_quizservice_finishliveroom",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/views/LiveRoomView.jsx",
-      "source_location": "L92",
+      "source_location": "L95",
       "weight": 1.0
     },
     {
@@ -113739,5 +113739,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d14293835ded678d0f90a5d80e7a9d35d71c0c6e"
+  "built_at_commit": "9a086e76f18b1be7e996e7ddf5e2d4f0632c658f"
 }

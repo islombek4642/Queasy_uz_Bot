@@ -109,8 +109,8 @@ export async function finishLiveRoom(roomCode) {
   return await callEndpoint(EP_FINISH_LIVE_ROOM, { roomCode });
 }
 
-export async function toggleLiveReady(roomCode, isReady) {
-  return await callEndpoint(EP_TOGGLE_LIVE_READY, { roomCode, isReady });
+export async function toggleLiveReady(roomCode, isReady, userId = null) {
+  return await callEndpoint(EP_TOGGLE_LIVE_READY, { roomCode, isReady, userId });
 }
 
 

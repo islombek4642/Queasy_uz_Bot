@@ -7,7 +7,7 @@ import { ERRORS } from '../lib/constants/errors.js';
 import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
-  const currentUserId = ctx?.initData?.user?.id ? Number(ctx.initData.user.id) : 0;
+  const currentUserId = Number(ctx?.initData?.user?.id) || Number(input?.userId) || 0;
   const roomCode = String(input?.roomCode || '').trim();
   const isReady = Boolean(input?.isReady);
 

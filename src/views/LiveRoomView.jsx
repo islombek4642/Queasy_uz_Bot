@@ -75,11 +75,31 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
   const handleToggleReady = async (isReady) => {
     haptic.selection();
     setTogglingReady(true);
+
+    // Optimistic UI update for instant feedback
+    setRoomData((prev) => {
+      if (!prev) return prev;
+      const updatedPlayers = (prev.players || []).map((p) =>
+        p.isCurrentUser ? { ...p, isReady } : p
+      );
+      const readyCount = updatedPlayers.filter((p) => p.isReady).length;
+      return {
+        ...prev,
+        players: updatedPlayers,
+        readyCount,
+        canStart: updatedPlayers.length >= 2 && readyCount >= 2,
+      };
+    });
+
     try {
-      await toggleLiveReady(roomCode, isReady);
+      const res = await toggleLiveReady(roomCode, isReady, currentUser?.userId);
+      if (!res || !res.success) {
+        console.warn('Failed to toggle ready status:', res?.error);
+      }
       await loadState();
     } catch (err) {
       console.error('Failed to toggle ready status:', err);
+      await loadState();
     } finally {
       setTogglingReady(false);
     }
