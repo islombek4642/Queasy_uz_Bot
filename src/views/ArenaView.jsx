@@ -4,7 +4,14 @@ import { Icon } from '@iconify/react';
 import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
 import { useQuizTimer } from '../hooks/useQuizTimer.js';
-import { fetchQuizDetail, submitSoloResult, submitTournamentResult, submitLiveRoomResult } from '../services/quizService.js';
+import {
+  fetchQuizDetail,
+  submitSoloResult,
+  submitTournamentResult,
+  submitLiveRoomResult,
+  fetchLiveQuestion,
+  submitLiveAnswer,
+} from '../services/quizService.js';
 import { shuffleQuestionOptions, shuffleArray } from '../utils/quizHelpers.js';
 import { TimerRing } from '../components/quiz/TimerRing.jsx';
 import { ProgressBar } from '../components/quiz/ProgressBar.jsx';
@@ -43,6 +50,12 @@ export function ArenaView({
   const [tournamentResult, setTournamentResult] = useState(null);
   const [liveRoomResult, setLiveRoomResult] = useState(null);
 
+  // Live battle synchronous state
+  const [liveTotalQuestions, setLiveTotalQuestions] = useState(1);
+  const [liveScoreAwarded, setLiveScoreAwarded] = useState(null);
+  const [serverCorrectId, setServerCorrectId] = useState(null);
+  const [countdown, setCountdown] = useState(liveRoomCode ? 3 : 0);
+
   const startTimeRef = useRef(Date.now());
   const [totalTimeSpent, setTotalTimeSpent] = useState(0);
   const correctCountRef = useRef(0);
@@ -51,10 +64,25 @@ export function ArenaView({
   const failedQuestionsRef = useRef([]);
   const resolvedMistakeIdsRef = useRef([]);
 
+  // Live battle 3-2-1 countdown
+  useEffect(() => {
+    if (!liveRoomCode || countdown <= 0) return;
+    haptic.impact('light');
+    const timer = setTimeout(() => {
+      setCountdown((prev) => prev - 1);
+      if (countdown === 1) {
+        haptic.notification('success');
+      }
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [liveRoomCode, countdown, haptic]);
+
   // Load quiz details or use custom questions with option shuffling
   const loadQuiz = useCallback(async () => {
     correctCountRef.current = 0;
     wrongCountRef.current = 0;
+
+    // A. Mistakes Mode
     if (customQuestions && customQuestions.length > 0) {
       setQuiz({
         id: 0,
@@ -63,7 +91,6 @@ export function ArenaView({
         shuffleOptions: true,
       });
 
-      // Always shuffle options for mistakes practice questions while preserving question order
       const preparedMistakes = customQuestions.map((q) => {
         const shuf = shuffleQuestionOptions(q.options || [], q.correctOptionId ?? 0);
         return {
@@ -78,6 +105,30 @@ export function ArenaView({
       return;
     }
 
+    // B. Live Battle Mode (Anti-Cheat: Fetch initial question from server)
+    if (liveRoomCode) {
+      setLoading(true);
+      try {
+        const liveRes = await fetchLiveQuestion(liveRoomCode, 0);
+        if (liveRes && liveRes.success && liveRes.question) {
+          setQuiz({
+            id: quizId || 0,
+            title: customTitle || 'Guruh Jangi',
+            timeLimit: liveRes.timeLimit || 30,
+            shuffleOptions: false,
+          });
+          setQuestions([liveRes.question]);
+          setLiveTotalQuestions(liveRes.totalQuestions || 1);
+        }
+      } catch (err) {
+        console.error('Failed to load initial live question:', err);
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    // C. Standard Solo Quiz Mode
     setLoading(true);
     try {
       const data = await fetchQuizDetail(quizId);
@@ -85,18 +136,15 @@ export function ArenaView({
         setQuiz(data.quiz);
         let pool = [...data.questions];
 
-        // 1. Filter / Slice questions based on selected mode
         if (mode === 'range' && Array.isArray(range) && range.length === 2) {
           const start = Math.max(1, Math.min(Number(range[0]) || 1, pool.length));
           const end = Math.max(start, Math.min(Number(range[1]) || pool.length, pool.length));
           pool = pool.slice(start - 1, end);
         } else if (mode === 'random' && randomCount) {
-          // Only in random mode: shuffle question order using Fisher-Yates!
           const count = Math.min(pool.length, Math.max(1, Number(randomCount) || 10));
           pool = shuffleArray(pool).slice(0, count);
         }
 
-        // 2. Always shuffle options for each question (Fisher-Yates) unless shuffleOptions is explicitly false
         const shouldShuffle = data.quiz.shuffleOptions !== false;
         const preparedQuestions = pool.map((q) => {
           if (shouldShuffle && Array.isArray(q.options) && q.options.length >= 2) {
@@ -117,7 +165,7 @@ export function ArenaView({
     } finally {
       setLoading(false);
     }
-  }, [quizId, customQuestions, customTitle, mode, range, randomCount]);
+  }, [quizId, customQuestions, customTitle, mode, range, randomCount, liveRoomCode, t]);
 
   useEffect(() => {
     loadQuiz();
@@ -126,14 +174,39 @@ export function ArenaView({
   // Current question data
   const currentQ = questions[currentIndex];
   const timeLimit = quiz?.timeLimit || 30;
+  const totalCount = liveRoomCode ? liveTotalQuestions : questions.length;
 
   // Next question step
-  const handleAdvance = useCallback((autoStop = false) => {
+  const handleAdvance = useCallback(async (autoStop = false) => {
     setIsRevealed(false);
     setSelectedOption(null);
+    setLiveScoreAwarded(null);
+    setServerCorrectId(null);
 
-    if (!autoStop && currentIndex + 1 < questions.length) {
-      setCurrentIndex((prev) => prev + 1);
+    const questionLimit = liveRoomCode ? liveTotalQuestions : questions.length;
+
+    if (!autoStop && currentIndex + 1 < questionLimit) {
+      const nextIdx = currentIndex + 1;
+      if (liveRoomCode) {
+        try {
+          const nextQ = await fetchLiveQuestion(liveRoomCode, nextIdx);
+          if (nextQ && nextQ.success && nextQ.question) {
+            setQuestions((prev) => {
+              const updated = [...prev];
+              updated[nextIdx] = nextQ.question;
+              return updated;
+            });
+            setCurrentIndex(nextIdx);
+          } else {
+            setIsFinished(true);
+          }
+        } catch (err) {
+          console.error('Failed to fetch next live question:', err);
+          setIsFinished(true);
+        }
+      } else {
+        setCurrentIndex((prev) => prev + 1);
+      }
     } else {
       // Finished
       const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000);
@@ -160,7 +233,7 @@ export function ArenaView({
         submitLiveRoomResult({
           roomCode: liveRoomCode,
           score: finalCorrect,
-          totalQuestions: questions.length,
+          totalQuestions: questionLimit,
           totalTimeSeconds: elapsed,
         }).then((res) => {
           if (res && res.success) {
@@ -184,8 +257,7 @@ export function ArenaView({
         });
       }
     }
-  }, [currentIndex, questions.length, quizId, customQuestions, mode, tournamentShareCode, liveRoomCode]);
-
+  }, [currentIndex, questions.length, liveTotalQuestions, liveRoomCode, quizId, customQuestions, mode, tournamentShareCode]);
 
   // Timeout handler
   const handleTimeout = useCallback(() => {
@@ -196,7 +268,6 @@ export function ArenaView({
     setWrongCount((prev) => prev + 1);
     consecutiveMissesRef.current += 1;
 
-    // If solving regular quiz and timed out, count as failed question
     if (!customQuestions && currentQ) {
       failedQuestionsRef.current.push({
         questionText: currentQ.questionText,
@@ -207,7 +278,6 @@ export function ArenaView({
       });
     }
 
-    // Auto-stop quiz if user is inactive for 3 consecutive questions
     if (consecutiveMissesRef.current >= 3) {
       setInactivityStopped(true);
       setTimeout(() => {
@@ -218,34 +288,67 @@ export function ArenaView({
 
     setTimeout(() => {
       handleAdvance(false);
-    }, 1200);
-  }, [isRevealed, isFinished, haptic, handleAdvance, customQuestions, currentQ, quizId]);
+    }, liveRoomCode ? 2500 : 1200);
+  }, [isRevealed, isFinished, haptic, handleAdvance, customQuestions, currentQ, quizId, liveRoomCode]);
 
   // Timer hook
   const { timeLeft, reset: resetTimer, pause: pauseTimer } = useQuizTimer(timeLimit, handleTimeout);
 
   // Reset timer on question change
   useEffect(() => {
-    if (!loading && !isFinished) {
+    if (!loading && !isFinished && countdown <= 0) {
       resetTimer(timeLimit);
     }
-  }, [currentIndex, loading, isFinished, timeLimit, resetTimer]);
+  }, [currentIndex, loading, isFinished, timeLimit, resetTimer, countdown]);
 
   // Option selection handler
   const handleSelectOption = (optIndex) => {
     if (isRevealed) return;
 
-    consecutiveMissesRef.current = 0; // Reset inactive counter on any active answer
+    consecutiveMissesRef.current = 0;
     pauseTimer();
     setSelectedOption(optIndex);
     setIsRevealed(true);
 
+    // Live Room synchronous submission
+    if (liveRoomCode) {
+      const elapsed = Math.max(0, Math.round(timeLimit - timeLeft));
+      submitLiveAnswer({
+        roomCode: liveRoomCode,
+        questionIndex: currentIndex,
+        selectedOptionId: optIndex,
+        timeTaken: elapsed,
+      }).then((res) => {
+        if (res && res.success) {
+          setServerCorrectId(res.correctOptionId);
+          setLiveScoreAwarded(res.scoreAwarded);
+          if (res.isCorrect) {
+            haptic.notification('success');
+            correctCountRef.current += 1;
+            setCorrectCount((prev) => prev + 1);
+          } else {
+            haptic.notification('error');
+            wrongCountRef.current += 1;
+            setWrongCount((prev) => prev + 1);
+          }
+        }
+      }).catch((err) => {
+        console.error('Failed to submit live answer:', err);
+      });
+
+      // 3-second intermediate leaderboard / result delay
+      setTimeout(() => {
+        handleAdvance(false);
+      }, 3000);
+      return;
+    }
+
+    // Solo or tournament answer calculation
     const isCorrect = optIndex === currentQ?.correctOptionId;
     if (isCorrect) {
       haptic.notification('success');
       correctCountRef.current += 1;
       setCorrectCount((prev) => prev + 1);
-      // If solving mistakes practice, mark this mistake as resolved
       if (customQuestions && (currentQ?.mistakeId || currentQ?.id)) {
         resolvedMistakeIdsRef.current.push(currentQ.mistakeId || currentQ.id);
       }
@@ -253,7 +356,6 @@ export function ArenaView({
       haptic.notification('error');
       wrongCountRef.current += 1;
       setWrongCount((prev) => prev + 1);
-      // If solving regular quiz, collect failed question for mistakes practice
       if (!customQuestions && currentQ) {
         failedQuestionsRef.current.push({
           questionText: currentQ.questionText,
@@ -265,7 +367,6 @@ export function ArenaView({
       }
     }
 
-    // Delay to let user see correct/wrong feedback, then advance
     setTimeout(() => {
       handleAdvance(false);
     }, 1200);
@@ -288,25 +389,65 @@ export function ArenaView({
 
     backButton.show(handleBack);
     return () => {
-      backButton.hide(handleBack);
+      backButton.hide();
     };
   }, [backButton, isFinished, onExit]);
 
-  if (loading) {
+  // Loading skeleton
+  if (loading && !currentQ) {
     return (
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Icon icon="line-md:loading-loop" width="40" height="40" style={{ color: 'var(--accent-primary)' }} />
+      <div style={{ padding: '36px 16px', textAlign: 'center' }} className="animate-fade-in">
+        <Icon icon="solar:hourglass-line-bold" width="36" height="36" className="animate-spin" style={{ color: 'var(--accent-primary)', margin: '0 auto 12px' }} />
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{t('LOADING') || 'Yuklanmoqda...'}</p>
       </div>
     );
   }
 
+  // Live battle 3-2-1 visual countdown
+  if (countdown > 0) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '80vh',
+          textAlign: 'center',
+          gap: '16px',
+        }}
+        className="animate-fade-in"
+      >
+        <span style={{ fontSize: '1rem', fontWeight: '800', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+          Jang boshlanmoqda!
+        </span>
+        <div
+          style={{
+            fontSize: '5.5rem',
+            fontWeight: '900',
+            color: 'var(--accent-primary)',
+            fontFamily: 'var(--font-family-display)',
+            textShadow: '0 0 35px rgba(99, 102, 241, 0.6)',
+          }}
+          className="animate-bounce"
+        >
+          {countdown}
+        </div>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
+          Tayyorlaning, savollar barchaga bir vaqtda chiqadi!
+        </p>
+      </div>
+    );
+  }
+
+  // Results Screen (Scorecard)
   if (isFinished) {
     return (
       <ResultCard
-        quizTitle={quiz?.title}
-        quizId={quiz?.id}
+        quiz={quiz}
         correctCount={correctCount}
         wrongCount={wrongCount}
+        totalQuestions={totalCount}
         totalTimeSeconds={totalTimeSpent}
         tournamentResult={tournamentResult}
         tournamentShareCode={tournamentShareCode}
@@ -326,12 +467,19 @@ export function ArenaView({
           setIsFinished(false);
           setIsRevealed(false);
           setSelectedOption(null);
+          setLiveScoreAwarded(null);
+          setServerCorrectId(null);
           startTimeRef.current = Date.now();
         }}
         onBackHome={() => onExit(false)}
       />
     );
   }
+
+  // Resolve true correct option ID
+  const trueCorrectId = liveRoomCode
+    ? (serverCorrectId !== null ? serverCorrectId : -1)
+    : currentQ?.correctOptionId;
 
   return (
     <div
@@ -374,14 +522,38 @@ export function ArenaView({
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '6px', minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-secondary)' }}>
-            <span>{t('QUESTION_PROGRESS', { current: currentIndex + 1, total: questions.length })}</span>
+            <span>{t('QUESTION_PROGRESS', { current: currentIndex + 1, total: totalCount })}</span>
             <span style={{ color: 'var(--color-success)' }}>{correctCount} ✓</span>
           </div>
-          <ProgressBar current={currentIndex + 1} total={questions.length} />
+          <ProgressBar current={currentIndex + 1} total={totalCount} />
         </div>
 
         <TimerRing timeLeft={timeLeft} totalTime={timeLimit} size={54} strokeWidth={4} />
       </div>
+
+      {/* Intermediate 3-Second Result Pill for Live Battles */}
+      {liveRoomCode && isRevealed && liveScoreAwarded !== null && (
+        <div
+          className="animate-fade-in"
+          style={{
+            padding: '10px 16px',
+            borderRadius: '12px',
+            backgroundColor: liveScoreAwarded > 0 ? 'rgba(16, 185, 129, 0.16)' : 'rgba(239, 68, 68, 0.16)',
+            border: liveScoreAwarded > 0 ? '1.5px solid #10b981' : '1.5px solid #ef4444',
+            textAlign: 'center',
+            fontWeight: '800',
+            fontSize: '0.94rem',
+            color: liveScoreAwarded > 0 ? 'var(--color-success)' : 'var(--color-error)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+          }}
+        >
+          <Icon icon={liveScoreAwarded > 0 ? 'solar:cup-star-bold' : 'solar:close-circle-bold'} width="22" height="22" />
+          <span>{liveScoreAwarded > 0 ? `+${liveScoreAwarded} ball qo'shildi!` : 'Noto\'g\'ri javob (0 ball)'}</span>
+        </div>
+      )}
 
       {/* Question Card */}
       <Card
@@ -403,8 +575,8 @@ export function ArenaView({
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {currentQ?.options?.map((opt, idx) => {
           const isSelected = selectedOption === idx;
-          const isCorrect = idx === currentQ.correctOptionId;
-          const isWrong = isSelected && !isCorrect;
+          const isCorrect = isRevealed && idx === trueCorrectId;
+          const isWrong = isRevealed && isSelected && !isCorrect;
 
           return (
             <OptionCard

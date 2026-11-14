@@ -53,16 +53,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
     return () => clearInterval(interval);
   }, [roomCode]);
 
-  const handleStart = () => {
-    haptic.impact('medium');
-    setShowModeModal(true);
-  };
-
-  const handleConfirmStartMode = async (modeConfig) => {
-    setShowModeModal(false);
+  const handleStart = async () => {
     haptic.impact('heavy');
     setStarting(true);
     try {
+      const modeConfig = roomData?.modeConfig || {};
       const res = await startLiveRoom(roomCode, modeConfig);
       if (res && res.success) {
         onStartGame(roomData.quiz.id, roomCode, modeConfig);
@@ -92,8 +87,8 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
   const handleShareToTelegram = () => {
     haptic.impact('medium');
     const quizTitle = roomData?.quiz?.title || t('DEFAULT_QUIZ_FALLBACK');
-    const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=room_${roomCode}`;
-    const text = t('LIVE_ROOM_INVITE_TEXT', { title: quizTitle, pin: roomCode });
+    const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=battle_${roomCode}`;
+    const text = `🎯 «${quizTitle}» bo'yicha jonli test jangi boshlanyapti! Havolani bosing va qo'shiling:`;
     const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(text)}`;
 
     if (window.Telegram?.WebApp?.openTelegramLink) {
@@ -105,7 +100,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
 
   const handleCopyLink = () => {
     haptic.selection();
-    const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=room_${roomCode}`;
+    const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=battle_${roomCode}`;
     navigator.clipboard?.writeText(shareLink).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
