@@ -229,4 +229,9 @@ export default {
 
   // Tournament invite
   TOURNAMENT_INVITE_TEXT: '🎯 Group tournament "{title}" has started!\nQuestions: {count}.\nTap the button below to take 1st place on the leaderboard:',
+
+  // Live Room Errors & Constraints
+  ERROR_ROOM_FULL: 'Room is full (max 10 players)',
+  ERROR_MIN_PLAYERS: 'At least 2 players are required to start',
+  ERROR_MIN_READY: 'At least 2 players must be ready',
 };

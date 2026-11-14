@@ -20,6 +20,7 @@ import {
   EP_START_LIVE_ROOM,
   EP_SUBMIT_LIVE_ROOM_RESULT,
   EP_FINISH_LIVE_ROOM,
+  EP_TOGGLE_LIVE_READY,
 } from '../constants/endpoints.js';
 
 
@@ -106,6 +107,10 @@ export async function submitLiveRoomResult(payload) {
 
 export async function finishLiveRoom(roomCode) {
   return await callEndpoint(EP_FINISH_LIVE_ROOM, { roomCode });
+}
+
+export async function toggleLiveReady(roomCode, isReady) {
+  return await callEndpoint(EP_TOGGLE_LIVE_READY, { roomCode, isReady });
 }
 
 

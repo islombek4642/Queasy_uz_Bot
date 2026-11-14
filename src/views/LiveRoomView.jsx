@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation } from '../hooks/useTranslation.js';
 import { useTelegram } from '../hooks/useTelegram.js';
-import { fetchLiveRoomState, startLiveRoom, finishLiveRoom } from '../services/quizService.js';
+import { fetchLiveRoomState, startLiveRoom, finishLiveRoom, toggleLiveReady } from '../services/quizService.js';
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
@@ -18,6 +18,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState(false);
   const [finishing, setFinishing] = useState(false);
+  const [togglingReady, setTogglingReady] = useState(false);
   const [copied, setCopied] = useState(false);
   const prevStatusRef = useRef(null);
 
@@ -26,17 +27,19 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
       const res = await fetchLiveRoomState(roomCode);
       if (res && res.success) {
         setRoomData(res);
-        // Only trigger onStartGame when room status transitions from 'waiting' to 'active'
+        // Trigger onStartGame when room is active (for both waiting players and mid-game joiners)
         if (
           res.room?.status === 'active' &&
-          !res.hasFinished &&
-          prevStatusRef.current === 'waiting'
+          !res.hasFinished
         ) {
           prevStatusRef.current = 'active';
           haptic.notification('success');
           onStartGame(res.quiz.id, roomCode, res.modeConfig);
+          return;
         }
         prevStatusRef.current = res.room?.status;
+      } else if (res && res.error === 'ROOM_FULL') {
+        setRoomData({ error: 'ROOM_FULL', message: res.message || t('ROOM_FULL') });
       }
     } catch (err) {
       console.error('Failed to poll room state:', err);
@@ -59,11 +62,26 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
       const res = await startLiveRoom(roomCode, modeConfig);
       if (res && res.success) {
         onStartGame(roomData.quiz.id, roomCode, modeConfig);
+      } else if (res?.message) {
+        alert(res.message);
       }
     } catch (err) {
       console.error('Failed to start room:', err);
     } finally {
       setStarting(false);
+    }
+  };
+
+  const handleToggleReady = async (isReady) => {
+    haptic.selection();
+    setTogglingReady(true);
+    try {
+      await toggleLiveReady(roomCode, isReady);
+      await loadState();
+    } catch (err) {
+      console.error('Failed to toggle ready status:', err);
+    } finally {
+      setTogglingReady(false);
     }
   };
 
@@ -86,7 +104,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
     haptic.impact('medium');
     const quizTitle = roomData?.quiz?.title || t('DEFAULT_QUIZ_FALLBACK');
     const shareLink = `https://t.me/${APP_CONFIG.BOT_USERNAME}/app?startapp=battle_${roomCode}`;
-    const text = `🎯 «${quizTitle}» bo'yicha jonli test jangi boshlanyapti! Havolani bosing va qo'shiling:`;
+    const text = t('LIVE_ROOM_SHARE_TEXT', { title: quizTitle });
     const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(text)}`;
 
     if (window.Telegram?.WebApp?.openTelegramLink) {
@@ -114,6 +132,21 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
     );
   }
 
+  if (roomData?.error === 'ROOM_FULL') {
+    return (
+      <div style={{ padding: '24px 16px', textAlign: 'center' }}>
+        <Card style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <Icon icon="solar:users-group-two-rounded-bold" width="40" height="40" style={{ color: 'var(--color-warning)', margin: '0 auto' }} />
+          <h3 style={{ fontSize: '1.1rem', fontWeight: '800' }}>{t('ROOM_FULL')}</h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>
+            {roomData.message || t('ROOM_FULL')}
+          </p>
+          <Button variant="primary" style={{ marginTop: '12px' }} onClick={onBack}>{t('BTN_BACK')}</Button>
+        </Card>
+      </div>
+    );
+  }
+
   if (!roomData) {
     return (
       <div style={{ padding: '24px 16px', textAlign: 'center' }}>
@@ -130,13 +163,18 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
   const players = Array.isArray(roomData?.players) ? roomData.players : [];
   const isHost = Boolean(room.isHost);
   const isFinished = room.status === 'finished';
+  const readyCount = roomData?.readyCount || 0;
+  const canStart = Boolean(roomData?.canStart);
+  const maxPlayers = roomData?.maxPlayers || 10;
+
+  const currentUser = players.find((p) => p.isCurrentUser);
+  const isCurrentUserReady = Boolean(currentUser?.isReady);
 
   // --------------------------------------------------------------------------
   // STATE A: PODIUM / RESULTS SCREEN (When finished or player completed)
   // --------------------------------------------------------------------------
   if (isFinished) {
     const topThree = players.slice(0, 3);
-    const restPlayers = players.slice(3);
 
     return (
       <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px' }} className="animate-fade-in">
@@ -156,7 +194,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
 
           <Badge variant="success" size="sm">
             <Icon icon="solar:cup-star-bold" width="14" height="14" style={{ marginRight: '4px' }} />
-            {room.status === 'finished' ? 'Yakunlandi' : 'Natijalar'}
+            {room.status === 'finished' ? t('STATUS_FINISHED') : t('STATUS_RESULTS')}
           </Badge>
         </div>
 
@@ -183,11 +221,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             {topThree[1] && (
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ fontSize: '1.5rem', marginBottom: '4px' }}>🥈</div>
-                <div style={{ fontSize: '0.82rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85px' }} title={topThree[1]?.userName || 'O\'yinchi'}>
-                  {topThree[1]?.userName || 'O\'yinchi'}
+                <div style={{ fontSize: '0.82rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85px' }} title={topThree[1]?.userName || t('ROLE_PLAYER')}>
+                  {topThree[1]?.userName || t('ROLE_PLAYER')}
                 </div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--accent-primary)', fontWeight: '800' }}>
-                  {topThree[1]?.score || 0} ball
+                  {topThree[1]?.score || 0} {t('SCORE_POINTS')}
                 </div>
                 <div style={{ height: '55px', width: '100%', background: 'rgba(148, 163, 184, 0.25)', borderTop: '3px solid #94a3b8', borderRadius: '6px 6px 0 0', marginTop: '6px' }} />
               </div>
@@ -197,11 +235,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             {topThree[0] && (
               <div style={{ flex: 1.15, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ fontSize: '2rem', marginBottom: '4px' }}>🥇</div>
-                <div style={{ fontSize: '0.88rem', fontWeight: '800', color: '#f59e0b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }} title={topThree[0]?.userName || 'O\'yinchi'}>
-                  {topThree[0]?.userName || 'O\'yinchi'}
+                <div style={{ fontSize: '0.88rem', fontWeight: '800', color: '#f59e0b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }} title={topThree[0]?.userName || t('ROLE_PLAYER')}>
+                  {topThree[0]?.userName || t('ROLE_PLAYER')}
                 </div>
                 <div style={{ fontSize: '0.84rem', color: 'var(--color-success)', fontWeight: '900' }}>
-                  {topThree[0]?.score || 0} ball
+                  {topThree[0]?.score || 0} {t('SCORE_POINTS')}
                 </div>
                 <div style={{ height: '80px', width: '100%', background: 'rgba(245, 158, 11, 0.25)', borderTop: '3px solid #f59e0b', borderRadius: '8px 8px 0 0', marginTop: '6px' }} />
               </div>
@@ -211,11 +249,11 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             {topThree[2] && (
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ fontSize: '1.5rem', marginBottom: '4px' }}>🥉</div>
-                <div style={{ fontSize: '0.82rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85px' }} title={topThree[2]?.userName || 'O\'yinchi'}>
-                  {topThree[2]?.userName || 'O\'yinchi'}
+                <div style={{ fontSize: '0.82rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '85px' }} title={topThree[2]?.userName || t('ROLE_PLAYER')}>
+                  {topThree[2]?.userName || t('ROLE_PLAYER')}
                 </div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--accent-primary)', fontWeight: '800' }}>
-                  {topThree[2]?.score || 0} ball
+                  {topThree[2]?.score || 0} {t('SCORE_POINTS')}
                 </div>
                 <div style={{ height: '40px', width: '100%', background: 'rgba(217, 119, 6, 0.2)', borderTop: '3px solid #d97706', borderRadius: '6px 6px 0 0', marginTop: '6px' }} />
               </div>
@@ -226,7 +264,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
         {/* Full Leaderboard Table */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <h3 style={{ fontSize: '0.94rem', fontWeight: '800', color: 'var(--text-secondary)' }}>
-            Barcha qatnashchilar ({players.length})
+            {t('ALL_PARTICIPANTS_COUNT', { count: players.length })}
           </h3>
           {players.map((p, idx) => (
             <Card
@@ -244,12 +282,12 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
                 <span style={{ fontWeight: '800', fontSize: '0.9rem', color: idx < 3 ? 'var(--accent-primary)' : 'var(--text-muted)', width: '22px' }}>
                   #{idx + 1}
                 </span>
-                <span style={{ fontWeight: p?.isCurrentUser ? '800' : '600', fontSize: '0.86rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={p?.userName || 'O\'yinchi'}>
-                  {p?.userName || 'O\'yinchi'} {p?.isCurrentUser && ' (Siz)'}
+                <span style={{ fontWeight: p?.isCurrentUser ? '800' : '600', fontSize: '0.86rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={p?.userName || t('ROLE_PLAYER')}>
+                  {p?.userName || t('ROLE_PLAYER')} {p?.isCurrentUser && t('CURRENT_USER_TAG')}
                 </span>
               </div>
               <div style={{ fontWeight: '800', fontSize: '0.9rem', color: 'var(--color-success)', flexShrink: 0 }}>
-                {p?.score || 0} ball
+                {p?.score || 0} {t('SCORE_POINTS')}
               </div>
             </Card>
           ))}
@@ -373,7 +411,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             }}
           >
             <Icon icon={copied ? 'solar:check-circle-bold' : 'solar:copy-bold'} width="13" height="13" />
-            <span>{copied ? t('TOAST_LINK_COPIED') : (t('BTN_COPY_LINK') || 'Nusxa')}</span>
+            <span>{copied ? t('TOAST_LINK_COPIED') : t('BTN_COPY_LINK')}</span>
           </button>
         </div>
 
@@ -395,7 +433,7 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', flexWrap: 'wrap', gap: '6px' }}>
           <h3 style={{ fontSize: '0.96rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px #10b981' }} />
-            {t('LIVE_ROOM_LOBBY_TITLE')} ({players.length})
+            {t('LIVE_ROOM_LOBBY_TITLE')} ({players.length} / {maxPlayers})
           </h3>
           <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>
             {isHost ? t('LIVE_ROOM_YOU_ARE_HOST') : t('LIVE_ROOM_WAITING_HOST')}
@@ -410,59 +448,79 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             </p>
           </Card>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(135px, 1fr))', gap: '8px' }}>
-            {players.map((p) => (
-              <Card
-                key={p.id}
-                style={{
-                  padding: '10px 12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  border: p.isCurrentUser ? '1px solid var(--accent-glow)' : '1px solid var(--surface-border)',
-                  background: p.isCurrentUser ? 'rgba(99, 102, 241, 0.1)' : 'var(--surface-card)',
-                  minWidth: 0,
-                }}
-              >
-                <div
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '8px' }}>
+            {players.map((p) => {
+              const pInitial = (p?.userName || 'O\'yinchi').slice(0, 1).toUpperCase();
+              const isPlayerHost = Number(p.userId) === Number(room.hostId);
+
+              return (
+                <Card
+                  key={p.id || p.userId}
                   style={{
-                    width: '30px',
-                    height: '30px',
-                    borderRadius: '50%',
-                    background: 'var(--accent-gradient)',
+                    padding: '10px 12px',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#fff',
-                    fontWeight: '800',
-                    fontSize: '0.82rem',
-                    flexShrink: 0,
+                    gap: '8px',
+                    border: p.isCurrentUser ? '1.5px solid var(--accent-glow)' : '1px solid var(--surface-border)',
+                    background: p.isCurrentUser ? 'rgba(99, 102, 241, 0.1)' : 'var(--surface-card)',
+                    minWidth: 0,
                   }}
                 >
-                  {(p?.userName || 'O\'yinchi').slice(0, 1).toUpperCase()}
-                </div>
-                <div style={{ minWidth: 0, flex: 1 }}>
                   <div
                     style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      background: isPlayerHost ? 'linear-gradient(135deg, #f59e0b, #d97706)' : 'var(--accent-gradient)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#fff',
+                      fontWeight: '800',
                       fontSize: '0.82rem',
-                      fontWeight: '700',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      color: p?.isCurrentUser ? 'var(--accent-primary)' : 'var(--text-primary)',
+                      flexShrink: 0,
                     }}
-                    title={p?.userName || 'O\'yinchi'}
                   >
-                    {p?.userName || 'O\'yinchi'}
+                    {isPlayerHost ? '👑' : pInitial}
                   </div>
-                </div>
-              </Card>
-            ))}
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div
+                      style={{
+                        fontSize: '0.82rem',
+                        fontWeight: '700',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        color: p?.isCurrentUser ? 'var(--accent-primary)' : 'var(--text-primary)',
+                      }}
+                      title={p?.userName || t('ROLE_PLAYER')}
+                    >
+                      {p?.userName || t('ROLE_PLAYER')}
+                    </div>
+                    <div style={{ marginTop: '2px' }}>
+                      {isPlayerHost ? (
+                        <span style={{ fontSize: '0.68rem', fontWeight: '800', color: '#f59e0b' }}>
+                          {t('ROLE_HOST')}
+                        </span>
+                      ) : p.isReady ? (
+                        <span style={{ fontSize: '0.68rem', fontWeight: '800', color: 'var(--color-success)' }}>
+                          ✅ {t('PLAYER_READY')}
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: '0.68rem', fontWeight: '600', color: 'var(--text-muted)' }}>
+                          ⏳ {t('PLAYER_NOT_READY')}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>
 
-      {/* Host Controls or Player Waiting Banner */}
+      {/* Host Controls or Participant Ready Toggle */}
       <div style={{ marginTop: '10px' }}>
         {room.status === 'active' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -497,36 +555,69 @@ export function LiveRoomView({ roomCode, onStartGame, onBack }) {
             </Button>
           </div>
         ) : isHost ? (
-          <Button
-            variant="success"
-            size="lg"
-            fullWidth
-            loading={starting}
-            icon="solar:play-bold"
-            onClick={handleStart}
-            style={{ fontSize: '1rem', fontWeight: '800', padding: '14px' }}
-          >
-            {t('LIVE_ROOM_START_BTN', { count: players.length })}
-          </Button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Button
+              variant="success"
+              size="lg"
+              fullWidth
+              disabled={!canStart}
+              loading={starting}
+              icon="solar:play-bold"
+              onClick={handleStart}
+              style={{
+                fontSize: '1rem',
+                fontWeight: '800',
+                padding: '14px',
+                opacity: canStart ? 1 : 0.65,
+                cursor: canStart ? 'pointer' : 'not-allowed',
+              }}
+            >
+              {players.length < 2
+                ? t('MIN_PLAYERS_HINT')
+                : readyCount < 2
+                ? t('MIN_READY_HINT')
+                : t('LIVE_ROOM_START_READY_BTN', { ready: readyCount, total: players.length })}
+            </Button>
+            {!canStart && (
+              <p style={{ textAlign: 'center', fontSize: '0.78rem', color: 'var(--text-muted)', margin: 0 }}>
+                {players.length < 2 ? t('MIN_PLAYERS_HINT') : t('MIN_READY_HINT')}
+              </p>
+            )}
+          </div>
         ) : (
-          <Card
-            style={{
-              padding: '16px',
-              textAlign: 'center',
-              backgroundColor: 'rgba(99, 102, 241, 0.08)',
-              border: '1px solid rgba(99, 102, 241, 0.2)',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-              <Spinner size={18} />
-              <span style={{ fontSize: '0.9rem', fontWeight: '700', color: 'var(--text-primary)' }}>
-                {t('LIVE_ROOM_WAITING_CARD_TITLE')}
-              </span>
-            </div>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-              {t('LIVE_ROOM_WAITING_CARD_SUB')}
-            </p>
-          </Card>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {/* Player Readiness Toggle Button */}
+            <Button
+              variant={isCurrentUserReady ? 'glass' : 'success'}
+              size="lg"
+              fullWidth
+              loading={togglingReady}
+              icon={isCurrentUserReady ? 'solar:clock-circle-bold' : 'solar:check-circle-bold'}
+              onClick={() => handleToggleReady(!isCurrentUserReady)}
+              style={{ fontSize: '1rem', fontWeight: '800', padding: '14px' }}
+            >
+              {isCurrentUserReady ? t('BTN_TOGGLE_UNREADY') : t('BTN_TOGGLE_READY')}
+            </Button>
+
+            <Card
+              style={{
+                padding: '12px 16px',
+                textAlign: 'center',
+                backgroundColor: 'rgba(99, 102, 241, 0.08)',
+                border: '1px solid rgba(99, 102, 241, 0.2)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <Spinner size={16} />
+                <span style={{ fontSize: '0.86rem', fontWeight: '700', color: 'var(--text-primary)' }}>
+                  {t('LIVE_ROOM_WAITING_CARD_TITLE')}
+                </span>
+              </div>
+              <p style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                {readyCount < 2 ? t('MIN_READY_HINT') : t('LIVE_ROOM_WAITING_CARD_SUB')}
+              </p>
+            </Card>
+          </div>
         )}
       </div>
     </div>

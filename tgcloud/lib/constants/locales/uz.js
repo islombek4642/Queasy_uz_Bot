@@ -229,4 +229,9 @@ export default {
 
   // Tournament invite
   TOURNAMENT_INVITE_TEXT: '🎯 "{title}" guruh viktorinasi boshlandi!\nSavollar: {count} ta.\nGuruh reytingida 1-o\'rinni olish uchun quyidagi tugmani bosing:',
+
+  // Live Room Errors & Constraints
+  ERROR_ROOM_FULL: 'Xona to\'lgan (maksimal 10 ta o\'yinchi)',
+  ERROR_MIN_PLAYERS: 'O\'yinni boshlash uchun kamida 2 ta o\'yinchi kerak',
+  ERROR_MIN_READY: 'Kamida 2 ta o\'yinchi tayyor bo\'lishi kerak',
 };

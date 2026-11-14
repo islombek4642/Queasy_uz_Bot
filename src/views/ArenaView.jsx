@@ -8,6 +8,7 @@ import {
   fetchQuizDetail,
   submitSoloResult,
   submitTournamentResult,
+  fetchLiveRoomState,
   submitLiveRoomResult,
   fetchLiveQuestion,
   submitLiveAnswer,
@@ -109,16 +110,44 @@ export function ArenaView({
     if (liveRoomCode) {
       setLoading(true);
       try {
-        const liveRes = await fetchLiveQuestion(liveRoomCode, 0);
-        if (liveRes && liveRes.success && liveRes.question) {
-          setQuiz({
-            id: quizId || 0,
-            title: customTitle || 'Guruh Jangi',
-            timeLimit: liveRes.timeLimit || 30,
-            shuffleOptions: false,
-          });
-          setQuestions([liveRes.question]);
-          setLiveTotalQuestions(liveRes.totalQuestions || 1);
+        const stateRes = await fetchLiveRoomState(liveRoomCode);
+        if (stateRes && stateRes.success) {
+          const room = stateRes.room || {};
+          if (room.isFinished || room.status === 'finished') {
+            setIsFinished(true);
+            setLoading(false);
+            return;
+          }
+
+          const targetIdx = Number(room.currentQuestionIndex || 0);
+          const liveRes = await fetchLiveQuestion(liveRoomCode, targetIdx);
+          if (liveRes && liveRes.success && liveRes.question) {
+            setQuiz({
+              id: quizId || stateRes.quiz?.id || 0,
+              title: customTitle || stateRes.quiz?.title || t('GROUP_BATTLE_DEFAULT_TITLE'),
+              timeLimit: liveRes.timeLimit || stateRes.quiz?.timeLimit || 30,
+              shuffleOptions: false,
+            });
+            setQuestions((prev) => {
+              const updated = [...prev];
+              updated[targetIdx] = liveRes.question;
+              return updated;
+            });
+            setCurrentIndex(targetIdx);
+            setLiveTotalQuestions(liveRes.totalQuestions || stateRes.quiz?.questionCount || 1);
+
+            if (room.roundPhase === 'countdown') {
+              setCountdown(Math.max(1, room.timeRemaining || 3));
+            } else {
+              setCountdown(0);
+              if (room.roundPhase === 'answering') {
+                resetTimer(Math.max(1, room.timeRemaining || liveRes.timeLimit || 30));
+              } else if (room.roundPhase === 'revealing') {
+                setIsRevealed(true);
+                pauseTimer();
+              }
+            }
+          }
         }
       } catch (err) {
         console.error('Failed to load initial live question:', err);
@@ -286,20 +315,81 @@ export function ArenaView({
       return;
     }
 
+    if (liveRoomCode) {
+      // In Live Battle, player remains on question until server round transitions
+      return;
+    }
+
     setTimeout(() => {
       handleAdvance(false);
-    }, liveRoomCode ? 2500 : 1200);
+    }, 1200);
   }, [isRevealed, isFinished, haptic, handleAdvance, customQuestions, currentQ, quizId, liveRoomCode]);
 
   // Timer hook
   const { timeLeft, reset: resetTimer, pause: pauseTimer } = useQuizTimer(timeLimit, handleTimeout);
 
-  // Reset timer on question change
+  // Reset timer on question change (only for solo/tournament, live battle uses synchronized clock)
   useEffect(() => {
-    if (!loading && !isFinished && countdown <= 0) {
+    if (!liveRoomCode && !loading && !isFinished && countdown <= 0) {
       resetTimer(timeLimit);
     }
-  }, [currentIndex, loading, isFinished, timeLimit, resetTimer, countdown]);
+  }, [liveRoomCode, currentIndex, loading, isFinished, timeLimit, resetTimer, countdown]);
+
+  // Synchronized Live Room Game Polling
+  const currentIndexRef = useRef(currentIndex);
+  currentIndexRef.current = currentIndex;
+  const isRevealedRef = useRef(isRevealed);
+  isRevealedRef.current = isRevealed;
+
+  useEffect(() => {
+    if (!liveRoomCode || isFinished) return;
+
+    const syncInterval = setInterval(async () => {
+      try {
+        const stateRes = await fetchLiveRoomState(liveRoomCode);
+        if (stateRes && stateRes.success) {
+          const room = stateRes.room || {};
+          if (room.isFinished || room.status === 'finished') {
+            handleAdvance(true);
+            return;
+          }
+
+          const serverIdx = Number(room.currentQuestionIndex);
+          if (!isNaN(serverIdx) && serverIdx !== currentIndexRef.current && serverIdx < (stateRes.quiz?.questionCount || liveTotalQuestions)) {
+            // Round advanced on server!
+            setIsRevealed(false);
+            setSelectedOption(null);
+            setLiveScoreAwarded(null);
+            setServerCorrectId(null);
+
+            const nextQ = await fetchLiveQuestion(liveRoomCode, serverIdx);
+            if (nextQ && nextQ.success && nextQ.question) {
+              setQuestions((prev) => {
+                const updated = [...prev];
+                updated[serverIdx] = nextQ.question;
+                return updated;
+              });
+              setCurrentIndex(serverIdx);
+              currentIndexRef.current = serverIdx;
+              if (room.roundPhase === 'answering') {
+                resetTimer(Math.max(1, room.timeRemaining || nextQ.timeLimit || 30));
+              } else if (room.roundPhase === 'revealing') {
+                setIsRevealed(true);
+                pauseTimer();
+              }
+            }
+          } else if (room.roundPhase === 'revealing' && !isRevealedRef.current) {
+            setIsRevealed(true);
+            pauseTimer();
+          }
+        }
+      } catch (err) {
+        console.error('Failed to sync live room state:', err);
+      }
+    }, 1500);
+
+    return () => clearInterval(syncInterval);
+  }, [liveRoomCode, isFinished, liveTotalQuestions, handleAdvance, resetTimer, pauseTimer]);
 
   // Option selection handler
   const handleSelectOption = (optIndex) => {
@@ -336,10 +426,7 @@ export function ArenaView({
         console.error('Failed to submit live answer:', err);
       });
 
-      // 3-second intermediate leaderboard / result delay
-      setTimeout(() => {
-        handleAdvance(false);
-      }, 3000);
+      // In Live Battle, do not advance locally! Wait for server round clock transition.
       return;
     }
 
@@ -398,7 +485,7 @@ export function ArenaView({
     return (
       <div style={{ padding: '36px 16px', textAlign: 'center' }} className="animate-fade-in">
         <Icon icon="solar:hourglass-line-bold" width="36" height="36" className="animate-spin" style={{ color: 'var(--accent-primary)', margin: '0 auto 12px' }} />
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{t('LOADING') || 'Yuklanmoqda...'}</p>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{t('LOADING')}</p>
       </div>
     );
   }
@@ -419,7 +506,7 @@ export function ArenaView({
         className="animate-fade-in"
       >
         <span style={{ fontSize: '1rem', fontWeight: '800', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-          Jang boshlanmoqda!
+          {t('BATTLE_STARTING_TITLE')}
         </span>
         <div
           style={{
@@ -434,7 +521,7 @@ export function ArenaView({
           {countdown}
         </div>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
-          Tayyorlaning, savollar barchaga bir vaqtda chiqadi!
+          {t('BATTLE_STARTING_SUB')}
         </p>
       </div>
     );
@@ -515,7 +602,7 @@ export function ArenaView({
             color: 'var(--text-secondary)',
             cursor: 'pointer',
           }}
-          title={t('BTN_EXIT') || 'Chiqish'}
+          title={t('BTN_EXIT')}
         >
           <Icon icon="solar:close-circle-bold" width="22" height="22" />
         </button>
@@ -531,7 +618,7 @@ export function ArenaView({
         <TimerRing timeLeft={timeLeft} totalTime={timeLimit} size={54} strokeWidth={4} />
       </div>
 
-      {/* Intermediate 3-Second Result Pill for Live Battles */}
+      {/* Intermediate Result Pill for Live Battles */}
       {liveRoomCode && isRevealed && liveScoreAwarded !== null && (
         <div
           className="animate-fade-in"
@@ -551,7 +638,31 @@ export function ArenaView({
           }}
         >
           <Icon icon={liveScoreAwarded > 0 ? 'solar:cup-star-bold' : 'solar:close-circle-bold'} width="22" height="22" />
-          <span>{liveScoreAwarded > 0 ? `+${liveScoreAwarded} ball qo'shildi!` : 'Noto\'g\'ri javob (0 ball)'}</span>
+          <span>{liveScoreAwarded > 0 ? t('LIVE_SCORE_AWARDED', { score: liveScoreAwarded }) : t('LIVE_SCORE_ZERO')}</span>
+        </div>
+      )}
+
+      {/* Waiting for next round notification for Live Battles */}
+      {liveRoomCode && isRevealed && !isFinished && (
+        <div
+          className="animate-fade-in"
+          style={{
+            padding: '8px 14px',
+            borderRadius: '10px',
+            backgroundColor: 'rgba(99, 102, 241, 0.08)',
+            border: '1px solid rgba(99, 102, 241, 0.25)',
+            textAlign: 'center',
+            fontSize: '0.82rem',
+            fontWeight: '600',
+            color: 'var(--text-secondary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+          }}
+        >
+          <Icon icon="solar:clock-circle-bold" width="16" height="16" className="animate-spin" style={{ color: 'var(--accent-primary)' }} />
+          <span>{t('LIVE_WAITING_NEXT_ROUND')}</span>
         </div>
       )}
 

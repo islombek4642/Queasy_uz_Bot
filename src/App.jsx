@@ -134,6 +134,9 @@ export default function App() {
     setActiveQuizMode('full');
     setActiveQuizRange(null);
     setActiveQuizRandomCount(null);
+    setActiveLiveRoomCode(null);
+    setActiveRoomCode(null);
+    setActiveTournamentCode(null);
     refreshData();
   };
 
@@ -288,7 +291,6 @@ export default function App() {
       case NAV_GROUP_HOST:
         return (
           <GroupHostView
-            onOpenTournament={(code) => setActiveTournamentCode(code)}
             onOpenLiveRoom={(code) => setActiveRoomCode(code)}
             onOpenCreator={() => setShowCreator(true)}
             onOpenKiut={() => setShowKiutView(true)}

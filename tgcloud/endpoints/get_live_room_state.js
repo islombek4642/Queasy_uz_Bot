@@ -9,8 +9,9 @@ import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
   const tgUser = ctx?.initData?.user;
-  const currentUserId = tgUser?.id || 0;
-  const defaultPlayerName = getMessage('ROLE_PLAYER', 'UZ');
+  const currentUserId = Number(tgUser?.id) || 0;
+  const userLang = (input?.lang || tgUser?.language_code || 'uz').toUpperCase().slice(0, 2);
+  const defaultPlayerName = getMessage('ROLE_PLAYER', userLang);
   const rawName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ') || tgUser?.username || defaultPlayerName;
   const userName = rawName.slice(0, 50);
 
@@ -62,47 +63,12 @@ export default async function (input, ctx) {
 
   const isHost = currentUserId ? room.hostId === currentUserId : false;
 
-  // 2. If user is not yet in roomPlayers and has userId, add them
-  if (currentUserId && CONFIG.TURSO?.ENABLED) {
-    try {
-      const existingPlayer = await turso.get(
-        'SELECT id FROM room_players WHERE room_code = ? AND user_id = ?',
-        [roomCode, currentUserId]
-      );
-      if (!existingPlayer) {
-        await turso.run(
-          'INSERT INTO room_players (room_code, user_id, user_name, score, joined_at) VALUES (?, ?, ?, -1, unixepoch())',
-          [roomCode, currentUserId, userName]
-        );
-      }
-    } catch {}
-  }
-
-  if (currentUserId) {
-    try {
-      const existingPlayer = await db
-        .select({ id: roomPlayers.id })
-        .from(roomPlayers)
-        .where(and(eq(roomPlayers.roomCode, roomCode), eq(roomPlayers.userId, currentUserId)))
-        .get();
-
-      if (!existingPlayer) {
-        await db.insert(roomPlayers).values({
-          roomCode,
-          userId: currentUserId,
-          userName,
-          score: -1,
-        }).run();
-      }
-    } catch {}
-  }
-
-  // 3. Fetch all players
+  // 2. Fetch existing players to check capacity (max 10 players)
   let rawPlayers = [];
   if (CONFIG.TURSO?.ENABLED) {
     try {
       rawPlayers = await turso.all(
-        'SELECT id, user_id as userId, user_name as userName, score FROM room_players WHERE room_code = ? ORDER BY score DESC',
+        'SELECT id, user_id as userId, user_name as userName, score FROM room_players WHERE room_code = ? ORDER BY score DESC, id ASC',
         [roomCode]
       );
     } catch (err) {
@@ -126,7 +92,47 @@ export default async function (input, ctx) {
     } catch {}
   }
 
-  // 4. Fetch quiz details
+  const existingPlayer = (rawPlayers || []).find((p) => Number(p.userId) === currentUserId);
+
+  // If user is not yet in room, check max 10 players limit
+  if (currentUserId && !existingPlayer) {
+    if ((rawPlayers || []).length >= 10) {
+      return {
+        success: false,
+        error: 'ROOM_FULL',
+        message: getMessage('ERROR_ROOM_FULL', userLang),
+      };
+    }
+
+    // Add new player to room
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        await turso.run(
+          'INSERT INTO room_players (room_code, user_id, user_name, score, joined_at) VALUES (?, ?, ?, -1, unixepoch())',
+          [roomCode, currentUserId, userName]
+        );
+      } catch {}
+    }
+
+    try {
+      await db.insert(roomPlayers).values({
+        roomCode,
+        userId: currentUserId,
+        userName,
+        score: -1,
+      }).run();
+    } catch {}
+
+    // Refresh rawPlayers list
+    rawPlayers.push({
+      id: Date.now(),
+      userId: currentUserId,
+      userName,
+      score: -1,
+    });
+  }
+
+  // 3. Fetch quiz details
   let quiz = null;
   let qCount = 0;
 
@@ -158,20 +164,7 @@ export default async function (input, ctx) {
     }
   }
 
-  const isRoomFinished = room.status === 'finished';
-  const formattedPlayers = (rawPlayers || []).map((p, idx) => ({
-    ...p,
-    userName: p.userName || defaultPlayerName,
-    score: Math.max(0, p.score || 0),
-    hasFinished: isRoomFinished,
-    rank: idx + 1,
-    isCurrentUser: currentUserId ? p.userId === currentUserId : p.userName === userName,
-  }));
-
-  const currentPlayer = formattedPlayers.find((p) => p.isCurrentUser);
-  const hasFinished = isRoomFinished;
-
-  // Fetch host's modeConfig if set (e.g. range, randomCount, mode)
+  // 4. Fetch host's modeConfig if set (e.g. range, randomCount, mode, timeLimit)
   let modeConfig = null;
   if (CONFIG.TURSO?.ENABLED) {
     try {
@@ -196,25 +189,158 @@ export default async function (input, ctx) {
     }
   }
 
+  // Calculate total questions for this game session
+  let sessionTotalQuestions = Number(qCount || 0);
+  if (modeConfig?.mode === 'range' && Array.isArray(modeConfig.range) && modeConfig.range.length === 2) {
+    sessionTotalQuestions = Math.max(1, modeConfig.range[1] - modeConfig.range[0] + 1);
+  } else if (modeConfig?.mode === 'random' && modeConfig.randomCount) {
+    sessionTotalQuestions = Math.min(sessionTotalQuestions || 10, Number(modeConfig.randomCount));
+  }
+
+  // 5. Synchronized Game Round Clock
+  let roundPhase = room.status === 'active' ? 'answering' : 'lobby';
+  let timeRemaining = Number(modeConfig?.timeLimit) || quiz?.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT;
+  let revealRemaining = 0;
+
+  if (room.status === 'active') {
+    let gameClock = null;
+    if (CONFIG.TURSO?.ENABLED) {
+      try {
+        const row = await turso.get('SELECT value FROM bot_settings WHERE key = ?', [`live_room_game:${roomCode}`]);
+        if (row?.value) gameClock = JSON.parse(row.value);
+      } catch {}
+    }
+    if (!gameClock) {
+      const gSetting = await db
+        .select({ value: botSettings.value })
+        .from(botSettings)
+        .where(eq(botSettings.key, `live_room_game:${roomCode}`))
+        .get();
+      if (gSetting?.value) {
+        try { gameClock = JSON.parse(gSetting.value); } catch {}
+      }
+    }
+
+    if (gameClock && gameClock.gameStartedAt) {
+      const now = Math.floor(Date.now() / 1000);
+      const elapsedTotal = Math.max(0, now - Number(gameClock.gameStartedAt));
+      const countdownSec = Number(gameClock.countdownSeconds) || 3;
+      const qTimeLimit = Number(gameClock.timeLimit) || timeRemaining;
+      const revealSec = Number(gameClock.revealSeconds) || 4;
+      const roundDuration = qTimeLimit + revealSec;
+      const totalQ = Number(gameClock.totalQuestions) || sessionTotalQuestions || 1;
+
+      if (elapsedTotal < countdownSec) {
+        roundPhase = 'countdown';
+        timeRemaining = countdownSec - elapsedTotal;
+        room.currentQuestionIndex = 0;
+      } else {
+        const elapsedInGame = elapsedTotal - countdownSec;
+        const currentIdx = Math.floor(elapsedInGame / roundDuration);
+        const secondsIntoRound = elapsedInGame % roundDuration;
+
+        if (currentIdx >= totalQ) {
+          room.status = 'finished';
+          roundPhase = 'finished';
+          timeRemaining = 0;
+          revealRemaining = 0;
+
+          // Auto-mark finished in DB
+          if (CONFIG.TURSO?.ENABLED) {
+            try {
+              await turso.run('UPDATE live_rooms SET status = "finished" WHERE id = ?', [room.id]);
+            } catch {}
+          }
+          try {
+            await db.update(liveRooms).set({ status: 'finished' }).where(eq(liveRooms.id, room.id)).run();
+          } catch {}
+        } else {
+          if (secondsIntoRound < qTimeLimit) {
+            roundPhase = 'answering';
+            timeRemaining = qTimeLimit - secondsIntoRound;
+            revealRemaining = 0;
+          } else {
+            roundPhase = 'revealing';
+            timeRemaining = 0;
+            revealRemaining = roundDuration - secondsIntoRound;
+          }
+
+          if (room.currentQuestionIndex !== currentIdx) {
+            room.currentQuestionIndex = currentIdx;
+            if (CONFIG.TURSO?.ENABLED) {
+              try {
+                await turso.run('UPDATE live_rooms SET current_question_index = ? WHERE id = ?', [currentIdx, room.id]);
+              } catch {}
+            }
+            try {
+              await db.update(liveRooms).set({ currentQuestionIndex: currentIdx }).where(eq(liveRooms.id, room.id)).run();
+            } catch {}
+          }
+        }
+      }
+    }
+  }
+
+  // 6. Fetch player readiness status
+  const readyMap = new Map();
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      const readyRows = await turso.all(
+        'SELECT key, value FROM bot_settings WHERE key LIKE ?',
+        [`live_ready:${roomCode}:%`]
+      );
+      for (const r of readyRows || []) {
+        const uid = Number(r.key.split(':').pop());
+        if (uid) readyMap.set(uid, r.value === '1');
+      }
+    } catch {}
+  }
+
+  const isRoomFinished = room.status === 'finished';
+  const formattedPlayers = (rawPlayers || []).map((p, idx) => {
+    const isPlayerHost = Number(p.userId) === Number(room.hostId);
+    const isReady = isPlayerHost ? true : Boolean(readyMap.get(Number(p.userId)));
+
+    return {
+      ...p,
+      userName: p.userName || defaultPlayerName,
+      score: Math.max(0, p.score || 0),
+      isReady,
+      hasFinished: isRoomFinished,
+      rank: idx + 1,
+      isCurrentUser: currentUserId ? Number(p.userId) === currentUserId : p.userName === userName,
+    };
+  });
+
+  const readyCount = formattedPlayers.filter((p) => p.isReady).length;
+  const canStart = formattedPlayers.length >= 2 && readyCount >= 2;
+  const hasFinished = isRoomFinished;
+
   return {
     success: true,
     room: {
       roomCode: room.roomCode,
       status: room.status,
       currentQuestionIndex: room.currentQuestionIndex,
+      roundPhase,
+      timeRemaining,
+      revealRemaining,
       isHost,
       isFinished: room.status === 'finished',
       shareLink: `https://t.me/${CONFIG.BOT.USERNAME}/app?startapp=battle_${room.roomCode}`,
     },
     quiz: {
       id: quiz?.id || room.quizId,
-      title: quiz?.title || getMessage('DEFAULT_LIVE_QUIZ', 'UZ'),
+      title: quiz?.title || getMessage('DEFAULT_LIVE_QUIZ', userLang),
       timeLimit: Number(modeConfig?.timeLimit) || quiz?.timeLimit || CONFIG.POLL.DEFAULT_TIME_LIMIT,
-      questionCount: Number(qCount || 0),
+      questionCount: sessionTotalQuestions,
     },
     players: formattedPlayers,
     hasFinished,
     modeConfig,
     totalPlayers: formattedPlayers.length,
+    readyCount,
+    canStart,
+    maxPlayers: 10,
   };
 }

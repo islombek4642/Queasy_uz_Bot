@@ -222,9 +222,9 @@
     "semantic_hash": ""
   },
   "tgcloud/schema.js": {
-    "mtime": 1794654342.1251857,
-    "seen": 1794655329.8639371,
-    "ast_hash": "6f82949f43c2d8419edbd68c75b45fd8",
+    "mtime": 1794658502.9248202,
+    "seen": 1794659334.8980262,
+    "ast_hash": "6d6bd8fa068f538ca59ade5b8d8ec966",
     "semantic_hash": ""
   },
   "AGENTS.md": {
@@ -264,21 +264,21 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/locales/en.js": {
-    "mtime": 1792078570.472953,
-    "seen": 1792080792.0513704,
-    "ast_hash": "e2b67d21779e5d123d73528bcc7cbeda",
+    "mtime": 1794658528.443326,
+    "seen": 1794659334.8979442,
+    "ast_hash": "ab806f4296ebad6a0318b19780f55e03",
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/locales/ru.js": {
-    "mtime": 1792078556.4106104,
-    "seen": 1792080792.0513728,
-    "ast_hash": "4f4c852b49fac57d72bdfefa21efbd81",
+    "mtime": 1794658523.8810537,
+    "seen": 1794659334.8979464,
+    "ast_hash": "7264a61abb9ca9c36f806f6dcc433530",
     "semantic_hash": ""
   },
   "tgcloud/lib/constants/locales/uz.js": {
-    "mtime": 1792078532.4582355,
-    "seen": 1792080792.0513752,
-    "ast_hash": "1b67ca00fe74ad7455033d86b2bfc85e",
+    "mtime": 1794658519.0418944,
+    "seen": 1794659334.8979485,
+    "ast_hash": "760c5627f0b4208778e11bc76fb43c9b",
     "semantic_hash": ""
   },
   "tests/test_admin_media_channel.mjs": {
@@ -336,9 +336,9 @@
     "semantic_hash": ""
   },
   "src/App.jsx": {
-    "mtime": 1794654766.0292144,
-    "seen": 1794655329.863499,
-    "ast_hash": "4d3d90c19f7d85b56e10da9db3e5b712",
+    "mtime": 1794660327.1390162,
+    "seen": 1794660672.7799025,
+    "ast_hash": "44f68ffc5af8f34fcfdd106126fad7d4",
     "semantic_hash": ""
   },
   "src/components/common/Badge.jsx": {
@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "src/constants/endpoints.js": {
-    "mtime": 1791906874.1693723,
-    "seen": 1791907302.8104029,
-    "ast_hash": "3b263e3695ffff16bc7cc4a91e9cfd50",
+    "mtime": 1794658797.0245109,
+    "seen": 1794659334.8976746,
+    "ast_hash": "b1c4997c7090811e8af57a1f049ed3a1",
     "semantic_hash": ""
   },
   "src/constants/routes.js": {
@@ -474,21 +474,21 @@
     "semantic_hash": ""
   },
   "src/i18n/locales/en.js": {
-    "mtime": 1792265786.8875642,
-    "seen": 1792265893.1192973,
-    "ast_hash": "21e5ce218639c644c7b19048f2997e39",
+    "mtime": 1794660256.8877673,
+    "seen": 1794660672.7800329,
+    "ast_hash": "ee9afce31a439799073fe31ce39d89ef",
     "semantic_hash": ""
   },
   "src/i18n/locales/ru.js": {
-    "mtime": 1792265779.5879438,
-    "seen": 1792265893.1193006,
-    "ast_hash": "3daf51ff56ffe7e6a20f122ac501467e",
+    "mtime": 1794660251.238168,
+    "seen": 1794660672.7800353,
+    "ast_hash": "5fd80e9cffbcebb343a644e1538593e4",
     "semantic_hash": ""
   },
   "src/i18n/locales/uz.js": {
-    "mtime": 1792265772.075261,
-    "seen": 1792265893.1193032,
-    "ast_hash": "7429826ca39e478ab2994c50d85af5e0",
+    "mtime": 1794660234.8833444,
+    "seen": 1794660672.7800505,
+    "ast_hash": "957c5210d10b263ffd859109f53159f9",
     "semantic_hash": ""
   },
   "src/main.jsx": {
@@ -504,21 +504,21 @@
     "semantic_hash": ""
   },
   "src/services/quizService.js": {
-    "mtime": 1794654753.2794523,
-    "seen": 1794655329.8636098,
-    "ast_hash": "b9a8cad4a05c3632b7728cc6e6d941e1",
+    "mtime": 1794658809.1359127,
+    "seen": 1794659334.8977118,
+    "ast_hash": "76b6c48f05971dabaef73c4f775fd5c4",
     "semantic_hash": ""
   },
   "src/views/ArenaView.jsx": {
-    "mtime": 1794655122.109269,
-    "seen": 1794655329.863622,
-    "ast_hash": "d2ce9058f864e15646e01dfb8bde5ad1",
+    "mtime": 1794660425.6770213,
+    "seen": 1794660672.7800925,
+    "ast_hash": "e3ed0c71a7a7283abdb882717a9ac23f",
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
-    "mtime": 1794656838.8686883,
-    "seen": 1794656947.0174806,
-    "ast_hash": "738570361fe3b276e62cf64768b259c2",
+    "mtime": 1794660274.8370476,
+    "seen": 1794660672.7800958,
+    "ast_hash": "e719f4372f77d68b5ec4e4f0af165f3b",
     "semantic_hash": ""
   },
   "src/views/HomeView.jsx": {
@@ -600,9 +600,9 @@
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_group_sessions.js": {
-    "mtime": 1792267084.9642584,
-    "seen": 1792267730.2287216,
-    "ast_hash": "400c787bb705e2ee86bf7478cf5805eb",
+    "mtime": 1794660540.6538272,
+    "seen": 1794660672.7802682,
+    "ast_hash": "7cacc27ec5d24f325e584adea43ce0b3",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_leaderboard.js": {
@@ -2730,9 +2730,9 @@
     "semantic_hash": ""
   },
   "src/components/quiz/QuizModeModal.jsx": {
-    "mtime": 1794654669.0163558,
-    "seen": 1794655329.8635538,
-    "ast_hash": "da1c825a1bd346cf70b7565e41b82ad4",
+    "mtime": 1794660501.1644888,
+    "seen": 1794660672.7799628,
+    "ast_hash": "3b235c4a934cc14864ee84d6ca6d990c",
     "semantic_hash": ""
   },
   "src/utils/quizHelpers.js": {
@@ -2778,27 +2778,27 @@
     "semantic_hash": ""
   },
   "src/views/LiveRoomView.jsx": {
-    "mtime": 1794656827.9623663,
-    "seen": 1794656947.0174937,
-    "ast_hash": "925d8a2211ceca057e6c775628cb272c",
+    "mtime": 1794660628.4559667,
+    "seen": 1794660672.780108,
+    "ast_hash": "6eaec040e2c27eb8f704bc1316da0c3d",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/create_live_room.js": {
-    "mtime": 1794654370.6055052,
-    "seen": 1794655329.8637476,
-    "ast_hash": "caa10c9f7c8229132bc3ac2d22d5d22b",
+    "mtime": 1794660526.3277533,
+    "seen": 1794660672.7802484,
+    "ast_hash": "b1b9d8899f2bf60073104b21940b769c",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/get_live_room_state.js": {
-    "mtime": 1794656853.5783153,
-    "seen": 1794656947.0176556,
-    "ast_hash": "17b6a1eb9a8de5c342b203e27012cfac",
+    "mtime": 1794658628.2935777,
+    "seen": 1794659334.8978748,
+    "ast_hash": "acc105441a7679066ca079f880d4aae8",
     "semantic_hash": ""
   },
   "tgcloud/endpoints/start_live_room.js": {
-    "mtime": 1792267111.045048,
-    "seen": 1792267730.228756,
-    "ast_hash": "761172d81e1410dfc24d06288d6a9e85",
+    "mtime": 1794658680.4567685,
+    "seen": 1794659334.8978982,
+    "ast_hash": "78c199dce61cef2536c268da94261bbf",
     "semantic_hash": ""
   },
   "tests/test_auth_endpoints.mjs": {
@@ -3216,9 +3216,21 @@
     "semantic_hash": ""
   },
   "tests/test_live_room_crash_resilience.mjs": {
-    "mtime": 1794656876.985154,
-    "seen": 1794656947.0175686,
-    "ast_hash": "03475f99b63e7039771c4883f4c93a75",
+    "mtime": 1794657032.7560048,
+    "seen": 1794659334.8978016,
+    "ast_hash": "7f44af4a1388a1c3ffd96bb285a2a55b",
+    "semantic_hash": ""
+  },
+  "tests/test_live_battle_sync_and_ready.mjs": {
+    "mtime": 1794660569.1564271,
+    "seen": 1794660672.780179,
+    "ast_hash": "d1ee7f22831528bf7cf60c6f543f9656",
+    "semantic_hash": ""
+  },
+  "tgcloud/endpoints/toggle_live_ready.js": {
+    "mtime": 1794658552.5630739,
+    "seen": 1794659334.897911,
+    "ast_hash": "321b47c900c67f5d344fab4e4e9e5b6d",
     "semantic_hash": ""
   }
 }

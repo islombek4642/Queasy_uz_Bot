@@ -15,7 +15,8 @@ export default async function (input, ctx) {
     return { success: false, error: ERRORS.UNAUTHORIZED };
   }
 
-  const defaultHostName = getMessage('ROLE_HOST', 'UZ');
+  const userLang = (input?.lang || tgUser?.language_code || 'uz').toUpperCase().slice(0, 2);
+  const defaultHostName = getMessage('ROLE_HOST', userLang);
   const rawName = [tgUser?.first_name, tgUser?.last_name].filter(Boolean).join(' ') || tgUser?.username || defaultHostName;
   const userName = rawName.slice(0, 50);
 
@@ -72,8 +73,12 @@ export default async function (input, ctx) {
       );
       if (currentUserId) {
         await turso.run(
-          'INSERT INTO room_players (room_code, user_id, user_name, score, joined_at) VALUES (?, ?, ?, -1, unixepoch())',
+          'INSERT INTO room_players (room_code, user_id, user_name, score, is_ready, joined_at) VALUES (?, ?, ?, -1, 1, unixepoch())',
           [roomCode, currentUserId, `${userName} (${defaultHostName})`]
+        );
+        await turso.run(
+          'INSERT INTO bot_settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
+          [`live_ready:${roomCode}:${currentUserId}`, '1']
         );
       }
     } catch (err) {
@@ -96,7 +101,20 @@ export default async function (input, ctx) {
         userId: currentUserId,
         userName: `${userName} (${defaultHostName})`,
         score: -1,
+        isReady: 1,
       }).run();
+
+      await db
+        .insert(botSettings)
+        .values({
+          key: `live_ready:${roomCode}:${currentUserId}`,
+          value: '1',
+        })
+        .onConflictDoUpdate({
+          target: botSettings.key,
+          set: { value: '1' },
+        })
+        .run();
     }
   } catch {}
 
@@ -131,7 +149,7 @@ export default async function (input, ctx) {
 
   const botUsername = CONFIG.BOT.USERNAME;
   const shareLink = `https://t.me/${botUsername}/app?startapp=battle_${roomCode}`;
-  const shareText = getMessage('LIVE_ROOM_INVITE_TEXT', 'UZ', { title: quiz.title, pin: roomCode });
+  const shareText = getMessage('LIVE_ROOM_INVITE_TEXT', userLang, { title: quiz.title, pin: roomCode });
   const telegramShareUrl = `https://t.me/share/url?url=${encodeURIComponent(shareLink)}&text=${encodeURIComponent(shareText)}`;
 
   return {

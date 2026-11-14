@@ -229,4 +229,9 @@ export default {
 
   // Tournament invite
   TOURNAMENT_INVITE_TEXT: '🎯 Началась групповая викторина "{title}"!\nВопросов: {count}.\nНажмите кнопку ниже, чтобы занять 1-е место в рейтинге группы:',
+
+  // Live Room Errors & Constraints
+  ERROR_ROOM_FULL: 'Комната заполнена (максимум 10 игроков)',
+  ERROR_MIN_PLAYERS: 'Для начала игры требуется минимум 2 игрока',
+  ERROR_MIN_READY: 'Минимум 2 игрока должны быть готовы',
 };

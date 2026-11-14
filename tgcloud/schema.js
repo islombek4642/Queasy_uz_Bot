@@ -200,6 +200,7 @@ export const roomPlayers = table('room_players', {
   userId:    integer('user_id').notNull(),
   userName:  text('user_name').notNull(),
   score:     integer('score').notNull().default(0),
+  isReady:   integer('is_ready').default(0),
   joinedAt:  integer('joined_at', { mode: 'timestamp' }).default(sql`(unixepoch())`),
 });
 

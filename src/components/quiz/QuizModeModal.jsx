@@ -19,8 +19,11 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
   const [step, setStep] = useState(1); // 1: Questions Mode & Count, 2: Time Limit per Question
   const [selectedMode, setSelectedMode] = useState('full'); // 'full' | 'range' | 'random'
   const [rangeStart, setRangeStart] = useState(1);
+  const [rawRangeStart, setRawRangeStart] = useState('1');
   const [rangeEnd, setRangeEnd] = useState(25);
+  const [rawRangeEnd, setRawRangeEnd] = useState('25');
   const [randomCount, setRandomCount] = useState(20);
+  const [rawRandomCount, setRawRandomCount] = useState('20');
   const [selectedTimeLimit, setSelectedTimeLimit] = useState(30);
   const [customTimeInput, setCustomTimeInput] = useState('');
 
@@ -36,9 +39,14 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
         if (res && res.quiz) {
           setQuizData(res);
           const total = res.questions?.length || 0;
+          const endVal = Math.min(25, total || 1);
+          const randVal = Math.min(20, total || 10);
           setRangeStart(1);
-          setRangeEnd(Math.min(25, total || 1));
-          setRandomCount(Math.min(20, total || 10));
+          setRawRangeStart('1');
+          setRangeEnd(endVal);
+          setRawRangeEnd(String(endVal));
+          setRandomCount(randVal);
+          setRawRandomCount(String(randVal));
           setSelectedTimeLimit(res.quiz.timeLimit || 30);
         }
       })
@@ -95,6 +103,18 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
 
   const handleNextStep = () => {
     haptic.impact('light');
+    // Commit any raw strings into numbers
+    const parsedStart = Math.max(1, Math.min(totalQuestions, parseInt(rawRangeStart, 10) || 1));
+    const parsedEnd = Math.max(parsedStart, Math.min(totalQuestions, parseInt(rawRangeEnd, 10) || totalQuestions));
+    const parsedRand = Math.max(1, Math.min(totalQuestions, parseInt(rawRandomCount, 10) || 10));
+
+    setRangeStart(parsedStart);
+    setRawRangeStart(String(parsedStart));
+    setRangeEnd(parsedEnd);
+    setRawRangeEnd(String(parsedEnd));
+    setRandomCount(parsedRand);
+    setRawRandomCount(String(parsedRand));
+
     setStep(2);
   };
 
@@ -129,23 +149,23 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
   // Summary label for Step 2
   const getSelectedSummary = () => {
     if (selectedMode === 'full') {
-      return `${totalQuestions} ${t('QUESTIONS_COUNT')} (Barchasi)`;
+      return `${totalQuestions} ${t('QUESTIONS_COUNT')} (${t('MODE_ALL_QUESTIONS')})`;
     }
     if (selectedMode === 'range') {
       const count = Math.max(1, (Number(rangeEnd) - Number(rangeStart) + 1));
-      return `${count} ta savol (${rangeStart}–${rangeEnd})`;
+      return t('MODE_RANGE_SUMMARY', { count, start: rangeStart, end: rangeEnd });
     }
     if (selectedMode === 'random') {
-      return `${randomCount} ta tasodifiy savol`;
+      return t('MODE_RANDOM_SUMMARY', { count: randomCount });
     }
-    return `${totalQuestions} ta savol`;
+    return t('MODE_TOTAL_SUMMARY', { count: totalQuestions });
   };
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={step === 1 ? (t('SELECT_MODE_TITLE') || 'O\'yin rejimini tanlang') : 'Savol vaqtini tanlang'}
+      title={step === 1 ? t('SELECT_MODE_TITLE') : t('SELECT_TIME_TITLE')}
       maxWidth="440px"
     >
       {loading ? (
@@ -185,7 +205,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                 {step === 1 ? totalQuestions : getSelectedSummary()}
               </Badge>
               <Badge variant="accent" size="sm">
-                {step === 1 ? '1/2 bosqich' : '2/2 bosqich'}
+                {step === 1 ? t('STEP_1_OF_2') : t('STEP_2_OF_2')}
               </Badge>
             </div>
           </div>
@@ -227,15 +247,15 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                   </div>
                   <div>
                     <div style={{ fontWeight: '700', fontSize: '0.9rem', color: 'var(--text-primary)' }}>
-                      {t('MODE_FULL_TITLE') || 'To\'liq rejim'}
+                      {t('MODE_FULL_TITLE')}
                     </div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                      {t('MODE_FULL_DESC', { total: totalQuestions }) || `Barcha ${totalQuestions} ta savol`}
+                      {t('MODE_FULL_DESC', { total: totalQuestions })}
                     </div>
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--accent-primary)', fontSize: '0.8rem', fontWeight: '700' }}>
-                  <span>Tanlash</span>
+                  <span>{t('BTN_CHOOSE')}</span>
                   <Icon icon="solar:arrow-right-linear" width="16" height="16" />
                 </div>
               </div>
@@ -276,10 +296,10 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                     </div>
                     <div>
                       <div style={{ fontWeight: '700', fontSize: '0.9rem', color: 'var(--text-primary)' }}>
-                        {t('MODE_RANGE_TITLE') || 'Oraliq bo\'yicha'}
+                        {t('MODE_RANGE_TITLE')}
                       </div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                        {t('MODE_RANGE_DESC') || 'Savollar oralig\'ini belgilash'}
+                        {t('MODE_RANGE_DESC')}
                       </div>
                     </div>
                   </div>
@@ -318,7 +338,9 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                               onClick={() => {
                                 haptic.selection();
                                 setRangeStart(pStart);
+                                setRawRangeStart(String(pStart));
                                 setRangeEnd(pEnd);
+                                setRawRangeEnd(String(pEnd));
                               }}
                               style={{
                                 padding: '4px 10px',
@@ -338,16 +360,34 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                       </div>
                     )}
 
-                    {/* Manual Inputs */}
+                    {/* Manual Inputs - Free text editing with clamp on blur */}
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_FROM_LABEL') || 'Boshlanishi'}</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_FROM_LABEL')}</span>
                         <input
                           type="number"
                           min="1"
                           max={totalQuestions}
-                          value={rangeStart}
-                          onChange={(e) => setRangeStart(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                          value={rawRangeStart}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setRawRangeStart(val);
+                            const parsed = parseInt(val, 10);
+                            if (!isNaN(parsed) && parsed >= 1) {
+                              setRangeStart(Math.min(totalQuestions, parsed));
+                            }
+                          }}
+                          onBlur={() => {
+                            let parsed = parseInt(rawRangeStart, 10);
+                            if (isNaN(parsed) || parsed < 1) parsed = 1;
+                            if (parsed > totalQuestions) parsed = totalQuestions;
+                            setRangeStart(parsed);
+                            setRawRangeStart(String(parsed));
+                            if (rangeEnd < parsed) {
+                              setRangeEnd(parsed);
+                              setRawRangeEnd(String(parsed));
+                            }
+                          }}
                           style={{
                             width: '100%',
                             padding: '6px 8px',
@@ -364,13 +404,28 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                       </div>
                       <span style={{ paddingTop: '16px', color: 'var(--text-secondary)' }}>—</span>
                       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_TO_LABEL') || 'Tugashi'}</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{t('RANGE_TO_LABEL')}</span>
                         <input
                           type="number"
                           min={rangeStart}
                           max={totalQuestions}
-                          value={rangeEnd}
-                          onChange={(e) => setRangeEnd(Math.max(rangeStart, Math.min(totalQuestions, parseInt(e.target.value, 10) || totalQuestions)))}
+                          value={rawRangeEnd}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setRawRangeEnd(val);
+                            const parsed = parseInt(val, 10);
+                            if (!isNaN(parsed)) {
+                              setRangeEnd(parsed);
+                            }
+                          }}
+                          onBlur={() => {
+                            let parsed = parseInt(rawRangeEnd, 10);
+                            const minVal = Number(rangeStart) || 1;
+                            if (isNaN(parsed) || parsed < minVal) parsed = minVal;
+                            if (parsed > totalQuestions) parsed = totalQuestions;
+                            setRangeEnd(parsed);
+                            setRawRangeEnd(String(parsed));
+                          }}
                           style={{
                             width: '100%',
                             padding: '6px 8px',
@@ -426,10 +481,10 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                     </div>
                     <div>
                       <div style={{ fontWeight: '700', fontSize: '0.9rem', color: 'var(--text-primary)' }}>
-                        {t('MODE_RANDOM_TITLE') || 'Tasodifiy savollar'}
+                        {t('MODE_RANDOM_TITLE')}
                       </div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                        {t('MODE_RANDOM_DESC') || 'Aralashtirilgan savollar soni'}
+                        {t('MODE_RANDOM_DESC')}
                       </div>
                     </div>
                   </div>
@@ -467,6 +522,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                             onClick={() => {
                               haptic.selection();
                               setRandomCount(cnt);
+                              setRawRandomCount(String(cnt));
                             }}
                             style={{
                               padding: '4px 10px',
@@ -479,23 +535,37 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                               color: isCurrent ? '#fff' : 'var(--text-secondary)',
                             }}
                           >
-                            {cnt} ta
+                            {t('COUNT_PILL', { count: cnt })}
                           </button>
                         );
                       })}
                     </div>
 
-                    {/* Manual Input */}
+                    {/* Manual Input - Free text editing with clamp on blur */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
                       <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>
-                        {t('RANDOM_COUNT_LABEL') || 'Savollar soni'} (max: {totalQuestions})
+                        {t('RANDOM_COUNT_LABEL')} (max: {totalQuestions})
                       </span>
                       <input
                         type="number"
                         min="1"
                         max={totalQuestions}
-                        value={randomCount}
-                        onChange={(e) => setRandomCount(Math.max(1, Math.min(totalQuestions, parseInt(e.target.value, 10) || 10)))}
+                        value={rawRandomCount}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setRawRandomCount(val);
+                          const parsed = parseInt(val, 10);
+                          if (!isNaN(parsed)) {
+                            setRandomCount(parsed);
+                          }
+                        }}
+                        onBlur={() => {
+                          let parsed = parseInt(rawRandomCount, 10);
+                          if (isNaN(parsed) || parsed < 1) parsed = Math.min(10, totalQuestions);
+                          if (parsed > totalQuestions) parsed = totalQuestions;
+                          setRandomCount(parsed);
+                          setRawRandomCount(String(parsed));
+                        }}
                         style={{
                           width: '100%',
                           padding: '6px 8px',
@@ -525,7 +595,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                     style={{ padding: '10px 16px', fontSize: '0.92rem' }}
                     onClick={handleNextStep}
                   >
-                    Vaqt tanlashga o'tish ➡️
+                    {t('BTN_PROCEED_TO_TIME')}
                   </Button>
                 </div>
               )}
@@ -555,11 +625,11 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                   }}
                 >
                   <Icon icon="solar:arrow-left-linear" width="14" height="14" />
-                  <span>Orqaga</span>
+                  <span>{t('BTN_BACK')}</span>
                 </button>
 
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: '600' }}>
-                  Har bir savol uchun vaqt
+                  {t('TIME_PER_QUESTION_LABEL')}
                 </span>
               </div>
 
@@ -593,7 +663,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                         {tp.label}
                       </span>
                       <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>
-                        {tp.value} soniya
+                        {t('SECONDS_LABEL', { seconds: tp.value })}
                       </span>
                     </button>
                   );
@@ -614,13 +684,13 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
               >
                 <Icon icon="solar:clock-circle-bold" width="18" height="18" style={{ color: 'var(--accent-primary)' }} />
                 <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', flexShrink: 0 }}>
-                  Ixtiyoriy vaqt:
+                  {t('CUSTOM_TIME_LABEL')}
                 </span>
                 <input
                   type="number"
                   min="5"
                   max="300"
-                  placeholder="soniya (masalan: 25)"
+                  placeholder={t('CUSTOM_TIME_PLACEHOLDER')}
                   value={customTimeInput}
                   onChange={(e) => {
                     setCustomTimeInput(e.target.value);
@@ -650,7 +720,7 @@ export function QuizModeModal({ isOpen, onClose, quizId, onConfirmMode }) {
                   style={{ padding: '12px 16px', fontSize: '0.94rem', fontWeight: '800' }}
                   onClick={handleStart}
                 >
-                  🚀 O'yinni boshlash
+                  {t('BTN_START_GAME')}
                 </Button>
               </div>
             </div>
