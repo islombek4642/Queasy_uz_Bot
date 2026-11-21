@@ -1629,6 +1629,7 @@ ${KATEX_JS}
       const nextBtnText = document.getElementById('nextBtnText');
       const nextBtnIcon = document.getElementById('nextBtnIcon');
       if (isLast) {
+        if (finishBtn) finishBtn.style.display = 'none';
         if (nextBtnText) {
           nextBtnText.textContent = "Yakunlash";
           nextBtnText.style.display = "inline";
@@ -1637,6 +1638,7 @@ ${KATEX_JS}
           nextBtnIcon.innerHTML = '<polyline points="20 6 9 17 4 12"/>';
         }
       } else {
+        if (finishBtn) finishBtn.style.display = 'inline-flex';
         if (nextBtnText) {
           nextBtnText.style.display = "none";
         }

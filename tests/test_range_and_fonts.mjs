@@ -44,6 +44,9 @@ assert.ok(html.includes('id="toggleReviewBtn"'), 'Must have toggleReviewBtn (Jav
 assert.ok(html.includes('id="reviewSection"'), 'Must have reviewSection');
 assert.ok(html.includes('id="reviewSection" style="margin-top: 14px; display: none;'), 'reviewSection must be hidden by default');
 
+assert.ok(html.includes("finishBtn.style.display = 'none'"), 'Must hide finishBtn on the last question to prevent duplicate finish buttons');
+assert.ok(html.includes("finishBtn.style.display = 'inline-flex'"), 'Must restore finishBtn on non-last questions');
+
 // 3. JavaScript Scope & Logic
 console.log('Verifying JS Scope & Logic:');
 const selectModeDeclIndex = html.indexOf('function selectMode(mode)');
