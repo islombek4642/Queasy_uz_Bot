@@ -28,3 +28,4 @@ export function downloadQuizAsHtml(quiz, questions = []) {
     URL.revokeObjectURL(url);
   }, 1000);
 }
+

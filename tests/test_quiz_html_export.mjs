@@ -19,17 +19,24 @@ const sampleQuiz = {
 const sampleQuestions = [
   {
     id: 1,
-    question: 'Amir Temur nechanchi yilda tug\'ilgan?',
+    questionText: 'Amir Temur nechanchi yilda tug\'ilgan?', // using questionText as returned by getQuizById
     options: ['1336-yil', '1340-yil', '1356-yil', '1360-yil'],
-    correct: 0,
+    correctOptionId: 0, // using correctOptionId as returned by getQuizById
     explanation: 'Amir Temur 1336-yil 9-aprelda Kesh (Shahrisabz) yaqinidagi Xoja Ilg\'or qishlog\'ida tavallud topgan.',
   },
   {
     id: 2,
-    question: 'Alisher Navoiy qaysi asarni yozgan?',
-    options: ['Hamsa', 'Boburnoma', 'O\'tkan kunlar', 'Qutadg\'u bilig'],
-    correct: 0,
+    question: 'Alisher Navoiy qaysi asarni yozgan?', // using question as fallback
+    options: [{ text: 'Hamsa' }, { text: 'Boburnoma' }, { text: 'O\'tkan kunlar' }, { text: 'Qutadg\'u bilig' }],
+    correct: 0, // using correct as fallback
     explanation: 'Alisher Navoiy turkiy tilda birinchi bo\'lib Xamsa yaratgan.',
+  },
+  {
+    id: 3,
+    questionText: 'Aniqmas integralni toping. $\\int {8}^{3x} dx$',
+    options: ['$\\frac{3}{8} {8}^{3x}$', '$\\frac{1}{3ln8} ⋅ {8}^{3x}$'],
+    correctOptionId: 1,
+    explanation: 'Integral formulasi bo\'yicha yechiladi.',
   },
 ];
 
@@ -38,7 +45,8 @@ const html = generateQuizHtml({ quiz: sampleQuiz, questions: sampleQuestions });
 assert.ok(typeof html === 'string', 'generateQuizHtml should return an HTML string');
 assert.ok(html.includes('<!DOCTYPE html>'), 'HTML must start with doctype');
 assert.ok(html.includes('Tarix Fani Testi (Olimpiada)'), 'HTML must include quiz title');
-assert.ok(html.includes('Amir Temur nechanchi yilda tug\'ilgan?'), 'HTML must include question text');
+assert.ok(html.includes('Amir Temur nechanchi yilda tug\'ilgan?'), 'HTML must include questionText');
+assert.ok(html.includes('Aniqmas integralni toping.'), 'HTML must include math questionText');
 assert.ok(html.includes('id="setupModal"'), 'HTML must have setup modal wizard');
 assert.ok(html.includes('id="quizHeader"'), 'HTML must have pinned quiz header');
 assert.ok(html.includes('id="quizScrollArea"'), 'HTML must have scrollable middle area');
@@ -46,6 +54,7 @@ assert.ok(html.includes('class="control-bar floating-bar"'), 'HTML must have flo
 assert.ok(html.includes('id="prevBtn"'), 'HTML must have previous button');
 assert.ok(html.includes('id="nextBtn"'), 'HTML must have next button');
 assert.ok(html.includes('id="finishBtn"'), 'HTML must have finish button');
+assert.ok(html.includes('id="katex-lib"'), 'HTML must have embedded KaTeX library for offline math');
 assert.ok(!html.includes('questionPalette'), 'HTML must NOT have old question palette map');
 
 // Verify that JS inside HTML executes without errors in mock browser environment

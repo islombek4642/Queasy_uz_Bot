@@ -1,5 +1,6 @@
 // tgcloud/lib/templates/quiz_html_template.js
 // Generates a 100% self-contained, standalone offline interactive HTML quiz file
+import { KATEX_CSS, KATEX_JS } from './katex_bundle.js';
 
 function escapeHtml(str = '') {
   return String(str || '')
@@ -18,13 +19,36 @@ export function generateQuizHtml({ quiz, questions = [] }) {
     title: quiz?.title || 'Queasy Quiz',
     timeLimit: safeTimeLimit,
     totalQuestions: questions.length,
-    questions: questions.map((q, idx) => ({
-      id: q.id || idx + 1,
-      question: String(q.question || ''),
-      options: Array.isArray(q.options) ? q.options.map(String) : [],
-      correct: typeof q.correct === 'number' ? q.correct : 0,
-      explanation: q.explanation ? String(q.explanation) : '',
-    })),
+    questions: questions.map((q, idx) => {
+      const qText = q.questionText !== undefined && q.questionText !== null
+        ? String(q.questionText)
+        : (q.question !== undefined && q.question !== null ? String(q.question) : '');
+
+      let correct = 0;
+      if (typeof q.correct === 'number') {
+        correct = q.correct;
+      } else if (typeof q.correctOptionId === 'number') {
+        correct = q.correctOptionId;
+      }
+
+      let options = [];
+      if (Array.isArray(q.options)) {
+        options = q.options.map((opt) => {
+          if (typeof opt === 'object' && opt !== null) {
+            return String(opt.text || opt.title || '');
+          }
+          return String(opt ?? '');
+        });
+      }
+
+      return {
+        id: q.id || idx + 1,
+        question: qText,
+        options,
+        correct,
+        explanation: q.explanation ? String(q.explanation) : '',
+      };
+    }),
   };
 
   // Safe JSON serialization preventing script tag breakout
@@ -36,6 +60,12 @@ export function generateQuizHtml({ quiz, questions = [] }) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>${safeTitle} — Queasy Quiz</title>
+  <style>
+${KATEX_CSS}
+  </style>
+  <script id="katex-lib">
+${KATEX_JS}
+  </script>
   <style>
     :root {
       --bg: #0b0f19;
@@ -206,6 +236,24 @@ export function generateQuizHtml({ quiz, questions = [] }) {
       font-size: 1.15rem;
       font-weight: 700;
       line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .katex {
+      color: inherit;
+      font-size: 1.05em;
+    }
+
+    .katex-display-wrapper {
+      margin: 8px 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+
+    .katex-inline-wrapper {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 2px;
     }
 
     .options-grid {
@@ -1012,6 +1060,77 @@ export function generateQuizHtml({ quiz, questions = [] }) {
   <script>
     const RAW_QUIZ = ${rawQuizJson};
 
+    function escapeHtml(str = '') {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatMathText(text) {
+      if (!text || typeof text !== 'string') return '';
+
+      const cleanText = text
+        .replace(/&lt;img[\\s\\S]*?&gt;/gi, '')
+        .replace(/<img[\\s\\S]*?>/gi, '')
+        .replaceAll('&apos;', "'")
+        .replaceAll('&#39;', "'")
+        .replaceAll('&quot;', '"')
+        .replaceAll('&#34;', '"')
+        .replaceAll('&nbsp;', ' ')
+        .replaceAll('&amp;', '&')
+        .replaceAll('&lt;', '<')
+        .replaceAll('&gt;', '>')
+        .replaceAll('&laquo;', '«')
+        .replaceAll('&raquo;', '»')
+        .replaceAll('&ndash;', '-')
+        .replaceAll('&mdash;', '-')
+        .trim();
+
+      const hasKatex = typeof window !== 'undefined' && window.katex && typeof window.katex.renderToString === 'function';
+
+      var mathCmds = ['\\frac', '\\sqrt', '\\int', '\\sum', '\\prod', '\\alpha', '\\beta', '\\gamma', '\\partial', '\\infty', '\\pm', '\\times', '\\div'];
+      var hasCmd = false;
+      for (var ci = 0; ci < mathCmds.length; ci++) {
+        if (cleanText.indexOf(mathCmds[ci]) !== -1) {
+          hasCmd = true;
+          break;
+        }
+      }
+
+      let preparedText = cleanText;
+      if (!preparedText.includes('$') && hasCmd) {
+        preparedText = '$' + preparedText + '$';
+      }
+
+      const parts = preparedText.split(/(\\$\\$[\\s\\S]+?\\$\\$|\\$[^\\$]+?\\$)/g);
+
+      return parts.map(function(part) {
+        const isDisplay = part.startsWith('$$') && part.endsWith('$$');
+        const isInline = part.startsWith('$') && part.endsWith('$');
+
+        if (isDisplay || isInline) {
+          const math = isDisplay ? part.slice(2, -2).trim() : part.slice(1, -1).trim();
+          if (hasKatex) {
+            try {
+              const rendered = window.katex.renderToString(math, {
+                displayMode: isDisplay,
+                throwOnError: false
+              });
+              return isDisplay
+                ? '<div class="katex-display-wrapper">' + rendered + '</div>'
+                : '<span class="katex-inline-wrapper">' + rendered + '</span>';
+            } catch (e) {
+              return '<span>' + escapeHtml(part) + '</span>';
+            }
+          }
+        }
+        return escapeHtml(part);
+      }).join('');
+    }
+
     let configuredQuestions = [];
     let selectedTimeLimit = RAW_QUIZ.timeLimit || 30;
     let selectedQuizMode = 'full';
@@ -1253,7 +1372,7 @@ export function generateQuizHtml({ quiz, questions = [] }) {
       if (scrollArea) scrollArea.scrollTop = 0;
 
       const q = configuredQuestions[currentIndex];
-      questionTitle.textContent = q.question;
+      questionTitle.innerHTML = formatMathText(q.question);
       qIndexBadge.textContent = \`#\${currentIndex + 1}\`;
       progressText.textContent = \`\${currentIndex + 1} / \${configuredQuestions.length}\`;
       progressBar.style.width = \`\${((currentIndex + 1) / configuredQuestions.length) * 100}%\`;
@@ -1301,9 +1420,11 @@ export function generateQuizHtml({ quiz, questions = [] }) {
           }
         }
 
+        const optHtml = formatMathText(opt);
+
         item.innerHTML = \`
           <div class="option-letter">\${letter}</div>
-          <div class="option-text">\${opt}</div>
+          <div class="option-text">\${optHtml}</div>
         \`;
 
         item.addEventListener('click', () => {
@@ -1316,7 +1437,7 @@ export function generateQuizHtml({ quiz, questions = [] }) {
       });
 
       if (practiceMode === 'practice' && hasAnswered && q.explanation) {
-        explanationText.textContent = q.explanation;
+        explanationText.innerHTML = formatMathText(q.explanation);
         explanationBox.classList.add('show');
       } else {
         explanationBox.classList.remove('show');
@@ -1377,11 +1498,11 @@ export function generateQuizHtml({ quiz, questions = [] }) {
         const div = document.createElement('div');
         div.style.cssText = \`padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid \${isRight ? 'var(--success)' : 'var(--danger)'};\`;
         div.innerHTML = \`
-          <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">\${idx + 1}. \${q.question}</div>
+          <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">\${idx + 1}. \${formatMathText(q.question)}</div>
           <div style="font-size: 0.82rem; color: \${isRight ? 'var(--success)' : 'var(--danger)'};">
-            Sizning javobingiz: \${userAnswers[idx] !== undefined ? q.options[userAnswers[idx]] : "Belgilanmagan"}
+            Sizning javobingiz: \${userAnswers[idx] !== undefined ? formatMathText(q.options[userAnswers[idx]]) : "Belgilanmagan"}
           </div>
-          \${!isRight ? \`<div style="font-size: 0.82rem; color: var(--success); margin-top: 2px;">To'g'ri javob: \${q.options[q.correct]}</div>\` : ''}
+          \${!isRight ? \`<div style="font-size: 0.82rem; color: var(--success); margin-top: 2px;">To'g'ri javob: \${formatMathText(q.options[q.correct])}</div>\` : ''}
         \`;
         reviewContainer.appendChild(div);
       });
@@ -1428,3 +1549,4 @@ export function generateQuizHtml({ quiz, questions = [] }) {
 </body>
 </html>`;
 }
+
