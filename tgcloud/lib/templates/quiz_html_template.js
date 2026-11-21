@@ -448,6 +448,20 @@ ${KATEX_JS}
       background: var(--accent);
     }
 
+    .answers-grid-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .answers-grid-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .answers-grid-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+    }
+    .answers-grid-scroll::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+
     .floating-bar {
       flex-shrink: 0;
       position: sticky;
@@ -1132,7 +1146,7 @@ ${KATEX_JS}
           <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--text);">Javoblar tahlili</h3>
           <span style="font-size: 0.74rem; color: var(--text-muted);">(savolni ko'rish uchun bosing)</span>
         </div>
-        <div id="answersGrid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;"></div>
+        <div id="answersGrid" class="answers-grid-scroll" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; max-height: 220px; overflow-y: auto; padding-right: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: thin;"></div>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 8px;">

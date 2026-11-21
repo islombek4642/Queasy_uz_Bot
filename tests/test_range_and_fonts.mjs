@@ -29,6 +29,7 @@ assert.ok(html.includes('id="resultBarWrong"'), 'Must have resultBarWrong');
 assert.ok(html.includes('id="resultPercentCorrectText"'), 'Must have resultPercentCorrectText (e.g. 84% to\'g\'ri)');
 assert.ok(html.includes('id="resultPercentWrongText"'), 'Must have resultPercentWrongText (e.g. 16% xato)');
 assert.ok(html.includes('id="answersGrid"'), 'Must have answersGrid for question number tiles');
+assert.ok(html.includes('max-height: 220px; overflow-y: auto;'), 'answersGrid must have max-height and overflow-y: auto for scrolling when many questions exist');
 
 assert.ok(html.includes('id="statCorrect"'), 'Must have statCorrect');
 assert.ok(html.includes('id="statWrong"'), 'Must have statWrong');
