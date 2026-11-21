@@ -43,6 +43,7 @@ export function generateQuizHtml({ quiz, questions = [] }) {
 
       return {
         id: q.id || idx + 1,
+        originalIndex: idx + 1,
         question: qText,
         options,
         correct,
@@ -1191,6 +1192,8 @@ ${KATEX_JS}
           currentIndex: currentIndex,
           userAnswers: userAnswers,
           selectedTimeLimit: selectedTimeLimit,
+          selectedQuizMode: selectedQuizMode,
+          rangeConfig: rangeConfig,
           configuredQuestions: configuredQuestions,
           startTime: startTime,
           timestamp: Date.now()
@@ -1295,6 +1298,8 @@ ${KATEX_JS}
             currentIndex = savedData.currentIndex || 0;
             userAnswers = savedData.userAnswers || {};
             selectedTimeLimit = savedData.selectedTimeLimit || selectedTimeLimit;
+            selectedQuizMode = savedData.selectedQuizMode || 'full';
+            rangeConfig = savedData.rangeConfig || rangeConfig;
             startTime = savedData.startTime || Date.now();
 
             setupModal.style.display = 'none';
@@ -1351,32 +1356,43 @@ ${KATEX_JS}
         pill.textContent = \`\${start}-\${end}\`;
         pill.dataset.start = start;
         pill.dataset.end = end;
-        pill.addEventListener('click', () => {
+        pill.addEventListener('click', (e) => {
+          e.stopPropagation();
           rangePillsContainer.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
           pill.classList.add('active');
           rangeStartInput.value = start;
           rangeEndInput.value = end;
           rangeConfig = [start, end];
+          selectMode('range');
         });
         rangePillsContainer.appendChild(pill);
       }
 
+      rangeStartInput.addEventListener('click', (e) => e.stopPropagation());
+      rangeEndInput.addEventListener('click', (e) => e.stopPropagation());
+
       rangeStartInput.addEventListener('input', () => {
         rangeConfig[0] = Math.max(1, Number(rangeStartInput.value) || 1);
         rangePillsContainer.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
+        selectMode('range');
       });
       rangeEndInput.addEventListener('input', () => {
         rangeConfig[1] = Math.min(totalQ, Math.max(1, Number(rangeEndInput.value) || totalQ));
         rangePillsContainer.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
+        selectMode('range');
       });
 
+      randomCountInput.addEventListener('click', (e) => e.stopPropagation());
+
       randomPillsContainer.querySelectorAll('.preset-pill').forEach(p => {
-        p.addEventListener('click', () => {
+        p.addEventListener('click', (e) => {
+          e.stopPropagation();
           randomPillsContainer.querySelectorAll('.preset-pill').forEach(btn => btn.classList.remove('active'));
           p.classList.add('active');
           const count = Math.min(totalQ, Number(p.dataset.rand));
           randomCountInput.value = count;
           randomCountConfig = count;
+          selectMode('random');
         });
       });
 
@@ -1386,6 +1402,7 @@ ${KATEX_JS}
         randomPillsContainer.querySelectorAll('.preset-pill').forEach(p => {
           p.classList.toggle('active', Number(p.dataset.rand) === randomCountConfig);
         });
+        selectMode('random');
       });
 
       function selectMode(mode) {
@@ -1434,11 +1451,21 @@ ${KATEX_JS}
       let pool = [...RAW_QUIZ.questions];
 
       if (selectedQuizMode === 'range') {
-        const start = Math.max(1, rangeConfig[0]);
-        const end = Math.min(pool.length, rangeConfig[1]);
+        const rawStart = Number(rangeStartInput ? rangeStartInput.value : rangeConfig[0]);
+        const rawEnd = Number(rangeEndInput ? rangeEndInput.value : rangeConfig[1]);
+        let start = Math.max(1, Math.min(pool.length, rawStart || 1));
+        let end = Math.max(1, Math.min(pool.length, rawEnd || pool.length));
+        if (start > end) {
+          const tmp = start;
+          start = end;
+          end = tmp;
+        }
+        rangeConfig = [start, end];
         configuredQuestions = pool.slice(start - 1, end);
       } else if (selectedQuizMode === 'random') {
-        const count = Math.min(pool.length, randomCountConfig);
+        const rawCount = Number(randomCountInput ? randomCountInput.value : randomCountConfig);
+        const count = Math.max(1, Math.min(pool.length, rawCount || 20));
+        randomCountConfig = count;
         for (let i = pool.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [pool[i], pool[j]] = [pool[j], pool[i]];
@@ -1498,7 +1525,22 @@ ${KATEX_JS}
 
       const q = configuredQuestions[currentIndex];
       questionTitle.innerHTML = formatMathText(q.question);
-      qIndexBadge.textContent = \`#\${currentIndex + 1}\`;
+
+      const questionCategory = document.getElementById('questionCategory');
+      if (selectedQuizMode === 'range') {
+        if (questionCategory) questionCategory.textContent = \`Oraliq: \${rangeConfig[0]}-\${rangeConfig[1]}\`;
+        qIndexBadge.textContent = \`Asl savol: #\${q.originalIndex || (currentIndex + 1)}\`;
+      } else if (selectedQuizMode === 'random') {
+        if (questionCategory) questionCategory.textContent = \`Tasodifiy (\${configuredQuestions.length} ta)\`;
+        qIndexBadge.textContent = \`Asl savol: #\${q.originalIndex || (currentIndex + 1)}\`;
+      } else if (selectedQuizMode === 'mistakes') {
+        if (questionCategory) questionCategory.textContent = \`Xatolar ustida ishlash\`;
+        qIndexBadge.textContent = \`Asl savol: #\${q.originalIndex || (currentIndex + 1)}\`;
+      } else {
+        if (questionCategory) questionCategory.textContent = \`To'liq test\`;
+        qIndexBadge.textContent = \`#\${currentIndex + 1}\`;
+      }
+
       progressText.textContent = \`\${currentIndex + 1} / \${configuredQuestions.length}\`;
       progressBar.style.width = \`\${((currentIndex + 1) / configuredQuestions.length) * 100}%\`;
 
@@ -1630,8 +1672,9 @@ ${KATEX_JS}
         const isRight = userAnswers[idx] === q.correct;
         const div = document.createElement('div');
         div.style.cssText = \`padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid \${isRight ? 'var(--success)' : 'var(--danger)'};\`;
+        const origLabel = q.originalIndex ? \` <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">(Asl #\${q.originalIndex})</span>\` : '';
         div.innerHTML = \`
-          <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">\${idx + 1}. \${formatMathText(q.question)}</div>
+          <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">\${idx + 1}. \${formatMathText(q.question)}\${origLabel}</div>
           <div style="font-size: 0.82rem; color: \${isRight ? 'var(--success)' : 'var(--danger)'};">
             Sizning javobingiz: \${userAnswers[idx] !== undefined ? formatMathText(q.options[userAnswers[idx]]) : "Belgilanmagan"}
           </div>
@@ -1649,6 +1692,7 @@ ${KATEX_JS}
       step2Container.style.display = 'none';
       wizardBackBtn.style.display = 'none';
       wizardNextBtn.querySelector('span').textContent = "Keyingisi";
+      selectMode(selectedQuizMode === 'mistakes' ? 'full' : selectedQuizMode);
       setupModal.style.display = 'flex';
     });
 
@@ -1661,6 +1705,7 @@ ${KATEX_JS}
       configuredQuestions = mistakes;
       currentIndex = 0;
       userAnswers = {};
+      selectedQuizMode = 'mistakes';
       startTime = Date.now();
       resultsView.classList.remove('active');
       quizView.style.display = 'flex';
