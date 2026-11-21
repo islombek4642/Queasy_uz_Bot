@@ -1246,6 +1246,7 @@ ${KATEX_JS}
     let userAnswers = {};
     let timer = selectedTimeLimit;
     let timerInterval = null;
+    let autoAdvanceTimeout = null;
     let startTime = Date.now();
 
     const setupModal = document.getElementById('setupModal');
@@ -1535,6 +1536,10 @@ ${KATEX_JS}
         updateTimerDisplay();
         if (timer <= 0) {
           clearInterval(timerInterval);
+          if (autoAdvanceTimeout) {
+            clearTimeout(autoAdvanceTimeout);
+            autoAdvanceTimeout = null;
+          }
           nextQuestion();
         }
       }, 1000);
@@ -1627,10 +1632,33 @@ ${KATEX_JS}
         \`;
 
         item.addEventListener('click', () => {
-          if (hasAnswered) return;
+          if (userAnswers[currentIndex] !== undefined) return;
           userAnswers[currentIndex] = idx;
           saveProgress();
-          renderQuestion();
+
+          // Immediately highlight choices with correct / wrong styling
+          const allItems = optionsContainer.querySelectorAll('.option-item');
+          allItems.forEach((el, oIdx) => {
+            if (oIdx === idx) el.classList.add('selected');
+            if (oIdx === q.correct) {
+              el.classList.add('correct');
+            } else if (oIdx === idx) {
+              el.classList.add('wrong');
+            }
+          });
+
+          // Show explanation if exists
+          if (q.explanation) {
+            explanationText.innerHTML = formatMathText(q.explanation);
+            explanationBox.classList.add('show');
+          }
+
+          // Timer continues running down without pausing!
+          // Auto-advance to next question after 1.2s
+          if (autoAdvanceTimeout) clearTimeout(autoAdvanceTimeout);
+          autoAdvanceTimeout = setTimeout(() => {
+            nextQuestion();
+          }, 1200);
         });
 
         optionsContainer.appendChild(item);
@@ -1651,6 +1679,10 @@ ${KATEX_JS}
     }
 
     function nextQuestion() {
+      if (autoAdvanceTimeout) {
+        clearTimeout(autoAdvanceTimeout);
+        autoAdvanceTimeout = null;
+      }
       if (currentIndex < configuredQuestions.length - 1) {
         currentIndex++;
         saveProgress();
@@ -1661,6 +1693,10 @@ ${KATEX_JS}
     }
 
     prevBtn.addEventListener('click', () => {
+      if (autoAdvanceTimeout) {
+        clearTimeout(autoAdvanceTimeout);
+        autoAdvanceTimeout = null;
+      }
       if (currentIndex > 0) {
         currentIndex--;
         saveProgress();
@@ -1668,14 +1704,29 @@ ${KATEX_JS}
       }
     });
 
-    nextBtn.addEventListener('click', nextQuestion);
+    nextBtn.addEventListener('click', () => {
+      if (autoAdvanceTimeout) {
+        clearTimeout(autoAdvanceTimeout);
+        autoAdvanceTimeout = null;
+      }
+      nextQuestion();
+    });
+
     finishBtn.addEventListener('click', () => {
+      if (autoAdvanceTimeout) {
+        clearTimeout(autoAdvanceTimeout);
+        autoAdvanceTimeout = null;
+      }
       if (confirm("Haqiqatan ham testni yakunlamoqchimisiz?")) {
         finishQuiz();
       }
     });
 
     function finishQuiz() {
+      if (autoAdvanceTimeout) {
+        clearTimeout(autoAdvanceTimeout);
+        autoAdvanceTimeout = null;
+      }
       clearInterval(timerInterval);
       clearProgress();
       quizView.style.display = 'none';

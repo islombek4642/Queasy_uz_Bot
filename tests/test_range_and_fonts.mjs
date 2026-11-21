@@ -33,5 +33,10 @@ assert.ok(html.includes('touch-action: manipulation'), 'HTML must include touch-
 assert.ok(html.includes('font-size: 16px'), 'Input box must be at least 16px to prevent iOS Safari auto-zoom');
 assert.ok(html.includes('type="button" id="wizardNextBtn"'), 'wizardNextBtn must be an explicit button');
 
-console.log('✅ ALL RANGE, FONTS, AND IOS SAFARI TESTS PASSED!');
+console.log('Verifying Auto-Advance & Persistent Timer on Answer:');
+assert.ok(html.includes('autoAdvanceTimeout'), 'HTML must include autoAdvanceTimeout');
+assert.ok(html.includes('nextQuestion();'), 'HTML must auto-advance with nextQuestion()');
+assert.ok(html.includes('1200'), 'HTML must have 1.2s delay for seamless auto-advance');
+
+console.log('✅ ALL RANGE, FONTS, AUTO-ADVANCE, AND IOS SAFARI TESTS PASSED!');
 
