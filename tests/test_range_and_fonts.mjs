@@ -26,5 +26,12 @@ assert.strictEqual(quiz.questions[29].originalIndex, 30);
 console.log('Question 29 originalIndex:', quiz.questions[29].originalIndex);
 console.log('Question 29 text:', quiz.questions[29].question.slice(0, 50));
 
-console.log('✅ ALL RANGE AND FONTS TESTS PASSED!');
+console.log('Verifying iPhone / iOS Safari modal responsive standards:');
+assert.ok(html.includes('viewport-fit=cover'), 'HTML must include viewport-fit=cover for iPhone notch and home bar');
+assert.ok(html.includes('100dvh'), 'HTML must use 100dvh for dynamic mobile viewports');
+assert.ok(html.includes('touch-action: manipulation'), 'HTML must include touch-action: manipulation to eliminate mobile tap delay');
+assert.ok(html.includes('font-size: 16px'), 'Input box must be at least 16px to prevent iOS Safari auto-zoom');
+assert.ok(html.includes('type="button" id="wizardNextBtn"'), 'wizardNextBtn must be an explicit button');
+
+console.log('✅ ALL RANGE, FONTS, AND IOS SAFARI TESTS PASSED!');
 

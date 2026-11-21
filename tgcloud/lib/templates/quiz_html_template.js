@@ -59,7 +59,7 @@ export function generateQuizHtml({ quiz, questions = [] }) {
 <html lang="uz">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>${safeTitle} — Queasy Quiz</title>
   <style>
 ${KATEX_CSS}
@@ -373,6 +373,10 @@ ${KATEX_JS}
       justify-content: center;
       gap: 8px;
       transition: all 0.2s ease;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .btn-primary {
@@ -462,14 +466,19 @@ ${KATEX_JS}
     .modal-overlay {
       position: fixed;
       inset: 0;
+      height: 100vh;
+      height: 100dvh;
       background: rgba(11, 15, 25, 0.85);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      z-index: 100;
+      z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 12px;
+      padding-top: max(12px, env(safe-area-inset-top, 12px));
+      padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+      box-sizing: border-box;
       animation: fadeIn 0.25s ease;
     }
 
@@ -483,11 +492,14 @@ ${KATEX_JS}
       flex-direction: column;
       box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
       overflow: hidden;
-      max-height: 90vh;
+      max-height: calc(100vh - 24px);
+      max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      box-sizing: border-box;
     }
 
     .modal-header {
-      padding: 18px 20px;
+      flex-shrink: 0;
+      padding: 14px 18px;
       border-bottom: 1px solid var(--card-border);
       display: flex;
       align-items: center;
@@ -495,21 +507,25 @@ ${KATEX_JS}
     }
 
     .modal-body {
-      padding: 20px;
+      flex: 1 1 auto;
+      min-height: 0;
+      padding: 16px 18px;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
     }
 
     .modal-footer {
-      padding: 16px 20px;
+      flex-shrink: 0;
+      padding: 14px 18px;
       border-top: 1px solid var(--card-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      background: rgba(0, 0, 0, 0.15);
+      background: rgba(0, 0, 0, 0.25);
     }
 
     .info-summary-box {
@@ -603,10 +619,11 @@ ${KATEX_JS}
       border-radius: var(--radius-sm);
       padding: 11px 14px;
       color: var(--text);
-      font-size: 0.95rem;
+      font-size: 16px;
       font-weight: 600;
       outline: none;
       transition: border-color 0.2s ease;
+      box-sizing: border-box;
     }
 
     .input-box:focus {
@@ -820,8 +837,8 @@ ${KATEX_JS}
     <div class="modal-window">
       <div class="modal-header">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <button id="wizardBackBtn" class="icon-btn" style="width: 30px; height: 30px; display: none;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <button type="button" id="wizardBackBtn" class="icon-btn" style="width: 30px; height: 30px; display: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent;">
+            <svg style="pointer-events: none;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="m15 18-6-6 6-6"/>
             </svg>
           </button>
@@ -981,9 +998,9 @@ ${KATEX_JS}
       </div>
 
       <div class="modal-footer">
-        <button id="wizardNextBtn" class="btn btn-primary" style="flex: 1; padding: 14px;">
-          <span>Keyingisi</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <button type="button" id="wizardNextBtn" class="btn btn-primary" style="flex: 1; padding: 14px; touch-action: manipulation; -webkit-tap-highlight-color: transparent;">
+          <span style="pointer-events: none;">Keyingisi</span>
+          <svg style="pointer-events: none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="m9 18 6-6-6-6"/>
           </svg>
         </button>
@@ -1418,9 +1435,15 @@ ${KATEX_JS}
       modeCardRange.addEventListener('click', () => selectMode('range'));
       modeCardRandom.addEventListener('click', () => selectMode('random'));
 
-      wizardNextBtn.addEventListener('click', () => {
+      function handleWizardNext(e) {
+        if (e) {
+          e.preventDefault();
+        }
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+          document.activeElement.blur();
+        }
         if (wizardStep === 1) {
-          const customVal = Number(customTimeInput.value);
+          const customVal = Number(customTimeInput ? customTimeInput.value : 0);
           if (customVal && customVal >= 10 && customVal <= 600) {
             selectedTimeLimit = customVal;
           }
@@ -1430,20 +1453,29 @@ ${KATEX_JS}
           step1Container.style.display = 'none';
           step2Container.style.display = 'flex';
           wizardBackBtn.style.display = 'flex';
-          wizardNextBtn.querySelector('span').textContent = "🚀 Testni boshlash";
+          const btnSpan = wizardNextBtn.querySelector('span');
+          if (btnSpan) btnSpan.textContent = "🚀 Testni boshlash";
+          const modalBody = document.querySelector('.modal-body');
+          if (modalBody) modalBody.scrollTop = 0;
         } else if (wizardStep === 2) {
           startConfiguredQuiz();
         }
-      });
+      }
 
-      wizardBackBtn.addEventListener('click', () => {
+      wizardNextBtn.addEventListener('click', handleWizardNext);
+
+      wizardBackBtn.addEventListener('click', (e) => {
+        if (e) e.preventDefault();
         wizardStep = 1;
         wizardTitle.textContent = "1-bosqich: Test Sozlamalari";
         wizardStepBadge.textContent = "1 / 2 bosqich";
         step1Container.style.display = 'flex';
         step2Container.style.display = 'none';
         wizardBackBtn.style.display = 'none';
-        wizardNextBtn.querySelector('span').textContent = "Keyingisi";
+        const btnSpan = wizardNextBtn.querySelector('span');
+        if (btnSpan) btnSpan.textContent = "Keyingisi";
+        const modalBody = document.querySelector('.modal-body');
+        if (modalBody) modalBody.scrollTop = 0;
       });
     }
 
@@ -1691,7 +1723,10 @@ ${KATEX_JS}
       step1Container.style.display = 'flex';
       step2Container.style.display = 'none';
       wizardBackBtn.style.display = 'none';
-      wizardNextBtn.querySelector('span').textContent = "Keyingisi";
+      const btnSpan = wizardNextBtn.querySelector('span');
+      if (btnSpan) btnSpan.textContent = "Keyingisi";
+      const modalBody = document.querySelector('.modal-body');
+      if (modalBody) modalBody.scrollTop = 0;
       selectMode(selectedQuizMode === 'mistakes' ? 'full' : selectedQuizMode);
       setupModal.style.display = 'flex';
     });
