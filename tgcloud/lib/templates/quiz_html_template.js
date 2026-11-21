@@ -1098,28 +1098,31 @@ ${KATEX_JS}
           </div>
           <div class="stat-box" style="border-color: rgba(239, 68, 68, 0.3);">
             <h4 style="color: var(--danger);" id="statWrong">0</h4>
-            <p>Xato</p>
+            <p>Noto'g'ri</p>
           </div>
-          <div class="stat-box">
-            <h4 style="color: var(--accent);" id="statTime">00:00</h4>
-            <p>Vaqt</p>
+          <div class="stat-box" style="border-color: rgba(99, 102, 241, 0.3);">
+            <h4 style="color: var(--accent);" id="statTotal">0</h4>
+            <p>Jami savol</p>
           </div>
         </div>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 8px;">
-        <button id="reconfigureBtn" class="btn btn-primary">
+        <button type="button" id="retryQuizBtn" class="btn btn-primary" style="justify-content: center; padding: 13px;">
+          🔄 Testni qayta ishlash
+        </button>
+        <button type="button" id="retryMistakesBtn" class="btn btn-secondary" style="border-color: var(--danger); color: var(--danger); justify-content: center; padding: 13px;">
+          ❌ Xatolar ustida ishlash (<span id="mistakesCountLabel">0</span> ta xato)
+        </button>
+        <button type="button" id="reconfigureBtn" class="btn btn-secondary" style="justify-content: center; padding: 13px;">
           ⚙️ Yangi rejimda qayta boshlash
         </button>
-        <button id="retryMistakesBtn" class="btn btn-secondary" style="border-color: var(--danger); color: var(--danger);">
-          ❌ Faqat xatolar ustida ishlash
-        </button>
-        <button id="printBtn" class="btn btn-secondary">
-          🖨️ Chop etish / PDF saqlash
+        <button type="button" id="toggleReviewBtn" class="btn btn-secondary" style="justify-content: center; margin-top: 4px; padding: 11px;">
+          <span id="toggleReviewText">📋 Javoblarni batafsil ko'rish</span>
         </button>
       </div>
 
-      <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 12px;">
+      <div id="reviewSection" style="margin-top: 14px; display: none; flex-direction: column; gap: 12px;">
         <h3 style="font-size: 1rem; font-weight: 800;">Savollar tahlili</h3>
         <div id="reviewContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
       </div>
@@ -1292,6 +1295,15 @@ ${KATEX_JS}
     const finishBtn = document.getElementById('finishBtn');
     const themeToggle = document.getElementById('themeToggle');
 
+    function selectMode(mode) {
+      selectedQuizMode = mode;
+      if (modeCardFull) modeCardFull.classList.toggle('active', mode === 'full');
+      if (modeCardRange) modeCardRange.classList.toggle('active', mode === 'range');
+      if (modeCardRandom) modeCardRandom.classList.toggle('active', mode === 'random');
+      if (rangeSubConfig) rangeSubConfig.style.display = mode === 'range' ? 'flex' : 'none';
+      if (randomSubConfig) randomSubConfig.style.display = mode === 'random' ? 'flex' : 'none';
+    }
+
     function initWizard() {
       const resumeProgressBox = document.getElementById('resumeProgressBox');
       const resumeQuestionNum = document.getElementById('resumeQuestionNum');
@@ -1422,15 +1434,6 @@ ${KATEX_JS}
         });
         selectMode('random');
       });
-
-      function selectMode(mode) {
-        selectedQuizMode = mode;
-        modeCardFull.classList.toggle('active', mode === 'full');
-        modeCardRange.classList.toggle('active', mode === 'range');
-        modeCardRandom.classList.toggle('active', mode === 'random');
-        rangeSubConfig.style.display = mode === 'range' ? 'flex' : 'none';
-        randomSubConfig.style.display = mode === 'random' ? 'flex' : 'none';
-      }
 
       modeCardFull.addEventListener('click', () => selectMode('full'));
       modeCardRange.addEventListener('click', () => selectMode('range'));
@@ -1740,14 +1743,33 @@ ${KATEX_JS}
       const wrong = total - correct;
       const percent = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-      document.getElementById('finalPercent').textContent = \`\${percent}%\`;
-      document.getElementById('statCorrect').textContent = correct;
-      document.getElementById('statWrong').textContent = wrong;
+      const finalPercent = document.getElementById('finalPercent');
+      if (finalPercent) finalPercent.textContent = \`\${percent}%\`;
 
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const m = Math.floor(elapsed / 60).toString().padStart(2, '0');
-      const s = (elapsed % 60).toString().padStart(2, '0');
-      document.getElementById('statTime').textContent = \`\${m}:\${s}\`;
+      const statCorrect = document.getElementById('statCorrect');
+      if (statCorrect) statCorrect.textContent = correct;
+
+      const statWrong = document.getElementById('statWrong');
+      if (statWrong) statWrong.textContent = wrong;
+
+      const statTotal = document.getElementById('statTotal');
+      if (statTotal) statTotal.textContent = total;
+
+      const retryMistakesBtn = document.getElementById('retryMistakesBtn');
+      const mistakesCountLabel = document.getElementById('mistakesCountLabel');
+      if (retryMistakesBtn) {
+        if (wrong > 0) {
+          retryMistakesBtn.style.display = 'flex';
+          if (mistakesCountLabel) mistakesCountLabel.textContent = wrong;
+        } else {
+          retryMistakesBtn.style.display = 'none';
+        }
+      }
+
+      const reviewSection = document.getElementById('reviewSection');
+      if (reviewSection) reviewSection.style.display = 'none';
+      const toggleReviewText = document.getElementById('toggleReviewText');
+      if (toggleReviewText) toggleReviewText.textContent = "📋 Javoblarni batafsil ko'rish";
 
       const reviewContainer = document.getElementById('reviewContainer');
       reviewContainer.innerHTML = '';
@@ -1767,40 +1789,73 @@ ${KATEX_JS}
       });
     }
 
-    document.getElementById('reconfigureBtn').addEventListener('click', () => {
-      wizardStep = 1;
-      wizardTitle.textContent = "1-bosqich: Test Sozlamalari";
-      wizardStepBadge.textContent = "1 / 2 bosqich";
-      step1Container.style.display = 'flex';
-      step2Container.style.display = 'none';
-      wizardBackBtn.style.display = 'none';
-      const btnSpan = wizardNextBtn.querySelector('span');
-      if (btnSpan) btnSpan.textContent = "Keyingisi";
-      const modalBody = document.querySelector('.modal-body');
-      if (modalBody) modalBody.scrollTop = 0;
-      selectMode(selectedQuizMode === 'mistakes' ? 'full' : selectedQuizMode);
-      setupModal.style.display = 'flex';
-    });
+    const retryQuizBtn = document.getElementById('retryQuizBtn');
+    if (retryQuizBtn) {
+      retryQuizBtn.addEventListener('click', () => {
+        currentIndex = 0;
+        userAnswers = {};
+        clearProgress();
+        startTime = Date.now();
+        resultsView.classList.remove('active');
+        quizView.style.display = 'flex';
+        renderQuestion();
+      });
+    }
 
-    document.getElementById('retryMistakesBtn').addEventListener('click', () => {
-      const mistakes = configuredQuestions.filter((q, idx) => userAnswers[idx] !== q.correct);
-      if (mistakes.length === 0) {
-        alert("Tabriklaymiz! Sizda birorta ham xato yo'q!");
-        return;
-      }
-      configuredQuestions = mistakes;
-      currentIndex = 0;
-      userAnswers = {};
-      selectedQuizMode = 'mistakes';
-      startTime = Date.now();
-      resultsView.classList.remove('active');
-      quizView.style.display = 'flex';
-      renderQuestion();
-    });
+    const retryMistakesBtn = document.getElementById('retryMistakesBtn');
+    if (retryMistakesBtn) {
+      retryMistakesBtn.addEventListener('click', () => {
+        const mistakes = configuredQuestions.filter((q, idx) => userAnswers[idx] !== q.correct);
+        if (mistakes.length === 0) {
+          alert("Tabriklaymiz! Sizda birorta ham xato yo'q!");
+          return;
+        }
+        configuredQuestions = mistakes;
+        currentIndex = 0;
+        userAnswers = {};
+        clearProgress();
+        selectedQuizMode = 'mistakes';
+        startTime = Date.now();
+        resultsView.classList.remove('active');
+        quizView.style.display = 'flex';
+        renderQuestion();
+      });
+    }
 
-    document.getElementById('printBtn').addEventListener('click', () => {
-      window.print();
-    });
+    const reconfigureBtn = document.getElementById('reconfigureBtn');
+    if (reconfigureBtn) {
+      reconfigureBtn.addEventListener('click', () => {
+        wizardStep = 1;
+        wizardTitle.textContent = "1-bosqich: Test Sozlamalari";
+        wizardStepBadge.textContent = "1 / 2 bosqich";
+        step1Container.style.display = 'flex';
+        step2Container.style.display = 'none';
+        wizardBackBtn.style.display = 'none';
+        const btnSpan = wizardNextBtn.querySelector('span');
+        if (btnSpan) btnSpan.textContent = "Keyingisi";
+        const modalBody = document.querySelector('.modal-body');
+        if (modalBody) modalBody.scrollTop = 0;
+        selectMode(selectedQuizMode === 'mistakes' ? 'full' : selectedQuizMode);
+        setupModal.style.display = 'flex';
+      });
+    }
+
+    const toggleReviewBtn = document.getElementById('toggleReviewBtn');
+    if (toggleReviewBtn) {
+      toggleReviewBtn.addEventListener('click', () => {
+        const reviewSection = document.getElementById('reviewSection');
+        const toggleReviewText = document.getElementById('toggleReviewText');
+        if (!reviewSection) return;
+        const isHidden = reviewSection.style.display === 'none' || getComputedStyle(reviewSection).display === 'none';
+        if (isHidden) {
+          reviewSection.style.display = 'flex';
+          if (toggleReviewText) toggleReviewText.textContent = "▲ Tahlilni yopish";
+        } else {
+          reviewSection.style.display = 'none';
+          if (toggleReviewText) toggleReviewText.textContent = "📋 Javoblarni batafsil ko'rish";
+        }
+      });
+    }
 
     themeToggle.addEventListener('click', () => {
       const currentTheme = document.body.getAttribute('data-theme');
