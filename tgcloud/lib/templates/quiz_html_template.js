@@ -983,7 +983,9 @@ ${KATEX_JS}
 
             <div class="sub-config-box" id="randomSubConfig" style="display: none;">
               <div class="pills-row" id="randomPillsContainer">
+                <button type="button" class="preset-pill" data-rand="5">5 ta</button>
                 <button type="button" class="preset-pill" data-rand="10">10 ta</button>
+                <button type="button" class="preset-pill" data-rand="15">15 ta</button>
                 <button type="button" class="preset-pill active" data-rand="20">20 ta</button>
                 <button type="button" class="preset-pill" data-rand="30">30 ta</button>
                 <button type="button" class="preset-pill" data-rand="50">50 ta</button>
@@ -1081,15 +1083,26 @@ ${KATEX_JS}
 
     <!-- Results Screen -->
     <div id="resultsView" class="card results-view">
-      <div class="score-hero">
-        <div class="score-circle">
-          <span class="score-value" id="finalPercent">0%</span>
-          <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700;">ANIQLIK</span>
+      <div class="score-hero" style="margin-bottom: 14px;">
+        <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 12px;" id="resultTitle">Sinov Natijasi</h2>
+
+        <!-- Progress line from user image -->
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+            <span style="font-size: 0.92rem; font-weight: 600; color: var(--text);">To'g'ri javoblar</span>
+            <span id="resultRatioText" style="font-size: 1.15rem; font-weight: 800; color: var(--text);">0 / 0</span>
+          </div>
+
+          <div style="width: 100%; height: 10px; background: rgba(239, 68, 68, 0.35); border-radius: 9999px; overflow: hidden; display: flex;">
+            <div id="resultBarCorrect" style="height: 100%; background: var(--success); width: 0%; transition: width 0.4s ease;"></div>
+            <div id="resultBarWrong" style="height: 100%; background: var(--danger); width: 100%; transition: width 0.4s ease;"></div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.84rem; font-weight: 700;">
+            <span id="resultPercentCorrectText" style="color: var(--success);">0% to'g'ri</span>
+            <span id="resultPercentWrongText" style="color: var(--danger);">0% xato</span>
+          </div>
         </div>
-        <h2 style="font-size: 1.4rem; font-weight: 800;" id="resultTitle">Natija</h2>
-        <p style="font-size: 0.88rem; color: var(--text-muted);">
-          Sinov yakunlandi. Quyida natijalaringiz bilan tanishing:
-        </p>
 
         <div class="stats-breakdown">
           <div class="stat-box" style="border-color: rgba(16, 185, 129, 0.3);">
@@ -1107,15 +1120,21 @@ ${KATEX_JS}
         </div>
       </div>
 
+      <!-- Answers Grid from user image -->
+      <div id="answersGridSection" style="margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h3 style="font-size: 0.95rem; font-weight: 800; color: var(--text);">Javoblar tahlili</h3>
+          <span style="font-size: 0.74rem; color: var(--text-muted);">(savolni ko'rish uchun bosing)</span>
+        </div>
+        <div id="answersGrid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;"></div>
+      </div>
+
       <div style="display: flex; flex-direction: column; gap: 8px;">
         <button type="button" id="retryQuizBtn" class="btn btn-primary" style="justify-content: center; padding: 13px;">
-          🔄 Testni qayta ishlash
+          🔄 Qayta ishlash
         </button>
         <button type="button" id="retryMistakesBtn" class="btn btn-secondary" style="border-color: var(--danger); color: var(--danger); justify-content: center; padding: 13px;">
           ❌ Xatolar ustida ishlash (<span id="mistakesCountLabel">0</span> ta xato)
-        </button>
-        <button type="button" id="reconfigureBtn" class="btn btn-secondary" style="justify-content: center; padding: 13px;">
-          ⚙️ Yangi rejimda qayta boshlash
         </button>
         <button type="button" id="toggleReviewBtn" class="btn btn-secondary" style="justify-content: center; margin-top: 4px; padding: 11px;">
           <span id="toggleReviewText">📋 Javoblarni batafsil ko'rish</span>
@@ -1123,7 +1142,7 @@ ${KATEX_JS}
       </div>
 
       <div id="reviewSection" style="margin-top: 14px; display: none; flex-direction: column; gap: 12px;">
-        <h3 style="font-size: 1rem; font-weight: 800;">Savollar tahlili</h3>
+        <h3 style="font-size: 1rem; font-weight: 800;">Batafsil savollar tahlili</h3>
         <div id="reviewContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
       </div>
     </div>
@@ -1484,6 +1503,15 @@ ${KATEX_JS}
     }
 
     function startConfiguredQuiz() {
+      // Synchronize selectedQuizMode with the active card in the DOM
+      if (modeCardRandom && modeCardRandom.classList.contains('active')) {
+        selectedQuizMode = 'random';
+      } else if (modeCardRange && modeCardRange.classList.contains('active')) {
+        selectedQuizMode = 'range';
+      } else if (modeCardFull && modeCardFull.classList.contains('active')) {
+        selectedQuizMode = 'full';
+      }
+
       let pool = [...RAW_QUIZ.questions];
 
       if (selectedQuizMode === 'range') {
@@ -1499,8 +1527,13 @@ ${KATEX_JS}
         rangeConfig = [start, end];
         configuredQuestions = pool.slice(start - 1, end);
       } else if (selectedQuizMode === 'random') {
-        const rawCount = Number(randomCountInput ? randomCountInput.value : randomCountConfig);
-        const count = Math.max(1, Math.min(pool.length, rawCount || 20));
+        let count = 20;
+        if (randomCountInput && randomCountInput.value) {
+          count = Number(randomCountInput.value) || randomCountConfig || 20;
+        } else {
+          count = randomCountConfig || 20;
+        }
+        count = Math.max(1, Math.min(pool.length, count));
         randomCountConfig = count;
         for (let i = pool.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -1741,10 +1774,24 @@ ${KATEX_JS}
         if (userAnswers[idx] === q.correct) correct++;
       });
       const wrong = total - correct;
-      const percent = total > 0 ? Math.round((correct / total) * 100) : 0;
+      const correctPercent = total > 0 ? Math.round((correct / total) * 100) : 0;
+      const wrongPercent = total > 0 ? (100 - correctPercent) : 0;
 
-      const finalPercent = document.getElementById('finalPercent');
-      if (finalPercent) finalPercent.textContent = \`\${percent}%\`;
+      // Update ratio & dual-color progress bar
+      const resultRatioText = document.getElementById('resultRatioText');
+      if (resultRatioText) resultRatioText.textContent = \`\${correct} / \${total}\`;
+
+      const resultBarCorrect = document.getElementById('resultBarCorrect');
+      if (resultBarCorrect) resultBarCorrect.style.width = \`\${correctPercent}%\`;
+
+      const resultBarWrong = document.getElementById('resultBarWrong');
+      if (resultBarWrong) resultBarWrong.style.width = \`\${wrongPercent}%\`;
+
+      const resultPercentCorrectText = document.getElementById('resultPercentCorrectText');
+      if (resultPercentCorrectText) resultPercentCorrectText.textContent = \`\${correctPercent}% to'g'ri\`;
+
+      const resultPercentWrongText = document.getElementById('resultPercentWrongText');
+      if (resultPercentWrongText) resultPercentWrongText.textContent = \`\${wrongPercent}% xato\`;
 
       const statCorrect = document.getElementById('statCorrect');
       if (statCorrect) statCorrect.textContent = correct;
@@ -1771,34 +1818,77 @@ ${KATEX_JS}
       const toggleReviewText = document.getElementById('toggleReviewText');
       if (toggleReviewText) toggleReviewText.textContent = "📋 Javoblarni batafsil ko'rish";
 
+      // Populate Answers Grid (1, 2, 3...)
+      const answersGrid = document.getElementById('answersGrid');
+      if (answersGrid) {
+        answersGrid.innerHTML = '';
+        configuredQuestions.forEach((q, idx) => {
+          const isRight = userAnswers[idx] === q.correct;
+          const tile = document.createElement('button');
+          tile.type = 'button';
+          tile.textContent = idx + 1;
+          tile.style.cssText = \`
+            padding: 10px 4px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: 1px solid \${isRight ? 'rgba(16, 185, 129, 0.4)' : 'rgba(239, 68, 68, 0.4)'};
+            background: \${isRight ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)'};
+            color: \${isRight ? 'var(--success)' : 'var(--danger)'};
+            cursor: pointer;
+            transition: all 0.2s ease;
+          \`;
+          tile.addEventListener('click', () => {
+            if (reviewSection) reviewSection.style.display = 'flex';
+            if (toggleReviewText) toggleReviewText.textContent = "▲ Tahlilni yopish";
+            const itemEl = document.getElementById('review-item-' + idx);
+            if (itemEl) {
+              itemEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              itemEl.style.boxShadow = '0 0 0 2px var(--accent)';
+              setTimeout(() => { itemEl.style.boxShadow = 'none'; }, 1500);
+            }
+          });
+          answersGrid.appendChild(tile);
+        });
+      }
+
       const reviewContainer = document.getElementById('reviewContainer');
-      reviewContainer.innerHTML = '';
-      configuredQuestions.forEach((q, idx) => {
-        const isRight = userAnswers[idx] === q.correct;
-        const div = document.createElement('div');
-        div.style.cssText = \`padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid \${isRight ? 'var(--success)' : 'var(--danger)'};\`;
-        const origLabel = q.originalIndex ? \` <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">(Asl #\${q.originalIndex})</span>\` : '';
-        div.innerHTML = \`
-          <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">\${idx + 1}. \${formatMathText(q.question)}\${origLabel}</div>
-          <div style="font-size: 0.82rem; color: \${isRight ? 'var(--success)' : 'var(--danger)'};">
-            Sizning javobingiz: \${userAnswers[idx] !== undefined ? formatMathText(q.options[userAnswers[idx]]) : "Belgilanmagan"}
-          </div>
-          \${!isRight ? \`<div style="font-size: 0.82rem; color: var(--success); margin-top: 2px;">To'g'ri javob: \${formatMathText(q.options[q.correct])}</div>\` : ''}
-        \`;
-        reviewContainer.appendChild(div);
-      });
+      if (reviewContainer) {
+        reviewContainer.innerHTML = '';
+        configuredQuestions.forEach((q, idx) => {
+          const isRight = userAnswers[idx] === q.correct;
+          const div = document.createElement('div');
+          div.id = 'review-item-' + idx;
+          div.style.cssText = \`padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid \${isRight ? 'var(--success)' : 'var(--danger)'}; transition: box-shadow 0.3s ease;\`;
+          const origLabel = q.originalIndex ? \` <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">(Asl #\${q.originalIndex})</span>\` : '';
+          div.innerHTML = \`
+            <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">\${idx + 1}. \${formatMathText(q.question)}\${origLabel}</div>
+            <div style="font-size: 0.82rem; color: \${isRight ? 'var(--success)' : 'var(--danger)'};">
+              Sizning javobingiz: \${userAnswers[idx] !== undefined ? formatMathText(q.options[userAnswers[idx]]) : "Belgilanmagan"}
+            </div>
+            \${!isRight ? \`<div style="font-size: 0.82rem; color: var(--success); margin-top: 2px;">To'g'ri javob: \${formatMathText(q.options[q.correct])}</div>\` : ''}
+          \`;
+          reviewContainer.appendChild(div);
+        });
+      }
     }
 
     const retryQuizBtn = document.getElementById('retryQuizBtn');
     if (retryQuizBtn) {
       retryQuizBtn.addEventListener('click', () => {
-        currentIndex = 0;
-        userAnswers = {};
-        clearProgress();
-        startTime = Date.now();
+        wizardStep = 1;
+        wizardTitle.textContent = "1-bosqich: Test Sozlamalari";
+        wizardStepBadge.textContent = "1 / 2 bosqich";
+        step1Container.style.display = 'flex';
+        step2Container.style.display = 'none';
+        wizardBackBtn.style.display = 'none';
+        const btnSpan = wizardNextBtn.querySelector('span');
+        if (btnSpan) btnSpan.textContent = "Keyingisi";
+        const modalBody = document.querySelector('.modal-body');
+        if (modalBody) modalBody.scrollTop = 0;
+        selectMode(selectedQuizMode === 'mistakes' ? 'full' : selectedQuizMode);
         resultsView.classList.remove('active');
-        quizView.style.display = 'flex';
-        renderQuestion();
+        setupModal.style.display = 'flex';
       });
     }
 
@@ -1819,24 +1909,6 @@ ${KATEX_JS}
         resultsView.classList.remove('active');
         quizView.style.display = 'flex';
         renderQuestion();
-      });
-    }
-
-    const reconfigureBtn = document.getElementById('reconfigureBtn');
-    if (reconfigureBtn) {
-      reconfigureBtn.addEventListener('click', () => {
-        wizardStep = 1;
-        wizardTitle.textContent = "1-bosqich: Test Sozlamalari";
-        wizardStepBadge.textContent = "1 / 2 bosqich";
-        step1Container.style.display = 'flex';
-        step2Container.style.display = 'none';
-        wizardBackBtn.style.display = 'none';
-        const btnSpan = wizardNextBtn.querySelector('span');
-        if (btnSpan) btnSpan.textContent = "Keyingisi";
-        const modalBody = document.querySelector('.modal-body');
-        if (modalBody) modalBody.scrollTop = 0;
-        selectMode(selectedQuizMode === 'mistakes' ? 'full' : selectedQuizMode);
-        setupModal.style.display = 'flex';
       });
     }
 
