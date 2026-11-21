@@ -1083,40 +1083,46 @@ ${KATEX_JS}
 
     <!-- Results Screen -->
     <div id="resultsView" class="card results-view">
-      <div class="score-hero" style="margin-bottom: 14px;">
-        <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 12px;" id="resultTitle">Sinov Natijasi</h2>
+      <!-- 1. Yuqorida doira ichida umumiy foiz -->
+      <div class="score-hero" style="margin-bottom: 14px; padding: 12px 0 6px;">
+        <div class="score-circle" id="scoreCircle">
+          <span class="score-value" id="finalPercent">0%</span>
+          <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; position: relative; z-index: 2;">ANIQLIK</span>
+        </div>
+        <h2 style="font-size: 1.3rem; font-weight: 800; margin-top: 4px;" id="resultTitle">Natija</h2>
+      </div>
 
-        <!-- Progress line from user image -->
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
-            <span style="font-size: 0.92rem; font-weight: 600; color: var(--text);">To'g'ri javoblar</span>
-            <span id="resultRatioText" style="font-size: 1.15rem; font-weight: 800; color: var(--text);">0 / 0</span>
-          </div>
+      <!-- 2. Pastida to'g'ri, noto'g'ri, jami sonlari -->
+      <div class="stats-breakdown" style="margin-bottom: 14px;">
+        <div class="stat-box" style="border-color: rgba(16, 185, 129, 0.3);">
+          <h4 style="color: var(--success);" id="statCorrect">0</h4>
+          <p>To'g'ri</p>
+        </div>
+        <div class="stat-box" style="border-color: rgba(239, 68, 68, 0.3);">
+          <h4 style="color: var(--danger);" id="statWrong">0</h4>
+          <p>Noto'g'ri</p>
+        </div>
+        <div class="stat-box" style="border-color: rgba(99, 102, 241, 0.3);">
+          <h4 style="color: var(--accent);" id="statTotal">0</h4>
+          <p>Jami savol</p>
+        </div>
+      </div>
 
-          <div style="width: 100%; height: 10px; background: rgba(239, 68, 68, 0.35); border-radius: 9999px; overflow: hidden; display: flex;">
-            <div id="resultBarCorrect" style="height: 100%; background: var(--success); width: 0%; transition: width 0.4s ease;"></div>
-            <div id="resultBarWrong" style="height: 100%; background: var(--danger); width: 100%; transition: width 0.4s ease;"></div>
-          </div>
-
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.84rem; font-weight: 700;">
-            <span id="resultPercentCorrectText" style="color: var(--success);">0% to'g'ri</span>
-            <span id="resultPercentWrongText" style="color: var(--danger);">0% xato</span>
-          </div>
+      <!-- 3. Uning pastida progress ko'rsatkichi -->
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+          <span style="font-size: 0.92rem; font-weight: 600; color: var(--text);">To'g'ri javoblar</span>
+          <span id="resultRatioText" style="font-size: 1.15rem; font-weight: 800; color: var(--text);">0 / 0</span>
         </div>
 
-        <div class="stats-breakdown">
-          <div class="stat-box" style="border-color: rgba(16, 185, 129, 0.3);">
-            <h4 style="color: var(--success);" id="statCorrect">0</h4>
-            <p>To'g'ri</p>
-          </div>
-          <div class="stat-box" style="border-color: rgba(239, 68, 68, 0.3);">
-            <h4 style="color: var(--danger);" id="statWrong">0</h4>
-            <p>Noto'g'ri</p>
-          </div>
-          <div class="stat-box" style="border-color: rgba(99, 102, 241, 0.3);">
-            <h4 style="color: var(--accent);" id="statTotal">0</h4>
-            <p>Jami savol</p>
-          </div>
+        <div style="width: 100%; height: 10px; background: rgba(239, 68, 68, 0.35); border-radius: 9999px; overflow: hidden; display: flex;">
+          <div id="resultBarCorrect" style="height: 100%; background: var(--success); width: 0%; transition: width 0.4s ease;"></div>
+          <div id="resultBarWrong" style="height: 100%; background: var(--danger); width: 100%; transition: width 0.4s ease;"></div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.84rem; font-weight: 700;">
+          <span id="resultPercentCorrectText" style="color: var(--success);">0% to'g'ri</span>
+          <span id="resultPercentWrongText" style="color: var(--danger);">0% xato</span>
         </div>
       </div>
 
@@ -1801,6 +1807,15 @@ ${KATEX_JS}
 
       const statTotal = document.getElementById('statTotal');
       if (statTotal) statTotal.textContent = total;
+
+      const finalPercent = document.getElementById('finalPercent');
+      if (finalPercent) finalPercent.textContent = \`\${correctPercent}%\`;
+
+      const scoreCircle = document.getElementById('scoreCircle');
+      if (scoreCircle) {
+        const angle = Math.round((correctPercent / 100) * 360);
+        scoreCircle.style.setProperty('--score-angle', \`\${angle}deg\`);
+      }
 
       const retryMistakesBtn = document.getElementById('retryMistakesBtn');
       const mistakesCountLabel = document.getElementById('mistakesCountLabel');
