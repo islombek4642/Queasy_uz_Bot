@@ -23,6 +23,7 @@ export const ACTIONS = {
   REVIEW_MISTAKES_PREFIX: 'rev_mistakes:',
   CLEAR_MISTAKES_PREFIX: 'clear_mistakes:',
   RESUME_QUIZ_PREFIX: 'resume_quiz:',
+  DOWNLOAD_HTML_PREFIX: 'dl_html:',
 
   // Group Multiplayer Lobby
   LOBBY_JOIN_PREFIX: 'join_lobby:',

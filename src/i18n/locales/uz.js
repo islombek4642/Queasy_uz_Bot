@@ -114,6 +114,8 @@ export default {
   DELETE_QUIZ_TITLE: 'Testni O\'chirish',
   BTN_INSPECT: 'Savollar',
   BTN_EDIT: 'Tahrirlash',
+  BTN_DOWNLOAD_HTML: 'Oflayn test (HTML)',
+  DOWNLOAD_HTML_SUCCESS: 'Oflayn test fayli muvaffaqiyatli yuklab olindi!',
   CONFIRM_DELETE_TITLE: 'Testni o\'chirish',
   CONFIRM_DELETE_MSG: 'Haqiqatan ham "{title}" testini butunlay o\'chirmoqchimisiz? Bu amalni ortga qaytarib bo\'lmaydi.',
   BTN_CONFIRM_DELETE: 'Ha, o\'chirilsin',

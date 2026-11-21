@@ -33,7 +33,15 @@ export function getQuizCardKeyboard(quiz, lang = 'UZ', isOwner = true, hasMistak
     },
   ]);
 
-  // 3. Share button
+  // 3. Offline HTML Download button
+  inline_keyboard.push([
+    {
+      text: getMessage('BTN_DOWNLOAD_HTML', lang),
+      callback_data: `${ACTIONS.DOWNLOAD_HTML_PREFIX}${quiz.id}`,
+    },
+  ]);
+
+  // 4. Share button
   inline_keyboard.push([
     {
       text: getMessage('BTN_SHARE_QUIZ', lang),

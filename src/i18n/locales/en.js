@@ -114,6 +114,8 @@ export default {
   DELETE_QUIZ_TITLE: 'Delete Quiz',
   BTN_INSPECT: 'Questions',
   BTN_EDIT: 'Edit',
+  BTN_DOWNLOAD_HTML: 'Offline Quiz (HTML)',
+  DOWNLOAD_HTML_SUCCESS: 'Offline quiz file downloaded successfully!',
   CONFIRM_DELETE_TITLE: 'Delete Quiz',
   CONFIRM_DELETE_MSG: 'Are you sure you want to permanently delete "{title}"? This cannot be undone.',
   BTN_CONFIRM_DELETE: 'Yes, Delete',

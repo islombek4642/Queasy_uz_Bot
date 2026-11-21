@@ -1,13 +1,14 @@
 // tgcloud/handlers/callback_query.js
 // Handles all incoming Telegram callback queries
 
-import { api, db } from 'sdk';
+import { api, db, InputFile } from 'sdk';
 import { eq, and, like } from 'sdk/db';
 import { quizSessions, quizzes as quizzesTable, categories as categoriesTable } from '../schema.js';
 import { CONFIG } from '../lib/constants/config.js';
 import { ACTIONS, STATES } from '../lib/constants/actions.js';
 import { getMessage } from '../lib/constants/messages.js';
 import turso from '../lib/turso_client.js';
+import { generateQuizHtml } from '../lib/templates/quiz_html_template.js';
 
 import {
   getUser,
@@ -951,7 +952,61 @@ export default async function (callbackQuery, ctx) {
     return;
   }
 
-  // 17. Admin Panel Actions
+  // 17. Offline HTML Download
+  if (data.startsWith(ACTIONS.DOWNLOAD_HTML_PREFIX)) {
+    const quizId = parseInt(data.replace(ACTIONS.DOWNLOAD_HTML_PREFIX, ''), 10);
+    const quiz = await getQuizById(quizId);
+
+    if (!quiz) {
+      await answer(getMessage('ERR_NOT_FOUND', lang), true);
+      return;
+    }
+
+    const isOwner = Number(quiz.ownerId) === Number(userId);
+    if (!quiz.isPublic && !isOwner && !isAdmin) {
+      await answer(getMessage('ERR_NOT_FOUND', lang), true);
+      return;
+    }
+
+    await answer(getMessage('DOWNLOADING_HTML_FILE', lang));
+
+    try {
+      const htmlString = generateQuizHtml({
+        quiz,
+        questions: quiz.questions || [],
+      });
+
+      const bytes = new TextEncoder().encode(htmlString);
+      const safeTitle = (quiz.title || 'test')
+        .replace(/[^a-zA-Z0-9а-яА-ЯёЁўқғҳЎҚҒҲ\s_-]/g, '')
+        .trim()
+        .replace(/\s+/g, '_')
+        .slice(0, 40) || `quiz_${quiz.id}`;
+      const filename = `${safeTitle}.html`;
+
+      const caption = getMessage('HTML_CAPTION', lang, {
+        title: escapeHtml(quiz.title || 'Quiz'),
+        count: quiz.questions?.length || 0,
+        time: quiz.timeLimit || 30,
+      });
+
+      await api.sendDocument({
+        chat_id: chatId,
+        document: new InputFile(bytes, filename, { type: 'text/html' }),
+        caption,
+        parse_mode: 'HTML',
+      });
+    } catch (err) {
+      console.error('Failed to generate or send HTML test file:', err);
+      await api.sendMessage({
+        chat_id: chatId,
+        text: '❌ Xatolik yuz berdi. Iltimos qaytadan urinib ko\'ring.',
+      });
+    }
+    return;
+  }
+
+  // 18. Admin Panel Actions
   if (isAdmin) {
     if (data === ACTIONS.ADMIN_MENU) {
       await answer();

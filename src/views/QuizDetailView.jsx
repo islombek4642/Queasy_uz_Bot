@@ -10,6 +10,7 @@ import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { Pagination } from '../components/common/Pagination.jsx';
 import { MathText } from '../components/quiz/MathText.jsx';
+import { downloadQuizAsHtml } from '../utils/quizHtmlGenerator.js';
 
 export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
   const { t } = useTranslation();
@@ -114,7 +115,19 @@ export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
           <span>{t('BTN_EXIT')}</span>
         </button>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          <Button
+            size="sm"
+            variant="secondary"
+            icon="solar:download-square-bold"
+            onClick={() => {
+              haptic.notification('success');
+              downloadQuizAsHtml(quiz, questions);
+            }}
+          >
+            {t('BTN_DOWNLOAD_HTML')}
+          </Button>
+
           {onEditQuiz && (
             <Button
               size="sm"

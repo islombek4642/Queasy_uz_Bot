@@ -114,6 +114,8 @@ export default {
   DELETE_QUIZ_TITLE: 'Удалить тест',
   BTN_INSPECT: 'Вопросы',
   BTN_EDIT: 'Изменить',
+  BTN_DOWNLOAD_HTML: 'Офлайн тест (HTML)',
+  DOWNLOAD_HTML_SUCCESS: 'Офлайн файл теста успешно скачан!',
   CONFIRM_DELETE_TITLE: 'Удаление теста',
   CONFIRM_DELETE_MSG: 'Вы уверены, что хотите удалить тест "{title}"? Это действие нельзя отменить.',
   BTN_CONFIRM_DELETE: 'Да, удалить',
