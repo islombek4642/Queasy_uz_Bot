@@ -110,6 +110,8 @@ ${KATEX_JS}
       padding: 0;
       font-family: var(--font-family);
       -webkit-tap-highlight-color: transparent;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
 
     body {
@@ -293,10 +295,20 @@ ${KATEX_JS}
       color: var(--success) !important;
     }
 
+    .option-item.correct .option-letter {
+      background: var(--success) !important;
+      color: #fff !important;
+    }
+
     .option-item.wrong {
       background: var(--danger-bg) !important;
       border-color: var(--danger) !important;
       color: var(--danger) !important;
+    }
+
+    .option-item.wrong .option-letter {
+      background: var(--danger) !important;
+      color: #fff !important;
     }
 
     .option-letter {
@@ -321,6 +333,9 @@ ${KATEX_JS}
       font-size: 0.95rem;
       line-height: 1.4;
       flex: 1;
+      min-width: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .explanation-box {
@@ -504,13 +519,32 @@ ${KATEX_JS}
       display: flex;
       flex-direction: column;
       gap: 8px;
+      max-width: 100%;
+      overflow: hidden;
     }
 
     .info-row {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
       font-size: 0.88rem;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .info-row > div {
+      min-width: 0;
+      flex: 1;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    #modalQuizTitle {
+      font-weight: 800;
+      color: var(--text);
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      line-height: 1.4;
     }
 
     .info-icon {
@@ -800,12 +834,29 @@ ${KATEX_JS}
       <div class="modal-body">
         <!-- STEP 1 -->
         <div id="step1Container" style="display: flex; flex-direction: column; gap: 16px;">
+          <div id="resumeProgressBox" style="display: none; background: var(--accent-glow); border: 1.5px solid var(--accent); border-radius: var(--radius-sm); padding: 14px; flex-direction: column; gap: 8px;">
+            <div style="font-weight: 800; font-size: 0.95rem; color: var(--accent); display: flex; align-items: center; gap: 6px;">
+              <span>⚡</span> <span>Davom ettirish mumkin!</span>
+            </div>
+            <div style="font-size: 0.84rem; color: var(--text); line-height: 1.4;">
+              Siz ushbu testni oldin boshlagansiz: <b id="resumeQuestionNum">#1</b>-savolgacha (<span id="resumeAnsweredCount">0</span> ta javob belgilangan).
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 4px;">
+              <button type="button" id="resumeQuizBtn" class="btn btn-primary" style="flex: 1; padding: 10px; font-size: 0.85rem;">
+                ▶️ Kelgan joydan davom etish
+              </button>
+              <button type="button" id="discardResumeBtn" class="btn btn-secondary" style="padding: 10px; font-size: 0.85rem;">
+                🔄 Yangidan boshlash
+              </button>
+            </div>
+          </div>
+
           <div class="info-summary-box">
             <div class="info-row">
               <span class="info-icon">📌</span>
-              <div>
+              <div style="min-width: 0; flex: 1;">
                 <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Nomi</div>
-                <div id="modalQuizTitle" style="font-weight: 800; color: var(--text);">
+                <div id="modalQuizTitle" style="font-weight: 800; color: var(--text); overflow-wrap: anywhere; word-break: break-word; line-height: 1.4;">
                   ${safeTitle}
                 </div>
               </div>
@@ -1131,6 +1182,39 @@ ${KATEX_JS}
       }).join('');
     }
 
+    const safeStorageId = (RAW_QUIZ.id ? String(RAW_QUIZ.id) : (RAW_QUIZ.title || 'quiz')).replace(/[^a-zA-Z0-9_-]/g, '_');
+    const STORAGE_KEY = 'queasy_prog_' + safeStorageId;
+
+    function saveProgress() {
+      try {
+        const data = {
+          currentIndex: currentIndex,
+          userAnswers: userAnswers,
+          selectedTimeLimit: selectedTimeLimit,
+          configuredQuestions: configuredQuestions,
+          startTime: startTime,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    function clearProgress() {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {}
+    }
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    }
+
     let configuredQuestions = [];
     let selectedTimeLimit = RAW_QUIZ.timeLimit || 30;
     let selectedQuizMode = 'full';
@@ -1140,7 +1224,6 @@ ${KATEX_JS}
     let wizardStep = 1;
     let currentIndex = 0;
     let userAnswers = {};
-    let practiceMode = 'exam';
     let timer = selectedTimeLimit;
     let timerInterval = null;
     let startTime = Date.now();
@@ -1189,6 +1272,46 @@ ${KATEX_JS}
     const themeToggle = document.getElementById('themeToggle');
 
     function initWizard() {
+      const resumeProgressBox = document.getElementById('resumeProgressBox');
+      const resumeQuestionNum = document.getElementById('resumeQuestionNum');
+      const resumeAnsweredCount = document.getElementById('resumeAnsweredCount');
+      const resumeQuizBtn = document.getElementById('resumeQuizBtn');
+      const discardResumeBtn = document.getElementById('discardResumeBtn');
+
+      const saved = loadProgress();
+      if (saved && typeof saved.currentIndex === 'number' && saved.configuredQuestions && saved.configuredQuestions.length > 0 && Object.keys(saved.userAnswers || {}).length > 0) {
+        if (resumeProgressBox) {
+          resumeProgressBox.style.display = 'flex';
+          if (resumeQuestionNum) resumeQuestionNum.textContent = '#' + (saved.currentIndex + 1);
+          if (resumeAnsweredCount) resumeAnsweredCount.textContent = Object.keys(saved.userAnswers).length;
+        }
+      }
+
+      if (resumeQuizBtn) {
+        resumeQuizBtn.addEventListener('click', () => {
+          const savedData = loadProgress();
+          if (savedData && savedData.configuredQuestions && savedData.configuredQuestions.length > 0) {
+            configuredQuestions = savedData.configuredQuestions;
+            currentIndex = savedData.currentIndex || 0;
+            userAnswers = savedData.userAnswers || {};
+            selectedTimeLimit = savedData.selectedTimeLimit || selectedTimeLimit;
+            startTime = savedData.startTime || Date.now();
+
+            setupModal.style.display = 'none';
+            resultsView.classList.remove('active');
+            quizView.style.display = 'flex';
+            renderQuestion();
+          }
+        });
+      }
+
+      if (discardResumeBtn) {
+        discardResumeBtn.addEventListener('click', () => {
+          clearProgress();
+          if (resumeProgressBox) resumeProgressBox.style.display = 'none';
+        });
+      }
+
       modalQuizTitle.textContent = RAW_QUIZ.title;
       modalQuizCount.textContent = \`\${RAW_QUIZ.totalQuestions} ta savol\`;
       modalQuizTime.textContent = \`\${RAW_QUIZ.timeLimit} soniya\`;
@@ -1333,6 +1456,8 @@ ${KATEX_JS}
       userAnswers = {};
       timer = selectedTimeLimit;
       startTime = Date.now();
+      clearProgress();
+      saveProgress();
 
       setupModal.style.display = 'none';
       resultsView.classList.remove('active');
@@ -1412,7 +1537,7 @@ ${KATEX_JS}
           item.classList.add('selected');
         }
 
-        if (practiceMode === 'practice' && hasAnswered) {
+        if (hasAnswered) {
           if (idx === q.correct) {
             item.classList.add('correct');
           } else if (selectedAns === idx) {
@@ -1428,27 +1553,33 @@ ${KATEX_JS}
         \`;
 
         item.addEventListener('click', () => {
-          if (practiceMode === 'practice' && hasAnswered) return;
+          if (hasAnswered) return;
           userAnswers[currentIndex] = idx;
+          saveProgress();
           renderQuestion();
         });
 
         optionsContainer.appendChild(item);
       });
 
-      if (practiceMode === 'practice' && hasAnswered && q.explanation) {
+      if (hasAnswered && q.explanation) {
         explanationText.innerHTML = formatMathText(q.explanation);
         explanationBox.classList.add('show');
       } else {
         explanationBox.classList.remove('show');
       }
 
-      startTimer();
+      if (!hasAnswered) {
+        startTimer();
+      } else {
+        clearInterval(timerInterval);
+      }
     }
 
     function nextQuestion() {
       if (currentIndex < configuredQuestions.length - 1) {
         currentIndex++;
+        saveProgress();
         renderQuestion();
       } else {
         finishQuiz();
@@ -1458,6 +1589,7 @@ ${KATEX_JS}
     prevBtn.addEventListener('click', () => {
       if (currentIndex > 0) {
         currentIndex--;
+        saveProgress();
         renderQuestion();
       }
     });
@@ -1471,6 +1603,7 @@ ${KATEX_JS}
 
     function finishQuiz() {
       clearInterval(timerInterval);
+      clearProgress();
       quizView.style.display = 'none';
       resultsView.classList.add('active');
 

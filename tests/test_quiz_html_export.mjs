@@ -55,11 +55,14 @@ assert.ok(html.includes('id="prevBtn"'), 'HTML must have previous button');
 assert.ok(html.includes('id="nextBtn"'), 'HTML must have next button');
 assert.ok(html.includes('id="finishBtn"'), 'HTML must have finish button');
 assert.ok(html.includes('id="katex-lib"'), 'HTML must have embedded KaTeX library for offline math');
+assert.ok(html.includes('id="resumeProgressBox"'), 'HTML must have resume progress banner');
+assert.ok(html.includes('overflow-wrap: anywhere'), 'HTML must have robust word break to prevent text overflow');
 assert.ok(!html.includes('questionPalette'), 'HTML must NOT have old question palette map');
 
 // Verify that JS inside HTML executes without errors in mock browser environment
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
 assert.ok(scriptMatch, 'HTML must contain a <script> block');
+assert.ok(scriptMatch[1].includes('STORAGE_KEY'), 'HTML script must contain localStorage progress tracking');
 
 const mockBrowser = `
   const el = () => ({
@@ -83,6 +86,11 @@ const mockBrowser = `
   const window = { print: () => {} };
   const alert = () => {};
   const confirm = () => true;
+  const localStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {}
+  };
 `;
 
 new Function(mockBrowser + scriptMatch[1])();
