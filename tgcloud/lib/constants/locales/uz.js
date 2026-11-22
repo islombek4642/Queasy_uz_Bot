@@ -155,7 +155,7 @@ export default {
 
   // Admin Dashboard & Broadcast
   ADMIN_WELCOME: '👑 <b>Administrator Paneli</b>\n\nKerakli bo\'limni tanlang:',
-  ADMIN_STATS_TITLE: '📊 <b>Bot Statistikasi:</b>\n\n👥 <b>Jami foydalanuvchilar:</b> {users} ta\n🆕 <b>Bugun qo\'shilganlar:</b> {todayUsers} ta\n👥 <b>Ulangan guruhlar:</b> {groups} ta\n📚 <b>Jami testlar:</b> {quizzes} ta\n📝 <b>Bajarilgan sessiyalar:</b> {sessions} ta\n\n🎯 <b>Hozirda faol testlar:</b> {activeTotal} ta\n• 👥 Guruhlarda: <b>{activeGroup}</b> ta\n• 👤 Shaxsiy chatda: <b>{activePrivate}</b> ta',
+  ADMIN_STATS_TITLE: '📊 <b>Bot Statistikasi:</b>\n\n👥 <b>Jami foydalanuvchilar:</b> {users} ta\n🆕 <b>Bugun qo\'shilganlar:</b> {todayUsers} ta\n👥 <b>Ulangan guruhlar:</b> {groups} ta\n📚 <b>Jami testlar:</b> {quizzes} ta\n📝 <b>Bajarilgan sessiyalar:</b> {sessions} ta\n\n🎯 <b>Hozirda faol testlar:</b> {activeTotal} ta\n\n🤖 <b>Bot orqali:</b>\n• 👤 Shaxsiy chatda: <b>{botPrivate}</b> ta\n• 👥 Guruhlarda: <b>{botGroup}</b> ta\n\n📱 <b>WebApp orqali:</b>\n• 👤 Shaxsiy (Solo test): <b>{webappSolo}</b> ta\n• 👥 Guruhda (Live Battle): <b>{webappLive}</b> ta',
   BTN_ADMIN_STATS: '📊 Statistika',
   BTN_ADMIN_BROADCAST: '📢 Xabar tarqatish',
   BTN_ADMIN_USERS: '👥 Foydalanuvchilar',

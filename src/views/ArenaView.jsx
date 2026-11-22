@@ -6,6 +6,7 @@ import { useTelegram } from '../hooks/useTelegram.js';
 import { useQuizTimer } from '../hooks/useQuizTimer.js';
 import {
   fetchQuizDetail,
+  startSoloSession,
   submitSoloResult,
   submitTournamentResult,
   fetchLiveRoomState,
@@ -29,6 +30,7 @@ export function ArenaView({
   mode = 'full',
   range = null,
   randomCount = null,
+  timeLimit: customTimeLimit = null,
   tournamentShareCode = null,
   liveRoomCode = null,
   onExit,
@@ -64,6 +66,7 @@ export function ArenaView({
   const consecutiveMissesRef = useRef(0);
   const failedQuestionsRef = useRef([]);
   const resolvedMistakeIdsRef = useRef([]);
+  const sessionIdRef = useRef(null);
 
   // Live battle 3-2-1 countdown
   useEffect(() => {
@@ -162,7 +165,10 @@ export function ArenaView({
     try {
       const data = await fetchQuizDetail(quizId);
       if (data && data.quiz && data.questions?.length > 0) {
-        setQuiz(data.quiz);
+        setQuiz({
+          ...data.quiz,
+          timeLimit: Number(customTimeLimit) > 0 ? Number(customTimeLimit) : (data.quiz.timeLimit || 30),
+        });
         let pool = [...data.questions];
 
         if (mode === 'range' && Array.isArray(range) && range.length === 2) {
@@ -188,13 +194,24 @@ export function ArenaView({
         });
 
         setQuestions(preparedQuestions);
+        if (!liveRoomCode && !tournamentShareCode) {
+          startSoloSession({
+            quizId: data.quiz?.id || quizId || 0,
+            mode: Boolean(customQuestions) ? 'mistakes' : mode,
+            totalQuestions: preparedQuestions.length,
+          }).then((res) => {
+            if (res?.sessionId) {
+              sessionIdRef.current = res.sessionId;
+            }
+          }).catch(() => {});
+        }
       }
     } catch (err) {
       console.error('Failed to load quiz:', err);
     } finally {
       setLoading(false);
     }
-  }, [quizId, customQuestions, customTitle, mode, range, randomCount, liveRoomCode, t]);
+  }, [quizId, customQuestions, customTitle, mode, range, randomCount, customTimeLimit, liveRoomCode, t]);
 
   useEffect(() => {
     loadQuiz();
@@ -202,7 +219,7 @@ export function ArenaView({
 
   // Current question data
   const currentQ = questions[currentIndex];
-  const timeLimit = quiz?.timeLimit || 30;
+  const timeLimit = Number(customTimeLimit) > 0 ? Number(customTimeLimit) : (quiz?.timeLimit || 30);
   const totalCount = liveRoomCode ? liveTotalQuestions : questions.length;
 
   // Next question step
@@ -273,6 +290,7 @@ export function ArenaView({
         });
       } else {
         submitSoloResult({
+          sessionId: sessionIdRef.current,
           quizId: quizId || 0,
           isMistakesMode: Boolean(customQuestions),
           mode: Boolean(customQuestions) ? 'mistakes' : mode,

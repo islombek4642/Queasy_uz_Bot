@@ -2,6 +2,7 @@
 // Serverless endpoint names matching tgcloud/endpoints/<name>.js
 export const EP_GET_INITIAL_DATA = 'get_initial_data';
 export const EP_GET_QUIZ_DETAIL = 'get_quiz_detail';
+export const EP_START_SOLO_SESSION = 'start_solo_session';
 export const EP_SUBMIT_SOLO_RESULT = 'submit_solo_result';
 export const EP_SAVE_QUIZ = 'save_quiz';
 export const EP_DELETE_QUIZ = 'delete_quiz';

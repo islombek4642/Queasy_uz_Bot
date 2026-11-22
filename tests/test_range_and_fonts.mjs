@@ -3,10 +3,12 @@ import assert from 'assert';
 
 console.log('Testing Range Mode, KaTeX Fonts, and Results Page UX in exported HTML...');
 
-const desktopFile = 'C:/Users/Islombek/Desktop/NAMANGAN_MATHEMATICS_FOR_ECONOMICS_2_UZ_.html';
-const html = fs.existsSync(desktopFile) 
-  ? fs.readFileSync(desktopFile, 'utf8') 
-  : fs.readFileSync('NAMANGAN_MATHEMATICS_FOR_ECONOMICS_2_UZ_.html', 'utf8');
+const desktopHtmls = fs.existsSync('C:/Users/Islombek/Desktop')
+  ? fs.readdirSync('C:/Users/Islombek/Desktop').filter(f => f.endsWith('.html')).map(f => `C:/Users/Islombek/Desktop/${f}`)
+  : [];
+
+const targetFile = desktopHtmls.find(f => fs.existsSync(f)) || 'scratch/demo_offline_quiz.html';
+const html = fs.readFileSync(targetFile, 'utf8');
 
 // 1. Fonts & KaTeX
 const relativeFonts = (html.match(/url\(fonts\//g) || []).length;

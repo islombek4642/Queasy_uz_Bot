@@ -155,7 +155,7 @@ export default {
 
   // Admin Dashboard & Broadcast
   ADMIN_WELCOME: '👑 <b>Admin Dashboard</b>\n\nSelect an option:',
-  ADMIN_STATS_TITLE: '📊 <b>Bot Statistics:</b>\n\n👥 <b>Total users:</b> {users}\n🆕 <b>Joined today:</b> {todayUsers}\n👥 <b>Connected groups:</b> {groups}\n📚 <b>Total quizzes:</b> {quizzes}\n📝 <b>Completed sessions:</b> {sessions}\n\n🎯 <b>Active quiz sessions now:</b> {activeTotal}\n• 👥 In groups: <b>{activeGroup}</b>\n• 👤 In private chat: <b>{activePrivate}</b>',
+  ADMIN_STATS_TITLE: '📊 <b>Bot Statistics:</b>\n\n👥 <b>Total users:</b> {users}\n🆕 <b>Joined today:</b> {todayUsers}\n👥 <b>Connected groups:</b> {groups}\n📚 <b>Total quizzes:</b> {quizzes}\n📝 <b>Completed sessions:</b> {sessions}\n\n🎯 <b>Active quiz sessions now:</b> {activeTotal}\n\n🤖 <b>Via Bot:</b>\n• 👤 In private chat: <b>{botPrivate}</b>\n• 👥 In groups: <b>{botGroup}</b>\n\n📱 <b>Via WebApp:</b>\n• 👤 Solo quiz: <b>{webappSolo}</b>\n• 👥 In groups (Live Battle): <b>{webappLive}</b>',
   BTN_ADMIN_STATS: '📊 Statistics',
   BTN_ADMIN_BROADCAST: '📢 Broadcast',
   BTN_ADMIN_USERS: '👥 Users',

@@ -7,7 +7,7 @@ import turso from '../lib/turso_client.js';
 
 export default async function (input, ctx) {
   const tgUser = ctx?.initData?.user;
-  const userId = Number(tgUser?.id) || 0;
+  const userId = Number(tgUser?.id) || Number(input?.userId) || 0;
   if (!userId) {
     return { success: false, error: 'UNAUTHORIZED' };
   }
@@ -27,14 +27,24 @@ export default async function (input, ctx) {
   }
 
   let tursoSessionId = null;
+  const passedSessionId = parseInt(input?.sessionId, 10) || null;
+
   if (CONFIG.TURSO?.ENABLED) {
     try {
       const mode = isMistakesMode ? 'mistakes' : (input?.mode || 'full');
-      const insRes = await turso.run(
-        'INSERT INTO quiz_sessions (quiz_id, chat_id, user_id, is_group, mode, current_index, total_questions, correct_count, wrong_count, is_active, started_at) VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?, 0, unixepoch())',
-        [isMistakesMode ? 0 : quizId, userId, userId, mode, totalQuestions, totalQuestions, correctCount, wrongCount]
-      );
-      tursoSessionId = insRes?.lastInsertRowid || null;
+      if (passedSessionId) {
+        await turso.run(
+          'UPDATE quiz_sessions SET is_active = 0, correct_count = ?, wrong_count = ?, total_questions = ? WHERE id = ?',
+          [correctCount, wrongCount, totalQuestions, passedSessionId]
+        );
+        tursoSessionId = passedSessionId;
+      } else {
+        const insRes = await turso.run(
+          'INSERT INTO quiz_sessions (quiz_id, chat_id, user_id, is_group, mode, current_index, total_questions, correct_count, wrong_count, is_active, started_at) VALUES (?, 0, ?, 0, ?, ?, ?, ?, ?, 0, unixepoch())',
+          [isMistakesMode ? 0 : quizId, userId, mode, totalQuestions, totalQuestions, correctCount, wrongCount]
+        );
+        tursoSessionId = insRes?.lastInsertRowid || null;
+      }
 
       if (Array.isArray(input?.resolvedMistakeIds) && input.resolvedMistakeIds.length > 0 && userId) {
         for (const mId of input.resolvedMistakeIds) {

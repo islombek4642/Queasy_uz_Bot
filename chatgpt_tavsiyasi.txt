@@ -1,0 +1,414 @@
+Menimcha, bu funksiyani shunchaki «bir nechta foydalanuvchi bir vaqtda test yechishi» sifatida emas, balki **Telegram ichidagi kichik multiplayer Quiz Game** sifatida loyihalashingiz kerak.
+
+Eng muhim jihat: foydalanuvchi guruh bo‘lib test yechayotganda qayerda turganini, kimlar qatnashayotganini, kim javob berganini va o‘yinda kim yetakchilik qilayotganini doim tushunib turishi kerak.
+
+Men sizga UX/UI, biznes mantiq va texnik oqimni birgalikda ishlab chiqishni tavsiya qilaman.
+
+# **1. Avval o‘yin formatini to‘g‘ri tanlaymiz**
+
+Guruhli quiz uchun uchta asosiy rejim bor:
+
+[Modern Quiz Solo App + Multiplayer quiz app + 1vs1 quiz App Template | Ionic | QuizX by RenderCodeTechnology](https://images.openai.com/static-rsc-4/b52M4VJ0nc4aR6fz2T5W3UPB2knzJe7s2dMJSw71yxehNVIS-TjWhRub1WhMojIJpw60ObQWQ7Flm7maK0yalEMJSOflAjLujTOK36gug6CbmhRXuADKLSl2n4s6o4E2K8mwGSCvHSkcNOnAfeWfnFgQOnx-wgmrqiVe3ctOvBw?purpose=inline)
+
+**1. Real-time Battle**
+
+Barcha ishtirokchilarga bir xil savol bir vaqtda chiqadi. Kim tez va to‘g‘ri javob bersa, ko‘proq ball oladi.
+
+Eng qiziqarli format
+
+[Quiz Etkinlik Akışı : Gerçek Zamanlı Soru Deneyimi](https://images.openai.com/static-rsc-4/x2oVS9N507waKUTP_j9DKi3cyzJ5EfsXc1qH8tkWl55dRzKO01jumwzwtncqkGlSTOCsOmUU5rCUGKMAgQWjgld4FCOlMEUgwBTTtkCJvflFRqeq_u-__F7C4hx6k5Pceid880Qp0wfGBuP9jPTyMBper0ykfDV8ESMMgWKPa5Q?purpose=inline)
+
+**2. Birgalikda test yechish**
+
+Hamma bir xil testni ishlaydi, lekin har kim o‘z tezligida javob beradi. Yakunda umumiy natijalar ko‘rsatiladi.
+
+[The HQ Trivia for learning: App-Based Upskilling, Learning & Gamification at PwC - Case Study](https://images.openai.com/static-rsc-4/JeGh4S1oK-UH2veNMx9uVtu_qE2kVcxe5CcIk-A3TA2BkN4ujGMgKTTrD0VGxVjC-hMS_VX7XO2ekjwD3mtIbHbLkYclz19Nvys5PS5Anjcy1qIKOp1UZhH4HgnVjv1BFp1ssC-uVGQTBFrbjhW51FVX2rVmN4McYVXFrwOf--I?purpose=inline)
+
+**3. Team Battle**
+
+Foydalanuvchilar jamoalarga bo‘linadi. Har bir jamoa umumiy ball to‘playdi.
+
+Mening tavsiyam: birinchi versiyada Real-time Battle va Birgalikda test yechish rejimlarini amalga oshiring. Team Battle'ni keyingi bosqichga qoldiring.
+
+# **2. Tavsiya qiladigan foydalanuvchi oqimi**
+
+Quyidagi oqim foydalanuvchiga tushunarli va ortiqcha bosqichlarsiz bo‘ladi.
+
+## **Multiplayer Quiz Flow**
+
+**Quiz bo‘limi**
+
+Foydalanuvchi WebApp'ga kiradi
+
+**Yakka tartibda**
+
+Solo Quiz
+
+**Guruh bilan**
+
+Multiplayer Quiz
+
+**Xona yaratish**
+
+Create Room
+
+**Xonaga qo‘shilish**
+
+Join Room
+
+**Waiting Room / Lobby**
+
+Ishtirokchilar yig‘iladi, host sozlamalarni belgilaydi
+
+**3... 2... 1... START!**
+
+**Quiz jarayoni**
+
+Savollar, javoblar, vaqt va ballar
+
+**Natijalar / Leaderboard**
+
+G‘olib, reyting va batafsil statistika
+
+# **3. Lobby dizayni qanday bo‘lishi kerak?**
+
+Bu eng muhim ekranlardan biri. Chunki foydalanuvchilar o‘yin boshlanishidan oldin shu yerda kutishadi.
+
+[How to Play - Quiz Quest Arena](https://images.openai.com/static-rsc-4/wV6hT9pBHt1bKUBBos14EiLwIk2TT0SF1q0BTICX2TLSSLOvlgihjQV305W9IG3xfVMfsjW-OtQr52Dnd8M8Ez3v8Iypd0bVRT5gr4IwArdpuz4dYnGc27cYyOrQjOb6mM5WV1Zrp7DSaDStw1EaU52qW_HQ1E_x5QOHpymmSiU?purpose=inline)
+
+[quizquestarena.com](https://quizquestarena.com/how_to_play.php?utm_source=chatgpt.com)
+
+Lobby'da quyidagi elementlar bo‘lishini tavsiya qilaman:
+
+1. **Room Code** – xonaning maxsus kodi.
+2. **Invite Friends** – Telegram orqali do‘stlarni taklif qilish.
+3. **Players List** – qatnashayotgan foydalanuvchilar.
+4. **Host badge** – xonani yaratgan odam belgisi.
+5. **Quiz Settings** – savollar soni, vaqt, rejim.
+6. **Start Button** – faqat host ko‘ra oladigan boshlash tugmasi.
+
+Masalan:
+
+**Quiz Room**
+
+Waiting
+
+ROOM CODE
+
+# **QZ-8421**
+
+Do‘stlaringizni taklif qiling
+
+**Players (3/10)**
+
+## **👑**
+
+**Ali**
+
+Host
+
+Host
+
+## **🧑**
+
+**Vali**
+
+Ready
+
+## **👨**
+
+**Hasan**
+
+Ready
+
+Savollar soni
+
+**15 ta**
+
+Har bir savol vaqti
+
+**20 soniya**
+
+Rejim
+
+**Real-time Battle**
+
+Start Quiz (Host)
+
+Bu interaktiv maket emas, dizayn konsepsiyasi.
+
+**Muhim UX tavsiyasi:** Host o‘yinni boshlashidan oldin barcha qatnashchilar tayyor yoki tayyor emasligini ko‘rishi kerak. Lekin Ready holatini majburiy qilish shart emas. Host xohlasa, kutayotgan foydalanuvchilarsiz ham boshlashi mumkin.
+
+# **4. Quiz oynasining dizayni**
+
+Bu ekranda ortiqcha elementlar bo‘lmasligi kerak. Foydalanuvchining asosiy e'tibori savolga qaratiladi.
+
+[QuizPot: Multiplayer General Knowledge Quiz Trivia APK for Android - Download](https://images.openai.com/static-rsc-4/BdLj8MX_Uoll11u37IS3Z8qoMsZQJCr0aMRk-S3AQCuymd7BuDcvOnoUHIRSaNmKha4bG3mWTETyMPMJlR5OrvwKD1T6e-R5EyFYrEv0NfimDphSN-IPTumUSdxT1fLQB5DuGWUR8uaZKJs_dE8Lrn9k2Wy6b9bNTrZ0oBZ7Noo?purpose=inline)
+
+[quizpot-multiplayer-general-knowledge-quiz-trivia.en.softonic.com](https://quizpot-multiplayer-general-knowledge-quiz-trivia.en.softonic.com/android?utm_source=chatgpt.com)
+
+Tavsiya qiladigan joylashuv:
+
+- Yuqorida: savol raqami va progress bar.
+- Yuqori o‘ngda: countdown timer.
+- Markazda: savol matni.
+- Pastda: 4 ta javob varianti.
+- Eng pastda: nechta ishtirokchi javob bergani.
+
+Masalan:
+
+Savol 4 / 15
+
+00:18
+
+## **HTML nimani anglatadi?**
+
+A
+
+HyperText Markup Language
+
+B
+
+HighText Machine Language
+
+C
+
+Hyper Transfer Main Language
+
+D
+
+Home Tool Markup Language
+
+Javob berganlar
+
+**6 / 8**
+
+Bu yerda bitta juda muhim qaror bor:
+
+**Javob bergan foydalanuvchilarning javoblarini boshqalarga ko‘rsatmaslik kerak.** Aks holda ular bir-biridan nusxa olishi mumkin.
+
+# **5. Biznes logikasi – eng muhim qism**
+
+Men tizimni quyidagi holatlar asosida qurishni tavsiya qilaman.
+
+```
+
+CREATED
+   |
+   v
+WAITING
+   |
+   v
+STARTING
+   |
+   v
+IN_PROGRESS
+   |
+   v
+QUESTION_RESULT
+   |
+   v
+IN_PROGRESS
+   |
+   v
+FINISHED
+
+```
+
+Qo‘shimcha holatlar:
+
+- CANCELLED – host o‘yinni bekor qildi.
+- EXPIRED – xona belgilangan muddatda boshlanmadi.
+- DISCONNECTED – foydalanuvchi aloqadan uzildi.
+
+**Har bir holatning vazifasi:**
+
+| Holat           | Vazifasi                       |
+| --------------- | ------------------------------ |
+| WAITING         | O‘yinchilar yig‘iladi          |
+| STARTING        | Countdown boshlanadi           |
+| IN_PROGRESS     | Savolga javob beriladi         |
+| QUESTION_RESULT | Javoblar va ballar hisoblanadi |
+| FINISHED        | Yakuniy natijalar              |
+
+### **Ball hisoblash**
+
+Masalan, 100 ballik tizim:
+
+- To‘g‘ri javob: 100 ball.
+- Noto‘g‘ri javob: 0 ball.
+- Javob bermaslik: 0 ball.
+- Tez javob uchun qo‘shimcha bonus: 0–50 ball.
+
+Shunda tez va to‘g‘ri javob bergan foydalanuvchi ko‘proq ball oladi.
+
+### **Juda muhim texnik qoidalar**
+
+1. Savol vaqti server tomonidan boshqarilishi kerak, foydalanuvchining telefonidagi timer emas.
+2. Har bir savolga foydalanuvchi faqat bir marta javob bera olishi kerak.
+3. Javob vaqti tugagach, yangi javoblar qabul qilinmasligi kerak.
+4. Internet uzilib qayta ulansa, foydalanuvchi o‘yin holatiga qayta qo‘shilishi kerak.
+5. To‘g‘ri javoblar frontendga o‘yin tugamaguncha yuborilmasligi kerak.
+6. Barcha ballar serverda hisoblanishi kerak.
+
+Telegram WebApp uchun bu juda muhim: frontendga ishonib qolmang, server yagona ishonchli manba bo‘lsin.
+
+# **6. Backend arxitekturasi**
+
+Agar Node.js ishlatayotgan bo‘lsangiz, quyidagi texnologiyalar yaxshi ishlaydi:
+
+| Texnologiya      | Vazifasi                       |
+| ---------------- | ------------------------------ |
+| Node.js          | Backend                        |
+| Socket.IO        | Real-time aloqa                |
+| PostgreSQL       | Xonalar va natijalar           |
+| Redis            | Jonli o‘yin holati va timerlar |
+| Telegram Bot API | Taklif va bildirishnomalar     |
+
+Oddiy ishlash mexanizmi:
+
+```
+
+Telegram WebApp
+      |
+      | WebSocket
+      v
+Node.js Backend
+      |
+      +------ Redis
+      |       |
+      |       +-- Room State
+      |       +-- Active Timer
+      |       +-- Player Status
+      |
+      +------ PostgreSQL
+              |
+              +-- Users
+              +-- Quiz Results
+              +-- Game History
+
+```
+
+Room uchun taxminiy ma'lumotlar:
+
+```
+{
+  id: "room_8421",
+  hostId: "user_1",
+  status: "WAITING",
+  mode: "REALTIME",
+  maxPlayers: 10,
+  currentQuestion: 0,
+  players: [],
+  settings: {
+    questionCount: 15,
+    questionTime: 20
+  }
+}
+```
+
+Har bir player uchun:
+
+```
+{
+  userId: "user_1",
+  score: 0,
+  status: "READY",
+  connected: true,
+  answered: false
+}
+```
+
+Bular konseptual strukturalar. Real loyihada javoblar, vaqt tamg‘alari, savollar va boshqa ma'lumotlar ham alohida boshqariladi.
+
+# **7. Natijalar oynasi**
+
+O‘yin tugagach, oddiygina ball ko‘rsatish yetarli emas. Natijalar foydalanuvchini yana o‘ynashga undashi kerak.
+
+[QuizBreaker | All-in-One Team Engagement Platform](https://images.openai.com/static-rsc-4/k2PMX49BEt3SgTp5piQefq4EMkqDLZ7_e5L2jSufZLDbnnJWsFFoAxaDfbDqkNYxO141xhk6JgvFpg2dadKQI9vjYDqvP3vHsV9u3B5jgbBXO8ZBD3KbAlQiRGVqySR8wslU8DF6CrNaj8kpxcinQiV9xBu03A2B7Mcyn3RmIOk?purpose=inline)
+
+[quizbreaker.com](https://www.quizbreaker.com/trivia?utm_source=chatgpt.com)
+
+Tavsiya qiladigan elementlar:
+
+- 🥇 1-, 2-, 3-o‘rinlar.
+- Barcha ishtirokchilar reytingi.
+- To‘plangan ball.
+- To‘g‘ri va noto‘g‘ri javoblar soni.
+- O‘rtacha javob berish vaqti.
+- Qayta o‘ynash tugmasi.
+- Yangi xona yaratish tugmasi.
+
+# **8. Men amalga oshirishni tavsiya qiladigan MVP**
+
+Birdaniga juda ko‘p funksiyalar qo‘shmang. Quyidagi ketma-ketlikda ishlab chiqing:
+
+**1-bosqich — Asosiy multiplayer**
+
+Birinchi navbatda
+
+- Xona yaratish
+- Xonaga kod orqali qo‘shilish
+- Telegram orqali do‘st taklif qilish
+- Lobby va ishtirokchilar ro‘yxati
+- Real-time savollar
+- Javoblarni tekshirish va ball hisoblash
+- Yakuniy leaderboard\
+
+  **2-bosqich — Qo‘shimcha imkoniyatlar**
+- Internet uzilganda qayta ulanish
+- O‘yin tarixini saqlash
+- O‘yin natijalarini ulashish
+- O‘yin davomida host boshqaruvi\
+
+  **3-bosqich — Kengaytirilgan imkoniyatlar**
+- Team Battle
+- Turnirlar
+- Global reyting
+- Do‘stlar bilan musobaqalar
+
+# **9. Endi siz bilan eng muhim qarorni aniqlashtirib olmoqchiman**
+
+Menimcha, biznes logikani yozishdan oldin aynan o‘yin mexanizmini tanlash kerak. Chunki bu UI, backend va database arxitekturasiga ta'sir qiladi.
+
+**1. Guruhli test qanday ishlashini xohlaysiz?**
+
+**Real-time Battle**
+
+Hamma bir vaqtda bir xil savolga javob beradi. Vaqt va ball raqobati mavjud.
+
+**Birgalikda test yechish**
+
+Hamma bitta testni ishlaydi, lekin har kim o‘z tezligida davom etadi.
+
+**Ikkala rejim ham bo‘lsin**
+
+Xona yaratilayotganda rejim tanlanadi.
+
+**2. Foydalanuvchilar xonaga qanday kiradi?**
+
+Room Code va Telegram Invite Link
+
+Faqat Room Code
+
+Faqat Telegram Invite Link
+
+**3. Bitta xonada maksimal nechta odam bo‘lsin?**
+
+5
+
+10
+
+20
+
+50
+
+**4. Jamoalarga bo‘linish kerakmi?**
+
+Hozircha yo‘q, keyin qo‘shamiz
+
+Ha, hozirdanoq kerak
+
+Javoblarni yuborish
+
+Shu qarorlarni aniqlashtirsak, sizning mavjud bot va WebApp testingizga mos ravishda to‘liq multiplayer tizim arxitekturasini ishlab chiqamiz. Maqsad — foydalanuvchi uchun sodda, backend uchun ishonchli va keyinchalik kengaytirish oson bo‘lgan tizim yaratish.

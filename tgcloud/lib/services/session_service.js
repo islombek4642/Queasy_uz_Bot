@@ -190,6 +190,17 @@ export async function startQuizSession(api, { chatId, userId, quizId, isGroup = 
     .where(and(eq(quizSessions.chatId, chatId), eq(quizSessions.isActive, true)))
     .run();
 
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      await turso.run(
+        'UPDATE quiz_sessions SET is_active = 0 WHERE chat_id = ? AND is_active = 1',
+        [chatId]
+      );
+    } catch (err) {
+      console.warn('[session_service] Turso deactivate error:', err.message);
+    }
+  }
+
   // Insert new session
   await db
     .insert(quizSessions)
@@ -207,6 +218,17 @@ export async function startQuizSession(api, { chatId, userId, quizId, isGroup = 
       selectedQuestionsJson: JSON.stringify(selectedQuestions),
     })
     .run();
+
+  if (CONFIG.TURSO?.ENABLED) {
+    try {
+      await turso.run(
+        'INSERT INTO quiz_sessions (quiz_id, chat_id, user_id, is_group, mode, current_index, total_questions, correct_count, wrong_count, is_active, last_poll_sent_at, started_at) VALUES (?, ?, ?, ?, ?, 0, ?, 0, 0, 1, unixepoch(), unixepoch())',
+        [quizId || 0, chatId, userId, isGroup ? 1 : 0, mode || 'full', selectedQuestions.length]
+      );
+    } catch (err) {
+      console.warn('[session_service] Turso startQuizSession insert error:', err.message);
+    }
+  }
 
   const session = await db
     .select()
@@ -513,6 +535,12 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
         })
         .where(eq(quizSessions.id, sessionId))
         .run();
+      if (CONFIG.TURSO?.ENABLED) {
+        turso.run(
+          'UPDATE quiz_sessions SET last_poll_sent_at = unixepoch(), current_index = ? WHERE chat_id = ? AND is_active = 1',
+          [session.currentIndex, session.chatId]
+        ).catch(() => {});
+      }
       return true; // success
     }
   } catch (err) {
@@ -845,6 +873,13 @@ export async function finishSession(api, sessionId, isStopped = false) {
     .set({ isActive: false })
     .where(and(eq(quizSessions.id, sessionId), eq(quizSessions.isActive, true)))
     .run();
+
+  if (CONFIG.TURSO?.ENABLED && session?.chatId) {
+    turso.run(
+      'UPDATE quiz_sessions SET is_active = 0 WHERE chat_id = ? AND is_active = 1',
+      [session.chatId]
+    ).catch(() => {});
+  }
 
   const affected = res?.rowsAffected ?? res?.changes ?? -1;
   if (affected === 0) {

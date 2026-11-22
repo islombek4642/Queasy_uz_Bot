@@ -20,8 +20,8 @@ export async function cleanupStaleSessions(timeoutSeconds = 300) {
     if (CONFIG.TURSO?.ENABLED) {
       try {
         await turso.run(
-          'UPDATE quiz_sessions SET is_active = 0 WHERE is_active = 1 AND last_poll_sent_at IS NOT NULL AND last_poll_sent_at < ?',
-          [cutoff]
+          'UPDATE quiz_sessions SET is_active = 0 WHERE is_active = 1 AND ((last_poll_sent_at IS NOT NULL AND last_poll_sent_at < ?) OR (last_poll_sent_at IS NULL AND started_at < ?))',
+          [cutoff, cutoff]
         );
       } catch (err) {
         console.warn('[admin_service] Turso cleanupStaleSessions error:', err.message);
@@ -53,19 +53,27 @@ export async function getBotStatistics() {
         activeGroups,
         quizzesRow,
         sessionsRow,
-        activeTotalRow,
-        activeGroupRow,
-        activePrivateRow,
+        botPrivateRow,
+        botGroupRow,
+        webappSoloRow,
+        webappLiveRow,
       ] = await Promise.all([
         turso.get('SELECT count(*) as count FROM users'),
         turso.get("SELECT count(*) as count FROM users WHERE created_at >= unixepoch('now', '+5 hours', 'start of day', '-5 hours')"),
         getGroupsCount(),
         turso.get('SELECT count(*) as count FROM quizzes'),
         turso.get('SELECT count(*) as count FROM quiz_sessions'),
-        turso.get('SELECT count(*) as count FROM quiz_sessions WHERE is_active = 1'),
-        turso.get('SELECT count(*) as count FROM quiz_sessions WHERE is_active = 1 AND is_group = 1'),
-        turso.get('SELECT count(*) as count FROM quiz_sessions WHERE is_active = 1 AND (is_group = 0 OR is_group IS NULL)'),
+        turso.get('SELECT count(*) as count FROM quiz_sessions WHERE is_active = 1 AND is_group = 0 AND chat_id > 0'),
+        turso.get('SELECT count(*) as count FROM quiz_sessions WHERE is_active = 1 AND (is_group = 1 OR chat_id < 0)'),
+        turso.get('SELECT count(*) as count FROM quiz_sessions WHERE is_active = 1 AND chat_id = 0'),
+        turso.get("SELECT count(*) as count FROM live_rooms WHERE status = 'in_progress' AND created_at > unixepoch() - 7200"),
       ]);
+
+      const botPrivate = Number(botPrivateRow?.count || 0);
+      const botGroup = Number(botGroupRow?.count || 0);
+      const webappSolo = Number(webappSoloRow?.count || 0);
+      const webappLive = Number(webappLiveRow?.count || 0);
+      const activeTotal = botPrivate + botGroup + webappSolo + webappLive;
 
       return {
         totalUsers: Number(usersRow?.count || 0),
@@ -73,9 +81,13 @@ export async function getBotStatistics() {
         activeGroups: Number(activeGroups || 0),
         totalQuizzes: Number(quizzesRow?.count || 0),
         totalSessions: Number(sessionsRow?.count || 0),
-        activeTotalSessions: Number(activeTotalRow?.count || 0),
-        activeGroupSessions: Number(activeGroupRow?.count || 0),
-        activePrivateSessions: Number(activePrivateRow?.count || 0),
+        activeTotalSessions: activeTotal,
+        botPrivateSessions: botPrivate,
+        botGroupSessions: botGroup,
+        webappSoloSessions: webappSolo,
+        webappLiveSessions: webappLive,
+        activeGroupSessions: botGroup,
+        activePrivateSessions: botPrivate,
       };
     } catch (err) {
       console.warn('[admin_service] Turso getBotStatistics fallback to local db:', err.message);
@@ -88,19 +100,22 @@ export async function getBotStatistics() {
     activeGroups,
     totalQuizzes,
     totalSessions,
-    activeTotalSessions,
-    activeGroupSessions,
-    activePrivateSessions,
+    botPrivateSessions,
+    botGroupSessions,
+    webappSoloSessions,
   ] = await Promise.all([
     db.$count(users),
     db.$count(users, sql`${users.createdAt} >= unixepoch('now', '+5 hours', 'start of day', '-5 hours')`),
     getGroupsCount(),
     db.$count(quizzes),
     db.$count(quizSessions),
-    db.$count(quizSessions, eq(quizSessions.isActive, true)),
-    db.$count(quizSessions, and(eq(quizSessions.isActive, true), eq(quizSessions.isGroup, true))),
-    db.$count(quizSessions, and(eq(quizSessions.isActive, true), eq(quizSessions.isGroup, false))),
+    db.$count(quizSessions, and(eq(quizSessions.isActive, true), eq(quizSessions.isGroup, false), sql`${quizSessions.chatId} > 0`)),
+    db.$count(quizSessions, and(eq(quizSessions.isActive, true), sql`(${quizSessions.isGroup} = 1 OR ${quizSessions.chatId} < 0)`)),
+    db.$count(quizSessions, and(eq(quizSessions.isActive, true), eq(quizSessions.chatId, 0))),
   ]);
+
+  const webappLiveSessions = 0;
+  const activeTotalSessions = botPrivateSessions + botGroupSessions + webappSoloSessions + webappLiveSessions;
 
   return {
     totalUsers,
@@ -109,8 +124,12 @@ export async function getBotStatistics() {
     totalQuizzes,
     totalSessions,
     activeTotalSessions,
-    activeGroupSessions,
-    activePrivateSessions,
+    botPrivateSessions,
+    botGroupSessions,
+    webappSoloSessions,
+    webappLiveSessions,
+    activeGroupSessions: botGroupSessions,
+    activePrivateSessions: botPrivateSessions,
   };
 }
 
@@ -176,14 +195,13 @@ export async function setUserBlocked(userId, isBlocked = true) {
     .run();
 }
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function broadcastMessage(api, payload) {
   let allUsers = [];
 
   if (CONFIG.TURSO?.ENABLED) {
     try {
-      allUsers = await turso.all('SELECT telegram_id as id FROM users WHERE is_blocked = 0');
+      allUsers = await turso.all('SELECT DISTINCT telegram_id as id FROM users WHERE is_blocked = 0 AND telegram_id > 1000');
     } catch (err) {
       console.warn('[admin_service] Turso broadcastMessage fallback to local db:', err.message);
       allUsers = [];
@@ -200,39 +218,47 @@ export async function broadcastMessage(api, payload) {
 
   let success = 0;
   let fail = 0;
-  const chunkSize = CONFIG.BROADCAST?.CHUNK_SIZE || 25;
-  const delayMs = CONFIG.BROADCAST?.DELAY_MS || 50;
-  let counter = 0;
+  const isCopy = typeof payload === 'object' && payload.fromChatId && payload.messageId;
 
-  for (const u of allUsers) {
-    try {
-      if (typeof payload === 'object' && payload.fromChatId && payload.messageId) {
-        await api.copyMessage({
-          chat_id: u.id,
-          from_chat_id: payload.fromChatId,
-          message_id: payload.messageId,
-        });
-      } else {
-        await api.sendMessage({
-          chat_id: u.id,
-          text: String(payload),
-          parse_mode: 'HTML',
-        });
-      }
-      success++;
-    } catch (err) {
-      fail++;
-      const errMsg = String(err?.message || err);
-      if (err?.code === 403 || errMsg.includes('blocked') || errMsg.includes('deactivated')) {
+  // Process in concurrent batches of 10 for ultra-fast and reliable delivery within webhook timeout
+  const BATCH_SIZE = 10;
+  for (let i = 0; i < allUsers.length; i += BATCH_SIZE) {
+    const chunk = allUsers.slice(i, i + BATCH_SIZE);
+    const results = await Promise.allSettled(
+      chunk.map(async (u) => {
         try {
-          await setUserBlocked(u.id, true);
-        } catch {}
-      }
-    }
+          if (isCopy) {
+            await api.copyMessage({
+              chat_id: u.id,
+              from_chat_id: payload.fromChatId,
+              message_id: payload.messageId,
+            });
+          } else {
+            await api.sendMessage({
+              chat_id: u.id,
+              text: String(payload),
+              parse_mode: 'HTML',
+            });
+          }
+          return { ok: true, id: u.id };
+        } catch (err) {
+          const errMsg = String(err?.message || err);
+          if (err?.code === 403 || errMsg.includes('blocked') || errMsg.includes('deactivated')) {
+            try {
+              await setUserBlocked(u.id, true);
+            } catch {}
+          }
+          return { ok: false, id: u.id, error: errMsg };
+        }
+      })
+    );
 
-    counter++;
-    if (counter % chunkSize === 0 && delayMs > 0) {
-      await sleep(delayMs);
+    for (const res of results) {
+      if (res.status === 'fulfilled' && res.value.ok) {
+        success++;
+      } else {
+        fail++;
+      }
     }
   }
 

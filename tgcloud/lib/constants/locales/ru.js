@@ -155,7 +155,7 @@ export default {
 
   // Admin Dashboard & Broadcast
   ADMIN_WELCOME: '👑 <b>Панель администратора</b>\n\nВыберите нужный раздел:',
-  ADMIN_STATS_TITLE: '📊 <b>Статистика бота:</b>\n\n👥 <b>Всего пользователей:</b> {users}\n🆕 <b>Новых за сегодня:</b> {todayUsers}\n👥 <b>Подключенных групп:</b> {groups}\n📚 <b>Всего тестов:</b> {quizzes}\n📝 <b>Завершенных сессий:</b> {sessions}\n\n🎯 <b>Активных тестов сейчас:</b> {activeTotal}\n• 👥 В группах: <b>{activeGroup}</b>\n• 👤 В личных чатах: <b>{activePrivate}</b>',
+  ADMIN_STATS_TITLE: '📊 <b>Статистика бота:</b>\n\n👥 <b>Всего пользователей:</b> {users}\n🆕 <b>Новых за сегодня:</b> {todayUsers}\n👥 <b>Подключенных групп:</b> {groups}\n📚 <b>Всего тестов:</b> {quizzes}\n📝 <b>Завершенных сессий:</b> {sessions}\n\n🎯 <b>Активных тестов сейчас:</b> {activeTotal}\n\n🤖 <b>Через бота:</b>\n• 👤 В личных чатах: <b>{botPrivate}</b>\n• 👥 В группах: <b>{botGroup}</b>\n\n📱 <b>Через WebApp:</b>\n• 👤 Одиночные (Solo): <b>{webappSolo}</b>\n• 👥 В группах (Live Battle): <b>{webappLive}</b>',
   BTN_ADMIN_STATS: '📊 Статистика',
   BTN_ADMIN_BROADCAST: '📢 Рассылка',
   BTN_ADMIN_USERS: '👥 Пользователи',

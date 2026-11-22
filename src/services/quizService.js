@@ -3,6 +3,7 @@ import { callEndpoint } from './api.js';
 import {
   EP_GET_INITIAL_DATA,
   EP_GET_QUIZ_DETAIL,
+  EP_START_SOLO_SESSION,
   EP_SUBMIT_SOLO_RESULT,
   EP_GET_LEADERBOARD,
   EP_GET_GROUP_SESSIONS,
@@ -31,6 +32,10 @@ export async function fetchInitialData() {
 
 export async function fetchQuizDetail(quizId) {
   return await callEndpoint(EP_GET_QUIZ_DETAIL, { quizId });
+}
+
+export async function startSoloSession(payload) {
+  return await callEndpoint(EP_START_SOLO_SESSION, payload);
 }
 
 export async function submitSoloResult(payload) {

@@ -52,6 +52,7 @@ export default function App() {
   const [activeQuizMode, setActiveQuizMode] = useState('full');
   const [activeQuizRange, setActiveQuizRange] = useState(null);
   const [activeQuizRandomCount, setActiveQuizRandomCount] = useState(null);
+  const [activeQuizTimeLimit, setActiveQuizTimeLimit] = useState(null);
 
   const refreshData = () => {
     fetchInitialData()
@@ -108,7 +109,7 @@ export default function App() {
     setModeModalQuizId(quizId);
   };
 
-  const handleConfirmMode = ({ quizId, mode, range, randomCount }) => {
+  const handleConfirmMode = ({ quizId, mode, range, randomCount, timeLimit }) => {
     setModeModalQuizId(null);
     setActiveCustomQuestions(null);
     setActiveCustomTitle(null);
@@ -116,6 +117,7 @@ export default function App() {
     setActiveQuizMode(mode);
     setActiveQuizRange(range);
     setActiveQuizRandomCount(randomCount);
+    setActiveQuizTimeLimit(timeLimit ? Number(timeLimit) : null);
   };
 
   const handleStartMistakes = (mistakes, title = null) => {
@@ -125,6 +127,7 @@ export default function App() {
     setActiveQuizMode('mistakes');
     setActiveQuizRange(null);
     setActiveQuizRandomCount(null);
+    setActiveQuizTimeLimit(null);
   };
 
   const handleExitArena = () => {
@@ -134,6 +137,7 @@ export default function App() {
     setActiveQuizMode('full');
     setActiveQuizRange(null);
     setActiveQuizRandomCount(null);
+    setActiveQuizTimeLimit(null);
     setActiveLiveRoomCode(null);
     setActiveRoomCode(null);
     setActiveTournamentCode(null);
@@ -176,6 +180,7 @@ export default function App() {
             mode={activeQuizMode}
             range={activeQuizRange}
             randomCount={activeQuizRandomCount}
+            timeLimit={activeQuizTimeLimit}
             tournamentShareCode={activeTournamentCode}
             liveRoomCode={activeLiveRoomCode}
             onExit={handleExitArena}
