@@ -36,6 +36,10 @@ scratch/
 # Secrets
 tgcloud/lib/constants/secrets.js
 
+# Local raw test archives
+KIUT_TEST/
+QUIZLARIM/
+
 # Graphify cache & backups
 graphify-out/cache/
 graphify-out/2026-*/
