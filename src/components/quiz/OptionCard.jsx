@@ -61,7 +61,7 @@ export function OptionCard({
       className="glass-panel glass-panel-interactive"
       style={{
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         gap: '14px',
         padding: '14px 16px',
         minHeight: '54px',
@@ -70,6 +70,8 @@ export function OptionCard({
         cursor: disabled ? 'default' : 'pointer',
         boxShadow: isRevealed && isCorrect ? '0 0 16px rgba(16, 185, 129, 0.3)' : 'none',
         transition: 'all var(--transition-fast)',
+        maxWidth: '100%',
+        overflow: 'hidden',
       }}
     >
       {/* Letter badge */}
@@ -86,6 +88,7 @@ export function OptionCard({
           fontWeight: '800',
           fontSize: '0.9rem',
           flexShrink: 0,
+          marginTop: '2px',
           transition: 'all var(--transition-fast)',
         }}
       >
@@ -93,13 +96,25 @@ export function OptionCard({
       </div>
 
       {/* Option text */}
-      <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: '500', color: textColor }}>
+      <div
+        style={{
+          flex: 1,
+          minWidth: 0,
+          maxWidth: '100%',
+          overflowWrap: 'anywhere',
+          wordBreak: 'break-word',
+          fontSize: '0.95rem',
+          fontWeight: '500',
+          color: textColor,
+          alignSelf: 'center',
+        }}
+      >
         <MathText text={text} />
       </div>
 
       {/* Result indicator icon */}
       {icon && (
-        <div style={{ flexShrink: 0, color: isCorrect ? 'var(--color-success)' : 'var(--color-error)' }}>
+        <div style={{ flexShrink: 0, marginTop: '5px', color: isCorrect ? 'var(--color-success)' : 'var(--color-error)' }}>
           <Icon icon={icon} width="22" height="22" />
         </div>
       )}

@@ -63,6 +63,11 @@ assert.ok(!html.includes('questionPalette'), 'HTML must NOT have old question pa
 const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
 assert.ok(scriptMatch, 'HTML must contain a <script> block');
 assert.ok(scriptMatch[1].includes('STORAGE_KEY'), 'HTML script must contain localStorage progress tracking');
+assert.ok(scriptMatch[1].includes('shuffleQuestionOptions'), 'HTML script must contain shuffleQuestionOptions');
+assert.ok(html.includes('"shuffleOptions":true'), 'RAW_QUIZ must contain shuffleOptions: true');
+
+// Verify LaTeX italic prevention in formatMathText
+assert.ok(scriptMatch[1].includes('hasProseWords'), 'formatMathText must check for prose words to prevent italicizing text');
 
 const mockBrowser = `
   const el = () => ({

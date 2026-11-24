@@ -25,10 +25,25 @@ export function MathText({ text = '', className = '', style = {} }) {
       .replace(/\\\\([a-zA-Z])/g, '\\$1')
       .trim();
 
-    // Auto-wrap raw LaTeX if not wrapped in $ (e.g. \frac{1}{2}, \sqrt{x}, \int...)
+    // Auto-wrap raw LaTeX commands if not wrapped in $ (e.g. \frac{1}{2}, \sqrt{x}, \alpha...)
+    // CAUTION: Do NOT wrap whole prose sentences in $, which turns all words into KaTeX italic math font!
     let preparedText = cleanText;
-    if (!preparedText.includes('$') && /\\(frac|sqrt|int|sum|prod|alpha|beta|gamma|partial|infty|pm|times|div)/.test(preparedText)) {
-      preparedText = `$${preparedText}$`;
+    if (!preparedText.includes('$')) {
+      const mathCmdRegex = /\\(frac|sqrt|int|sum|prod|alpha|beta|gamma|partial|infty|pm|times|div|vec|sin|cos|tan|cot|ln|log|lim|approx|neq|le|ge|cdot)/;
+      if (mathCmdRegex.test(preparedText)) {
+        const textWithoutCmds = preparedText.replace(/\\\w+(?:\{[^{}]*\}|\[[^\[\]]*\])*/g, ' ');
+        const hasProseWords = /[a-zA-Zа-яА-ЯёЁўқғҳЎҚҒҲ]{3,}\s+[a-zA-Zа-яА-ЯёЁўқғҳЎҚҒҲ]{3,}/i.test(textWithoutCmds);
+        if (!hasProseWords) {
+          // Pure formula with no prose words: wrap the entire formula
+          preparedText = `$${preparedText.trim()}$`;
+        } else {
+          // Mixed sentence: wrap only the LaTeX command expressions
+          preparedText = preparedText.replace(/(\\[a-zA-Z]+(?:\{[^{}]*\}|\[[^\[\]]*\])*(?:[\^_]\{?[^{}]*\}?)*)/g, (match) => {
+            const trimmed = match.trim();
+            return trimmed ? `$${trimmed}$` : match;
+          });
+        }
+      }
     }
 
     // Normalize negative sign right before dollar: "- $..." -> "$-..."
@@ -45,7 +60,7 @@ export function MathText({ text = '', className = '', style = {} }) {
           return (
             <div
               key={index}
-              style={{ margin: '8px 0', overflowX: 'auto', textAlign: 'center' }}
+              style={{ margin: '8px 0', overflowX: 'auto', overflowY: 'hidden', textAlign: 'center', maxWidth: '100%' }}
               dangerouslySetInnerHTML={{ __html: html }}
             />
           );
@@ -63,6 +78,9 @@ export function MathText({ text = '', className = '', style = {} }) {
                 display: 'inline-block',
                 verticalAlign: 'middle',
                 margin: '0 2px',
+                maxWidth: '100%',
+                overflowX: 'auto',
+                overflowY: 'hidden',
               }}
               dangerouslySetInnerHTML={{ __html: html }}
             />
@@ -76,7 +94,7 @@ export function MathText({ text = '', className = '', style = {} }) {
   }, [text]);
 
   return (
-    <span className={className} style={{ wordBreak: 'break-word', ...style }}>
+    <span className={className} style={{ wordBreak: 'break-word', overflowWrap: 'anywhere', maxWidth: '100%', ...style }}>
       {renderedContent}
     </span>
   );

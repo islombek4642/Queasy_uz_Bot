@@ -39,14 +39,28 @@ export async function loadKiutTree() {
   }
 
   if (categories.length === 0) {
-    categories = await db.select({ id: categoriesTable.id, path: categoriesTable.path }).from(categoriesTable).all();
+    try {
+      const { DatabaseSync } = await import('node:sqlite');
+      const localDb = new DatabaseSync('queasy_ready.sqlite', { readOnly: true });
+      categories = localDb.prepare('SELECT id, path FROM categories').all();
+    } catch {}
+    if (categories.length === 0) {
+      categories = await db.select({ id: categoriesTable.id, path: categoriesTable.path }).from(categoriesTable).all();
+    }
   }
   if (quizzes.length === 0) {
-    quizzes = await db
-      .select({ id: quizzesTable.id, title: quizzesTable.title, category: quizzesTable.category })
-      .from(quizzesTable)
-      .where(eq(quizzesTable.isPublic, true))
-      .all();
+    try {
+      const { DatabaseSync } = await import('node:sqlite');
+      const localDb = new DatabaseSync('queasy_ready.sqlite', { readOnly: true });
+      quizzes = localDb.prepare('SELECT id, title, category FROM quizzes WHERE is_public = 1').all();
+    } catch {}
+    if (quizzes.length === 0) {
+      quizzes = await db
+        .select({ id: quizzesTable.id, title: quizzesTable.title, category: quizzesTable.category })
+        .from(quizzesTable)
+        .where(eq(quizzesTable.isPublic, true))
+        .all();
+    }
   }
 
   const categoriesById = new Map();

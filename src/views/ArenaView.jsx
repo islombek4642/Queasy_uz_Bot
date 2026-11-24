@@ -575,6 +575,7 @@ export function ArenaView({
           setLiveScoreAwarded(null);
           setServerCorrectId(null);
           startTimeRef.current = Date.now();
+          loadQuiz();
         }}
         onBackHome={() => onExit(false)}
       />
@@ -772,9 +773,21 @@ export function ArenaView({
           flexDirection: 'column',
           justifyContent: 'center',
           border: '1px solid var(--surface-border)',
+          maxWidth: '100%',
+          overflow: 'hidden',
         }}
       >
-        <h3 style={{ fontSize: '1.15rem', fontWeight: '700', lineHeight: '1.45', color: 'var(--text-primary)' }}>
+        <h3
+          style={{
+            fontSize: '1.15rem',
+            fontWeight: '700',
+            lineHeight: '1.45',
+            color: 'var(--text-primary)',
+            wordBreak: 'break-word',
+            overflowWrap: 'anywhere',
+            maxWidth: '100%',
+          }}
+        >
           <MathText text={currentQ?.questionText} />
         </h3>
       </Card>

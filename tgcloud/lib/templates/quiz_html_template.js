@@ -18,6 +18,7 @@ export function generateQuizHtml({ quiz, questions = [] }) {
   const rawQuizPayload = {
     title: quiz?.title || 'Queasy Quiz',
     timeLimit: safeTimeLimit,
+    shuffleOptions: quiz?.shuffleOptions !== false,
     totalQuestions: questions.length,
     questions: questions.map((q, idx) => {
       const qText = q.questionText !== undefined && q.questionText !== null
@@ -240,6 +241,8 @@ ${KATEX_JS}
       font-weight: 700;
       line-height: 1.5;
       word-break: break-word;
+      overflow-wrap: anywhere;
+      max-width: 100%;
     }
 
     .katex {
@@ -250,13 +253,22 @@ ${KATEX_JS}
     .katex-display-wrapper {
       margin: 8px 0;
       text-align: center;
+      max-width: 100%;
       overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
     }
 
     .katex-inline-wrapper {
       display: inline-block;
       vertical-align: middle;
       margin: 0 2px;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
     }
 
     .options-grid {
@@ -267,7 +279,7 @@ ${KATEX_JS}
 
     .option-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
       padding: 14px 16px;
       background: rgba(255, 255, 255, 0.03);
@@ -276,6 +288,8 @@ ${KATEX_JS}
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
+      max-width: 100%;
+      overflow: hidden;
     }
 
     .option-item:hover {
@@ -323,6 +337,7 @@ ${KATEX_JS}
       font-weight: 800;
       font-size: 0.85rem;
       flex-shrink: 0;
+      margin-top: 1px;
     }
 
     .option-item.selected .option-letter {
@@ -335,6 +350,7 @@ ${KATEX_JS}
       line-height: 1.4;
       flex: 1;
       min-width: 0;
+      max-width: 100%;
       overflow-wrap: anywhere;
       word-break: break-word;
     }
@@ -1202,18 +1218,25 @@ ${KATEX_JS}
 
       const hasKatex = typeof window !== 'undefined' && window.katex && typeof window.katex.renderToString === 'function';
 
-      var mathCmds = ['\\frac', '\\sqrt', '\\int', '\\sum', '\\prod', '\\alpha', '\\beta', '\\gamma', '\\partial', '\\infty', '\\pm', '\\times', '\\div'];
-      var hasCmd = false;
-      for (var ci = 0; ci < mathCmds.length; ci++) {
-        if (cleanText.indexOf(mathCmds[ci]) !== -1) {
-          hasCmd = true;
-          break;
-        }
-      }
-
+      // Auto-wrap raw LaTeX commands if not wrapped in $ (e.g. \frac{1}{2}, \sqrt{x}, \alpha...)
+      // CAUTION: Do NOT wrap whole prose sentences in $, which turns all words into KaTeX italic math font!
       let preparedText = cleanText;
-      if (!preparedText.includes('$') && hasCmd) {
-        preparedText = '$' + preparedText + '$';
+      if (!preparedText.includes('$')) {
+        const mathCmdRegex = /\\\\(frac|sqrt|int|sum|prod|alpha|beta|gamma|partial|infty|pm|times|div|vec|sin|cos|tan|cot|ln|log|lim|approx|neq|le|ge|cdot)/;
+        if (mathCmdRegex.test(preparedText)) {
+          const textWithoutCmds = preparedText.replace(/\\\\w+(?:\\{[^{}]*\\}|\\[[^\\[\\]]*\\])*/g, ' ');
+          const hasProseWords = /[a-zA-Zа-яА-ЯёЁўқғҳЎҚҒҲ]{3,}\\s+[a-zA-Zа-яА-ЯёЁўқғҳЎҚҒҲ]{3,}/i.test(textWithoutCmds);
+          if (!hasProseWords) {
+            // Pure formula: wrap the entire formula
+            preparedText = '$' + preparedText.trim() + '$';
+          } else {
+            // Mixed sentence: wrap only the LaTeX command expressions
+            preparedText = preparedText.replace(/(\\\\[a-zA-Z]+(?:\\{[^{}]*\\}|\\[[^\\[\\]]*\\])*(?:[\\^_]\\{?[^{}]*\\}?)*)/g, function(match) {
+              const trimmed = match.trim();
+              return trimmed ? '$' + trimmed + '$' : match;
+            });
+          }
+        }
       }
 
       const parts = preparedText.split(/(\\$\\$[\\s\\S]+?\\$\\$|\\$[^\\$]+?\\$)/g);
@@ -1522,6 +1545,25 @@ ${KATEX_JS}
       });
     }
 
+    function shuffleQuestionOptions(options, correctIndex) {
+      if (!Array.isArray(options) || options.length < 2) {
+        return { options: options ? [...options] : [], correct: correctIndex || 0 };
+      }
+      const items = options.map((opt, i) => ({ opt, isCorrect: i === correctIndex }));
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = items[i];
+        items[i] = items[j];
+        items[j] = temp;
+      }
+      const newOptions = items.map(item => item.opt);
+      const newCorrect = items.findIndex(item => item.isCorrect);
+      return {
+        options: newOptions,
+        correct: newCorrect >= 0 ? newCorrect : 0
+      };
+    }
+
     function startConfiguredQuiz() {
       // Synchronize selectedQuizMode with the active card in the DOM
       if (modeCardRandom && modeCardRandom.classList.contains('active')) {
@@ -1566,6 +1608,18 @@ ${KATEX_JS}
 
       if (configuredQuestions.length === 0) {
         configuredQuestions = pool;
+      }
+
+      // Shuffle options for all questions if enabled (default: true)
+      if (RAW_QUIZ.shuffleOptions !== false) {
+        configuredQuestions = configuredQuestions.map((q) => {
+          const shuf = shuffleQuestionOptions(q.options, q.correct);
+          return {
+            ...q,
+            options: shuf.options,
+            correct: shuf.correct,
+          };
+        });
       }
 
       currentIndex = 0;
@@ -1931,7 +1985,17 @@ ${KATEX_JS}
           alert("Tabriklaymiz! Sizda birorta ham xato yo'q!");
           return;
         }
-        configuredQuestions = mistakes;
+        configuredQuestions = mistakes.map((q) => {
+          if (RAW_QUIZ.shuffleOptions !== false) {
+            const shuf = shuffleQuestionOptions(q.options, q.correct);
+            return {
+              ...q,
+              options: shuf.options,
+              correct: shuf.correct,
+            };
+          }
+          return { ...q };
+        });
         currentIndex = 0;
         userAnswers = {};
         clearProgress();
