@@ -36,6 +36,7 @@ import {
 import {
   getKiutCategoryView,
   findCategoryIdByPath,
+  getKiutRootKeyboard,
 } from '../lib/services/kiut_catalog_service.js';
 
 import {
@@ -245,26 +246,7 @@ export default async function (callbackQuery, ctx) {
 
     // Root level menu
     if (view.isRoot || catId === 0) {
-      const inline_keyboard = [
-        [
-          { text: "☀️ Kunduzgi ta'lim", callback_data: "kiut_c:1" },
-          { text: "📚 Sirtqi ta'lim", callback_data: "kiut_c:2" },
-        ],
-        [
-          { text: "🌙 Kechki ta'lim", callback_data: "kiut_c:3" },
-          { text: "💻 Masofaviy ta'lim", callback_data: "kiut_c:4" },
-        ],
-        [
-          { text: "🩺 Tibbiyot", callback_data: "kiut_c:6" },
-          { text: "🔄 Fanlar farqi", callback_data: "kiut_c:5" },
-        ],
-        [
-          {
-            text: "📱 Mini App orqali to'liq katalog",
-            web_app: { url: CONFIG.BOT.WEBAPP_URL || 'https://app8869835041.tgcloud.ai/' },
-          },
-        ],
-      ];
+      const inline_keyboard = await getKiutRootKeyboard();
 
       await safeEditMessageText({
         chat_id: chatId,

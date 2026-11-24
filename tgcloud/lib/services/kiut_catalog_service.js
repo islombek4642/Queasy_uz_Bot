@@ -145,10 +145,44 @@ export function findCategoryIdByPath(path) {
   return kiutCache.categoriesByPath.get(path) || 0;
 }
 
+export async function getKiutRootKeyboard() {
+  const tree = await loadKiutTree();
+  const getCatId = (p, fallback) => tree.categoriesByPath.get(p) || fallback;
+
+  const idKunduzgi = getCatId("KUNDUZGI TA'LIM", 1);
+  const idTibbiyot = getCatId("KUNDUZGI TA'LIM (TIBBIYOT)", 2);
+  const idSirtqi = getCatId("SIRTQI TA'LIM", 3);
+  const idKechki = getCatId("KECHKI TA'LIM", 4);
+  const idMasofaviy = getCatId("MASOFAVIY TA'LIM", 5);
+  const idFanlarFarqi = getCatId("FANLAR FARQI", 6);
+
+  return [
+    [
+      { text: "☀️ Kunduzgi ta'lim", callback_data: `kiut_c:${idKunduzgi}` },
+      { text: "📚 Sirtqi ta'lim", callback_data: `kiut_c:${idSirtqi}` },
+    ],
+    [
+      { text: "🌙 Kechki ta'lim", callback_data: `kiut_c:${idKechki}` },
+      { text: "💻 Masofaviy ta'lim", callback_data: `kiut_c:${idMasofaviy}` },
+    ],
+    [
+      { text: "🩺 Tibbiyot", callback_data: `kiut_c:${idTibbiyot}` },
+      { text: "🔄 Fanlar farqi", callback_data: `kiut_c:${idFanlarFarqi}` },
+    ],
+    [
+      {
+        text: "📱 Mini App orqali to'liq katalog",
+        web_app: { url: CONFIG.BOT?.WEBAPP_URL || 'https://app8869835041.tgcloud.ai/' },
+      },
+    ],
+  ];
+}
+
 export default {
   loadKiutTree,
   getKiutCategoryView,
   findCategoryIdByPath,
+  getKiutRootKeyboard,
   invalidateKiutCatalogCache,
 };
 

@@ -44,6 +44,7 @@ import { upsertGroup, deactivateGroup } from '../lib/services/group_service.js';
 import { isUserAdmin, getBotStatistics, setMediaChannel } from '../lib/services/admin_service.js';
 
 import { getMainKeyboard, getCancelKeyboard, getLanguageReplyKeyboard } from '../lib/keyboards/main_keyboard.js';
+import { getKiutRootKeyboard } from '../lib/services/kiut_catalog_service.js';
 import { getInlineModeKeyboard } from '../lib/keyboards/mode_keyboard.js';
 import { getQuizCardKeyboard, getMyQuizzesPageKeyboard, getMistakesPageKeyboard } from '../lib/keyboards/quiz_keyboard.js';
 
@@ -844,26 +845,7 @@ export default async function (message, ctx) {
 
   // Handle KIUT Tests Center button
   if (text === '/kiut' || isButtonMatch(text, 'BTN_KIUT_TEST')) {
-    const inline_keyboard = [
-      [
-        { text: "☀️ Kunduzgi ta'lim", callback_data: "kiut_c:1" },
-        { text: "📚 Sirtqi ta'lim", callback_data: "kiut_c:2" },
-      ],
-      [
-        { text: "🌙 Kechki ta'lim", callback_data: "kiut_c:3" },
-        { text: "💻 Masofaviy ta'lim", callback_data: "kiut_c:4" },
-      ],
-      [
-        { text: "🩺 Tibbiyot", callback_data: "kiut_c:6" },
-        { text: "🔄 Fanlar farqi", callback_data: "kiut_c:5" },
-      ],
-      [
-        {
-          text: "📱 Mini App orqali to'liq katalog",
-          web_app: { url: CONFIG.BOT.WEBAPP_URL || 'https://app8869835041.tgcloud.ai/' },
-        },
-      ],
-    ];
+    const inline_keyboard = await getKiutRootKeyboard();
 
     await api.sendMessage({
       chat_id: chatId,
