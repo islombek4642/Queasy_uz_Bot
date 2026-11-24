@@ -9,7 +9,7 @@ import turso from '../turso_client.js';
 
 let kiutCache = null;
 let kiutCacheTime = 0;
-const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
+const CACHE_TTL = 60 * 1000; // 1 minute (responsive to database updates)
 
 export function invalidateKiutCatalogCache() {
   kiutCache = null;
