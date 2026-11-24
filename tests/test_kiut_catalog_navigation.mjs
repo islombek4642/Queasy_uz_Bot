@@ -80,3 +80,4 @@ testKiutCatalogNavigation().catch((err) => {
   console.error('❌ test_kiut_catalog_navigation failed:', err);
   process.exit(1);
 });
+

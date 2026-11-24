@@ -3324,9 +3324,9 @@
     "semantic_hash": ""
   },
   "tests/test_kiut_catalog_navigation.mjs": {
-    "mtime": 1795533387.1570916,
-    "seen": 1795533486.72766,
-    "ast_hash": "071af6a14df1cf60b2a0302e3ae8cc3a",
+    "mtime": 1795533525.4578586,
+    "seen": 1795534908.9089303,
+    "ast_hash": "f9bae2b722f20e9e6db5e1977912f800",
     "semantic_hash": ""
   },
   "tests/test_zero_question_and_options_integrity.mjs": {
@@ -3339,6 +3339,24 @@
     "mtime": 1795528294.8096387,
     "seen": 1795533486.8117218,
     "ast_hash": "47e22a27ae3700b5c5fa200a7eff7d85",
+    "semantic_hash": ""
+  },
+  "scripts/apply_final_26_faculties.mjs": {
+    "mtime": 1795534751.649616,
+    "seen": 1795534908.8906498,
+    "ast_hash": "bd5761eb2ce6fe49b6b813cec0589d89",
+    "semantic_hash": ""
+  },
+  "scripts/execute_prefix_standardization.mjs": {
+    "mtime": 1795534524.9361897,
+    "seen": 1795534908.8916924,
+    "ast_hash": "27e508b3bac5cc0f42fb84d1c08b5874",
+    "semantic_hash": ""
+  },
+  "scripts/standardize_categories_with_site.mjs": {
+    "mtime": 1795534299.5052712,
+    "seen": 1795534908.894353,
+    "ast_hash": "92bdee1f2b0e1729fe30254fc0a5200f",
     "semantic_hash": ""
   }
 }
