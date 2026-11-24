@@ -10,6 +10,7 @@ import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { Pagination } from '../components/common/Pagination.jsx';
 import { MathText } from '../components/quiz/MathText.jsx';
+import { MediaImage } from '../components/common/MediaImage.jsx';
 import { downloadQuizAsHtml } from '../utils/quizHtmlGenerator.js';
 
 export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
@@ -309,7 +310,7 @@ export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
                 })();
                 return photoSrc ? (
                   <div style={{ marginTop: '8px', marginBottom: '8px', textAlign: 'center' }}>
-                    <img
+                    <MediaImage
                       src={photoSrc}
                       alt="Savol rasmi"
                       style={{

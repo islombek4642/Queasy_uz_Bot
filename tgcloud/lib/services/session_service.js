@@ -336,6 +336,26 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
 
   // 1. Agar savolga rasm biriktirilmagan bo'lsa yoki http URL bo'lsa, Media kanalga yuklab file_id olamiz
   let photoToSend = q.photoFileId || null;
+  if (!photoToSend && q.id) {
+    try {
+      if (CONFIG.TURSO?.ENABLED) {
+        const row = await turso.get('SELECT photo_file_id FROM questions WHERE id = ?', [q.id]);
+        if (row?.photo_file_id) {
+          photoToSend = row.photo_file_id;
+          q.photoFileId = photoToSend;
+        }
+      }
+      if (!photoToSend) {
+        const row = await db.select({ photoFileId: questions.photoFileId }).from(questions).where(eq(questions.id, q.id)).get();
+        if (row?.photoFileId) {
+          photoToSend = row.photoFileId;
+          q.photoFileId = photoToSend;
+        }
+      }
+    } catch (e) {
+      console.warn('[session_service] Error resolving photoFileId by question id:', e?.message);
+    }
+  }
   if (!photoToSend && q.questionText) {
     const imgMatch = q.questionText.match(/<img[^>]*src=["']([^"']+)["'][^>]*>/i);
     if (imgMatch) {
@@ -434,86 +454,42 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
     ? { type: 'photo', media: q.explanationPhotoFileId.trim() }
     : undefined;
 
-  const hasStructuredOptions = options.some((o) => typeof o === 'object' && o.media);
-  const useModernPoll = Boolean(pollMedia || hasStructuredOptions);
-
   try {
     let pollMsg = null;
-    let fallbackPhotoSent = false;
 
-    // A. Bot API 10.0+ formati: agar poll media yoki variant rasmlari bo'lsa
-    if (useModernPoll) {
+    // 1. Agar savolga rasm biriktirilgan bo'lsa, uni poll'dan oldin yuboramiz
+    if (photoToSend) {
       try {
-        pollMsg = await api.sendPoll({
+        await api.sendPhoto({
           chat_id: session.chatId,
-          question: questionTitle,
-          question_parse_mode: 'HTML',
-          options,
-          is_anonymous: false,
-          type: 'quiz',
-          correct_option_id: correctOptionId,
-          explanation,
-          explanation_parse_mode: explanation ? 'HTML' : undefined,
-          explanation_media: explanationMedia,
-          media: pollMedia,
-          shuffle_options: shuffleOptions,
-          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
-          reply_markup: nextBtnMarkup,
+          photo: photoToSend,
+          caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
+          parse_mode: 'HTML',
         });
-      } catch (mediaPollErr) {
-        // Agar Telegram platformasi modern poll formatini qabul qilmasa, an'anaviy sendPhoto va oddiy matnli variantlarga fallback qilamiz
-        console.warn(`[sendNextQuestionPoll] Modern sendPoll not accepted, falling back to standard format:`, mediaPollErr?.message);
-        if (photoToSend) {
-          try {
-            await api.sendPhoto({
-              chat_id: session.chatId,
-              photo: photoToSend,
-              caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
-              parse_mode: 'HTML',
-            });
-            fallbackPhotoSent = true;
-          } catch (photoErr) {
-            console.error(`[sendNextQuestionPoll] Failed to send fallback photo:`, photoErr?.message);
-          }
-        }
+      } catch (photoErr) {
+        console.error(`[sendNextQuestionPoll] Photo send error:`, photoErr?.message);
       }
     }
 
-    // B. Agar embedded media ishlamagan bo'lsa (yoki rasm bo'lmasa)
-    if (!pollMsg) {
-      // Agar rasm bor bo'lsa-yu, hali yuborilmagan bo'lsa
-      if (photoToSend && !fallbackPhotoSent) {
-        try {
-          await api.sendPhoto({
-            chat_id: session.chatId,
-            photo: photoToSend,
-            caption: q.photoCaption ? String(q.photoCaption).slice(0, 1024) : undefined,
-            parse_mode: 'HTML',
-          });
-        } catch (photoErr) {
-          console.error(`[sendNextQuestionPoll] Standalone photo send error:`, photoErr?.message);
-        }
-      }
+    // Convert any structured options to plain strings for standard sendPoll
+    const stringOptions = options.map((o) => (typeof o === 'object' ? (o.text || String(o)) : String(o)));
 
-      // Convert any structured options to plain strings for standard sendPoll
-      const stringOptions = options.map((o) => (typeof o === 'object' ? (o.text || String(o)) : String(o)));
-
-      try {
-        pollMsg = await api.sendPoll({
-          chat_id: session.chatId,
-          question: questionTitle,
-          question_parse_mode: 'HTML',
-          options: stringOptions,
-          is_anonymous: false,
-          type: 'quiz',
-          correct_option_id: correctOptionId,
-          explanation,
-          explanation_parse_mode: explanation ? 'HTML' : undefined,
-          shuffle_options: shuffleOptions,
-          open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
-          reply_markup: nextBtnMarkup,
-        });
-      } catch (htmlErr) {
+    try {
+      pollMsg = await api.sendPoll({
+        chat_id: session.chatId,
+        question: questionTitle,
+        question_parse_mode: 'HTML',
+        options: stringOptions,
+        is_anonymous: false,
+        type: 'quiz',
+        correct_option_id: correctOptionId,
+        explanation,
+        explanation_parse_mode: explanation ? 'HTML' : undefined,
+        shuffle_options: shuffleOptions,
+        open_period: Math.max(CONFIG.POLL.MIN_DURATION, Math.min(timeLimit, CONFIG.POLL.MAX_DURATION)),
+        reply_markup: nextBtnMarkup,
+      });
+    } catch (htmlErr) {
         // HTML parse fallback without parse_mode
         console.warn(`[sendNextQuestionPoll] HTML parse mode failed, falling back to plain text:`, htmlErr?.message);
         pollMsg = await api.sendPoll({
@@ -529,7 +505,6 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
           reply_markup: nextBtnMarkup,
         });
       }
-    }
 
     if (pollMsg && pollMsg.poll) {
       await db

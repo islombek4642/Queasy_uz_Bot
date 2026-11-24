@@ -9,6 +9,7 @@ import { ACTIONS, STATES } from '../lib/constants/actions.js';
 import { getMessage } from '../lib/constants/messages.js';
 import turso from '../lib/turso_client.js';
 import { generateQuizHtml } from '../lib/templates/quiz_html_template.js';
+import { bytesToBase64 } from '../lib/utils/unzip.js';
 
 import {
   getUser,
@@ -995,9 +996,27 @@ export default async function (callbackQuery, ctx) {
     await answer(getMessage('DOWNLOADING_HTML_FILE', lang));
 
     try {
+      // Resolve any Telegram photoFileIds to Base64 data URLs for offline HTML export
+      const questionsWithOfflineMedia = [];
+      for (const q of (quiz.questions || [])) {
+        let photoFileId = q.photoFileId || null;
+        if (photoFileId && !photoFileId.startsWith('http') && !photoFileId.startsWith('data:')) {
+          try {
+            const imgBytes = await api.getFileContent(photoFileId);
+            if (imgBytes && imgBytes.length > 0) {
+              const b64 = bytesToBase64(imgBytes);
+              photoFileId = `data:image/jpeg;base64,${b64}`;
+            }
+          } catch (e) {
+            console.warn('[HTML Export] Failed to fetch photo_file_id:', e?.message);
+          }
+        }
+        questionsWithOfflineMedia.push({ ...q, photoFileId });
+      }
+
       const htmlString = generateQuizHtml({
         quiz,
-        questions: quiz.questions || [],
+        questions: questionsWithOfflineMedia,
       });
 
       const bytes = new TextEncoder().encode(htmlString);

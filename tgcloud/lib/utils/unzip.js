@@ -304,4 +304,25 @@ export function extractBinaryFromZip(zipBuffer, targetPath) {
   return null;
 }
 
-export default { extractFileFromZip, extractBinaryFromZip };
+/**
+ * Converts a Uint8Array or ArrayBuffer to standard base64 string without external dependencies.
+ */
+export function bytesToBase64(bytes) {
+  if (!bytes) return '';
+  const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  let result = '';
+  const len = arr.length;
+  for (let i = 0; i < len; i += 3) {
+    const b0 = arr[i];
+    const b1 = i + 1 < len ? arr[i + 1] : 0;
+    const b2 = i + 2 < len ? arr[i + 2] : 0;
+    result += chars[b0 >> 2];
+    result += chars[((b0 & 3) << 4) | (b1 >> 4)];
+    result += i + 1 < len ? chars[((b1 & 15) << 2) | (b2 >> 6)] : '=';
+    result += i + 2 < len ? chars[b2 & 63] : '=';
+  }
+  return result;
+}
+
+export default { extractFileFromZip, extractBinaryFromZip, bytesToBase64 };

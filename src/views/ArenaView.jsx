@@ -22,6 +22,7 @@ import { MathText } from '../components/quiz/MathText.jsx';
 import { ResultCard } from '../components/quiz/ResultCard.jsx';
 import { Modal } from '../components/common/Modal.jsx';
 import { Card } from '../components/common/Card.jsx';
+import { MediaImage } from '../components/common/MediaImage.jsx';
 
 export function ArenaView({
   quizId,
@@ -798,7 +799,7 @@ export function ArenaView({
           })();
           return photoSrc ? (
             <div style={{ marginTop: '14px', display: 'flex', justifyContent: 'center' }}>
-              <img
+              <MediaImage
                 src={photoSrc}
                 alt="Savol rasmi"
                 style={{
