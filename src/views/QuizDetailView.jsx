@@ -302,6 +302,29 @@ export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
                 </div>
               </div>
 
+              {(() => {
+                const photoSrc = q.photoFileId || q.imageUrl || (() => {
+                  const m = q.questionText?.match(/<img[^>]*src=["']([^"']+)["'][^>]*>/i);
+                  return m ? m[1] : null;
+                })();
+                return photoSrc ? (
+                  <div style={{ marginTop: '8px', marginBottom: '8px', textAlign: 'center' }}>
+                    <img
+                      src={photoSrc}
+                      alt="Savol rasmi"
+                      style={{
+                        maxWidth: '100%',
+                        maxHeight: '220px',
+                        borderRadius: '8px',
+                        objectFit: 'contain',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+                        border: '1px solid var(--surface-border)',
+                      }}
+                    />
+                  </div>
+                ) : null;
+              })()}
+
               {/* Options List */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '4px' }}>
                 {(q.options || []).map((opt, oIdx) => {

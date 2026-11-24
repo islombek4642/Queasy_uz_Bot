@@ -31,3 +31,4 @@ for (const [entity, repl] of updates) {
 }
 
 console.log(`Updated SQLite: ${changedQ} questions, ${changedOpt} options.`);
+

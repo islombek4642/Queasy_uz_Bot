@@ -790,6 +790,29 @@ export function ArenaView({
         >
           <MathText text={currentQ?.questionText} />
         </h3>
+
+        {(() => {
+          const photoSrc = currentQ?.photoFileId || currentQ?.imageUrl || (() => {
+            const m = currentQ?.questionText?.match(/<img[^>]*src=["']([^"']+)["'][^>]*>/i);
+            return m ? m[1] : null;
+          })();
+          return photoSrc ? (
+            <div style={{ marginTop: '14px', display: 'flex', justifyContent: 'center' }}>
+              <img
+                src={photoSrc}
+                alt="Savol rasmi"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '320px',
+                  borderRadius: '12px',
+                  objectFit: 'contain',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
+                  border: '1px solid var(--surface-border, rgba(255,255,255,0.08))',
+                }}
+              />
+            </div>
+          ) : null;
+        })()}
       </Card>
 
       {/* Options List */}

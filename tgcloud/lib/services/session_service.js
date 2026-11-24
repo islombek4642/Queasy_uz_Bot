@@ -336,6 +336,12 @@ async function _trySendQuestionPoll(api, sessionId, session, q, customTimeLimit 
 
   // 1. Agar savolga rasm biriktirilmagan bo'lsa yoki http URL bo'lsa, Media kanalga yuklab file_id olamiz
   let photoToSend = q.photoFileId || null;
+  if (!photoToSend && q.questionText) {
+    const imgMatch = q.questionText.match(/<img[^>]*src=["']([^"']+)["'][^>]*>/i);
+    if (imgMatch) {
+      photoToSend = imgMatch[1];
+    }
+  }
 
   if ((!photoToSend || photoToSend.startsWith('http')) && hasMathFormula(q.questionText)) {
     try {

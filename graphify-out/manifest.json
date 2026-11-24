@@ -138,9 +138,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/cleaner.js": {
-    "mtime": 1794330122.3895485,
-    "seen": 1794655329.8638823,
-    "ast_hash": "fd54640dcb47363e7ad64042736b98ab",
+    "mtime": 1795537331.5522244,
+    "seen": 1795537963.859017,
+    "ast_hash": "b172403d7d99258eba1f706e4c3ec997",
     "semantic_hash": ""
   },
   "tgcloud/lib/parsers/docx_reader.js": {
@@ -288,9 +288,9 @@
     "semantic_hash": ""
   },
   "tests/test_cleaner_syntax.mjs": {
-    "mtime": 1791647260.005774,
-    "seen": 1791656509.1541102,
-    "ast_hash": "cb1e9d682d08b59aa0d58ef838e0e84d",
+    "mtime": 1795537358.0858748,
+    "seen": 1795537963.8467305,
+    "ast_hash": "aa153418248010a78b3ffa4dcbd4fdf0",
     "semantic_hash": ""
   },
   "tests/test_docx_highlight.mjs": {
@@ -378,15 +378,15 @@
     "semantic_hash": ""
   },
   "src/components/quiz/MathText.jsx": {
-    "mtime": 1792072178.8333194,
-    "seen": 1792080792.051115,
-    "ast_hash": "0e3eda6a25a1f8102676bcc88e0d0558",
+    "mtime": 1795536043.0482018,
+    "seen": 1795537963.8398838,
+    "ast_hash": "03d56b2898caa3fbac6cd7726474a39e",
     "semantic_hash": ""
   },
   "src/components/quiz/OptionCard.jsx": {
-    "mtime": 1792072178.8333194,
-    "seen": 1792080792.0511174,
-    "ast_hash": "d0e5a16717d13f5d219ba57922f1e94c",
+    "mtime": 1795536057.6370654,
+    "seen": 1795537963.8398867,
+    "ast_hash": "cafb4eede2b7436e34feead5ce6de38a",
     "semantic_hash": ""
   },
   "src/components/quiz/ProgressBar.jsx": {
@@ -510,9 +510,9 @@
     "semantic_hash": ""
   },
   "src/views/ArenaView.jsx": {
-    "mtime": 1795528294.9091754,
-    "seen": 1795533486.72441,
-    "ast_hash": "cb5406d502a8326c77e4950dbe578bcc",
+    "mtime": 1795536087.632533,
+    "seen": 1795537963.8443005,
+    "ast_hash": "74eb0a077ebed2c3face4d26b24cacc4",
     "semantic_hash": ""
   },
   "src/views/GroupHostView.jsx": {
@@ -3192,9 +3192,9 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/services/kiut_catalog_service.js": {
-    "mtime": 1795533348.5031364,
-    "seen": 1795533486.7450795,
-    "ast_hash": "8b93271763d82f9fc3832b7b3859dc57",
+    "mtime": 1795536429.7467937,
+    "seen": 1795537963.8609085,
+    "ast_hash": "93e98550c0547b0b0f732b29fc4a7ed2",
     "semantic_hash": ""
   },
   "chatgpt_tavsiyasi.txt": {
@@ -3264,9 +3264,9 @@
     "semantic_hash": ""
   },
   "tests/test_quiz_html_export.mjs": {
-    "mtime": 1795278668.9836626,
-    "seen": 1795366825.054781,
-    "ast_hash": "f5fb1ed0afaa97d8907b85b89f3d2901",
+    "mtime": 1795536233.3352065,
+    "seen": 1795537963.850758,
+    "ast_hash": "26432214c562b64ca88c2b5faeb6e7fc",
     "semantic_hash": ""
   },
   "tests/test_range_and_fonts.mjs": {
@@ -3288,15 +3288,15 @@
     "semantic_hash": ""
   },
   "tgcloud/lib/templates/quiz_html_template.js": {
-    "mtime": 1795285854.238071,
-    "seen": 1795366825.0549881,
-    "ast_hash": "ea6065841e49c289f87f1690f813610d",
+    "mtime": 1795536272.6058915,
+    "seen": 1795537963.8615246,
+    "ast_hash": "3459e98fb2beb6fa01b77181ff0de749",
     "semantic_hash": ""
   },
   "scripts/embed_images_in_all_docx.mjs": {
-    "mtime": 1795531840.5017405,
-    "seen": 1795533486.7112393,
-    "ast_hash": "a7c4a13605c60a91c3bc2040fb8596ef",
+    "mtime": 1795537313.325021,
+    "seen": 1795537963.8340235,
+    "ast_hash": "1483b2808444dd22ef1097afd9175309",
     "semantic_hash": ""
   },
   "scripts/import_checkpoint.json": {
@@ -3357,6 +3357,24 @@
     "mtime": 1795534299.5052712,
     "seen": 1795534908.894353,
     "ast_hash": "92bdee1f2b0e1729fe30254fc0a5200f",
+    "semantic_hash": ""
+  },
+  "scripts/clean_all_docx_entities.mjs": {
+    "mtime": 1795537445.7696896,
+    "seen": 1795537963.8337138,
+    "ast_hash": "a5005893b5e860de2097c8b72f271b83",
+    "semantic_hash": ""
+  },
+  "scripts/clean_db_entities.mjs": {
+    "mtime": 1795537381.5639572,
+    "seen": 1795537963.8337178,
+    "ast_hash": "18f2e8cb67cb7532141e07c5f92a1a71",
+    "semantic_hash": ""
+  },
+  "scripts/clean_db_entities_turso.mjs": {
+    "mtime": 1795537400.9433663,
+    "seen": 1795537963.8337207,
+    "ast_hash": "eeba566966f5955ea14358f634ae4d1b",
     "semantic_hash": ""
   }
 }

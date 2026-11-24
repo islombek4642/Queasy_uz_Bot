@@ -262,4 +262,46 @@ export function extractFileFromZip(zipBuffer, targetPath) {
   return null;
 }
 
-export default { extractFileFromZip };
+/**
+ * Extracts a specific file by path from a ZIP archive as raw binary Uint8Array.
+ * Returns Uint8Array or null.
+ */
+export function extractBinaryFromZip(zipBuffer, targetPath) {
+  const bytes = zipBuffer instanceof Uint8Array ? zipBuffer : new Uint8Array(zipBuffer);
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  let offset = 0;
+
+  while (offset + 30 <= bytes.length) {
+    const signature = view.getUint32(offset, true);
+    if (signature !== 0x04034b50) {
+      break;
+    }
+
+    const compressionMethod = view.getUint16(offset + 8, true);
+    const compressedSize = view.getUint32(offset + 18, true);
+    const fileNameLength = view.getUint16(offset + 26, true);
+    const extraFieldLength = view.getUint16(offset + 28, true);
+
+    const fileNameStart = offset + 30;
+    const fileNameBytes = bytes.subarray(fileNameStart, fileNameStart + fileNameLength);
+    const fileName = new TextDecoder('utf-8').decode(fileNameBytes);
+
+    const dataStart = fileNameStart + fileNameLength + extraFieldLength;
+    const dataEnd = dataStart + compressedSize;
+
+    if (fileName === targetPath || fileName.endsWith(targetPath)) {
+      const compressedData = bytes.subarray(dataStart, dataEnd);
+      if (compressionMethod === 0) {
+        return compressedData;
+      } else if (compressionMethod === 8) {
+        return inflateRaw(compressedData);
+      }
+    }
+
+    offset = dataEnd;
+  }
+
+  return null;
+}
+
+export default { extractFileFromZip, extractBinaryFromZip };

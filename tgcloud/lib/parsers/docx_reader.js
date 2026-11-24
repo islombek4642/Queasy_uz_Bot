@@ -2,10 +2,22 @@
 // Pure JavaScript Word .docx document extractor with Highlight & Styling detection
 // Ported & optimized from testyechar & QuizBot best practices
 
-import { extractFileFromZip } from '../utils/unzip.js';
+import { extractFileFromZip, extractBinaryFromZip } from '../utils/unzip.js';
 import { cleanRawTextLines } from './cleaner.js';
 import { ommlToLatex } from './math_engine.js';
 import { getMessage } from '../constants/messages.js';
+
+function uint8ArrayToBase64(bytes) {
+  if (typeof Buffer !== 'undefined') {
+    return Buffer.from(bytes).toString('base64');
+  }
+  let binary = '';
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
 
 /**
  * Checks if run property XML contains highlight, shading, bold, or underline.
@@ -53,6 +65,22 @@ export function extractLinesFromDocx(docxBuffer) {
     throw new Error(getMessage('DOCX_ERR_INVALID_FORMAT'));
   }
 
+  // Pre-parse image relationships if present
+  const relsXml = extractFileFromZip(docxBuffer, 'word/_rels/document.xml.rels');
+  const mediaRelMap = new Map();
+  if (relsXml) {
+    const relRegex = /<Relationship\s+[^>]*Id="([^"]+)"[^>]*Target="([^"]+)"/gi;
+    let rm;
+    while ((rm = relRegex.exec(relsXml)) !== null) {
+      const rId = rm[1];
+      let target = rm[2].replace(/^word\//, '').replace(/^\//, '');
+      if (!target.startsWith('word/')) {
+        target = `word/${target}`;
+      }
+      mediaRelMap.set(rId, target);
+    }
+  }
+
   const lines = [];
 
   // Match all paragraphs <w:p ...>...</w:p>
@@ -82,6 +110,23 @@ export function extractLinesFromDocx(docxBuffer) {
 
     while ((rMatch = rRegex.exec(pContent)) !== null) {
       const rContent = rMatch[1];
+
+      // Check for inline drawing / image
+      const blipMatch = /<(?:a:blip|v:imagedata)\s+[^>]*(?:r:embed|r:id)="([^"]+)"/i.exec(rContent);
+      if (blipMatch) {
+        const rId = blipMatch[1];
+        const targetPath = mediaRelMap.get(rId);
+        if (targetPath) {
+          try {
+            const imgBytes = extractBinaryFromZip(docxBuffer, targetPath);
+            if (imgBytes && imgBytes.length > 0) {
+              const b64 = uint8ArrayToBase64(imgBytes);
+              const mime = targetPath.toLowerCase().endsWith('.jpg') || targetPath.toLowerCase().endsWith('.jpeg') ? 'image/jpeg' : 'image/png';
+              textParts.push(`\n<img src="data:${mime};base64,${b64}" class="quiz-media-img" />\n`);
+            }
+          } catch {}
+        }
+      }
 
       // Extract run properties <w:rPr>...</w:rPr>
       const rPrMatch = /<w:rPr>([\s\S]*?)<\/w:rPr>/i.exec(rContent);

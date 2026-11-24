@@ -42,6 +42,14 @@ export function generateQuizHtml({ quiz, questions = [] }) {
         });
       }
 
+      let photoUrl = q.photoFileId || q.photo_file_id || q.imageUrl || q.photo || null;
+      if (!photoUrl && qText) {
+        const imgMatch = qText.match(/<img[^>]*src=["']([^"']+)["'][^>]*>/i);
+        if (imgMatch) {
+          photoUrl = imgMatch[1];
+        }
+      }
+
       return {
         id: q.id || idx + 1,
         originalIndex: idx + 1,
@@ -49,6 +57,7 @@ export function generateQuizHtml({ quiz, questions = [] }) {
         options,
         correct,
         explanation: q.explanation ? String(q.explanation) : '',
+        photoFileId: photoUrl,
       };
     }),
   };
@@ -1082,6 +1091,10 @@ ${KATEX_JS}
             Yuklanmoqda...
           </h2>
 
+          <div id="questionMediaBox" class="quiz-media-box" style="display: none; margin: 12px 0; text-align: center;">
+            <img id="questionMediaImg" class="quiz-media-img" alt="Savol rasmi" style="max-width: 100%; max-height: 320px; border-radius: 12px; object-fit: contain; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+          </div>
+
           <div class="options-grid" id="optionsContainer"></div>
 
           <div id="explanationBox" class="explanation-box">
@@ -1673,6 +1686,19 @@ ${KATEX_JS}
       const q = configuredQuestions[currentIndex];
       questionTitle.innerHTML = formatMathText(q.question);
 
+      const mediaBox = document.getElementById('questionMediaBox');
+      const mediaImg = document.getElementById('questionMediaImg');
+      if (mediaBox && mediaImg) {
+        const photoSrc = q.photoFileId || q.imageUrl || null;
+        if (photoSrc && (photoSrc.startsWith('http') || photoSrc.startsWith('data:image/'))) {
+          mediaImg.src = photoSrc;
+          mediaBox.style.display = 'block';
+        } else {
+          mediaImg.src = '';
+          mediaBox.style.display = 'none';
+        }
+      }
+
       const questionCategory = document.getElementById('questionCategory');
       if (selectedQuizMode === 'range') {
         if (questionCategory) questionCategory.textContent = \`Oraliq: \${rangeConfig[0]}-\${rangeConfig[1]}\`;
@@ -1946,8 +1972,13 @@ ${KATEX_JS}
           div.id = 'review-item-' + idx;
           div.style.cssText = \`padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid \${isRight ? 'var(--success)' : 'var(--danger)'}; transition: box-shadow 0.3s ease;\`;
           const origLabel = q.originalIndex ? \` <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">(Asl #\${q.originalIndex})</span>\` : '';
+          const reviewPhotoSrc = q.photoFileId || q.imageUrl || null;
+          const reviewPhotoHtml = (reviewPhotoSrc && (reviewPhotoSrc.startsWith('http') || reviewPhotoSrc.startsWith('data:image/')))
+            ? \`<div style="margin: 8px 0; text-align: center;"><img src="\${escapeHtml(reviewPhotoSrc)}" style="max-width: 100%; max-height: 200px; border-radius: 8px; object-fit: contain;" /></div>\`
+            : '';
           div.innerHTML = \`
             <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">\${idx + 1}. \${formatMathText(q.question)}\${origLabel}</div>
+            \${reviewPhotoHtml}
             <div style="font-size: 0.82rem; color: \${isRight ? 'var(--success)' : 'var(--danger)'};">
               Sizning javobingiz: \${userAnswers[idx] !== undefined ? formatMathText(q.options[userAnswers[idx]]) : "Belgilanmagan"}
             </div>

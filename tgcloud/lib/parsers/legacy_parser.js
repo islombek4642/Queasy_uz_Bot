@@ -49,10 +49,25 @@ export function parseLegacyFormat(lines) {
       }
 
       if (currentOptions.length >= 2) {
+        let photoFileId = null;
+        const imgMatch = currentQuestion.match(/<img[^>]*src=["']([^"']+)["'][^>]*>/i);
+        if (imgMatch) {
+          photoFileId = imgMatch[1];
+        } else {
+          // If question has no image, check if an option contains an accidental question illustration
+          const optsWithImg = currentOptions
+            .map((o, idx) => ({ idx, match: typeof o === 'string' ? o.match(/<img[^>]*src=["']([^"']+)["'][^>]*>/i) : null }))
+            .filter((x) => x.match);
+          if (optsWithImg.length === 1) {
+            photoFileId = optsWithImg[0].match[1];
+            currentOptions[optsWithImg[0].idx] = currentOptions[optsWithImg[0].idx].replace(/<img[^>]*>/gi, '').trim();
+          }
+        }
         questions.push({
           questionText: currentQuestion.trim(),
           options: currentOptions,
           correctOptionId: currentCorrect,
+          photoFileId: photoFileId,
         });
       }
     }
@@ -61,25 +76,41 @@ export function parseLegacyFormat(lines) {
     currentCorrect = -1;
   }
 
+  let pendingImage = '';
+
   for (const line of lines) {
     const trimmed = line.trim();
     if (!trimmed) continue;
+
+    // Detect standalone img lines
+    if (trimmed.startsWith('<img') || trimmed.includes('<img')) {
+      if (currentQuestion !== null && currentOptions.length === 0) {
+        currentQuestion += ` ${trimmed}`;
+        continue;
+      } else if (currentQuestion === null) {
+        pendingImage += (pendingImage ? ' ' : '') + trimmed;
+        continue;
+      }
+    }
 
     if (/^\?+/.test(trimmed)) {
       const qText = trimmed.replace(/^\?+/, '').trim();
       if (currentOptions.length > 0) {
         commit();
-        currentQuestion = qText;
+        currentQuestion = (pendingImage ? `${pendingImage} ` : '') + qText;
+        pendingImage = '';
       } else if (qText.length > 0) {
         if (currentQuestion === null) {
-          currentQuestion = qText;
+          currentQuestion = (pendingImage ? `${pendingImage} ` : '') + qText;
+          pendingImage = '';
         } else {
           if (!currentQuestion) currentQuestion = qText;
           else currentQuestion += ` ${qText}`;
         }
       } else {
         if (currentQuestion === null) {
-          currentQuestion = '';
+          currentQuestion = pendingImage ? `${pendingImage}` : '';
+          pendingImage = '';
         } else {
           if (!currentQuestion.endsWith('?')) currentQuestion += '?';
         }
