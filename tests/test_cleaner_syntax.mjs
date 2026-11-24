@@ -67,4 +67,20 @@ assert.strictEqual(abcResult[0].correctOptionId, 0);
 assert.strictEqual(abcResult[1].correctOptionId, 0);
 console.log('✅ No-space numbering and Cyrillic options test passed!');
 
+// 4. HTML entity unescaping
+const htmlEntityText = `
+? Bulutli saqlash va xizmatlarining afzalliklari nima?
++ Bulutli saqlash xizmatlari, ma&apos;lumotlarni yedeklash, ulash va tarqatishning osonligini va qat&apos;iylikni ta&apos;minlaydi
+= Ular iste&apos;molchilarga ko&apos;proq ma&apos;lumot taqdim etadi
+= Kirish to&amp;apos;xtatuvchi &quot;vosita&quot; &lt;span&gt;mavjud&lt;/span&gt;
+`;
+const entityLines = cleanRawTextLines(htmlEntityText);
+assert.ok(entityLines[1].includes("ma'lumotlarni"), 'Must decode &apos; to single quote');
+assert.ok(entityLines[1].includes("qat'iylikni"), 'Must decode &apos; to single quote');
+assert.ok(entityLines[2].includes("ko'proq"), 'Must decode &apos; to single quote');
+assert.ok(entityLines[3].includes("to'xtatuvchi"), 'Must decode &amp;apos; to single quote');
+assert.ok(entityLines[3].includes('"vosita"'), 'Must decode &quot; to double quote');
+assert.ok(!entityLines[3].includes('<span>'), 'Must strip broken HTML tags');
+console.log('✅ HTML entity unescaping test passed!');
+
 console.log('🎉 ALL CLEANER & SYNTAX TESTS PASSED!');

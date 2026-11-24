@@ -21,11 +21,15 @@ function getImageDimensions(buf) {
 
 function escapeXml(unsafe) {
   return String(unsafe || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
+    .replaceAll('&amp;apos;', "'")
+    .replaceAll('&apos;', "'")
+    .replaceAll('&#39;', "'")
+    .replaceAll('&amp;quot;', '"')
+    .replaceAll('&quot;', '"')
+    .replaceAll('&#34;', '"')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
 }
 
 function buildDocxWithEmbeddedImages(paragraphsWithImages, mediaFiles) {

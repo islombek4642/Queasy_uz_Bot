@@ -76,11 +76,35 @@ export function splitInlineAbcOptions(text) {
 }
 
 /**
+ * Unescapes HTML entities and strips broken HTML formatting tags often found in crawled/exported tests.
+ */
+export function unescapeHtmlEntities(text) {
+  if (!text) return '';
+  return text
+    .replaceAll('&amp;apos;', "'")
+    .replaceAll('&apos;', "'")
+    .replaceAll('&#39;', "'")
+    .replaceAll('&amp;#39;', "'")
+    .replaceAll('&amp;quot;', '"')
+    .replaceAll('&quot;', '"')
+    .replaceAll('&#34;', '"')
+    .replaceAll('&amp;#34;', '"')
+    .replaceAll('&nbsp;', ' ')
+    .replaceAll('&amp;nbsp;', ' ')
+    .replaceAll('&laquo;', '«')
+    .replaceAll('&raquo;', '»')
+    .replaceAll('&ndash;', '-')
+    .replaceAll('&mdash;', '-')
+    .replaceAll('&amp;amp;', '&')
+    .replace(/&lt;\/?(?:span|div|p|b|i|u|font|br|strong|em)(?:\s[^&]*)?&gt;/gi, '');
+}
+
+/**
  * Normalizes Uzbek apostrophes (o', g', O', G') and Unicode quotes/dashes.
  */
 export function normalizeUzbekApostrophes(text) {
   if (!text) return '';
-  let res = text;
+  let res = unescapeHtmlEntities(text);
   for (const [k, v] of Object.entries(QUOTE_MAP)) {
     res = res.replaceAll(k, v);
   }
