@@ -3,14 +3,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 import sqlite3 from 'node:sqlite';
 import { spawnSync } from 'node:child_process';
+import { parseQuizInput } from '../tgcloud/lib/parsers/parser_engine.js';
 
-const INDEX_FILE = fs.existsSync('D:/Serverless/Queasy_uz_Bot/scratch/new_site_tests_to_import.json')
-  ? 'D:/Serverless/Queasy_uz_Bot/scratch/new_site_tests_to_import.json'
-  : 'D:/Serverless/QUIZLARIM/index.json';
-const DB_FILE = 'D:/Serverless/Queasy_uz_Bot/queasy_ready.sqlite';
-const CHECKPOINT_FILE = 'D:/Serverless/Queasy_uz_Bot/scripts/.import_checkpoint.json';
+const INDEX_FILE = fs.existsSync(path.join(process.cwd(), 'scratch/new_site_tests_to_import.json'))
+  ? path.join(process.cwd(), 'scratch/new_site_tests_to_import.json')
+  : (fs.existsSync(path.join(process.cwd(), 'kiut_site_index.json'))
+      ? path.join(process.cwd(), 'kiut_site_index.json')
+      : path.join(process.cwd(), 'scratch/missing_in_turso.json'));
+const DB_FILE = path.join(process.cwd(), 'queasy_ready.sqlite');
+const CHECKPOINT_FILE = path.join(process.cwd(), 'scripts/.import_checkpoint.json');
 const BASE_HOST = 'https://kiut-nm-test.uz';
-const INIT_DATA = process.env.INIT_DATA || process.argv[2] || '';
+const USER_INIT_DATA = 'query_id=AAGqKOcJBAAAAKoo5wmVig9v&user=%7B%22id%22%3A8756078762%2C%22first_name%22%3A%22Islombek%22%2C%22last_name%22%3A%22Xamidullayev%20%EF%A3%BF%22%2C%22username%22%3A%22xamidullayev_i%22%2C%22language_code%22%3A%22uz%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FqjtWAJtvr95hsltjS4uN9B7Mwhl1ztXx3SN2YuHMWO8yX219KAFSZE0XcQI4yvTa.svg%22%7D&auth_date=1795517600&signature=n6QRpLP4q2pl3ETYnSQJi3Z4LvyF3i1JnNWtVn8OS-1_ReyETc5I55NkO_4PqbObPUmo5g_x6ItuVJPn_qDDBQ&hash=b12eedffd80b09525dc37a7f0f3ae6f6ae14fc9c5b8a39cd7c28810a821c8181';
+const INIT_DATA = process.env.INIT_DATA || process.argv[2] || USER_INIT_DATA;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -110,6 +114,39 @@ async function main() {
   const quizlarim = JSON.parse(fs.readFileSync(INDEX_FILE, 'utf8'));
   const db = new sqlite3.DatabaseSync(DB_FILE);
 
+  // Ensure core tables exist in SQLite
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS quizzes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      owner_id INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT,
+      category TEXT,
+      is_public INTEGER NOT NULL DEFAULT 0,
+      time_limit INTEGER NOT NULL DEFAULT 30,
+      shuffle_options INTEGER NOT NULL DEFAULT 1,
+      created_at INTEGER DEFAULT (unixepoch())
+    );
+    CREATE TABLE IF NOT EXISTS questions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      quiz_id INTEGER NOT NULL,
+      order_index INTEGER NOT NULL DEFAULT 0,
+      question_text TEXT NOT NULL,
+      options_json TEXT NOT NULL,
+      correct_option_id INTEGER NOT NULL,
+      explanation TEXT,
+      photo_file_id TEXT,
+      photo_caption TEXT
+    );
+    CREATE TABLE IF NOT EXISTS categories (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      path TEXT NOT NULL UNIQUE
+    );
+    CREATE INDEX IF NOT EXISTS idx_quizzes_owner_id ON quizzes (owner_id);
+    CREATE INDEX IF NOT EXISTS idx_quizzes_category ON quizzes (category);
+    CREATE INDEX IF NOT EXISTS idx_questions_quiz_id ON questions (quiz_id);
+  `);
+
   const existingRows = db.prepare('SELECT title FROM quizzes WHERE owner_id = 0').all();
   const existingTitles = new Set(existingRows.map((r) => r.title.trim().toLowerCase()));
 
@@ -169,9 +206,17 @@ async function main() {
         continue;
       }
 
-      // 2. Parse questions
-      const parsedQuestions = parseLegacyQuiz(res.content);
-      if (parsedQuestions.length === 0) {
+      // 2. Parse questions (Legacy + Universal Parser fallback)
+      let parsedQuestions = parseLegacyQuiz(res.content);
+      if (!parsedQuestions || parsedQuestions.length === 0) {
+        try {
+          const parsed = parseQuizInput(res.content, `${item.title}.txt`);
+          if (parsed.success && Array.isArray(parsed.questions) && parsed.questions.length > 0) {
+            parsedQuestions = parsed.questions;
+          }
+        } catch {}
+      }
+      if (!parsedQuestions || parsedQuestions.length === 0) {
         console.warn(`  ⚠️ Savollar ajratib olinmadi (0 ta).`);
         continue;
       }

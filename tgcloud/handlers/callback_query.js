@@ -320,6 +320,12 @@ export default async function (callbackQuery, ctx) {
     return;
   }
 
+  // 3b. Empty Quiz Alert
+  if (data.startsWith('quiz_empty:')) {
+    await answer(getMessage('ERR_QUIZ_EMPTY', lang), true);
+    return;
+  }
+
   // 4. Start Quiz -> Show 3 Solo Modes
   if (data.startsWith(ACTIONS.START_QUIZ_PREFIX)) {
     const raw = data.replace(ACTIONS.START_QUIZ_PREFIX, '');
@@ -329,6 +335,10 @@ export default async function (callbackQuery, ctx) {
     const quiz = await getQuizById(quizId);
     if (!quiz) {
       await answer(getMessage('ERR_NOT_FOUND', lang), true);
+      return;
+    }
+    if (!quiz.questions || quiz.questions.length === 0) {
+      await answer(getMessage('ERR_QUIZ_EMPTY', lang), true);
       return;
     }
 
@@ -363,6 +373,10 @@ export default async function (callbackQuery, ctx) {
     const quiz = await getQuizById(quizId);
     if (!quiz) {
       await answer(getMessage('ERR_NOT_FOUND', lang), true);
+      return;
+    }
+    if (!quiz.questions || quiz.questions.length === 0) {
+      await answer(getMessage('ERR_QUIZ_EMPTY', lang), true);
       return;
     }
 
@@ -547,6 +561,11 @@ export default async function (callbackQuery, ctx) {
   // 5. Solo Mode: Full Test
   if (data.startsWith('mode_full:')) {
     const quizId = parseInt(data.replace('mode_full:', ''), 10);
+    const quiz = await getQuizById(quizId);
+    if (!quiz || !quiz.questions || quiz.questions.length === 0) {
+      await answer(getMessage('ERR_QUIZ_EMPTY', lang), true);
+      return;
+    }
     await answer(getMessage('QUIZ_STARTING', lang));
 
     if (messageId) {
@@ -555,13 +574,20 @@ export default async function (callbackQuery, ctx) {
       } catch {}
     }
 
-    await startQuizSession(api, {
+    const sessionRes = await startQuizSession(api, {
       chatId,
       userId,
       quizId,
       isGroup: false,
       mode: ACTIONS.MODE_FULL,
     });
+    if (sessionRes && sessionRes.success === false) {
+      await api.sendMessage({
+        chat_id: chatId,
+        text: sessionRes.error || getMessage('ERR_QUIZ_EMPTY', lang),
+        parse_mode: 'HTML',
+      });
+    }
     return;
   }
 
@@ -571,6 +597,10 @@ export default async function (callbackQuery, ctx) {
     const quiz = await getQuizById(quizId);
     if (!quiz) {
       await answer(getMessage('ERR_NOT_FOUND', lang), true);
+      return;
+    }
+    if (!quiz.questions || quiz.questions.length === 0) {
+      await answer(getMessage('ERR_QUIZ_EMPTY', lang), true);
       return;
     }
 
@@ -598,6 +628,10 @@ export default async function (callbackQuery, ctx) {
     const quiz = await getQuizById(quizId);
     if (!quiz) {
       await answer(getMessage('ERR_NOT_FOUND', lang), true);
+      return;
+    }
+    if (!quiz.questions || quiz.questions.length === 0) {
+      await answer(getMessage('ERR_QUIZ_EMPTY', lang), true);
       return;
     }
 
@@ -726,6 +760,10 @@ export default async function (callbackQuery, ctx) {
       await answer(getMessage('ERR_NOT_FOUND', lang), true);
       return;
     }
+    if (!quiz.questions || quiz.questions.length === 0) {
+      await answer(getMessage('ERR_QUIZ_EMPTY', lang), true);
+      return;
+    }
 
     await answer();
     await clearUserState(userId);
@@ -752,7 +790,7 @@ export default async function (callbackQuery, ctx) {
         text: getMessage('QUIZ_INFO_TITLE', lang, {
           id: quiz.id,
           title: quiz.title,
-          count: quiz.questions.length,
+          count: quiz.questions?.length ?? (quiz.questionCount || 0),
           time: `${quiz.timeLimit}s`,
           shuffle: quiz.shuffleOptions ? getMessage('LABEL_YES', lang) : getMessage('LABEL_NO', lang),
         }),
@@ -765,7 +803,7 @@ export default async function (callbackQuery, ctx) {
         text: getMessage('QUIZ_INFO_TITLE', lang, {
           id: quiz.id,
           title: quiz.title,
-          count: quiz.questions.length,
+          count: quiz.questions?.length ?? (quiz.questionCount || 0),
           time: `${quiz.timeLimit}s`,
           shuffle: quiz.shuffleOptions ? getMessage('LABEL_YES', lang) : getMessage('LABEL_NO', lang),
         }),
@@ -959,6 +997,10 @@ export default async function (callbackQuery, ctx) {
 
     if (!quiz) {
       await answer(getMessage('ERR_NOT_FOUND', lang), true);
+      return;
+    }
+    if (!quiz.questions || quiz.questions.length === 0) {
+      await answer(getMessage('ERR_QUIZ_EMPTY', lang), true);
       return;
     }
 

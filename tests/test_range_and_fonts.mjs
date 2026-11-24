@@ -7,7 +7,16 @@ const desktopHtmls = fs.existsSync('C:/Users/Islombek/Desktop')
   ? fs.readdirSync('C:/Users/Islombek/Desktop').filter(f => f.endsWith('.html')).map(f => `C:/Users/Islombek/Desktop/${f}`)
   : [];
 
-const targetFile = desktopHtmls.find(f => fs.existsSync(f)) || 'scratch/demo_offline_quiz.html';
+let targetFile = desktopHtmls.find(f => fs.existsSync(f)) || 'scratch/demo_offline_quiz.html';
+if (!fs.existsSync(targetFile)) {
+  fs.mkdirSync('scratch', { recursive: true });
+  const { generateQuizHtml } = await import('../tgcloud/lib/templates/quiz_html_template.js');
+  fs.writeFileSync('scratch/demo_offline_quiz.html', generateQuizHtml({
+    quiz: { id: 1, title: 'Demo Offline Quiz', timeLimit: 30, isPublic: 1 },
+    questions: [{ id: 1, questionText: 'Q1', options: ['A', 'B'], correctOptionId: 0 }]
+  }));
+  targetFile = 'scratch/demo_offline_quiz.html';
+}
 const html = fs.readFileSync(targetFile, 'utf8');
 
 // 1. Fonts & KaTeX

@@ -209,18 +209,33 @@ export function MyQuizzesView({ initialData, onStartQuiz, onOpenCreator, onEditQ
                   </div>
 
                   {/* Row 2: Full-width Start button */}
-                  <Button
-                    size="sm"
-                    variant="primary"
-                    onClick={() => {
-                      haptic.impact('medium');
-                      onStartQuiz(quiz.id);
-                    }}
-                    icon="solar:play-bold"
-                    style={{ width: '100%' }}
-                  >
-                    {t('BTN_START_QUIZ')}
-                  </Button>
+                  {Number(quiz.questionCount || 0) > 0 ? (
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      onClick={() => {
+                        haptic.impact('medium');
+                        onStartQuiz(quiz.id);
+                      }}
+                      icon="solar:play-bold"
+                      style={{ width: '100%' }}
+                    >
+                      {t('BTN_START_QUIZ')}
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => {
+                        haptic.notification('warning');
+                        alert(t('ERR_QUIZ_EMPTY') || "Ushbu testda hali savollar mavjud emas");
+                      }}
+                      icon="solar:danger-triangle-bold"
+                      style={{ width: '100%', opacity: 0.65, cursor: 'not-allowed' }}
+                    >
+                      {t('ERR_QUIZ_EMPTY') || 'Savol yo‘q'}
+                    </Button>
+                  )}
                 </div>
               </Card>
             );

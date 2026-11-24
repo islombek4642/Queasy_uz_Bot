@@ -4,7 +4,9 @@ import path from 'node:path';
 import { TURSO_TOKEN } from '../tgcloud/lib/constants/secrets.js';
 
 const TURSO_URL = 'https://queasy-db-xamidullayev-i.aws-eu-north-1.turso.io';
-const INDEX_FILE = 'D:/Serverless/QUIZLARIM/index.json';
+const INDEX_FILE = fs.existsSync(path.join(process.cwd(), 'kiut_site_index.json'))
+  ? path.join(process.cwd(), 'kiut_site_index.json')
+  : path.join(process.cwd(), 'scratch/missing_in_turso.json');
 
 const INTAKE_MAP = {
   "KUNDUZGI TA'LIM (TIBBIYOT)": {
@@ -25,6 +27,7 @@ const INTAKE_MAP = {
     "N22": "N22 (2022-2026 O'QUV YIL)",
     "N23": "N23 (2023-2027 O'QUV YIL)",
     "N24": "N24 (2024-2028 O'QUV YIL)",
+    "MAXSUS": "MAXSUS",
   },
   "KECHKI TA'LIM": {
     "N23": "N23 (2023-2027 O'QUV YIL)",

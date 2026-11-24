@@ -140,7 +140,7 @@ export async function startQuizSession(api, { chatId, userId, quizId, isGroup = 
     });
   } else {
     const quiz = await getQuizById(quizId);
-    if (!quiz || quiz.questions.length === 0) {
+    if (!quiz || !quiz.questions || quiz.questions.length === 0) {
       return { success: false, error: getMessage('ERR_QUIZ_EMPTY', lang) };
     }
 
@@ -1386,7 +1386,7 @@ export async function announceGroupLobby(api, { chatId, userId, quizId }) {
   const lang = user?.lang || 'UZ';
 
   const quiz = await getQuizById(quizId);
-  if (!quiz || quiz.questions.length === 0) {
+  if (!quiz || !quiz.questions || quiz.questions.length === 0) {
     return { success: false, error: getMessage('ERR_QUIZ_EMPTY', lang) };
   }
 
@@ -1500,7 +1500,7 @@ export async function handleLobbyJoin(api, lobbyId, tgUser) {
 
   const text = getMessage('QUIZ_LOBBY_MSG', lang, {
     title: quiz ? quiz.title : 'Test',
-    count: quiz ? quiz.questions.length : 0,
+    count: quiz ? (quiz.questions?.length || 0) : 0,
     time: quiz ? (quiz.timeLimit || 30) : 30,
     shuffle: quiz && quiz.shuffleOptions !== false ? getMessage('LABEL_YES', lang) : getMessage('LABEL_NO', lang),
     ready_count: readyUsers.length,

@@ -3,7 +3,7 @@ import { TURSO_TOKEN } from './secrets.js';
 export const CONFIG = {
   // Telegram Bot limits for native polls
   POLL: {
-    MIN_OPTIONS: 1,
+    MIN_OPTIONS: 2,
     MAX_OPTIONS: 12,
     MAX_QUESTION_LENGTH: 300,
     MAX_OPTION_LENGTH: 100,

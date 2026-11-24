@@ -115,7 +115,13 @@ export default async function (message, ctx) {
         const quizId = parseInt(cmd.argsStr.replace('quiz_', '').split(/\s+/)[0], 10);
         if (quizId) {
           if (!(await verifyAdmin())) return;
-          await announceGroupLobby(api, { chatId, userId: fromUser.id, quizId });
+          const res = await announceGroupLobby(api, { chatId, userId: fromUser.id, quizId });
+          if (res && !res.success) {
+            await api.sendMessage({
+              chat_id: chatId,
+              text: `⚠️ ${res.error}`,
+            });
+          }
         }
       } else {
         // Silent clean up for bare /start in groups
@@ -376,6 +382,16 @@ export default async function (message, ctx) {
     const quizId = data?.quizId;
     if (isButtonMatch(text, 'BTN_MODE_FULL')) {
       if (quizId) {
+        const quiz = await getQuizById(quizId);
+        if (!quiz || !quiz.questions || quiz.questions.length === 0) {
+          await clearUserState(fromUser.id);
+          await api.sendMessage({
+            chat_id: chatId,
+            text: getMessage('ERR_QUIZ_EMPTY', lang),
+            reply_markup: getMainKeyboard(lang, isAdmin),
+          });
+          return;
+        }
         await clearUserState(fromUser.id);
         await startQuizSession(api, {
           chatId,
@@ -389,10 +405,19 @@ export default async function (message, ctx) {
     } else if (isButtonMatch(text, 'BTN_MODE_RANGE')) {
       if (quizId) {
         const quiz = await getQuizById(quizId);
+        if (!quiz || !quiz.questions || quiz.questions.length === 0) {
+          await clearUserState(fromUser.id);
+          await api.sendMessage({
+            chat_id: chatId,
+            text: getMessage('ERR_QUIZ_EMPTY', lang),
+            reply_markup: getMainKeyboard(lang, isAdmin),
+          });
+          return;
+        }
         await setUserState(fromUser.id, STATES.WAITING_FOR_RANGE, { quizId });
         await api.sendMessage({
           chat_id: chatId,
-          text: getMessage('PROMPT_ENTER_RANGE', lang, { total: quiz?.questions?.length || 0 }),
+          text: getMessage('PROMPT_ENTER_RANGE', lang, { total: quiz.questions.length }),
           parse_mode: 'HTML',
           reply_markup: getCancelKeyboard(lang),
         });
@@ -401,10 +426,19 @@ export default async function (message, ctx) {
     } else if (isButtonMatch(text, 'BTN_MODE_RANDOM')) {
       if (quizId) {
         const quiz = await getQuizById(quizId);
+        if (!quiz || !quiz.questions || quiz.questions.length === 0) {
+          await clearUserState(fromUser.id);
+          await api.sendMessage({
+            chat_id: chatId,
+            text: getMessage('ERR_QUIZ_EMPTY', lang),
+            reply_markup: getMainKeyboard(lang, isAdmin),
+          });
+          return;
+        }
         await setUserState(fromUser.id, STATES.WAITING_FOR_RANDOM_COUNT, { quizId });
         await api.sendMessage({
           chat_id: chatId,
-          text: getMessage('PROMPT_ENTER_RANDOM_COUNT', lang, { total: quiz?.questions?.length || 0 }),
+          text: getMessage('PROMPT_ENTER_RANDOM_COUNT', lang, { total: quiz.questions.length }),
           parse_mode: 'HTML',
           reply_markup: getCancelKeyboard(lang),
         });
@@ -429,7 +463,7 @@ export default async function (message, ctx) {
     const quizId = data.quizId;
     const quiz = await getQuizById(quizId);
 
-    if (!quiz || start < 1 || end > quiz.questions.length || start > end) {
+    if (!quiz || !quiz.questions || quiz.questions.length === 0 || start < 1 || end > quiz.questions.length || start > end) {
       await api.sendMessage({
         chat_id: chatId,
         text: getMessage('ERR_INVALID_RANGE', lang),
@@ -455,10 +489,10 @@ export default async function (message, ctx) {
     const quizId = data.quizId;
     const quiz = await getQuizById(quizId);
 
-    if (!quiz || isNaN(count) || count < 1 || count > quiz.questions.length) {
+    if (!quiz || !quiz.questions || quiz.questions.length === 0 || isNaN(count) || count < 1 || count > quiz.questions.length) {
       await api.sendMessage({
         chat_id: chatId,
-        text: getMessage('ERR_INVALID_COUNT', lang, { total: quiz?.questions.length || 0 }),
+        text: getMessage('ERR_INVALID_COUNT', lang, { total: quiz?.questions?.length || 0 }),
         reply_markup: getCancelKeyboard(lang),
       });
       return;
@@ -753,7 +787,7 @@ export default async function (message, ctx) {
           text: getMessage('QUIZ_INFO_TITLE', lang, {
             id: quiz.id,
             title: quiz.title,
-            count: quiz.questions.length,
+            count: quiz.questions?.length ?? (quiz.questionCount || 0),
             time: `${quiz.timeLimit}s`,
             shuffle: quiz.shuffleOptions ? getMessage('LABEL_YES', lang) : getMessage('LABEL_NO', lang),
           }),

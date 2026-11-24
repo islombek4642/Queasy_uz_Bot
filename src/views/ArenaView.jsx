@@ -581,6 +581,85 @@ export function ArenaView({
     );
   }
 
+  // Empty State for 0-question tests (prevent crash and infinite timer loop)
+  if (!questions || questions.length === 0) {
+    return (
+      <div
+        style={{
+          padding: '24px 16px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '80vh',
+          maxWidth: '480px',
+          margin: '0 auto',
+          textAlign: 'center',
+          gap: '20px',
+        }}
+        className="animate-fade-in"
+      >
+        <Card
+          style={{
+            padding: '36px 24px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '16px',
+            border: '1px solid var(--surface-border)',
+            borderRadius: '20px',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              width: '68px',
+              height: '68px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(239, 68, 68, 0.12)',
+              color: 'var(--color-error)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Icon icon="solar:danger-triangle-bold" width="38" height="38" />
+          </div>
+
+          <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-primary)' }}>
+            {t('ERR_QUIZ_EMPTY') || "Ushbu testda savollar mavjud emas"}
+          </h3>
+
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+            {quiz?.title ? `"${quiz.title}" ` : ''}
+            {t('ERR_QUIZ_EMPTY_DESC') || "Ushbu test bazada mavjud, biroq uning ichida hali savollar yuklanmagan yoki 0 ta savol mavjud."}
+          </p>
+
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => onExit(false)}
+            style={{
+              width: '100%',
+              marginTop: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              padding: '12px 20px',
+              fontWeight: '700',
+              borderRadius: '12px',
+              cursor: 'pointer',
+            }}
+          >
+            <Icon icon="solar:arrow-left-bold" width="20" height="20" />
+            <span>{t('BTN_BACK') || 'Orqaga qaytish'}</span>
+          </button>
+        </Card>
+      </div>
+    );
+  }
+
   // Resolve true correct option ID
   const trueCorrectId = liveRoomCode
     ? (serverCorrectId !== null ? serverCorrectId : -1)

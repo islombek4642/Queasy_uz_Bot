@@ -13,6 +13,10 @@ export default async function (input, ctx) {
     return { success: false, error: 'UNAUTHORIZED' };
   }
 
+  if (totalQuestions <= 0) {
+    return { success: false, error: 'QUIZ_HAS_NO_QUESTIONS' };
+  }
+
   let sessionId = null;
   if (CONFIG.TURSO?.ENABLED) {
     try {

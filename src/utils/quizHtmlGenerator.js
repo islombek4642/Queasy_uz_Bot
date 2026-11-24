@@ -5,6 +5,10 @@ import { generateQuizHtml } from '../../tgcloud/lib/templates/quiz_html_template
 
 export function downloadQuizAsHtml(quiz, questions = []) {
   if (!quiz) return;
+  if (!questions || questions.length === 0) {
+    alert("Ushbu testda savollar mavjud emas");
+    return;
+  }
 
   const html = generateQuizHtml({ quiz, questions });
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });

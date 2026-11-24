@@ -1,13 +1,44 @@
-import fs from 'fs';
-import path from 'path';
-import { resolveToken } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/core/credentials.js';
-import { scanFiles } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/core/scanner.js';
-import { pathToModule } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/core/snapshot.js';
-import { readWd } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/core/workdir.js';
-import { runFunction } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/api/endpoints.js';
+// scripts/dump_dynamic_tables.mjs
+import fs from 'node:fs';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+
+function findTgcloudCliSrc() {
+  const userProfile = process.env.USERPROFILE || process.env.HOME || '';
+  const npxDir = path.join(userProfile, 'AppData', 'Local', 'npm-cache', '_npx');
+  if (fs.existsSync(npxDir)) {
+    const hashes = fs.readdirSync(npxDir);
+    for (const h of hashes) {
+      const srcPath = path.join(npxDir, h, 'node_modules', '@tgcloud', 'cli', 'src');
+      if (fs.existsSync(srcPath)) {
+        return srcPath;
+      }
+    }
+  }
+  return null;
+}
 
 async function main() {
-  const token = await resolveToken();
+  const cliSrc = findTgcloudCliSrc();
+  if (!cliSrc) {
+    console.error('❌ @tgcloud/cli npm keshidan topilmadi. Avval "npx @tgcloud/cli --help" ni ishga tushiring.');
+    process.exit(1);
+  }
+
+  const { resolveToken } = await import(pathToFileURL(path.join(cliSrc, 'core', 'credentials.js')).href);
+  const { scanFiles } = await import(pathToFileURL(path.join(cliSrc, 'core', 'scanner.js')).href);
+  const { pathToModule } = await import(pathToFileURL(path.join(cliSrc, 'core', 'snapshot.js')).href);
+  const { readWd } = await import(pathToFileURL(path.join(cliSrc, 'core', 'workdir.js')).href);
+  const { runFunction } = await import(pathToFileURL(path.join(cliSrc, 'api', 'endpoints.js')).href);
+
+  let token;
+  try {
+    token = await resolveToken();
+  } catch (err) {
+    console.warn('⚠️ Token aniqlanmadi:', err.message);
+    return;
+  }
+
   const allFiles = scanFiles();
   const sources = {};
   for (const f of allFiles) sources[pathToModule(f)] = readWd(f);

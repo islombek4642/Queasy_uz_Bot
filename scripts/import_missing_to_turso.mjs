@@ -1,13 +1,20 @@
 // scripts/import_missing_to_turso.mjs
 import fs from 'node:fs';
 import path from 'node:path';
+import dns from 'node:dns';
 import { TURSO_TOKEN } from '../tgcloud/lib/constants/secrets.js';
+import { parseQuizInput } from '../tgcloud/lib/parsers/parser_engine.js';
+
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {}
 
 const TURSO_URL = 'https://queasy-db-xamidullayev-i.aws-eu-north-1.turso.io';
 const BASE_HOST = 'https://kiut-nm-test.uz';
 const MISSING_FILE = path.join(process.cwd(), 'scratch/missing_in_turso.json');
 const CHECKPOINT_FILE = path.join(process.cwd(), 'scratch/turso_import_checkpoint.json');
-const INIT_DATA = process.env.INIT_DATA || process.argv[2] || '';
+const USER_INIT_DATA = 'query_id=AAGqKOcJBAAAAKoo5wmVig9v&user=%7B%22id%22%3A8756078762%2C%22first_name%22%3A%22Islombek%22%2C%22last_name%22%3A%22Xamidullayev%20%EF%A3%BF%22%2C%22username%22%3A%22xamidullayev_i%22%2C%22language_code%22%3A%22uz%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FqjtWAJtvr95hsltjS4uN9B7Mwhl1ztXx3SN2YuHMWO8yX219KAFSZE0XcQI4yvTa.svg%22%7D&auth_date=1795517600&signature=n6QRpLP4q2pl3ETYnSQJi3Z4LvyF3i1JnNWtVn8OS-1_ReyETc5I55NkO_4PqbObPUmo5g_x6ItuVJPn_qDDBQ&hash=b12eedffd80b09525dc37a7f0f3ae6f6ae14fc9c5b8a39cd7c28810a821c8181';
+const INIT_DATA = process.env.INIT_DATA || process.argv[2] || USER_INIT_DATA;
 const CONCURRENCY = 6; // 6 parallel workers
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -99,11 +106,17 @@ async function processQuiz(item, index, total) {
   }
 
   // 1. Fetch test content
-  const testUrl = `${BASE_HOST}/api/test-content?path=${encodeURIComponent(item.relPath)}${INIT_DATA ? `&initData=${encodeURIComponent(INIT_DATA)}` : ''}`;
-  const res = await fetch(testUrl).then((r) => r.json());
+  let res;
+  try {
+    const testUrl = `${BASE_HOST}/api/test-content?path=${encodeURIComponent(item.relPath)}${INIT_DATA ? `&initData=${encodeURIComponent(INIT_DATA)}` : ''}`;
+    res = await fetch(testUrl).then((r) => r.json());
+  } catch (netErr) {
+    console.warn(`  ⚠️ [${index + 1}/${total}] Tarmoq xatoligi: ${netErr.message}`);
+    return 0;
+  }
 
-  if (!res.success || !res.content) {
-    if (res.needActivation) {
+  if (!res || !res.success || !res.content) {
+    if (res?.needActivation) {
       console.warn(`  ⚠️ [${index + 1}/${total}] Server obuna talab qildi: ${res.error}`);
     } else {
       console.warn(`  ⚠️ [${index + 1}/${total}] Kontent topilmadi: ${item.title}`);
@@ -111,9 +124,18 @@ async function processQuiz(item, index, total) {
     return 0;
   }
 
-  // 2. Parse questions
-  const questions = parseLegacyQuiz(res.content);
-  if (questions.length === 0) {
+  // 2. Parse questions (Universal Hybrid with Legacy fallback)
+  let questions = parseLegacyQuiz(res.content);
+  if (!questions || questions.length === 0) {
+    try {
+      const parsed = parseQuizInput(res.content, `${item.title}.txt`);
+      if (parsed.success && Array.isArray(parsed.questions) && parsed.questions.length > 0) {
+        questions = parsed.questions;
+      }
+    } catch {}
+  }
+
+  if (!questions || questions.length === 0) {
     console.warn(`  ⚠️ [${index + 1}/${total}] Savollar topilmadi: ${item.title}`);
     return 0;
   }
@@ -140,25 +162,35 @@ async function processQuiz(item, index, total) {
   }
 
   // 4. Batch insert questions in chunks of 50
-  const CHUNK_SIZE = 50;
-  for (let c = 0; c < questions.length; c += CHUNK_SIZE) {
-    const chunk = questions.slice(c, c + CHUNK_SIZE);
-    const reqs = chunk.map((q, idx) => ({
-      type: 'execute',
-      stmt: {
-        sql: `INSERT INTO questions (quiz_id, order_index, question_text, options_json, correct_option_id, explanation, photo_file_id, photo_caption)
-              VALUES (?, ?, ?, ?, ?, NULL, NULL, NULL)`,
-        args: [
-          { type: 'integer', value: String(quizId) },
-          { type: 'integer', value: String(c + idx) },
-          { type: 'text', value: q.questionText },
-          { type: 'text', value: JSON.stringify(q.options) },
-          { type: 'integer', value: String(q.correctOptionId) },
-        ],
-      },
-    }));
+  try {
+    const CHUNK_SIZE = 50;
+    for (let c = 0; c < questions.length; c += CHUNK_SIZE) {
+      const chunk = questions.slice(c, c + CHUNK_SIZE);
+      const reqs = chunk.map((q, idx) => ({
+        type: 'execute',
+        stmt: {
+          sql: `INSERT INTO questions (quiz_id, order_index, question_text, options_json, correct_option_id, explanation, photo_file_id, photo_caption)
+                VALUES (?, ?, ?, ?, ?, NULL, NULL, NULL)`,
+          args: [
+            { type: 'integer', value: String(quizId) },
+            { type: 'integer', value: String(c + idx) },
+            { type: 'text', value: q.questionText },
+            { type: 'text', value: JSON.stringify(q.options) },
+            { type: 'integer', value: String(q.correctOptionId) },
+          ],
+        },
+      }));
 
-    await tursoPipeline(reqs);
+      await tursoPipeline(reqs);
+    }
+  } catch (err) {
+    // Clean up empty quiz if questions failed to insert
+    try {
+      await tursoPipeline([
+        { type: 'execute', stmt: { sql: 'DELETE FROM quizzes WHERE id = ?', args: [{ type: 'integer', value: String(quizId) }] } }
+      ]);
+    } catch {}
+    throw err;
   }
 
   console.log(`  ⚡ [${index + 1}/${total}] Yuklandi! Quiz ID: ${quizId} (${questions.length} ta savol) - ${item.title.slice(0, 45)}...`);
@@ -167,6 +199,26 @@ async function processQuiz(item, index, total) {
 
 async function main() {
   console.log(`🚀 Turso Cloud ga PARALLEL (${CONCURRENCY} ta oqim) yuklash boshlandi...\n`);
+
+  if (!fs.existsSync(MISSING_FILE)) {
+    const siteIndexFile = path.join(process.cwd(), 'kiut_site_index.json');
+    if (fs.existsSync(siteIndexFile)) {
+      console.log(`ℹ️ ${MISSING_FILE} topilmadi. kiut_site_index.json asosida avtomatik shakllantirilmoqda...`);
+      const siteData = JSON.parse(fs.readFileSync(siteIndexFile, 'utf8'));
+      if (!fs.existsSync(path.dirname(MISSING_FILE))) {
+        fs.mkdirSync(path.dirname(MISSING_FILE), { recursive: true });
+      }
+      fs.writeFileSync(MISSING_FILE, JSON.stringify(siteData, null, 2));
+    } else {
+      console.error(`❌ Na ${MISSING_FILE} na kiut_site_index.json topildi!`);
+      process.exit(1);
+    }
+  }
+
+  if (!TURSO_TOKEN) {
+    console.warn('⚠️ DIQQAT: process.env.TURSO_TOKEN bo\'sh! Turso Cloud ga so\'rov yuborish uchun token talab qilinadi.');
+    console.warn('   Ishga tushirish misoli: $env:TURSO_TOKEN="..."; node scripts/import_missing_to_turso.mjs\n');
+  }
 
   const missingList = JSON.parse(fs.readFileSync(MISSING_FILE, 'utf8'));
 

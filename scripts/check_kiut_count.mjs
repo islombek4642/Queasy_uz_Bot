@@ -1,20 +1,35 @@
 // scripts/check_kiut_count.mjs
-import { resolveToken } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/core/credentials.js';
-import { scanFiles } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/core/scanner.js';
-import { pathToModule } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/core/snapshot.js';
-import { readWd } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/core/workdir.js';
-import { runFunction } from 'file:///C:/Users/Islombek/AppData/Local/npm-cache/_npx/5ffcbfb9bb9c789b/node_modules/@tgcloud/cli/src/api/endpoints.js';
+// Checks KIUT catalog counts and status across cloud and local definitions
+import fs from 'node:fs';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 
 async function main() {
-  const token = await resolveToken();
-  const allFiles = scanFiles();
-  const sources = {};
-  for (const f of allFiles) {
-    sources[pathToModule(f)] = readWd(f);
+  console.log('🔍 Checking KIUT catalog status...');
+
+  // 1. Check local site index if present
+  const indexFile = path.join(process.cwd(), 'kiut_site_index.json');
+  if (fs.existsSync(indexFile)) {
+    try {
+      const items = JSON.parse(fs.readFileSync(indexFile, 'utf8'));
+      console.log(`📡 Mahalliy sayt indeksi (kiut_site_index.json): ${items.length} ta test mavjud.`);
+    } catch {}
   }
 
-  const res = await runFunction(token, 'endpoints/get_kiut_catalog', sources, {});
-  console.log('Katalog holati:', JSON.stringify(res?.result, null, 2));
+  // 2. Run tgcloud endpoint if bot is linked
+  const res = spawnSync('npx', ['--yes', '@tgcloud/cli', 'run', 'endpoints/get_kiut_catalog', "'{}'"], {
+    encoding: 'utf8',
+    shell: true,
+  });
+
+  if (res.stdout && res.stdout.includes('totalQuizzes')) {
+    console.log('✅ TgCloud natijasi:');
+    console.log(res.stdout);
+  } else if (res.stderr) {
+    console.log('ℹ️ TgCloud ma\'lumotlari:', res.stderr.trim());
+  } else {
+    console.log('ℹ️ Natija:', res.stdout ? res.stdout.trim() : 'Bo\'sh');
+  }
 }
 
 main().catch(console.error);

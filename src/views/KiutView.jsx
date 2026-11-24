@@ -572,18 +572,33 @@ export function KiutView({ onBack, onStartQuiz, myQuizzes = [], onQuizSaved }) {
                       {isQuizSaved(quiz) ? t('BTN_SAVED_QUIZ') : t('BTN_SAVE_QUIZ')}
                     </Button>
 
-                    <Button
-                      size="sm"
-                      variant="primary"
-                      icon="solar:play-bold"
-                      style={{ padding: '7px 14px', fontSize: '0.82rem' }}
-                      onClick={() => {
-                        haptic.impact('medium');
-                        onStartQuiz(quiz.id);
-                      }}
-                    >
-                      {t('BTN_START_QUIZ')}
-                    </Button>
+                    {Number(quiz.questionCount || 0) > 0 ? (
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        icon="solar:play-bold"
+                        style={{ padding: '7px 14px', fontSize: '0.82rem' }}
+                        onClick={() => {
+                          haptic.impact('medium');
+                          onStartQuiz(quiz.id);
+                        }}
+                      >
+                        {t('BTN_START_QUIZ')}
+                      </Button>
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        icon="solar:danger-triangle-bold"
+                        style={{ padding: '7px 12px', fontSize: '0.8rem', opacity: 0.65, cursor: 'not-allowed' }}
+                        onClick={() => {
+                          haptic.notification('warning');
+                          alert(t('ERR_QUIZ_EMPTY') || "Ushbu testda hali savollar mavjud emas");
+                        }}
+                      >
+                        {t('ERR_QUIZ_EMPTY') || 'Savol yo‘q'}
+                      </Button>
+                    )}
                   </div>
                 </div>
               </Card>

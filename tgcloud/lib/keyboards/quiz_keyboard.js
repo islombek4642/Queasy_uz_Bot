@@ -18,36 +18,50 @@ export function getQuizCardKeyboard(quiz, lang = 'UZ', isOwner = true, hasMistak
     ]);
   }
 
-  // 2. Play buttons: Solo and Group (3 separate rows)
-  inline_keyboard.push([
-    {
-      text: getMessage('BTN_START_QUIZ', lang),
-      callback_data: `${ACTIONS.START_QUIZ_PREFIX}${quiz.id}`,
-    },
-  ]);
+  // 2. Play buttons: Solo and Group (Only if quiz has questions)
+  const isEmpty =
+    (Array.isArray(quiz.questions) && quiz.questions.length === 0) ||
+    (typeof quiz.questionCount === 'number' && quiz.questionCount === 0);
 
-  inline_keyboard.push([
-    {
-      text: getMessage('BTN_START_GROUP_QUIZ', lang),
-      callback_data: `${ACTIONS.START_GROUP_QUIZ_PREFIX}${quiz.id}`,
-    },
-  ]);
+  if (!isEmpty) {
+    inline_keyboard.push([
+      {
+        text: getMessage('BTN_START_QUIZ', lang),
+        callback_data: `${ACTIONS.START_QUIZ_PREFIX}${quiz.id}`,
+      },
+    ]);
 
-  // 3. Offline HTML Download button
-  inline_keyboard.push([
-    {
-      text: getMessage('BTN_DOWNLOAD_HTML', lang),
-      callback_data: `${ACTIONS.DOWNLOAD_HTML_PREFIX}${quiz.id}`,
-    },
-  ]);
+    inline_keyboard.push([
+      {
+        text: getMessage('BTN_START_GROUP_QUIZ', lang),
+        callback_data: `${ACTIONS.START_GROUP_QUIZ_PREFIX}${quiz.id}`,
+      },
+    ]);
 
-  // 4. Share button
-  inline_keyboard.push([
-    {
-      text: getMessage('BTN_SHARE_QUIZ', lang),
-      switch_inline_query: `quiz_${quiz.id}`,
-    },
-  ]);
+    // 3. Offline HTML Download button
+    inline_keyboard.push([
+      {
+        text: getMessage('BTN_DOWNLOAD_HTML', lang),
+        callback_data: `${ACTIONS.DOWNLOAD_HTML_PREFIX}${quiz.id}`,
+      },
+    ]);
+
+    // 4. Share button
+    inline_keyboard.push([
+      {
+        text: getMessage('BTN_SHARE_QUIZ', lang),
+        switch_inline_query: `quiz_${quiz.id}`,
+      },
+    ]);
+  } else {
+    // 0 questions warning button
+    inline_keyboard.push([
+      {
+        text: `⚠️ ${getMessage('ERR_QUIZ_EMPTY', lang)}`,
+        callback_data: `quiz_empty:${quiz.id}`,
+      },
+    ]);
+  }
 
   // 4. Owner management or Clone button
   if (isOwner) {

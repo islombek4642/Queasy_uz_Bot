@@ -5,7 +5,8 @@ import { TURSO_TOKEN } from '../tgcloud/lib/constants/secrets.js';
 
 const TURSO_URL = 'https://queasy-db-xamidullayev-i.aws-eu-north-1.turso.io';
 const BASE_HOST = 'https://kiut-nm-test.uz';
-const INIT_DATA = 'query_id=AAG8WhQOBAAAALxaFA7lUNEn&user=%7B%22id%22%3A8826149564%2C%22first_name%22%3A%22Islombek%22%2C%22last_name%22%3A%22Xamidullayev%22%2C%22username%22%3A%22xamidullayev_iii%22%2C%22language_code%22%3A%22uz%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FUW09BBmjxaLuk5yeEQW4NXA5rudoOcnxYee2rggUijXgh5WTwNa0QUlnEnhTcBiU.svg%22%7D&auth_date=1795287366&signature=2RTeXYtAE18ndT-2A7XvmTfv8LMMgSBFBVGKU5q1I3acZcWyGYYhJQVF5JdyeGgck8I0dxipEqjEmRaWWqNnCw&hash=2728d9193a724e5d21f52d5fa73fd8fd1abd2b0051a06341e5e8ba7ac9eedfb2';
+const USER_INIT_DATA = 'query_id=AAGqKOcJBAAAAKoo5wmVig9v&user=%7B%22id%22%3A8756078762%2C%22first_name%22%3A%22Islombek%22%2C%22last_name%22%3A%22Xamidullayev%20%EF%A3%BF%22%2C%22username%22%3A%22xamidullayev_i%22%2C%22language_code%22%3A%22uz%22%2C%22allows_write_to_pm%22%3Atrue%2C%22photo_url%22%3A%22https%3A%5C%2F%5C%2Ft.me%5C%2Fi%5C%2Fuserpic%5C%2F320%5C%2FqjtWAJtvr95hsltjS4uN9B7Mwhl1ztXx3SN2YuHMWO8yX219KAFSZE0XcQI4yvTa.svg%22%7D&auth_date=1795517600&signature=n6QRpLP4q2pl3ETYnSQJi3Z4LvyF3i1JnNWtVn8OS-1_ReyETc5I55NkO_4PqbObPUmo5g_x6ItuVJPn_qDDBQ&hash=b12eedffd80b09525dc37a7f0f3ae6f6ae14fc9c5b8a39cd7c28810a821c8181';
+const INIT_DATA = process.env.INIT_DATA || process.argv[2] || USER_INIT_DATA;
 
 async function tursoPipeline(requests, maxRetries = 3) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -77,7 +78,8 @@ function parseLegacyQuiz(content) {
 }
 
 async function test() {
-  const missingList = JSON.parse(fs.readFileSync('scratch/missing_in_turso.json', 'utf8'));
+  const missingFile = fs.existsSync('scratch/missing_in_turso.json') ? 'scratch/missing_in_turso.json' : 'kiut_site_index.json';
+  const missingList = JSON.parse(fs.readFileSync(missingFile, 'utf8'));
   const item = missingList[0];
   console.log('Testing single quiz:', item.title);
 

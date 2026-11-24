@@ -120,7 +120,12 @@ export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
             size="sm"
             variant="secondary"
             icon="solar:download-square-bold"
+            disabled={questions.length === 0}
             onClick={() => {
+              if (questions.length === 0) {
+                alert(t('ERR_QUIZ_EMPTY') || "Ushbu testda savollar mavjud emas");
+                return;
+              }
               haptic.notification('success');
               downloadQuizAsHtml(quiz, questions);
             }}
@@ -145,14 +150,20 @@ export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
           {onStartQuiz && (
             <Button
               size="sm"
-              variant="primary"
-              icon="solar:play-bold"
+              variant={questions.length > 0 ? "primary" : "secondary"}
+              icon={questions.length > 0 ? "solar:play-bold" : "solar:danger-triangle-bold"}
+              disabled={questions.length === 0}
               onClick={() => {
+                if (questions.length === 0) {
+                  alert(t('ERR_QUIZ_EMPTY') || "Ushbu testda savollar mavjud emas");
+                  return;
+                }
                 haptic.impact('medium');
                 onStartQuiz(quizId);
               }}
+              style={questions.length === 0 ? { opacity: 0.65, cursor: 'not-allowed' } : {}}
             >
-              {t('BTN_START_QUIZ')}
+              {questions.length > 0 ? t('BTN_START_QUIZ') : (t('ERR_QUIZ_EMPTY') || 'Savol yo‘q')}
             </Button>
           )}
         </div>
@@ -229,7 +240,27 @@ export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
 
       {/* Questions List */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {currentQuestions.map((q, localIdx) => {
+        {questions.length === 0 ? (
+          <Card
+            style={{
+              padding: '36px 20px',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '12px',
+            }}
+          >
+            <Icon icon="solar:danger-triangle-bold" width="42" height="42" style={{ color: 'var(--color-warning)' }} />
+            <div style={{ fontSize: '1rem', fontWeight: '800', color: 'var(--text-primary)' }}>
+              {t('ERR_QUIZ_EMPTY') || "Ushbu testda savollar mavjud emas"}
+            </div>
+            <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', margin: 0, maxWidth: '300px' }}>
+              {t('ERR_QUIZ_EMPTY_DESC') || "Ushbu test bazada mavjud, biroq uning ichida hali savollar yuklanmagan."}
+            </p>
+          </Card>
+        ) : (
+          currentQuestions.map((q, localIdx) => {
           const globalIdx = startIndex + localIdx;
           return (
             <Card
@@ -341,7 +372,7 @@ export function QuizDetailView({ quizId, onBack, onStartQuiz, onEditQuiz }) {
               )}
             </Card>
           );
-        })}
+        }))}
       </div>
 
       {/* Bottom Pagination */}

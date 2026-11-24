@@ -151,6 +151,10 @@ export function QuizModeModal({
   };
 
   const handleStart = () => {
+    if (totalQuestions <= 0) {
+      alert(t('ERR_QUIZ_EMPTY') || "Ushbu testda savollar mavjud emas");
+      return;
+    }
     haptic.impact('medium');
     let validatedRange = null;
     let validatedRandomCount = null;
@@ -344,6 +348,18 @@ export function QuizModeModal({
           {/* STEP B: Questions Mode & Range/Random Selector                            */}
           {/* ========================================================================= */}
           {((isQuizSelectionRequired && step === 2) || (!isQuizSelectionRequired && step === 1)) && (
+            totalQuestions === 0 ? (
+              <div style={{ padding: '24px 16px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }} className="animate-fade-in">
+                <Icon icon="solar:danger-triangle-bold" width="46" height="46" style={{ color: 'var(--color-warning)' }} />
+                <h4 style={{ fontSize: '1rem', fontWeight: '800' }}>{t('ERR_QUIZ_EMPTY') || "Savollar mavjud emas"}</h4>
+                <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', maxWidth: '280px', lineHeight: '1.4', margin: 0 }}>
+                  {t('ERR_QUIZ_EMPTY_DESC') || "Ushbu testda hali savollar mavjud emas."}
+                </p>
+                <Button variant="secondary" size="md" onClick={onClose} style={{ marginTop: '8px' }}>
+                  {t('BTN_EXIT') || "Yopish"}
+                </Button>
+              </div>
+            ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className="animate-fade-in">
               {/* 1. Full Mode (With Auto-Advance!) */}
               <div
@@ -736,7 +752,7 @@ export function QuizModeModal({
                 </div>
               )}
             </div>
-          )}
+          ))}
 
           {/* ========================================================================= */}
           {/* STEP C: Time Limit per Question Selector                                  */}
